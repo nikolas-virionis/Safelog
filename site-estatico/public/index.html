@@ -27,12 +27,12 @@
                     <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
                 </button>
                 <ul class="my-2 my-lg-0 collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Sobre</a></li>
-                    <li><a href="">Time</a></li>
-                    <li><a href="">Time</a></li>
-                    <li class="btn-nav"><a href="">Login</a></li>
-                    <li class="btn-nav"><a href="">Cadastro</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#sobre">Sobre</a></li>
+                    <li><a href="index.html#time">Time</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                    <li class="btn-nav"><a href="login.html">Login</a></li>
+                    <!-- <li class="btn-nav"><a href="">Cadastro</a></li> -->
                 </ul>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100">
+        <svg id="svg-banner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100">
             <!-- SVG para deixar o banner arredondado -->
             <path xmlns="http://www.w3.org/2000/svg" style="
             fill-rule: nonzero;
@@ -135,7 +135,7 @@
     </div>
 
     <!-- SOBRE -->
-    <div class="sobre">
+    <div class="sobre" id="sobre">
         <div class="container-site">
             <h1 class="text-center">Sobre</h1>
             <div class="row linha1">
@@ -173,14 +173,16 @@
             </div>
             <div class="row">
                 <div class="saiba-mais">
-                    <button class="btn-saiba-mais">Saiba mais</button>
+                    <button class="btn-geral">Saiba mais</button>
                 </div>
             </div>
         </div>
     </div>
 
+
+
     <!-- CARROSSEL -->
-    <div class="divisoria">
+    <div class="divisoria" id="time">
         <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%">
             <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
                 style="stroke: none; fill: rgb(238, 238, 238)"></path>
@@ -193,35 +195,86 @@
     </div>
     <div class="bg-cinza">
         <div class="container-site">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="3000">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="5000">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div>
-                            <img class="d-block" src="assets/img/logo-icon.png" alt="First slide" />
+                            <img class="d-block" src="assets/img/team/lucas.png" alt="First slide" />
                             <h5>Lucas Menezes Teixeira</h5>
                             <div class="redes">
-                                <a href=""><i class="fab fa-linkedin"></i></a>
-                                <a href=""><i class="fab fa-github-square"></i></a>                                
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
                             </div>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div>
                             <img class="d-block" src="assets/img/logo-icon.png" alt="Second slide" />
-                            <h5>...</h5>
-                            <p>...</p>
+                            <h5>Lucas Menezes Teixeira</h5>
+                            <div class="redes">
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
+                            </div>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div>
                             <img class="d-block" src="assets/img/logo-icon.png" alt="Third slide" />
-                            <h5>...</h5>
-                            <p>...</p>
+                            <h5>Lucas Menezes Teixeira</h5>
+                            <div class="redes">
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div>
+                            <img class="d-block" src="assets/img/logo-icon.png" alt="Third slide" />
+                            <h5>Lucas Menezes Teixeira</h5>
+                            <div class="redes">
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div>
+                            <img class="d-block" src="assets/img/logo-icon.png" alt="Third slide" />
+                            <h5>Lucas Menezes Teixeira</h5>
+                            <div class="redes">
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div>
+                            <img class="d-block" src="assets/img/logo-icon.png" alt="Third slide" />
+                            <h5>Lucas Menezes Teixeira</h5>
+                            <div class="redes">
+                                <h1>
+                                    <a href=""><i class="fab fa-linkedin"></i></a>
+                                    <a href=""><i class="fab fa-github-square"></i></a>                                
+                                </h1>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -245,12 +298,59 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
-        crossorigin="anonymous"></script>
+
+
+    <!-- CONTATO -->
+    <div class="contato" id="contato">
+        <h1 class="text-center">Contato</h1>
+        <div class="linha">
+            <div class="col-md-6 col-sm-12">
+                <div class="img-contato">
+                    <div class="contato-safelog">
+                        <a href="">
+                            <img src="assets/img/logo-escrita-branco.png" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="form-contato">
+                    <h3 class="text-secondary">Formulário:</h3>
+                    <label for="">Email:</label>
+                    <input type="text">
+                    <label for="">Título:</label>
+                    <input type="text">
+                    <label for="">Mensagem:</label>
+                    <textarea id="" cols="30" rows="10"></textarea>
+                    <button class="btn-geral">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="divisoria">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%">
+                <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z"
+                    style="stroke: none; fill: rgb(238, 238, 238)"></path>
+                <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" style="
+                stroke: none;
+                fill: rgb(224, 224, 224);
+                transform: translateY(30px);
+              "></path>
+            </svg>
+        </div>
+        <div class="footer-container">
+            <p>Copyright <span>Safelog &copy;</span>, <span id="footer-year"></span></p>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 

@@ -1,23 +1,41 @@
 function mandarEmail(tipo, nome, remetente, destinatario, senha) {
-  // modulo em node que liga js - python
-  let spawns = require("child_process").spawn;
-  const path = require('path');
-
-  //ligação feita com o arquivo .py + parametros (escalavel)
-  const sensor = spawns("python", [
-    path.join(__dirname, 'main.py'),
-    tipo,
-    nome,
-    remetente,
-    destinatario,
-    senha,
-  ]);
-  // exibindo o ultimo print(no main.py) que se aparecer, tudo funfou bem
-  sensor.stdout.on("data", (data) => console.log(data.toString("utf8")));
-
-  sensor.on('error', (err) => {
-    console.log(err);
+  var nodemailer = require("nodemailer");
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: remetente,
+      pass: senha,
+    },
+  });
+  const mailOptions = {
+    from: remetente, // sender address
+    to: destinatario, // list of receivers
+    subject: "Email enviado nodemailer", // Subject line
+    html: msgEmail(tipo, nome), // plain text body
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) console.log(err);
+    else console.log(info);
   });
 }
 
-module.exports = {mandarEmail}
+function msgEmail(tipo, nome) {
+  if (tipo.toLowerCase() == "cadastro")
+    return `
+    <p>Prezado(a) ${nome},</p>
+    <p>Email de cadastro enviado com sucesso</p>
+    `;
+  if (tipo.toLowerCase() == "relatorio")
+    return `
+    <p>Prezado(a) ${nome},</p>
+    <p>Relatorio enviado com sucesso</p>
+    `;
+  if (tipo.toLowerCase() == "alerta")
+    return `
+    <p>Prezado(a) ${nome},</p>
+    <p>Alerta enviado com sucesso</p>
+    `;
+  throw new Error("tipo de email não especificado ou escrito de forma errada");
+}
+// mandarEmail("tipo", "nome", "remetente", "destinatario", "senha");
+module.exports = { mandarEmail };

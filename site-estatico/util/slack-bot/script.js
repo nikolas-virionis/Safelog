@@ -1,16 +1,25 @@
-function slackMsg() {
-  // modulo em node que liga js - python
-  let spawns = require("child_process").spawn;
-  const path = require("path");
+function enviarSlack(channelId, text) {
+  const { WebClient } = require("@slack/web-api");
 
-  //ligação feita com o arquivo .py + parametros (escalavel)
-  const sensor = spawns("python", [path.join(__dirname, "main.py")]);
-  // exibindo o ultimo print(no main.py) que se aparecer, tudo funfou bem
-  sensor.stdout.on("data", (data) => console.log(data.toString("utf8")));
+  // An access token (from your Slack app or custom integration - xoxp, xoxb)
+  const token = process.env.SLACK_TOKEN;
 
-  sensor.on("error", (err) => {
-    console.log(err);
-  });
+  const web = new WebClient(token);
+
+  // This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+  const conversationId = channelId;
+  // enviarMsg(web, conversationId, text)
 }
 
-module.exports = { slackMsg };
+const enviarMsg = async (web, channel, text) => {
+  // See: https://api.slack.com/methods/chat.postMessage
+  const res = await web.chat.postMessage({
+    channel,
+    text,
+  });
+
+  // `res` contains information about the posted message
+  console.log(res, "\nMessage sent: ", res.ts);
+};
+// enviarSlack();
+module.exports = { enviarSlack };

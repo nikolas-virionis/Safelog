@@ -20,6 +20,7 @@
     "mysql2": "^2.2.5",
     "nodemailer": "^6.6.3",
     "sequelize": "^5.21.2",
-    "tedious": "^6.6.0"
+    "tedious": "^6.6.0",
+    "twilio": "^3.67.1"
   }
 }

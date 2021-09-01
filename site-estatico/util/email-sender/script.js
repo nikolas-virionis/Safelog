@@ -13,10 +13,7 @@ function mandarEmail(tipo, nome, remetente, destinatario, senha) {
     subject: "Email enviado nodemailer", // Subject line
     html: msgEmail(tipo, nome), // plain text body
   };
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) console.log(err);
-    else console.log(info);
-  });
+  transporter.sendMail(mailOptions, (err, info) => console.log(err || info));
 }
 
 function msgEmail(tipo, nome) {

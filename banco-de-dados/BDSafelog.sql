@@ -90,3 +90,28 @@ CREATE TABLE medicao (
     fk_categoria_medicao int,
     FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao(id_categoria_medicao)
 );
+
+-- passível a escalabilidade de componentes e tipos de medição
+-- INSERT INTO
+--     componente
+-- VALUES
+--     (NULL, 'cpu'),
+--     (NULL, 'ram'),
+--     (NULL, 'disco');
+-- INSERT INTO
+--     tipo_medicao
+-- VALUES
+--     (1, 1, 'temperatura'),
+--     (1, 2, 'frequencia'),
+--     (1, 3, 'porcentagem'),
+--     (1, 4, 'livre'),
+--     (2, 1, 'porcentagem'),
+--     (2, 2, 'livre'),
+--     (3, 1, 'porcentagem'),
+--     (3, 2, 'livre');
+-- INSERT INTO
+--     forma_contato
+-- VALUES
+--     (NULL, 'whatsapp'),
+--     (NULL, 'telegram'),
+--     (NULL, 'slack');

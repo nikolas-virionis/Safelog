@@ -67,3 +67,10 @@ CREATE TABLE analytics (
     fk_maquina varchar(20),
     FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
 );
+
+-- INSERT INTO
+--     forma_contato
+-- VALUES
+--     (NULL, 'whatsapp'),
+--     (NULL, 'telegram'),
+--     (NULL, 'slack');

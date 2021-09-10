@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <div class="sidebar close">
@@ -21,13 +22,13 @@
         </div>
 
         <ul class="nav-links">
-            <li class="li-selected">
-                <a href="#">
+            <li class="li-not-selected">
+                <a href="dashboard.html">
                     <i class='bx bxs-bar-chart-alt-2'></i>
                     <span class="link_name">Dashboard</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Dashboard</a></li>
+                    <li><a class="link_name" href="dashboard.html">Dashboard</a></li>
                 </ul>
             </li>
             <li class="li-not-selected">
@@ -48,7 +49,7 @@
                     <li><a class="link_name" href="#">Relatório</a></li>
                 </ul>
             </li>
-            <li class="li-not-selected">
+            <li class="li-selected">
                 <a href="#">
                     <i class='bx bxs-group'></i>
                     <span class="link_name">Hierarquia</span>
@@ -76,7 +77,50 @@
         </ul>
     </div>
     <section class="home-section">
+        <!-- HEADER -->
+        <div class="navbar-dashboard">
+            <div class="barra-pesquisa">
+                <input type="search" name="" value="" placeholder="Buscar">
+                <button type="submit" class="btn-nav-dash"><i class="fas fa-search"></i></button>
+            </div>
+            <button class="btn-nav-dash"><i class="fas fa-plus"></i></button>
 
+        </div>
+
+        <!-- CONTAINER -->
+        <div class="container">
+            <div class="row">
+                <div class="sub-chefe">
+                  <img src="https://ssl8972.websiteseguro.com/curtiram/images/fotos/mh_interna_destaque_terno-preto-homem.jpg" alt="">
+                  <h3>Nome do gestor</h3>
+                </div>
+            </div>
+
+            <!-- TABELA -->
+            <div class="tabela-subordinados">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>3</th>
+                        <th>3</th>
+                        <th>Operações</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>
+                            <button class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn-nav-dash-red"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </section>
 
 

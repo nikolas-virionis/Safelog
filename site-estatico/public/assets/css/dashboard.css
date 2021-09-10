@@ -1,3 +1,16 @@
+.dashboard-row{
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.col-6{
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
 .navbar-dashboard{
     width: 100%;
     height: 60px;
@@ -6,20 +19,6 @@
     align-items: center;
     justify-content: center;
     padding: 0 20px;
-}
-
-.barra-pesquisa{
-  margin: 0 10vw 0 0;
-
-}
-
-.barra-pesquisa input{
-    width: 40vw;
-    border: none;
-    border-radius: 20px;
-    height: 40px;
-    padding: 10px;
-    outline: none;
 }
 
 .btn-nav-dash{
@@ -51,6 +50,23 @@
 .btn-nav-dash-red:hover{
     background-color: #a3342c;
 }
+
+/* Barra de pesquisa */
+
+.barra-pesquisa{
+  margin: 0 10vw 0 0;
+}
+
+.barra-pesquisa input{
+    width: 40vw;
+    border: none;
+    border-radius: 20px;
+    height: 40px;
+    padding: 10px;
+    outline: none;
+}
+
+/* Tela de dependentes */
 
 .sub-chefe{
     display: flex;
@@ -90,3 +106,75 @@
 .tabela-subordinados tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
+
+
+/* Cadastro Empresa */
+.cadastro-empresa{
+    width: 100%;
+    padding: 10vh 0;
+}
+
+.form-cadastro{
+    background: #e0e0e0;
+    border-radius: 30px;
+    box-shadow: 3px 3px 3px #666;
+    padding: 40px 40px;
+    margin: 30px 0;
+    display: flex;
+    /* align-items: center;
+    justify-content: center;
+    flex-direction: column; */
+}
+
+.form-cadastro form{
+    width: 100%;
+}
+
+.form-item{
+    padding: 0 10px;
+    margin: 10px 0;
+}
+
+.form-item input{
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    height: 40px;
+    padding: 10px 15px;
+    outline: none;
+    margin: 5px 0;
+    box-shadow: 1px 1px 3px #666;
+}
+
+.form-item button{
+    
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**/

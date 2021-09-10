@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="pt-BR" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <div class="sidebar close">
@@ -86,72 +87,40 @@
       </ul>
   </div>
     <section class="home-section">
-        <!-- HEADER -->
-        <div class="navbar-dashboard">
-            <div class="barra-pesquisa">
-                <input type="search" name="" value="" placeholder="Buscar">
-                <button type="submit" class="btn-nav-dash"><i class="fas fa-search"></i></button>
-            </div>
-            <button class="btn-nav-dash"><i class="fas fa-plus"></i></button>
-
-        </div>
-
-        <!-- CONTAINER -->
-        <div class="container">
-            <div class="row">
-                <div class="sub-chefe">
-                  <img src="https://ssl8972.websiteseguro.com/curtiram/images/fotos/mh_interna_destaque_terno-preto-homem.jpg" alt="">
-                  <h3>Nome do gestor</h3>
+        <div class="container-site">
+            <div class="cadastro-empresa">
+                <h1>Cadastro empresa:</h1>
+                <div class="form-cadastro">
+                    <form action="">
+                        <div class="form-item">
+                          <label for="inp-nome-empresa">Nome da Empresa:</label>
+                          <input type="text" name="" id="inp-nome-empresa" value="">
+                        </div>
+                        <div class="dashboard-row">
+                            <div class="col-6 form-item">
+                                <label for="inp-pais">País:</label>
+                                <input type="text" name="" id="inp-pais">
+                            </div>
+                            <div class="col-6 form-item">
+                                <label for="inp-cidade">Cidade:</label>
+                                <input type="text" name="" id="inp-cidade">
+                            </div>
+                        </div>
+                        <div class="dashboard-row">
+                            <div class="col-6 form-item">
+                                <label for="inp-cnpj">CNPJ:</label>
+                                <input type="text" name="" id="inp-pais">
+                            </div>
+                            <div class="col-6 form-item">
+                                <label for="inp-email-rep">Email do representante:</label>
+                                <input type="text" name="" id="inp-email-rep">
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <button class="btn-geral">Cadastrar</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
-
-            <!-- TABELA -->
-            <div class="tabela-subordinados">
-                <table>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Operações</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Rafael Ruan Viana</td>
-                        <td>rafaelruanviana70@gmail.com</td>
-                        <td>
-                            <!-- <button class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button> -->
-                            <button class="btn-nav-dash-red"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Miguel Elias Porto</td>
-                        <td>miguelelias@gmail.com</td>
-                        <td>
-                            <!-- <button class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button> -->
-                            <button class="btn-nav-dash-red"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Theo Sérgio Monteiro</td>
-                        <td>theosergio@gmail.com</td>
-                        <td>
-                            <!-- <button class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button> -->
-                            <button class="btn-nav-dash-red"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>4</td>
-                        <td>Lucca Nathan Silva</td>
-                        <td>luccanathan@gmail.com</td>
-                        <td>
-                            <!-- <button class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button> -->
-                            <button class="btn-nav-dash-red"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
-                </table>
             </div>
         </div>
     </section>

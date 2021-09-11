@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Empresas</title>
@@ -13,84 +14,86 @@
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-  <div class="sidebar close">
-      <div class="logo-details">
-          <div>
-              <img src="assets/img/logo/logo-icon-branco.png" alt="">
-          </div>
-          <span class="logo_name"><img src="assets/img/logo/logo-escrita-branco.png" alt=""></span>
-      </div>
 
-      <ul class="nav-links">
-          <li class="li-not-selected">
-              <a href="dashboard.html">
-                  <i class='bx bxs-bar-chart-alt-2'></i>
-                  <span class="link_name">Dashboard</span>
-              </a>
-              <ul class="sub-menu blank">
-                  <li><a class="link_name" href="dashboard.html">Dashboard</a></li>
-              </ul>
-          </li>
-          <li class="li-not-selected">
-              <a href="#">
-                  <i class='bx bxs-user'></i>
-                  <span class="link_name">Perfil</span>
-              </a>
-              <ul class="sub-menu blank">
-                  <li><a class="link_name" href="#">Perfil</a></li>
-              </ul>
-          </li>
-          <li class="li-not-selected">
-              <a href="#">
-                  <i class='bx bx-paperclip'></i>
-                  <span class="link_name">Relatório</span>
-              </a>
-              <ul class="sub-menu blank">
-                  <li><a class="link_name" href="#">Relatório</a></li>
-              </ul>
-          </li>
-          <li class="li-not-selected">
-              <a href="dependentes.html">
-                  <i class='bx bxs-group'></i>
-                  <span class="link_name">Dependentes</span>
-              </a>
-              <ul class="sub-menu blank">
-                  <li><a class="link_name" href="dependentes.html">Dependentes</a></li>
-              </ul>
-          </li>
-          <li>
-              <div class="iocn-link">
-                  <a href="#">
-                      <i class="fab fa-java"></i>
-                      <span class="link_name">Client Java</span>
-                  </a>
-                  <i class='bx bxs-chevron-down arrow' ></i>
-              </div>
-              <ul class="sub-menu">
-                  <li><a class="link_name" href="#">Client Java</a></li>
-                  <li><a href="#">Download</a></li>
-                  <li><a href="#">Baixar JRE</a></li>
-              </ul>
-          </li>
-          <li>
-              <div class="profile-details">
-                  <div class="profile-content">
-                      <img src="https://ssl8972.websiteseguro.com/curtiram/images/fotos/mh_interna_destaque_terno-preto-homem.jpg" alt="profileImg">
-                  </div>
-                  <div class="name-job">
-                      <div class="profile_name">Kaique Carlos Jesus</div>
-                      <!-- <div class="job">Web Desginer</div> -->
-                  </div>
-                  <div class="icon-exit">
-                      <a href="index.html">
-                          <i class='bx bx-log-out'></i>
-                      </a>
-                  </div>
-              </div>
-          </li>
-      </ul>
-  </div>
+<body>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <div>
+                <img src="assets/img/logo/logo-icon-branco.png" alt="">
+            </div>
+            <span class="logo_name"><img src="assets/img/logo/logo-escrita-branco.png" alt=""></span>
+        </div>
+
+        <ul class="nav-links">
+            <li class="li-selected">
+                <a href="dashboard.html">
+                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </li>
+            <li class="li-not-selected">
+                <a href="#">
+                    <i class='bx bxs-user'></i>
+                    <span class="link_name">Perfil</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Perfil</a></li>
+                </ul>
+            </li>
+            <li class="li-not-selected">
+                <a href="#">
+                    <i class='bx bx-paperclip'></i>
+                    <span class="link_name">Relatório</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Relatório</a></li>
+                </ul>
+            </li>
+            <li class="li-not-selected">
+                <a href="subordinados.html">
+                    <i class='bx bxs-group'></i>
+                    <span class="link_name">Dependentes</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="subordinados.html">Dependentes</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class="fab fa-java"></i>
+                        <span class="link_name">Client Java</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Client Java</a></li>
+                    <li><a href="#">Download</a></li>
+                    <li><a href="#">Baixar JRE</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <img src="https://ssl8972.websiteseguro.com/curtiram/images/fotos/mh_interna_destaque_terno-preto-homem.jpg"
+                            alt="profileImg">
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name">Kaique Carlos Jesus</div>
+                        <!-- <div class="job">Web Desginer</div> -->
+                    </div>
+                    <div class="icon-exit">
+                        <a href="index.html">
+                            <i class='bx bx-log-out'></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
     <section class="home-section">
         <div class="container-site">
             <div class="cadastro-empresa">
@@ -98,8 +101,8 @@
                 <div class="form-cadastro">
                     <form action="">
                         <div class="form-item">
-                          <label for="inp-nome-empresa">Nome da Empresa:</label>
-                          <input type="text" name="" id="inp-nome-empresa" value="">
+                            <label for="inp-nome-empresa">Nome da Empresa:</label>
+                            <input type="text" name="" id="inp-nome-empresa" value="">
                         </div>
                         <div class="dashboard-row">
                             <div class="col-6 form-item">

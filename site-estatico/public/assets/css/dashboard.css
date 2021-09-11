@@ -151,30 +151,25 @@
 
 }
 
+/* Charts */
+.chart-box {
+    width: 80%;
+    /* height: 600px; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 
+    margin-left: auto;
+    margin-right: auto;
 
+    border: 1px rgb(54, 54, 54) solid;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**/
+.canvas-container {
+    width: 500px;
+    height: 300px;
+    border: 1px rgb(63, 63, 63) solid;
+    margin: 10px;
+    padding: 20px;
+}

@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- chartjs src -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="sidebar close">
@@ -93,24 +96,41 @@
   </div>
     <section class="home-section">
 
+        <!-- CPU graph -->
+        <div class="chart-box">
+
+            <div class="canvas-container">
+                <canvas id="idChart1" class="canvas-chart"></canvas>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="idChart2" class="canvas-chart"></canvas>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="idChart3" class="canvas-chart"></canvas>
+            </div>
+        </div>
+
     </section>
 
-    <script src="./assets/js/script.js"></script>
+    <script>
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".logo-details");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+
+    </script>
 </body>
 </html>
 
-<script>
-let arrow = document.querySelectorAll(".arrow");
-for (var i = 0; i < arrow.length; i++) {
-  arrow[i].addEventListener("click", (e) => {
-    let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-    arrowParent.classList.toggle("showMenu");
-  });
-}
-let sidebar = document.querySelector(".sidebar");
-let sidebarBtn = document.querySelector(".logo-details");
-console.log(sidebarBtn);
-sidebarBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("close");
-});
-</script>
+<script src="./assets/js/dashboard-charts.js"></script>

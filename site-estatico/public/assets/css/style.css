@@ -401,6 +401,10 @@ ul li.btn-nav a:hover {
   justify-content: center;
 }
 
+.footer {
+  margin-top: 7.5vh;
+}
+
 .footer span {
   color: #025396;
 }

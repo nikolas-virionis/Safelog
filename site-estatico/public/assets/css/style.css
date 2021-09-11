@@ -38,7 +38,7 @@ body{
   border: none;
   padding: 10px 20px;
   background-color: #0071ce;
-  color: #fcfcfc;
+  color: #fff;
   font-weight: bold;
   border-radius: 15px;
   box-shadow: 3px 3px 3px #666;
@@ -465,5 +465,84 @@ ul li.btn-nav a:hover {
 
 .card-login form input:focus{
   border-bottom: #0071ce 2px solid;
-
 }
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------- */
+/* Cadastro de pessoas */
+/* ----------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------------------- */
+
+
+.modal-screen{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgb(30,30,30,.8);
+    top: 0;
+}
+
+.modal-container{
+    width: 50vw;
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 20px;
+}
+
+.modal-header{
+    flex-direction: column;
+    border: none;
+}
+
+.modal-body input{
+  width: 100%;
+  padding: 0 10px;
+  margin: 0 0 15px 0;
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: #666666 2px solid;
+}
+
+.modal-body input:focus{
+  border-bottom: #0071ce 2px solid;
+}
+
+.modal-footer{
+    border: none;
+    float: left;
+}
+
+.modal-footer .btn-geral.cancelar{
+    background-color: #999;
+}
+
+.modal-footer .btn-geral.cancelar:hover{
+    background-color: #777;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  */

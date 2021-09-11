@@ -51,12 +51,12 @@
               </ul>
           </li>
           <li class="li-not-selected">
-              <a href="subordinados.html">
+              <a href="dependentes.html">
                   <i class='bx bxs-group'></i>
                   <span class="link_name">Dependentes</span>
               </a>
               <ul class="sub-menu blank">
-                  <li><a class="link_name" href="subordinados.html">Dependentes</a></li>
+                  <li><a class="link_name" href="dependentes.html">Dependentes</a></li>
               </ul>
           </li>
           <li>
@@ -95,21 +95,22 @@
 
     </section>
 
-
-    <script>
-        let arrow = document.querySelectorAll(".arrow");
-        for (var i = 0; i < arrow.length; i++) {
-            arrow[i].addEventListener("click", (e) => {
-                let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-                arrowParent.classList.toggle("showMenu");
-            });
-        }
-        let sidebar = document.querySelector(".sidebar");
-        let sidebarBtn = document.querySelector(".logo-details");
-        console.log(sidebarBtn);
-        sidebarBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("close");
-        });
-    </script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
+
+<script>
+let arrow = document.querySelectorAll(".arrow");
+for (var i = 0; i < arrow.length; i++) {
+  arrow[i].addEventListener("click", (e) => {
+    let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+    arrowParent.classList.toggle("showMenu");
+  });
+}
+let sidebar = document.querySelector(".sidebar");
+let sidebarBtn = document.querySelector(".logo-details");
+console.log(sidebarBtn);
+sidebarBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("close");
+});
+</script>

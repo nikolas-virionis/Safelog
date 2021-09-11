@@ -399,13 +399,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         
         
         
-        if(valorCpu > 80){
+        if(valorCpu > 95){
             JOptionPane.showMessageDialog(null,"CPU no uso máximo ");
         }
-        if(valorDisk > 80){
+        if(valorDisk > 95){
             JOptionPane.showMessageDialog(null,"Disco no uso máximo ");
         }
-        if(valorMem > 80){
+        if(valorMem > 95){
             JOptionPane.showMessageDialog(null,"Memória no uso máximo ");
         }
 

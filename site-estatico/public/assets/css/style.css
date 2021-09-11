@@ -17,6 +17,10 @@
   padding: 0;
 }
 
+.sobre-visao {
+  filter: hue-rotate(160deg);
+}
+
 html {
   scroll-behavior: smooth;
 }

@@ -21,7 +21,7 @@ CREATE TABLE usuario (
     nome varchar(60),
     email varchar(60),
     senha varchar (20),
-    cargo enum('admin', 'gestor', 'operador'),
+    cargo enum('admin', 'gestor', 'analista'),
     fk_empresa varchar(30),
     fk_supervisor char(8),
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa),

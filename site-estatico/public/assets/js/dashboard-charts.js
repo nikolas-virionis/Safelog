@@ -8,8 +8,9 @@ const data1 = {
     label: 'CPU',
     data: [65, 59, 80, 81, 56, 55, 40, 50, 65, 70],
     fill: false,
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
+    backgroundColor: '#f67280',
+    borderColor: '#f67280',
+    tension: 0.3
   }]
 };
 
@@ -19,8 +20,9 @@ const data2 = {
       label: 'Memória',
       data: [3, 3.5, 3.5, 3.6, 3.7, 3.7, 4.5, 3, 4.5, 3],
       fill: false,
-      borderColor: 'rgb(75, 192, 192)',
-      tension: 0.1
+      backgroundColor: '#6c5b7b',
+      borderColor: '#6c5b7b',
+      tension: 0.3
     }]
   };
 
@@ -30,8 +32,9 @@ datasets: [{
     label: 'Disco',
     data: [350, 351, 351, 351, 348, 348, 348, 348, 350, 348],
     fill: false,
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
+    backgroundColor: '#c06c84',
+    borderColor: '#c06c84',
+    tension: 0.3
 }]
 };
 

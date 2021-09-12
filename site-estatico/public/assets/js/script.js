@@ -10,6 +10,7 @@ function fecharModal(){
 
 function cancelarModal(){
     window.history.back();
+}
 
 try {
   var currentYear = new Date().getFullYear();

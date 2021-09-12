@@ -147,29 +147,30 @@
 }
 
 .form-item button{
-    
+
 
 }
 
 /* Charts */
-.chart-box {
-    width: 80%;
-    /* height: 600px; */
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
 
-    margin-left: auto;
-    margin-right: auto;
-
-    border: 1px rgb(54, 54, 54) solid;
+.charts{
+    margin: 50px 0;
 }
 
 .canvas-container {
-    width: 500px;
-    height: 300px;
-    border: 1px rgb(63, 63, 63) solid;
+    width: 100%;
+    margin: 0 5% 0 5%;
+    height: auto;
+    /* border: 1px rgb(63, 63, 63) solid; */
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px #666;
     margin: 10px;
     padding: 20px;
+}
+
+.charts .centralizar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

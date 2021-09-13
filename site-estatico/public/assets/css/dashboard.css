@@ -135,7 +135,9 @@
     margin: 10px 0;
 }
 
-.form-item input{
+.form-item input[type="text"],
+.form-item input[type="password"],
+.form-item input[type="email"]{
     width: 100%;
     border: none;
     border-radius: 20px;
@@ -173,4 +175,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+
+
+
+.checkbox-contato i{
+    font-size: 20px;
+    margin: 0 0 0 10px;
+}
+
+.checkbox-contato .fa-whatsapp{
+    color: #25D366;
+}
+.checkbox-contato .fa-telegram{
+    color: #0088cc;
+}
+.checkbox-contato .fa-slack{
+    color: #E01E5A;
+}
+
+
+#modal-send-email{
+    display: none;
 }

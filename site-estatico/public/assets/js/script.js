@@ -4,8 +4,12 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-function fecharModal(){
-    document.getElementById("modal-verify-token").style.display = "none";
+function abrirModal(modalId){
+    document.getElementById(modalId).style.display = "flex";
+}
+
+function fecharModal(modalId){
+    document.getElementById(modalId).style.display = "none";
 }
 
 function cancelarModal(){

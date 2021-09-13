@@ -18,34 +18,21 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-      
-       Integer MaxCpu = 0;
-       Integer MinCpu = 101;
-       Integer MaxMem = 0;
-       Integer MinMem = 101;
-       Integer MaxDisk = 0;
-       Integer MinDisk = 101;
-      
-       Integer contagem = 0;
-       Integer somaC = 0;
-        Integer somaD = 0;
-         Integer somaM = 0;
-         
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal() {
-           try {
-               UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-           } catch (ClassNotFoundException ex) {
-               Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           } catch (InstantiationException ex) {
-               Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           } catch (IllegalAccessException ex) {
-               Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           } catch (UnsupportedLookAndFeelException ex) {
-               Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-           }
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
     }
 
@@ -383,54 +370,64 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    Integer MaxCpu = 0;
+    Integer MinCpu = 101;
+    Integer MaxMem = 0;
+    Integer MinMem = 101;
+    Integer MaxDisk = 0;
+    Integer MinDisk = 101;
+
+    Integer contagem = 0;
+    Integer somaC = 0;
+    Integer somaD = 0;
+    Integer somaM = 0;
+
     private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        Integer valorCpu = ThreadLocalRandom.current().nextInt(1,101);
-        Integer valorDisk = ThreadLocalRandom.current().nextInt(1,101);
-        Integer valorMem = ThreadLocalRandom.current().nextInt(1,101);
+        Integer valorCpu = ThreadLocalRandom.current().nextInt(1, 101);
+        Integer valorDisk = ThreadLocalRandom.current().nextInt(1, 101);
+        Integer valorMem = ThreadLocalRandom.current().nextInt(1, 101);
 
         contagem++;
 
         somaC += valorCpu;
         somaD += valorDisk;
         somaM += valorMem;
-        Integer MedCpu = somaC/contagem;
-        Integer MedDisk = somaD/contagem;
-        Integer MedMem = somaM/contagem;
-        
-        
-        
-        if(valorCpu > 95){
-            JOptionPane.showMessageDialog(null,"CPU no uso máximo ");
+        Integer MedCpu = somaC / contagem;
+        Integer MedDisk = somaD / contagem;
+        Integer MedMem = somaM / contagem;
+
+        if (valorCpu > 95) {
+            JOptionPane.showMessageDialog(null, "CPU no uso máximo ");
         }
-        if(valorDisk > 95){
-            JOptionPane.showMessageDialog(null,"Disco no uso máximo ");
+        if (valorDisk > 95) {
+            JOptionPane.showMessageDialog(null, "Disco no uso máximo ");
         }
-        if(valorMem > 95){
-            JOptionPane.showMessageDialog(null,"Memória no uso máximo ");
+        if (valorMem > 95) {
+            JOptionPane.showMessageDialog(null, "Memória no uso máximo ");
         }
 
-        if(valorCpu > MaxCpu){
+        if (valorCpu > MaxCpu) {
 
             MaxCpu = valorCpu;
         }
-        if(valorCpu < MinCpu){
+        if (valorCpu < MinCpu) {
 
             MinCpu = valorCpu;
         }
 
-        if(valorDisk > MaxDisk){
+        if (valorDisk > MaxDisk) {
 
             MaxDisk = valorDisk;
         }
-        if(valorDisk < MinDisk){
+        if (valorDisk < MinDisk) {
 
             MinDisk = valorDisk;
         }
-        if(valorMem > MaxMem){
+        if (valorMem > MaxMem) {
 
             MaxMem = valorMem;
         }
-        if(valorMem < MinMem){
+        if (valorMem < MinMem) {
 
             MinMem = valorMem;
         }
@@ -439,20 +436,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         brDisk.setValue(valorDisk);
         brMem.setValue(valorMem);
 
-        cpuMax.setText(MaxCpu.toString() +"%");
-        cpuMin.setText(MinCpu.toString()+"%");
-        cpuMed.setText(MedCpu.toString()+"%");
+        cpuMax.setText(MaxCpu.toString() + "%");
+        cpuMin.setText(MinCpu.toString() + "%");
+        cpuMed.setText(MedCpu.toString() + "%");
 
-        diskMax.setText(MaxDisk.toString()+"%");
-        diskMin.setText(MinDisk.toString()+"%");
-        diskMed.setText(MedDisk.toString()+"%");
+        diskMax.setText(MaxDisk.toString() + "%");
+        diskMin.setText(MinDisk.toString() + "%");
+        diskMed.setText(MedDisk.toString() + "%");
 
-        memMax.setText(MaxMem.toString()+"%");
-        memMin.setText(MinMem.toString()+"%");
-        memMed.setText(MedMem.toString()+"%");
-        
-      
-       
+        memMax.setText(MaxMem.toString() + "%");
+        memMin.setText(MinMem.toString() + "%");
+        memMed.setText(MedMem.toString() + "%");
+
+
     }//GEN-LAST:event_btnPrincipalActionPerformed
 
     /**

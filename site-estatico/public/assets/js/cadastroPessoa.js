@@ -1,3 +1,5 @@
-const fecharModal = () =>
-  (document.getElementById("modal-verify-token").style.display = "none");
-const cancelarModal = () => window.history.back();
+let contatos = document.querySelectorAll(".checkbox-contato");
+for (let contato of contatos) {
+  let [label, input] = contato.children;
+  label.title = input.title = input.id.slice(8);
+}

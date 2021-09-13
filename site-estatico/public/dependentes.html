@@ -11,6 +11,8 @@
         integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
 </head>
 
 <body>
@@ -99,7 +101,7 @@
                 <input type="search" name="" value="" placeholder="Buscar">
                 <button type="submit" class="btn-nav-dash"><i class="fas fa-search"></i></button>
             </div>
-            <button class="btn-nav-dash"><i class="fas fa-plus"></i></button>
+            <button class="btn-nav-dash" onclick="abrirModal('modal-send-email')"><i class="fas fa-plus"></i></button>
 
         </div>
 
@@ -168,6 +170,26 @@
 </body>
 
 </html>
+
+<div class="modal-screen" id="modal-send-email">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>Convidar dependente</h2>
+            <span>Digite seu email para o envio do convite:</span>
+        </div>
+        <div class="modal-body">
+            <div>
+                <input type="text" name="" placeholder="Email...">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-geral" id="btn-prosseguir-modal"
+                onclick="fecharModal('modal-send-email')">Convidar</button>
+            <button class="btn-geral cancelar" id="btn-cancelar-modal"
+                onclick="fecharModal('modal-send-email')">Cancelar</button>
+        </div>
+    </div>
+</div>
 
 <script>
     let arrow = document.querySelectorAll(".arrow");

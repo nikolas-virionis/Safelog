@@ -55,6 +55,25 @@
                               <input type="password" name="" id="inp-conf-senha">
                           </div>
                       </div>
+                      <div class="dashboard-row">
+                        <div class="form-item">
+                          <label>Forma de contato:</label>
+                        </div>
+                      </div>
+                      <div class="dashboard-row">
+                          <div class="form-item checkbox-contato">
+                              <label for="contato-whats"><i class="fab fa-whatsapp"></i></label>
+                              <input type="checkbox" id="contato-whats" name="forma-contato" value="WhatsApp">
+                          </div>
+                          <div class="form-item checkbox-contato">
+                              <label for="contato-telegram"><i class="fab fa-telegram"></i></label>
+                              <input type="checkbox" id="contato-telegram" name="forma-contato" value="Telegram">
+                          </div>
+                          <div class="form-item checkbox-contato">
+                              <label for="contato-slack"><i class="fab fa-slack"></i></label>
+                              <input type="checkbox" id="contato-slack" name="forma-contato" value="Slack">
+                          </div>
+                      </div>
                       <div class="form-item">
                           <button class="btn-geral">Cadastrar</button>
                       </div>
@@ -109,7 +128,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn-geral" id="btn-prosseguir-modal" onclick="fecharModal()">Prosseguir</button>
+            <button class="btn-geral" id="btn-prosseguir-modal" onclick="fecharModal('modal-verify-token')">Prosseguir</button>
             <button class="btn-geral cancelar" id="btn-cancelar-modal" onclick="cancelarModal()">Cancelar</button>
         </div>
     </div>

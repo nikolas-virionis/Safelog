@@ -82,28 +82,28 @@
     margin: 0 2vw 0 0;
 }
 
-.tabela-subordinados{
+.tabela-listrada{
     padding: 30px 10vw;
 }
 
-.tabela-subordinados table {
+.tabela-listrada table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
 }
 
-.tabela-subordinados th{
+.tabela-listrada th{
   font-weight: bold;
   text-align: left;
   padding: 16px;
 }
 
-.tabela-subordinados td{
+.tabela-listrada td{
   text-align: left;
   padding: 16px;
 }
 
-.tabela-subordinados tr:nth-child(odd) {
+.tabela-listrada tr:nth-child(odd) {
   background-color: #f2f2f2;
 }
 

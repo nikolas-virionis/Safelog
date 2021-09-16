@@ -1,28 +1,31 @@
-CREATE DATABASE safelog;
+DROP DATABASE safelog_analytics;
+CREATE DATABASE safelog_analytics;
+
+USE safelog_analytics;
 
 CREATE TABLE staff (
     id_staff int PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(60),
-    email varchar(60),
-    senha varchar(20)
+    nome varchar(60) NOT NULL,
+    email varchar(60) NOT NULL UNIQUE,
+    senha varchar(20) NOT NULL
 );
 
 CREATE TABLE empresa (
     id_empresa varchar(30) PRIMARY KEY,
-    nome varchar(60),
-    país varchar(50),
-    cidade varchar(50),
-    fk_staff int,
+    nome varchar(60) NOT NULL,
+    pais varchar(50) NOT NULL,
+    cidade varchar(50) NOT NULL,
+    fk_staff int NOT NULL,
     FOREIGN KEY(fk_staff) REFERENCES staff(id_staff)
 );
 
 CREATE TABLE usuario (
     id_usuario char(8) PRIMARY KEY,
-    nome varchar(60),
-    email varchar(60),
-    senha varchar (20),
+    nome varchar(60) NOT NULL,
+    email varchar(60) NOT NULL UNIQUE,
+    senha varchar (20) NOT NULL,
     cargo enum('admin', 'gestor', 'analista'),
-    fk_empresa varchar(30),
+    fk_empresa varchar(30) NOT NULL,
     fk_supervisor char(8),
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa),
     FOREIGN KEY (fk_supervisor) REFERENCES usuario(id_usuario)
@@ -44,24 +47,24 @@ CREATE TABLE contato (
 );
 
 CREATE TABLE maquina (
-    id_maquina varchar(20),
-    nome varchar(60),
-    senha varchar(16),
-    fk_empresa varchar(30),
+    id_maquina varchar(20) PRIMARY KEY,
+    nome varchar(60) NOT NULL,
+    senha varchar(16) NOT NULL,
+    fk_empresa varchar(30) NOT NULL,
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa)
 );
 
 CREATE TABLE usuario_maquina (
     id_usuario_maquina int AUTO_INCREMENT PRIMARY KEY,
-    fk_usuario char(8),
-    fk_maquina varchar(20),
+    fk_usuario char(8) NOT NULL,
+    fk_maquina varchar(20) NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (fk_maquina) REFERENCES usuario(id_maquina),
+    FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
 );
 
 CREATE TABLE analytics (
     id_dado int PRIMARY KEY AUTO_INCREMENT,
-    cpu decimal(5, 2),
+    cpu_percent decimal(5, 2),
     ram decimal(5, 2),
     disco decimal(5, 2),
     data_medicao datetime,
@@ -162,7 +165,7 @@ VALUES
         'ExSenha1',
         'gestor',
         '203783731',
-        NULL
+        'z7t12p$d'
     ),
     (
         'f6lj@sb#',
@@ -171,7 +174,7 @@ VALUES
         'ExSenha1',
         'gestor',
         '09.346.601/0001-25',
-        NULL
+        '5@w7kjp9'
     ),
     (
         'tbzgo0ye',
@@ -180,7 +183,7 @@ VALUES
         'ExSenha1',
         'gestor',
         '203783731',
-        NULL
+        'z7t12p$d'
     ),
     (
         'l1kaah&d',
@@ -189,7 +192,7 @@ VALUES
         'ExSenha1',
         'gestor',
         '09.346.601/0001-25',
-        NULL
+        '5@w7kjp9'
     ),
     (
         'mhbawue#',
@@ -198,7 +201,7 @@ VALUES
         'ExSenha1',
         'analista',
         '203783731',
-        NULL
+        'puaga9x9'
     ),
     (
         'c@bz9tyf',
@@ -207,7 +210,7 @@ VALUES
         'ExSenha1',
         'analista',
         '09.346.601/0001-25',
-        NULL
+        'f6lj@sb#'
     ),
     (
         '3%u8w6%r',
@@ -216,7 +219,7 @@ VALUES
         'ExSenha1',
         'analista',
         '203783731',
-        NULL
+        'puaga9x9'
     ),
     (
         'sosbh18u',
@@ -225,7 +228,7 @@ VALUES
         'ExSenha1',
         'analista',
         '09.346.601/0001-25',
-        NULL
+        'f6lj@sb#'
     ),
     (
         'za5#$3bm',
@@ -234,7 +237,7 @@ VALUES
         'ExSenha1',
         'analista',
         '203783731',
-        NULL
+        'tbzgo0ye'
     ),
     (
         'ric&%j6#',
@@ -243,7 +246,7 @@ VALUES
         'ExSenha1',
         'analista',
         '09.346.601/0001-25',
-        NULL
+        'l1kaah&d'
     ),
     (
         'cds9rh4y',
@@ -252,7 +255,7 @@ VALUES
         'ExSenha1',
         'analista',
         '203783731',
-        NULL
+        'tbzgo0ye'
     ),
     (
         '62#nea7w',
@@ -261,7 +264,7 @@ VALUES
         'ExSenha1',
         'analista',
         '09.346.601/0001-25',
-        NULL
+        'l1kaah&d'
     );
 
 INSERT INTO
@@ -287,7 +290,7 @@ VALUES
     ('sosbh18u', 1, '3180422529', 1),
     ('za5#$3bm', 1, '8305786042', 1),
     ('za5#$3bm', 2, '8305786042', 2),
-    ('za5#$3bm', 1, 'pamela.lennox@gmail.com', 3),
+    ('za5#$3bm', 3, 'pamela.lennox@gmail.com', 3),
     ('ric&%j6#', 1, '1137503889', 1),
     ('ric&%j6#', 2, '1137503889', 2),
     ('ric&%j6#', 3, 'julio.azevedo@gmail.com', 3),

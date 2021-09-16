@@ -5,27 +5,27 @@ USE safelog;
 
 CREATE TABLE staff (
     id_staff int PRIMARY KEY AUTO_INCREMENT,
-    nome varchar(60),
-    email varchar(60),
-    senha varchar(20)
+    nome varchar(60) NOT NULL,
+    email varchar(60) NOT NULL UNIQUE,
+    senha varchar(20) NOT NULL
 );
 
 CREATE TABLE empresa (
     id_empresa varchar(30) PRIMARY KEY,
-    nome varchar(60),
-    pais varchar(50),
-    cidade varchar(50),
-    fk_staff int,
+    nome varchar(60) NOT NULL,
+    pais varchar(50) NOT NULL,
+    cidade varchar(50) NOT NULL,
+    fk_staff int NOT NULL,
     FOREIGN KEY(fk_staff) REFERENCES staff(id_staff)
 );
 
 CREATE TABLE usuario (
     id_usuario char(8) PRIMARY KEY,
-    nome varchar(60),
-    email varchar(60),
-    senha varchar (20),
+    nome varchar(60) NOT NULL,
+    email varchar(60) NOT NULL UNIQUE,
+    senha varchar (20) NOT NULL,
     cargo enum('admin', 'gestor', 'analista'),
-    fk_empresa varchar(30),
+    fk_empresa varchar(30) NOT NULL,
     fk_supervisor char(8),
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa),
     FOREIGN KEY (fk_supervisor) REFERENCES usuario(id_usuario)
@@ -48,16 +48,16 @@ CREATE TABLE contato (
 
 CREATE TABLE maquina (
     id_maquina varchar(20) PRIMARY KEY,
-    nome varchar(60),
-    senha varchar(16),
-    fk_empresa varchar(30),
+    nome varchar(60) NOT NULL,
+    senha varchar(16) NOT NULL,
+    fk_empresa varchar(30) NOT NULL,
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa)
 );
 
 CREATE TABLE usuario_maquina (
     id_usuario_maquina int AUTO_INCREMENT PRIMARY KEY,
-    fk_usuario char(8),
-    fk_maquina varchar(20),
+    fk_usuario char(8) NOT NULL,
+    fk_maquina varchar(20) NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
 );
@@ -72,7 +72,7 @@ CREATE TABLE tipo_medicao (
     fk_componente int,
     tipo varchar(45),
     unidade varchar(7),
-    -- FOREIGN KEY (fk_componente) REFERENCES componente (id_componente),
+    FOREIGN KEY (fk_componente) REFERENCES componente (id_componente),
     PRIMARY KEY (id_tipo_medicao, fk_componente)
 );
 
@@ -88,12 +88,13 @@ CREATE TABLE categoria_medicao (
 );
 
 CREATE TABLE medicao (
-    id_medicao int PRIMARY KEY AUTO_INCREMENT,
-    valor varchar(12),
-    tipo enum('normal', 'risco', 'critico'),
-    data_medicao datetime,
-    fk_categoria_medicao int,
-    FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao(id_categoria_medicao)
+    id_medicao INT PRIMARY KEY AUTO_INCREMENT,
+    valor VARCHAR(12),
+    tipo ENUM('normal', 'risco', 'critico'),
+    data_medicao DATETIME,
+    fk_categoria_medicao INT,
+    FOREIGN KEY (fk_categoria_medicao)
+        REFERENCES categoria_medicao (id_categoria_medicao)
 );
 
 INSERT INTO
@@ -106,7 +107,7 @@ VALUES
 INSERT INTO
     tipo_medicao
 VALUES
-    (1, 1, 'temperatura', 'C'),
+    (1, 1, 'temperatura', '°C'),
     (1, 2, 'frequencia', '%'),
     (1, 3, 'porcentagem', '%'),
     (2, 1, 'porcentagem', '%'),
@@ -314,33 +315,33 @@ INSERT INTO
 VALUES
     ('z7t12p$d', 1, '2568647004', 1),
     ('5@w7kjp9', 1, '2435716496', 1),
-    -- ('puaga9x9', 1, '9737304111', 1),
+    ('puaga9x9', 1, '9737304111', 1),
     ('puaga9x9', 2, 'raymond.miller@gmail.com', 3),
-    -- ('f6lj@sb#', 1, '2435716496', 1),
+    ('f6lj@sb#', 1, '2435716496', 1),
     ('f6lj@sb#', 2, 'kaua.rodrigues@gmail.com', 3),
-    -- ('tbzgo0ye', 1, '2565025835', 1),
+    ('tbzgo0ye', 1, '2565025835', 1),
     ('tbzgo0ye', 2, 'andrew.hutson@gmail.com', 3),
-    -- ('l1kaah&d', 1, '4786956231', 1),
+    ('l1kaah&d', 1, '4786956231', 1),
     ('l1kaah&d', 2, '4786956231', 2),
     ('mhbawue#', 1, 'harvey.knudsen@gmail.com', 3),
-    -- ('c@bz9tyf', 1, '2430765871', 1),
-    -- ('c@bz9tyf', 2, '2430765871', 2),
+    ('c@bz9tyf', 1, '2430765871', 1),
+    ('c@bz9tyf', 2, '2430765871', 2),
     ('c@bz9tyf', 3, 'eduardo.azevedo@gmail.com', 3),
-    -- ('3%u8w6%r', 1, '8018369067', 1),
-    -- ('3%u8w6%r', 2, '8018369067', 2),
+    ('3%u8w6%r', 1, '8018369067', 1),
+    ('3%u8w6%r', 2, '8018369067', 2),
     ('3%u8w6%r', 3, 'laura.meade@gmail.com', 3),
-    -- ('sosbh18u', 1, '3180422529', 1),
-    -- ('za5#$3bm', 1, '8305786042', 1),
-    -- ('za5#$3bm', 2, '8305786042', 2),
-    ('za5#$3bm', 1, 'pamela.lennox@gmail.com', 3),
-    -- ('ric&%j6#', 1, '1137503889', 1),
-    -- ('ric&%j6#', 2, '1137503889', 2),
+    ('sosbh18u', 1, '3180422529', 1),
+    ('za5#$3bm', 1, '8305786042', 1),
+    ('za5#$3bm', 2, '8305786042', 2),
+    ('za5#$3bm', 3, 'pamela.lennox@gmail.com', 3),
+    ('ric&%j6#', 1, '1137503889', 1),
+    ('ric&%j6#', 2, '1137503889', 2),
     ('ric&%j6#', 3, 'julio.azevedo@gmail.com', 3),
-    -- ('cds9rh4y', 1, '7064230183', 1),
-    -- ('cds9rh4y', 2, '7064230183', 2),
+    ('cds9rh4y', 1, '7064230183', 1),
+    ('cds9rh4y', 2, '7064230183', 2),
     ('cds9rh4y', 3, 'susan.adams@gmail.com', 3),
-    -- ('62#nea7w', 1, '4748883483', 1),
-    -- ('62#nea7w', 2, '4748883483', 2),
+    ('62#nea7w', 1, '4748883483', 1),
+    ('62#nea7w', 2, '4748883483', 2),
     ('62#nea7w', 3, 'nicole.gomes@gmail.com', 3);
 
 INSERT INTO
@@ -482,3 +483,4 @@ VALUES
     (NULL, 80, '87-f4-a2-f4-26-7f', 3, 1),
     (NULL, 100, '87-f4-a2-f4-26-7f', 3, 2);
     --
+    

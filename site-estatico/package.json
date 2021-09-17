@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "author": "",
   "license": "ISC",
@@ -25,5 +26,8 @@
     "sequelize": "^5.21.2",
     "tedious": "^6.6.0",
     "twilio": "^3.67.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }

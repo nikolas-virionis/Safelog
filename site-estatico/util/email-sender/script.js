@@ -1,38 +1,57 @@
-function mandarEmail(tipo, nome, remetente, destinatario, senha) {
-  var nodemailer = require("nodemailer");
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: remetente,
-      pass: senha,
-    },
-  });
-  const mailOptions = {
-    from: remetente, // sender address
-    to: destinatario, // list of receivers
-    subject: "Email enviado nodemailer", // Subject line
-    html: msgEmail(tipo, nome), // plain text body
-  };
-  transporter.sendMail(mailOptions, (err, info) => console.log(err || info));
-}
+const mandarEmail = async (
+    tipo,
+    nome,
+    remetente,
+    destinatario,
+    senha,
+    rest
+) => {
+    let nodemailer = require("nodemailer");
+    let transporter = await nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: remetente,
+            pass: senha,
+        },
+    });
+    const mailOptions = {
+        from: remetente, // sender address
+        to: destinatario, // list of receivers
+        subject: msgEmail(tipo, nome, rest)[1], // Subject line
+        html: msgEmail(tipo, nome, rest)[0], // plain text body
+    };
+    transporter.sendMail(mailOptions, (err, info) => console.log(err || info));
+};
 
-function msgEmail(tipo, nome) {
-  if (tipo.toLowerCase() == "cadastro")
-    return `
-    <p>Prezado(a) ${nome},</p>
-    <p>Email de cadastro enviado com sucesso</p>
-    `;
-  if (tipo.toLowerCase() == "relatorio")
-    return `
+const msgEmail = (tipo, nome, rest) => {
+    if (tipo.toLowerCase() == "cadastro")
+        return [
+            `
+    <p>Prezado(a),</p>
+    <p>Acesse <a href="localhost:3000/usuario/cadastro" target="_blank">localhost:3000/usuario/cadastro</a> para se cadastrar concluir seu cadastro</p>
+    <p>Seu token de verificação é ${rest[0]}</p>
+    `,
+            "Cadastro SafeLog",
+        ];
+    if (tipo.toLowerCase() == "relatorio")
+        return [
+            `
     <p>Prezado(a) ${nome},</p>
     <p>Relatorio enviado com sucesso</p>
-    `;
-  if (tipo.toLowerCase() == "alerta")
-    return `
+    `,
+            "Relatório Periódico - SafeLog",
+        ];
+    if (tipo.toLowerCase() == "alerta")
+        return [
+            `
     <p>Prezado(a) ${nome},</p>
     <p>Alerta enviado com sucesso</p>
-    `;
-  throw new Error("tipo de email não especificado ou escrito de forma errada");
-}
+    `,
+            "Alerta - SafeLog",
+        ];
+    throw new Error(
+        "tipo de email não especificado ou escrito de forma errada"
+    );
+};
 // mandarEmail("tipo", "nome", "remetente", "destinatario", "senha");
 module.exports = { mandarEmail };

@@ -22,9 +22,9 @@ CREATE TABLE empresa (
 
 CREATE TABLE usuario (
     id_usuario char(8) PRIMARY KEY,
-    nome varchar(60) NOT NULL,
+    nome varchar(60),
     email varchar(60) NOT NULL UNIQUE,
-    senha char(32) NOT NULL,
+    senha char(32),
     cargo enum('admin', 'gestor', 'analista'),
     fk_empresa varchar(30) NOT NULL,
     fk_supervisor char(8),
@@ -90,7 +90,7 @@ CREATE TABLE categoria_medicao (
 
 CREATE TABLE medicao (
     id_medicao INT PRIMARY KEY AUTO_INCREMENT,
-    valor VARCHAR(12),
+    valor decimal(7, 2),
     tipo ENUM('normal', 'risco', 'critico'),
     data_medicao DATETIME,
     fk_categoria_medicao INT,

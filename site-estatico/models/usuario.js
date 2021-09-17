@@ -6,9 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       id_usuario: {
         field: "id_usuario",
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       nome: {
         field: "nome",
@@ -27,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       cargo: {
         field: "cargo",
-        type: DataTypes.ENUM,
+        type: DataTypes.ENUM("admin", "gestor", "analista"),
         allowNull: false,
       },
       fk_empresa: {

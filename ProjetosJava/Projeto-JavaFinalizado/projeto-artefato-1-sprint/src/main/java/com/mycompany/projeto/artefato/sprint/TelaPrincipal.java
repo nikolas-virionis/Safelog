@@ -80,7 +80,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(5, 0, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 113, 206));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -92,7 +92,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         brMem.setStringPainted(true);
 
-        btnPrincipal.setBackground(new java.awt.Color(0, 0, 153));
+        btnPrincipal.setBackground(new java.awt.Color(2, 83, 150));
         btnPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
         btnPrincipal.setText("Leitura dos dados");
@@ -107,7 +107,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jPanel2.setBackground(new java.awt.Color(0, 51, 153));
+        jPanel2.setBackground(new java.awt.Color(2, 83, 150));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setForeground(new java.awt.Color(0, 102, 255));
 
@@ -302,9 +302,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(135, 135, 135))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -314,25 +315,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(brDisk, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(brCpu, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(brMem, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(117, 117, 117)))
-                .addGap(18, 18, 18)
+                            .addComponent(brMem, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,8 +346,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(brDisk, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(29, 29, 29)
-                        .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30)
+                        .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -395,16 +391,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Integer MedCpu = somaC / contagem;
         Integer MedDisk = somaD / contagem;
         Integer MedMem = somaM / contagem;
-
-        if (valorCpu > 95) {
-            JOptionPane.showMessageDialog(null, "CPU no uso máximo ");
-        }
-        if (valorDisk > 95) {
-            JOptionPane.showMessageDialog(null, "Disco no uso máximo ");
-        }
-        if (valorMem > 95) {
-            JOptionPane.showMessageDialog(null, "Memória no uso máximo ");
-        }
+       
 
         if (valorCpu > MaxCpu) {
 
@@ -448,6 +435,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         memMin.setText(MinMem.toString() + "%");
         memMed.setText(MedMem.toString() + "%");
 
+        if (valorCpu > 95) {
+            JOptionPane.showMessageDialog(null, "CPU no uso máximo ", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+        if (valorDisk > 95) {
+            JOptionPane.showMessageDialog(null, "Disco no uso máximo ", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
+        if (valorMem > 95) {
+            JOptionPane.showMessageDialog(null, "Memória no uso máximo ", "Alerta", JOptionPane.WARNING_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnPrincipalActionPerformed
 

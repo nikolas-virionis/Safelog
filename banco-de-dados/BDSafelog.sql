@@ -1,4 +1,5 @@
 DROP DATABASE safelog;
+
 CREATE DATABASE safelog;
 
 USE safelog;
@@ -7,7 +8,7 @@ CREATE TABLE staff (
     id_staff int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(60) NOT NULL,
     email varchar(60) NOT NULL UNIQUE,
-    senha varchar(20) NOT NULL
+    senha char(32) NOT NULL
 );
 
 CREATE TABLE empresa (
@@ -23,7 +24,7 @@ CREATE TABLE usuario (
     id_usuario char(8) PRIMARY KEY,
     nome varchar(60) NOT NULL,
     email varchar(60) NOT NULL UNIQUE,
-    senha varchar (20) NOT NULL,
+    senha char(32) NOT NULL,
     cargo enum('admin', 'gestor', 'analista'),
     fk_empresa varchar(30) NOT NULL,
     fk_supervisor char(8),
@@ -49,7 +50,7 @@ CREATE TABLE contato (
 CREATE TABLE maquina (
     id_maquina varchar(20) PRIMARY KEY,
     nome varchar(60) NOT NULL,
-    senha varchar(16) NOT NULL,
+    senha char(32) NOT NULL,
     fk_empresa varchar(30) NOT NULL,
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa)
 );
@@ -93,8 +94,7 @@ CREATE TABLE medicao (
     tipo ENUM('normal', 'risco', 'critico'),
     data_medicao DATETIME,
     fk_categoria_medicao INT,
-    FOREIGN KEY (fk_categoria_medicao)
-        REFERENCES categoria_medicao (id_categoria_medicao)
+    FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao (id_categoria_medicao)
 );
 
 INSERT INTO
@@ -129,37 +129,37 @@ VALUES
         NULL,
         'Amanda Caramico',
         'amanda.caramico@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha1')
     ),
     (
         NULL,
         'Felipe Cruz',
         'felipe.souza@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha1')
     ),
     (
         NULL,
         'João Pedro Oliveira',
         'joao.soliveira@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha1')
     ),
     (
         NULL,
         'Lucas Teixeira',
         'lucas.teixeira@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha1')
     ),
     (
         NULL,
         'Lucas Mesquita',
         'lucas.msouza@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha3')
     ),
     (
         NULL,
         'Nikolas Virionis',
         'nikolas.virionis@bandtec.com.br',
-        'ExSenha1'
+        MD5('ExSenha1')
     );
 
 INSERT INTO
@@ -187,7 +187,7 @@ VALUES
         'z7t12p$d',
         'Jeffrey Sprecher',
         'jeffrey.sprecher@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'admin',
         '203783731',
         NULL
@@ -196,7 +196,7 @@ VALUES
         '5@w7kjp9',
         'Gilson Finkelsztain',
         'gilson.finkelsztain@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'admin',
         '09.346.601/0001-25',
         NULL
@@ -205,7 +205,7 @@ VALUES
         'puaga9x9',
         'Raymond E. Miller',
         'raymond.miller@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'gestor',
         '203783731',
         'z7t12p$d'
@@ -214,7 +214,7 @@ VALUES
         'f6lj@sb#',
         'Kauã Rodrigues Pinto',
         'kaua.rodrigues@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'gestor',
         '09.346.601/0001-25',
         '5@w7kjp9'
@@ -223,7 +223,7 @@ VALUES
         'tbzgo0ye',
         'Andrew K. Hutson',
         'andrew.hutson@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'gestor',
         '203783731',
         'z7t12p$d'
@@ -232,7 +232,7 @@ VALUES
         'l1kaah&d',
         'Julia Ferreira Pinto',
         'julia.ferreira@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'gestor',
         '09.346.601/0001-25',
         '5@w7kjp9'
@@ -241,7 +241,7 @@ VALUES
         'mhbawue#',
         'Harvey M. Knudsen',
         'harvey.knudsen@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '203783731',
         'puaga9x9'
@@ -250,7 +250,7 @@ VALUES
         'c@bz9tyf',
         'Eduardo Pereira Azevedo',
         'eduardo.azevedo@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '09.346.601/0001-25',
         'f6lj@sb#'
@@ -259,7 +259,7 @@ VALUES
         '3%u8w6%r',
         'Laura E. Meade',
         'laura.meade@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '203783731',
         'puaga9x9'
@@ -268,7 +268,7 @@ VALUES
         'sosbh18u',
         'Douglas Sousa Dias',
         'douglas.dias@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '09.346.601/0001-25',
         'f6lj@sb#'
@@ -277,7 +277,7 @@ VALUES
         'za5#$3bm',
         'Pamela T. Lennox',
         'pamela.lennox@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '203783731',
         'tbzgo0ye'
@@ -286,7 +286,7 @@ VALUES
         'ric&%j6#',
         'Júlio Sousa Azevedo',
         'julio.azevedo@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '09.346.601/0001-25',
         'l1kaah&d'
@@ -295,7 +295,7 @@ VALUES
         'cds9rh4y',
         'Susan K. Adams',
         'susan.adams@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '203783731',
         'tbzgo0ye'
@@ -304,7 +304,7 @@ VALUES
         '62#nea7w',
         'Nicole Silva Gomes',
         'nicole.gomes@gmail.com',
-        'ExSenha1',
+        MD5('ExSenha1'),
         'analista',
         '09.346.601/0001-25',
         'l1kaah&d'
@@ -350,49 +350,49 @@ VALUES
     (
         '73-04-cd-e5-6f-a0',
         'Server1',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '203783731'
     ),
     (
         '2f-d0-bb-62-61-14',
         'Server2',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '203783731'
     ),
     (
         'a3-4e-5e-38-96-be',
         'Server3',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '203783731'
     ),
     (
         '7b-a0-1d-74-7f-68',
         'Server4',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '203783731'
     ),
     (
         '87-6d-74-ea-b8-d6',
         'Servidor1',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '09.346.601/0001-25'
     ),
     (
         '03-db-e0-03-dd-f2',
         'Servidor2',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '09.346.601/0001-25'
     ),
     (
         '67-8f-75-1a-a2-e0',
         'Servidor3',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '09.346.601/0001-25'
     ),
     (
         '87-f4-a2-f4-26-7f',
         'Servidor4',
-        'ExSenha1',
+        MD5('ExSenha1'),
         '09.346.601/0001-25'
     );
 
@@ -482,5 +482,5 @@ VALUES
     (NULL, 0.5, '87-f4-a2-f4-26-7f', 2, 2),
     (NULL, 80, '87-f4-a2-f4-26-7f', 3, 1),
     (NULL, 100, '87-f4-a2-f4-26-7f', 3, 2);
-    --
-    
+
+--

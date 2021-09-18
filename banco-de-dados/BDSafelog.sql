@@ -21,13 +21,14 @@ CREATE TABLE empresa (
 );
 
 CREATE TABLE usuario (
-    id_usuario char(8) PRIMARY KEY,
+    id_usuario int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(60),
     email varchar(60) NOT NULL UNIQUE,
     senha char(32),
     cargo enum('admin', 'gestor', 'analista'),
+    token char(8),
     fk_empresa varchar(30) NOT NULL,
-    fk_supervisor char(8),
+    fk_supervisor int,
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa),
     FOREIGN KEY (fk_supervisor) REFERENCES usuario(id_usuario)
 );
@@ -38,7 +39,7 @@ CREATE TABLE forma_contato (
 );
 
 CREATE TABLE contato (
-    fk_usuario char(8),
+    fk_usuario int,
     id_contato int,
     valor varchar(80),
     fk_forma_contato int,
@@ -57,7 +58,7 @@ CREATE TABLE maquina (
 
 CREATE TABLE usuario_maquina (
     id_usuario_maquina int AUTO_INCREMENT PRIMARY KEY,
-    fk_usuario char(8) NOT NULL,
+    fk_usuario int NOT NULL,
     fk_maquina varchar(20) NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
@@ -184,165 +185,179 @@ INSERT INTO
     usuario
 VALUES
     (
-        'z7t12p$d',
+        NULL,
         'Jeffrey Sprecher',
         'jeffrey.sprecher@gmail.com',
         MD5('ExSenha1'),
         'admin',
+        NULL,
         '203783731',
         NULL
     ),
     (
-        '5@w7kjp9',
+        NULL,
         'Gilson Finkelsztain',
         'gilson.finkelsztain@gmail.com',
         MD5('ExSenha1'),
         'admin',
+        NULL,
         '09.346.601/0001-25',
         NULL
     ),
     (
-        'puaga9x9',
+        NULL,
         'Raymond E. Miller',
         'raymond.miller@gmail.com',
         MD5('ExSenha1'),
         'gestor',
+        NULL,
         '203783731',
-        'z7t12p$d'
+        1
     ),
     (
-        'f6lj@sb#',
+        NULL,
         'Kauã Rodrigues Pinto',
         'kaua.rodrigues@gmail.com',
         MD5('ExSenha1'),
         'gestor',
+        NULL,
         '09.346.601/0001-25',
-        '5@w7kjp9'
+        2
     ),
     (
-        'tbzgo0ye',
+        NULL,
         'Andrew K. Hutson',
         'andrew.hutson@gmail.com',
         MD5('ExSenha1'),
         'gestor',
+        NULL,
         '203783731',
-        'z7t12p$d'
+        1
     ),
     (
-        'l1kaah&d',
+        NULL,
         'Julia Ferreira Pinto',
         'julia.ferreira@gmail.com',
         MD5('ExSenha1'),
         'gestor',
+        NULL,
         '09.346.601/0001-25',
-        '5@w7kjp9'
+        2
     ),
     (
-        'mhbawue#',
+        NULL,
         'Harvey M. Knudsen',
         'harvey.knudsen@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '203783731',
-        'puaga9x9'
+        3
     ),
     (
-        'c@bz9tyf',
+        NULL,
         'Eduardo Pereira Azevedo',
         'eduardo.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '09.346.601/0001-25',
-        'f6lj@sb#'
+        4
     ),
     (
-        '3%u8w6%r',
+        NULL,
         'Laura E. Meade',
         'laura.meade@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '203783731',
-        'puaga9x9'
+        3
     ),
     (
-        'sosbh18u',
+        NULL,
         'Douglas Sousa Dias',
         'douglas.dias@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '09.346.601/0001-25',
-        'f6lj@sb#'
+        4
     ),
     (
-        'za5#$3bm',
+        NULL,
         'Pamela T. Lennox',
         'pamela.lennox@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '203783731',
-        'tbzgo0ye'
+        5
     ),
     (
-        'ric&%j6#',
+        NULL,
         'Júlio Sousa Azevedo',
         'julio.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '09.346.601/0001-25',
-        'l1kaah&d'
+        6
     ),
     (
-        'cds9rh4y',
+        NULL,
         'Susan K. Adams',
         'susan.adams@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '203783731',
-        'tbzgo0ye'
+        5
     ),
     (
-        '62#nea7w',
+        NULL,
         'Nicole Silva Gomes',
         'nicole.gomes@gmail.com',
         MD5('ExSenha1'),
         'analista',
+        NULL,
         '09.346.601/0001-25',
-        'l1kaah&d'
+        6
     );
 
 INSERT INTO
     contato
 VALUES
-    ('z7t12p$d', 1, '2568647004', 1),
-    ('5@w7kjp9', 1, '2435716496', 1),
-    ('puaga9x9', 1, '9737304111', 1),
-    ('puaga9x9', 2, 'raymond.miller@gmail.com', 3),
-    ('f6lj@sb#', 1, '2435716496', 1),
-    ('f6lj@sb#', 2, 'kaua.rodrigues@gmail.com', 3),
-    ('tbzgo0ye', 1, '2565025835', 1),
-    ('tbzgo0ye', 2, 'andrew.hutson@gmail.com', 3),
-    ('l1kaah&d', 1, '4786956231', 1),
-    ('l1kaah&d', 2, '4786956231', 2),
-    ('mhbawue#', 1, 'harvey.knudsen@gmail.com', 3),
-    ('c@bz9tyf', 1, '2430765871', 1),
-    ('c@bz9tyf', 2, '2430765871', 2),
-    ('c@bz9tyf', 3, 'eduardo.azevedo@gmail.com', 3),
-    ('3%u8w6%r', 1, '8018369067', 1),
-    ('3%u8w6%r', 2, '8018369067', 2),
-    ('3%u8w6%r', 3, 'laura.meade@gmail.com', 3),
-    ('sosbh18u', 1, '3180422529', 1),
-    ('za5#$3bm', 1, '8305786042', 1),
-    ('za5#$3bm', 2, '8305786042', 2),
-    ('za5#$3bm', 3, 'pamela.lennox@gmail.com', 3),
-    ('ric&%j6#', 1, '1137503889', 1),
-    ('ric&%j6#', 2, '1137503889', 2),
-    ('ric&%j6#', 3, 'julio.azevedo@gmail.com', 3),
-    ('cds9rh4y', 1, '7064230183', 1),
-    ('cds9rh4y', 2, '7064230183', 2),
-    ('cds9rh4y', 3, 'susan.adams@gmail.com', 3),
-    ('62#nea7w', 1, '4748883483', 1),
-    ('62#nea7w', 2, '4748883483', 2),
-    ('62#nea7w', 3, 'nicole.gomes@gmail.com', 3);
+    (1, 1, '2568647004', 1),
+    (2, 1, '2435716496', 1),
+    (3, 1, '9737304111', 1),
+    (3, 2, 'raymond.miller@gmail.com', 3),
+    (4, 1, '2435716496', 1),
+    (4, 2, 'kaua.rodrigues@gmail.com', 3),
+    (5, 1, '2565025835', 1),
+    (5, 2, 'andrew.hutson@gmail.com', 3),
+    (6, 1, '4786956231', 1),
+    (6, 2, '4786956231', 2),
+    (7, 1, 'harvey.knudsen@gmail.com', 3),
+    (8, 1, '2430765871', 1),
+    (8, 2, '2430765871', 2),
+    (8, 3, 'eduardo.azevedo@gmail.com', 3),
+    (9, 1, '8018369067', 1),
+    (9, 2, '8018369067', 2),
+    (9, 3, 'laura.meade@gmail.com', 3),
+    (10, 1, '3180422529', 1),
+    (11, 1, '8305786042', 1),
+    (11, 2, '8305786042', 2),
+    (11, 3, 'pamela.lennox@gmail.com', 3),
+    (12, 1, '1137503889', 1),
+    (12, 2, '1137503889', 2),
+    (12, 3, 'julio.azevedo@gmail.com', 3),
+    (13, 1, '7064230183', 1),
+    (13, 2, '7064230183', 2),
+    (13, 3, 'susan.adams@gmail.com', 3),
+    (14, 1, '4748883483', 1),
+    (14, 2, '4748883483', 2),
+    (14, 3, 'nicole.gomes@gmail.com', 3);
 
 INSERT INTO
     maquina
@@ -399,22 +414,22 @@ VALUES
 INSERT INTO
     usuario_maquina
 VALUES
-    (NULL, 'mhbawue#', '73-04-cd-e5-6f-a0'),
-    (NULL, 'za5#$3bm', '73-04-cd-e5-6f-a0'),
-    (NULL, '3%u8w6%r', '2f-d0-bb-62-61-14'),
-    (NULL, 'cds9rh4y', '2f-d0-bb-62-61-14'),
-    (NULL, 'mhbawue#', 'a3-4e-5e-38-96-be'),
-    (NULL, '3%u8w6%r', 'a3-4e-5e-38-96-be'),
-    (NULL, 'za5#$3bm', '7b-a0-1d-74-7f-68'),
-    (NULL, 'cds9rh4y', '7b-a0-1d-74-7f-68'),
-    (NULL, 'c@bz9tyf', '87-6d-74-ea-b8-d6'),
-    (NULL, 'ric&%j6#', '87-6d-74-ea-b8-d6'),
-    (NULL, 'sosbh18u', '03-db-e0-03-dd-f2'),
-    (NULL, '62#nea7w', '03-db-e0-03-dd-f2'),
-    (NULL, 'c@bz9tyf', '67-8f-75-1a-a2-e0'),
-    (NULL, 'sosbh18u', '67-8f-75-1a-a2-e0'),
-    (NULL, 'ric&%j6#', '87-f4-a2-f4-26-7f'),
-    (NULL, '62#nea7w', '87-f4-a2-f4-26-7f');
+    (NULL, 7, '73-04-cd-e5-6f-a0'),
+    (NULL, 11, '73-04-cd-e5-6f-a0'),
+    (NULL, 9, '2f-d0-bb-62-61-14'),
+    (NULL, 13, '2f-d0-bb-62-61-14'),
+    (NULL, 7, 'a3-4e-5e-38-96-be'),
+    (NULL, 9, 'a3-4e-5e-38-96-be'),
+    (NULL, 11, '7b-a0-1d-74-7f-68'),
+    (NULL, 13, '7b-a0-1d-74-7f-68'),
+    (NULL, 8, '87-6d-74-ea-b8-d6'),
+    (NULL, 12, '87-6d-74-ea-b8-d6'),
+    (NULL, 10, '03-db-e0-03-dd-f2'),
+    (NULL, 14, '03-db-e0-03-dd-f2'),
+    (NULL, 8, '67-8f-75-1a-a2-e0'),
+    (NULL, 10, '67-8f-75-1a-a2-e0'),
+    (NULL, 12, '87-f4-a2-f4-26-7f'),
+    (NULL, 14, '87-f4-a2-f4-26-7f');
 
 INSERT INTO
     categoria_medicao

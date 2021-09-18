@@ -7,6 +7,7 @@ let env = process.env.NODE_ENV || "development";
 
 // autenticação de staff user baseado em email e senha
 router.post("/staff", (req, res, next) => {
+    console.log(req.body);
     let { email, senha } = req.body;
 
     let sql = `SELECT * FROM staff WHERE email = '${email}' and senha = MD5('${senha}');`;
@@ -18,8 +19,14 @@ router.post("/staff", (req, res, next) => {
         })
         .then(([result]) => {
             if (result) {
-                let { id_staff, nome, email } = result;
-                res.json({ status: "ok", id_staff, nome, email });
+                let { id_staff: id, nome, email } = result;
+                res.json({
+                    status: "ok",
+                    cargo: "staff",
+                    id,
+                    nome,
+                    email,
+                });
             } else
                 res.json({ status: "erro", msg: "Email ou senha inválidos" });
         })
@@ -45,7 +52,7 @@ router.post("/usuario", (req, res, next) => {
             //   console.log(result);
             if (result) {
                 let {
-                    id_usuario,
+                    id_usuario: id,
                     nome,
                     email,
                     cargo,
@@ -55,10 +62,10 @@ router.post("/usuario", (req, res, next) => {
 
                 res.json({
                     status: "ok",
-                    id_usuario,
+                    cargo,
+                    id,
                     nome,
                     email,
-                    cargo,
                     id_empresa,
                     id_supervisor,
                 });

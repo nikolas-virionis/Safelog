@@ -11,6 +11,7 @@ let logger = require("morgan");
 let indexRouter = require("./routes/index");
 let authRouter = require("./routes/auth");
 let usuarioRouter = require("./routes/usuario");
+let empresasRouter = require("./routes/empresa");
 
 let app = express();
 
@@ -25,5 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/usuario", usuarioRouter);
+app.use("/empresa", empresasRouter);
 
 module.exports = app;

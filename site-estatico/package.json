@@ -25,7 +25,8 @@
     "nodemailer": "^6.6.3",
     "sequelize": "^5.21.2",
     "tedious": "^6.6.0",
-    "twilio": "^3.67.1"
+    "twilio": "^3.67.1",
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

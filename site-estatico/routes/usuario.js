@@ -19,7 +19,8 @@ router.get("/cadastro", (req, res, next) =>
 
 router.post("/convite", async (req, res, next) => {
     // body da requisição post => dados principais da rota
-    const { email, cargo, fk_empresa, fk_supervisor, complementos } = req.body;
+    const { email, cargo, fk_empresa, fk_supervisor, complementos } =
+        req.body ?? req.query;
     if (!email) return res.status(403).send("body não fornecido na requisição");
     //checar se email existe em staff ou usuario
     let emStaff;

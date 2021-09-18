@@ -14,10 +14,6 @@ const {
     insertParcial,
 } = require("../util/cadastro-parcial/convite");
 
-router.get("/cadastro", (req, res, next) =>
-    res.redirect("/cadastro-pessoa.html")
-);
-
 router.post("/convite", async (req, res, next) => {
     // body da requisição post => dados principais da rota
     const { email, cargo, fk_empresa, fk_supervisor, complementos } =

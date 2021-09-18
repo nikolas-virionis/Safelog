@@ -1,5 +1,6 @@
 const generateId = require("../id-user/script").generateId;
 let sequelize = require("../../models").sequelize;
+let send = require("./email").mandarEmail;
 
 const checarEmStaff = async (email) => {
     let sqlEmailExistsInStaff = `SELECT * FROM staff WHERE email = '${email}';`;
@@ -40,7 +41,14 @@ const gerarId = async () => {
 };
 
 const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
-    let insertParcial = `INSERT INTO usuario(id_usuario, email, cargo, fk_empresa, fk_supervisor) VALUES ('${hash}', '${email}', '${cargo}', '${fk_empresa}', '${fk_supervisor}')`;
+
+    let insertParcial;
+
+    if(fk_supervisor) {
+        insertParcial = `INSERT INTO usuario(id_usuario, email, cargo, fk_empresa, fk_supervisor) VALUES ('${hash}', '${email}', '${cargo}', '${fk_empresa}', '${fk_supervisor}')`;
+    } else {
+        insertParcial = `INSERT INTO usuario(id_usuario, email, cargo, fk_empresa, fk_supervisor) VALUES ('${hash}', '${email}', '${cargo}', '${fk_empresa}', null)`;
+    }
     await sequelize
         .query(insertParcial, {
             type: sequelize.QueryTypes.INSERT,
@@ -48,4 +56,40 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
         .catch((err) => console.error(err));
 };
 
-module.exports = { checarEmStaff, checarEmUsuario, gerarId, insertParcial };
+const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor, complementos) => {
+    
+    if (!email) return {
+        status: "error",
+        msg: "Email não fornecido"
+    }
+    //checar se email existe em staff ou usuario
+    let emStaff;
+    let emUsuario;
+    await checarEmStaff(email).then((bool) => (emStaff = bool));
+    if (emStaff)
+        return {
+            status: "error",
+            msg: "Usuário ja cadastrado como staff"
+        };
+    await checarEmUsuario(email).then((bool) => (emUsuario = bool));
+    if (emUsuario) return {
+        status: "error",
+        msg: "Usuário já registrado"
+    };
+    // geração do id unico
+    let hash;
+    await gerarId().then((id) => (hash = id));
+    // insert parcial de dados
+    await insertParcial(hash, email, cargo, fk_empresa, fk_supervisor);
+    // email de cadastr enviado para
+    await send("cadastro", null, complementos[0], email, complementos[1], [
+        hash,
+    ]);
+
+    return {
+        status: "ok",
+        msg: "Usuário convidado!"
+    };
+}
+
+module.exports = { checarEmStaff, checarEmUsuario, gerarId, insertParcial, enviarConvite };

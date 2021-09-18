@@ -17,20 +17,20 @@ const mandarEmail = async (
     const mailOptions = {
         from: remetente, // sender address
         to: destinatario, // list of receivers
-        subject: msgEmail(tipo, nome, rest)[1], // Subject line
-        html: msgEmail(tipo, nome, rest)[0], // plain text body
+        subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
+        html: msgEmail(tipo, nome, rest, destinatario)[0], // plain text body
     };
     transporter.sendMail(mailOptions, (err, info) => console.log(err || info));
 };
 
-const msgEmail = (tipo, nome, rest) => {
+const msgEmail = (tipo, nome, rest, email) => {
     if (tipo.toLowerCase() == "cadastro")
         return [
             `
     <p>Prezado(a),</p>
-    <p><a href="http:localhost:3000/usuario/cadastro?token=" target="_blank">
+    <p><a href="http:localhost:3000/cadastro-pessoa.html?token=${rest[0]}&email=${email}" target="_blank">
     Clique aqui</a> para se cadastrar concluir seu cadastro</p>
-    <p>Seu token de verificação é ${rest[0]}</p>
+    <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,
             "Cadastro SafeLog",
         ];

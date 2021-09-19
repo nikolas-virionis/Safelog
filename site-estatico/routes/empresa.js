@@ -17,19 +17,15 @@ router.post("/cadastro", async (req, res, next) => {
         let insertEmpresa = `INSERT INTO empresa(id_empresa, nome, cidade, pais, fk_staff) VALUES ('${id}', '${nome}', '${cidade}', '${pais}', ${staff})`;
         await sequelize
             .query(insertEmpresa, { type: sequelize.QueryTypes.INSERT })
-            .then(response => {
-                sendInvite(
-                    email,
-                    "admin",
-                    id,
-                    null,
-                    complementos
-                ).then(result => {
-                    res.json(result)
-                })
+            .then((response) => {
+                sendInvite(email, "admin", id, null, complementos).then(
+                    (result) => {
+                        res.json(result);
+                    }
+                );
             })
             .catch((err) => console.error(err));
-    }
+    } else res.json({ status: "error", msg: "Empresa ja cadastrada" });
 });
 
 module.exports = router;

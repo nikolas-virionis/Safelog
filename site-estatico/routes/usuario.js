@@ -64,8 +64,7 @@ router.post("/verificacao", async (req, res, next) => {
         .query(verificarUsuario, { type: sequelize.QueryTypes.SELECT })
         .then(([response]) => {
             if (response) res.json({ status: "ok", msg: response });
-            else
-                res.json({ status: "error", msg: "email oou token invalidos" });
+            else res.json({ status: "error", msg: "email ou token invalidos" });
         });
 });
 

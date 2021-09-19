@@ -28,7 +28,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a),</p>
-    <p><a href="http:localhost:3000/cadastro-pessoa.html?token=${rest[0]}&email=${email}" target="_blank">
+    <p><a href="http://localhost:3000/cadastro-pessoa.html?token=${rest[0]}&email=${email}" target="_blank">
     Clique aqui</a> para se cadastrar concluir seu cadastro</p>
     <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,

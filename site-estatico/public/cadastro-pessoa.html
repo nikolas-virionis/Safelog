@@ -107,6 +107,28 @@
         </div>
     </div>
 
+    <div class="modal-screen" id="modal-verify-token">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Cadastrar pessoas</h2>
+                <h6>Digite seu email e o token que foram enviados a você</h6>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h6>Email:</h6>
+                    <input id="idInputEmail" type="text" name="">
+                </div>
+                <div>
+                    <h6>Token:</h6>
+                    <input id="idInputToken" type="text" name="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -115,34 +137,10 @@
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
     <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/modal.js"></script>
+    <script type="module" src="./assets/js/modal.js"></script>
     <script src="./assets/js/footer.js"></script>
+    <script src="./assets/js/cadastroPessoa.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
-
-<div class="modal-screen" id="modal-verify-token">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h2>Cadastrar pessoas</h2>
-            <h6>Digite seu email e o token que foram enviados a você</h6>
-        </div>
-        <div class="modal-body">
-            <div>
-                <h6>Email:</h6>
-                <input id="idInputEmail" type="text" name="" value="">
-            </div>
-            <div>
-                <h6>Token:</h6>
-                <input id="idInputToken" type="text" name="" value="">
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-geral" id="btn-prosseguir-modal"
-                onclick="fecharModal('modal-verify-token')">Prosseguir</button>
-            <button class="btn-geral cancelar" id="btn-cancelar-modal" onclick="cancelarModal()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
-<script src="./assets/js/cadastroPessoa.js"></script>

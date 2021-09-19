@@ -51,7 +51,7 @@ const validarEmpresa = () => {
             pais: pais.value,
             email: email.value,
             staff: JSON.parse(sessionStorage.getItem("staff")).id,
-            complementos: ["safelog.contato@gmail.com", "Safe_Log371$"], // posteriormente .env
+            complementos: ["nosso email", "nossa senha"], // posteriormente .env
         })
         .then((response) => {
             if (response.data?.status == "ok") {

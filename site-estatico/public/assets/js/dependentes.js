@@ -1,10 +1,45 @@
-const nomeUsuario = document.querySelector(".sub-chefe h3");
-nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
+(() => {
+    const tabelaDependentes = document.querySelector(".tabela-listrada tbody");
+    if (JSON.parse(sessionStorage.getItem("usuario"))?.cargo != "analista") {
+        axios
+            .post("/usuario/pessoas-dependentes", {
+                id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+            })
+            .then((response) => {
+                let { status, res: dependentes } = response.data;
+                if (status == "ok") {
+                    if (dependentes.length > 0) {
+                        dependentes.forEach((dependente) => {
+                            let tr = document.createElement("tr");
+                            let tbNome = document.createElement("td");
+                            let tbEmail = document.createElement("td");
+                            let tbBtn = document.createElement("td");
+                            let excluirBtnLbl = document.createElement("i");
+                            let excluirBtn = document.createElement("button");
+                            excluirBtnLbl.classList = "fas fa-trash-alt";
+                            excluirBtn.classList = "btn-nav-dash-red";
+                            excluirBtn.appendChild(excluirBtnLbl);
+                            tbBtn.appendChild(excluirBtn);
+                            tbNome.innerHTML = `${dependente.nome}`;
+                            tbEmail.innerHTML = `${dependente.email}`;
+                            tr.appendChild(tbNome);
+                            tr.appendChild(tbEmail);
+                            tr.appendChild(tbBtn);
+                            tabelaDependentes.appendChild(tr);
+                        });
+                    }
+                }
+            });
+    }
+    const nomeUsuario = document.querySelector(".sub-chefe h3");
+    nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
+})();
 
 const email = document.querySelector("#email-convite");
 const btnConfirmar = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const btnAbrirConvite = document.querySelector(".convite-email");
+btnAbrirConvite.title = "Adicionar dependentes";
 
 btnAbrirConvite.addEventListener("click", (e) => {
     if (JSON.parse(sessionStorage.getItem("usuario")).cargo != "analista")

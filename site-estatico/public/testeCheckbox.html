@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+
+    input[type=checkbox] {
+      display:none;
+    }
+    input[type=checkbox] + label {
+      background-size:cover;
+      background-position:center;
+      background-repeat: no-repeat;
+      height: 45px;
+      width: 45px;
+      display:inline-block;
+    }
+    input#input_1_1 + label {
+      cursor: pointer;
+      background-image: url('https://ivanmarreta172605709.files.wordpress.com/2021/01/slack.png');
+      -webkit-transition: .5s;
+      filter: brightness(.5);
+    }
+    input#input_1_1:checked + label {
+      filter: brightness(1);
+    }
+    #input_slack{
+      -webkit-transition: .5s;
+      width: 0px;
+      visibility: hidden;
+    }
+    </style>
+  </head>
+  <body>
+    <input type='checkbox' name='' id="input_1_1"/>
+    <label for="input_1_1"></label>
+    <input type="text" id="input_slack" name="" value="">
+  </body>
+
+  <script>
+    input_1_1.addEventListener("change", function(){
+      if(input_1_1.checked){
+        input_slack.style.visibility = 'visible';
+        input_slack.style.width = "20%";
+      }else{
+        input_slack.style.width = "0px";
+        input_slack.style.visibility = "hidden";
+      }
+    })
+  </script>
+</html>

@@ -20,3 +20,8 @@ nomeUser.innerText =
     JSON.parse(sessionStorage.getItem("usuario"))?.nome?.split(" ").shift() ??
     JSON.parse(sessionStorage.getItem("staff"))?.nome?.split(" ").shift() ??
     "Nome usuario";
+
+document.querySelector(".icon-exit").addEventListener('click', function(){
+    sessionStorage.clear();
+    window.location = "index.html"
+})

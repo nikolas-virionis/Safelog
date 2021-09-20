@@ -50,3 +50,17 @@ btnCancelar.addEventListener("click", async (e) => {
     let { cancelarModal } = await import("./modal.js");
     cancelarModal();
 });
+
+var redes = ["whatsapp", "telegram", "slack"];
+
+for(var i = 0; i < redes.length; i++){
+    document.getElementById("contato-"+redes[i]).addEventListener("change", function(a){
+      if(this.checked){
+        document.getElementById("input-"+ this.id.slice(8,this.lenght)).style.visibility = 'visible';
+        document.getElementById("input-"+ this.id.slice(8,this.lenght)).style.width = "40%";
+      }else{
+        document.getElementById("input-"+ this.id.slice(8,this.lenght)).style.width = "0px";
+        document.getElementById("input-"+ this.id.slice(8,this.lenght)).style.visibility = "hidden";
+      }
+    })
+}

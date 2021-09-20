@@ -50,6 +50,16 @@ const msgEmail = (tipo, nome, rest, email) => {
     `,
             "Alerta - SafeLog",
         ];
+    if (tipo.toLowerCase() == "redefinir")
+        return [
+            `
+    <p>Prezado(a) ${nome},</p>
+    <p><a href="http://localhost:3000/redefinicao-de-senha.html" target="_blank">
+    Clique aqui</a> para se redefinir sua senha</p>
+    <p>Seu token de verificação é <i>${rest[0]}</i></p>
+    `,
+            "Redefinição de senha - SafeLog",
+        ];
     throw new Error(
         "tipo de email não especificado ou escrito de forma errada"
     );

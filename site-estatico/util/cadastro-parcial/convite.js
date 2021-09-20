@@ -1,6 +1,6 @@
 const generateId = require("../id-user/script").generateId;
 let sequelize = require("../../models").sequelize;
-let send = require("./email").mandarEmail;
+let send = require("../email/email").mandarEmail;
 
 const checarEmStaff = async (email) => {
     let sqlEmailExistsInStaff = `SELECT * FROM staff WHERE email = '${email}';`;
@@ -28,7 +28,7 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
     let insertParcial;
 
     if (fk_supervisor) {
-        insertParcial = `INSERT INTO usuario(email, cargo, token, fk_empresa, fk_supervisor) VALUES ('${email}', '${cargo}', '${hash}', '${fk_empresa}', '${fk_supervisor}')`;
+        insertParcial = `INSERT INTO usuario(email, cargo, token, fk_empresa, fk_supervisor) VALUES ('${email}', '${cargo}', '${hash}', '${fk_empresa}', ${fk_supervisor})`;
     } else {
         insertParcial = `INSERT INTO usuario(email, cargo, token, fk_empresa, fk_supervisor) VALUES ('${email}', '${cargo}', '${hash}', '${fk_empresa}', null)`;
     }

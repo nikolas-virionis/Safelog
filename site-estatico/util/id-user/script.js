@@ -6,5 +6,5 @@ const generateId = () => {
     userId = userId.join(""); // junta os 8 elementos em uma só string
     return userId;
 };
-
+console.log(generateId());
 module.exports = { generateId };

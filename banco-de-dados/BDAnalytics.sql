@@ -148,7 +148,7 @@ VALUES
         'jeffrey.sprecher@gmail.com',
         MD5('ExSenha1'),
         'admin',
-        NULL,
+        'abnanvf5',
         '203783731',
         NULL
     ),
@@ -158,7 +158,7 @@ VALUES
         'gilson.finkelsztain@gmail.com',
         MD5('ExSenha1'),
         'admin',
-        NULL,
+        'arblvsfa',
         '09.346.601/0001-25',
         NULL
     ),
@@ -168,7 +168,7 @@ VALUES
         'raymond.miller@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        NULL,
+        '9katbzd7',
         '203783731',
         1
     ),
@@ -178,7 +178,7 @@ VALUES
         'kaua.rodrigues@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        NULL,
+        'skcmqdix',
         '09.346.601/0001-25',
         2
     ),
@@ -188,7 +188,7 @@ VALUES
         'andrew.hutson@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        NULL,
+        'k8xd9pys',
         '203783731',
         1
     ),
@@ -198,7 +198,7 @@ VALUES
         'julia.ferreira@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        NULL,
+        'z4d62p9x',
         '09.346.601/0001-25',
         2
     ),
@@ -208,7 +208,7 @@ VALUES
         'harvey.knudsen@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'f3edujdq',
         '203783731',
         3
     ),
@@ -218,7 +218,7 @@ VALUES
         'eduardo.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'd64h81ab',
         '09.346.601/0001-25',
         4
     ),
@@ -228,7 +228,7 @@ VALUES
         'laura.meade@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'gcmjx9u3',
         '203783731',
         3
     ),
@@ -238,7 +238,7 @@ VALUES
         'douglas.dias@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'agdjkvxw',
         '09.346.601/0001-25',
         4
     ),
@@ -248,7 +248,7 @@ VALUES
         'pamela.lennox@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'j2akj5pv',
         '203783731',
         5
     ),
@@ -258,7 +258,7 @@ VALUES
         'julio.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'bet0g4wc',
         '09.346.601/0001-25',
         6
     ),
@@ -268,7 +268,7 @@ VALUES
         'susan.adams@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        'mc4y8gaw',
         '203783731',
         5
     ),
@@ -278,7 +278,7 @@ VALUES
         'nicole.gomes@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        NULL,
+        '3pta7uqx',
         '09.346.601/0001-25',
         6
     );

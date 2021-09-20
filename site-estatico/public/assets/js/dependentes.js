@@ -6,11 +6,13 @@ const btnConfirmar = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const btnAbrirConvite = document.querySelector(".convite-email");
 
-btnAbrirConvite.addEventListener("click", (e) =>
-    import("./modal.js").then(({ abrirModal }) =>
-        abrirModal("modal-send-email")
-    )
-);
+btnAbrirConvite.addEventListener("click", (e) => {
+    if (JSON.parse(sessionStorage.getItem("usuario")).cargo != "analista")
+        import("./modal.js").then(({ abrirModal }) =>
+            abrirModal("modal-send-email")
+        );
+    else window.location.href = "cadastro-maquina.html";
+});
 btnCancelar.addEventListener("click", (e) =>
     import("./modal.js").then(({ fecharModal }) =>
         fecharModal("modal-send-email")

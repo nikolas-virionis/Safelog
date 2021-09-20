@@ -7,6 +7,8 @@ const {
     updateDadosUsuario,
     criarFormasContato,
 } = require("../util/cadastro-final/updateCadastro");
+const { generateToken } = require("../util/token-user/script");
+const { mandarEmail } = require("../util/email/email");
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -65,6 +67,38 @@ router.post("/verificacao", async (req, res, next) => {
         .then(([response]) => {
             if (response) res.json({ status: "ok", msg: response });
             else res.json({ status: "error", msg: "email ou token invalidos" });
+        });
+});
+
+router.post("/email-redefinir-senha", async (req, res, next) => {
+    let { email } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    let token = generateToken();
+    let updateToken = `UPDATE usuario set token = '${token}' WHERE email = '${email}'`;
+    await sequelize
+        .query(updateToken, {
+            type: sequelize.QueryTypes.UPDATE,
+        })
+        .then(async (resposta) => {
+            let nomeUsuario = `SELECT nome FROM usuario WHERE email = '${email}'`;
+            await sequelize
+                .query(nomeUsuario, {
+                    type: sequelize.QueryTypes.SELECT,
+                })
+                .then(([response]) =>
+                    mandarEmail("redefinir", response.nome, email, [token])
+                        .then((resp) =>
+                            res.json({
+                                status: "ok",
+                                msg: "email de redefinição de senha enviado com sucesso",
+                            })
+                        )
+                        .catch((err) => res.json({ status: "error", msg: err }))
+                );
         });
 });
 

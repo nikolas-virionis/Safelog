@@ -1,4 +1,4 @@
-const generateId = require("../id-user/script").generateId;
+const { generateToken } = require("../token-user/script");
 let sequelize = require("../../models").sequelize;
 let send = require("../email/email").mandarEmail;
 
@@ -61,7 +61,7 @@ const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
             msg: "Usuário já registrado",
         };
     // geração do id unico
-    let hash = generateId();
+    let hash = generateToken();
     // insert parcial de dados
     await insertParcial(hash, email, cargo, fk_empresa, fk_supervisor).then(
         (res) => send("cadastro", null, email, [hash])

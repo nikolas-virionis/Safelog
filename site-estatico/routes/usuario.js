@@ -119,4 +119,16 @@ router.post("/redefinir-senha", async (req, res) => {
         .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
+router.post("/pessoas-dependentes", async (req, res) => {
+    let { id } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    let dependentes = `SELECT nome, email FROM usuario WHERE fk_supervisor = ${id}`;
+    await sequelize
+        .query(dependentes, { type: sequelize.QueryTypes.SELECT })
+        .then((response) => res.json(response));
+});
 module.exports = router;

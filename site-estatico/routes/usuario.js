@@ -11,14 +11,14 @@ const {
 //rotas
 router.post("/convite", async (req, res, next) => {
     // body da requisição post => dados principais da rota
-    const { email, cargo, fk_empresa, fk_supervisor, complementos } = req.body;
+    const { email, cargo, fk_empresa, fk_supervisor } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
 
-    sendInvite(email, cargo, fk_empresa, fk_supervisor, complementos)
+    sendInvite(email, cargo, fk_empresa, fk_supervisor)
         .then((response) => {
             res.json(response);
         })

@@ -39,13 +39,7 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
         .catch((err) => console.error(err));
 };
 
-const enviarConvite = async (
-    email,
-    cargo,
-    fk_empresa,
-    fk_supervisor,
-    complementos
-) => {
+const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
     if (!email)
         return {
             status: "error",
@@ -70,10 +64,7 @@ const enviarConvite = async (
     let hash = generateId();
     // insert parcial de dados
     await insertParcial(hash, email, cargo, fk_empresa, fk_supervisor).then(
-        (res) =>
-            send("cadastro", null, complementos[0], email, complementos[1], [
-                hash,
-            ])
+        (res) => send("cadastro", null, email, [hash])
     );
     // email de cadastr enviado para
 

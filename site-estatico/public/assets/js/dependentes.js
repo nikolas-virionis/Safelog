@@ -41,7 +41,6 @@ btnConfirmar.addEventListener("click", (e) => {
             cargo: cargo == "admin" ? "gestor" : "analista",
             fk_empresa: id_empresa,
             fk_supervisor: id,
-            complementos: ["nosso email", "nossa senha"], // posteriormente em .env
         })
         .then((res) => {
             if (res.data?.status == "ok") {

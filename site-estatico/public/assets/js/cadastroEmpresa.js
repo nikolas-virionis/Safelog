@@ -51,7 +51,6 @@ const validarEmpresa = () => {
             pais: pais.value,
             email: email.value,
             staff: JSON.parse(sessionStorage.getItem("staff")).id,
-            complementos: ["nosso email", "nossa senha"], // posteriormente em .env
         })
         .then((response) => {
             if (response.data?.status == "ok") {

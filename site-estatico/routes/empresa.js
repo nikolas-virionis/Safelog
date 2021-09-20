@@ -5,7 +5,7 @@ let sequelize = require("../models").sequelize;
 let sendInvite = require("../util/cadastro-parcial/convite").enviarConvite;
 
 router.post("/cadastro", async (req, res, next) => {
-    let { id, nome, cidade, pais, email, staff, complementos } = req.body;
+    let { id, nome, cidade, pais, email, staff } = req.body;
 
     let idExists = `SELECT * FROM empresa WHERE id_empresa = '${id}'`;
     let empresaExiste;
@@ -18,11 +18,9 @@ router.post("/cadastro", async (req, res, next) => {
         await sequelize
             .query(insertEmpresa, { type: sequelize.QueryTypes.INSERT })
             .then((response) => {
-                sendInvite(email, "admin", id, null, complementos).then(
-                    (result) => {
-                        res.json(result);
-                    }
-                );
+                sendInvite(email, "admin", id, null).then((result) => {
+                    res.json(result);
+                });
             })
             .catch((err) => console.error(err));
     } else res.json({ status: "error", msg: "Empresa ja cadastrada" });

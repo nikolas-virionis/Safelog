@@ -1,12 +1,8 @@
-const mandarEmail = async (
-    tipo,
-    nome,
-    remetente,
-    destinatario,
-    senha,
-    rest
-) => {
+const mandarEmail = async (tipo, nome, destinatario, rest) => {
     let nodemailer = require("nodemailer");
+    require("dotenv").config();
+    let remetente = process.env.EMAIL;
+    let senha = process.env.PASSWORD;
     let transporter = await nodemailer.createTransport({
         service: "gmail",
         auth: {

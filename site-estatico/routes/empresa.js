@@ -23,7 +23,7 @@ router.post("/cadastro", async (req, res, next) => {
                 });
             })
             .catch((err) => console.error(err));
-    } else res.json({ status: "error", msg: "Empresa ja cadastrada" });
+    } else res.json({ status: "erro", msg: "Empresa ja cadastrada" });
 });
 
 module.exports = router;

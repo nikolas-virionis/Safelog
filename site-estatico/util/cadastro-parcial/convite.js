@@ -42,7 +42,7 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
 const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
     if (!email)
         return {
-            status: "error",
+            status: "erro",
             msg: "Email não fornecido",
         };
     //checar se email existe em staff ou usuario
@@ -51,13 +51,13 @@ const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
     await checarEmStaff(email).then((bool) => (emStaff = bool));
     if (emStaff)
         return {
-            status: "error",
+            status: "erro",
             msg: "Usuário ja cadastrado como staff",
         };
     await checarEmUsuario(email).then((bool) => (emUsuario = bool));
     if (emUsuario)
         return {
-            status: "error",
+            status: "erro",
             msg: "Usuário já registrado",
         };
     // geração do id unico

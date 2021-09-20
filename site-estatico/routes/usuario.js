@@ -35,7 +35,7 @@ router.post("/cadastro-final", async (req, res, next) => {
         .catch((err) => {
             console.log(err);
             res.json({
-                status: "error",
+                status: "erro",
                 msg: err,
             });
         });
@@ -44,7 +44,7 @@ router.post("/cadastro-final", async (req, res, next) => {
         .catch((err) => {
             console.log(err);
             res.json({
-                status: "error",
+                status: "erro",
                 msg: err,
             });
         });
@@ -66,7 +66,7 @@ router.post("/verificacao", async (req, res, next) => {
         .query(verificarUsuario, { type: sequelize.QueryTypes.SELECT })
         .then(([response]) => {
             if (response) res.json({ status: "ok", msg: response });
-            else res.json({ status: "error", msg: "email ou token invalidos" });
+            else res.json({ status: "erro", msg: "email ou token invalidos" });
         });
 });
 
@@ -78,7 +78,7 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
             msg: "Body não fornecido na requisição",
         });
     let token = generateToken();
-    let updateToken = `UPDATE usuario set token = '${token}' WHERE email = '${email}'`;
+    let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
     await sequelize
         .query(updateToken, {
             type: sequelize.QueryTypes.UPDATE,
@@ -97,9 +97,26 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
                                 msg: "email de redefinição de senha enviado com sucesso",
                             })
                         )
-                        .catch((err) => res.json({ status: "error", msg: err }))
+                        .catch((err) => res.json({ status: "erro", msg: err }))
                 );
         });
+});
+
+router.post("/redefinir-senha", async (req, res) => {
+    let { email, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let atualizarSenha = `UPDATE usuario SET senha = MD5('${senha}') WHERE email = '${email}'`;
+    await sequelize
+        .query(atualizarSenha, {
+            type: sequelize.QueryTypes.UPDATE,
+        })
+        .then((response) => res.json({ status: "ok", msg: "senha atualizada" }))
+        .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
 module.exports = router;

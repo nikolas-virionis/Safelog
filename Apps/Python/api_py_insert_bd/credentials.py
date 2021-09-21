@@ -1,0 +1,2 @@
+usr = 'root'
+pswd = 'bandtec'

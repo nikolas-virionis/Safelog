@@ -38,7 +38,7 @@
         <div class="cadastro-empresa">
             <h1>Cadastro de pessoas:</h1>
             <div class="form-cadastro">
-                <form action="">
+                <form action="" id="form-cadastro">
                     <div class="dashboard-row">
                         <div class="col-md-6 col-sm-12 form-item">
                             <label for="inp-nome">Nome completo:</label>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12 form-item">
                             <label for="inp-email">Email:</label>
-                            <input type="text" name="" id="inp-email">
+                            <input type="email" name="" id="inp-email">
                         </div>
                     </div>
                     <div class="dashboard-row">
@@ -61,28 +61,28 @@
                     </div>
                     <div class="dashboard-row">
                         <div class="form-item">
-                            <label>Forma de contato (clique no ícone para ecolher):</label>
+                            <label>Forma de contato: (clique no ícone para escolher)</label>
                         </div>
                     </div>
                     <div class="dashboard-check">
                         <div class="form-item checkbox-contato alinhado">
                             <input type="checkbox" id="contato-whatsapp" name="forma-contato" value="WhatsApp">
                             <label for="contato-whatsapp"></label>
-                            <input type="text" id="input-whatsapp" name="" value="">
+                            <input type="phone" id="input-whatsapp" name="" value="">
                         </div>
                         <div class="form-item checkbox-contato alinhado">
                             <input type="checkbox" id="contato-telegram" name="forma-contato" value="Telegram">
                             <label for="contato-telegram"></label>
-                            <input type="text" id="input-telegram" name="" value="">
+                            <input type="phone" id="input-telegram" name="" value="">
                         </div>
                         <div class="form-item checkbox-contato alinhado">
                             <input type="checkbox" id="contato-slack" name="forma-contato" value="Slack">
                             <label for="contato-slack"></label>
-                            <input type="text" id="input-slack" name="" value="">
+                            <input type="email" id="input-slack" name="" value="">
                         </div>
                     </div>
                     <div class="form-item">
-                        <button class="btn-geral">Cadastrar</button>
+                        <button type="submit" class="btn-geral">Cadastrar</button>
                     </div>
                 </form>
             </div>
@@ -140,11 +140,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/script.js"></script>
     <script type="module" src="./assets/js/modal.js"></script>
     <script src="./assets/js/footer.js"></script>
     <script src="./assets/js/cadastroPessoa.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 
 </html>

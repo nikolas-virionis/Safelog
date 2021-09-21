@@ -161,3 +161,7 @@ form.addEventListener("submit", (e) => {
             }
         });
 });
+
+// $(document).ready(function(){
+//     $('#input-whatsapp').mask('(00) 00000-0000');
+// });

@@ -6,6 +6,7 @@ document.getElementsByTagName("head")[0].appendChild(link);
 if (
     window.location.pathname != "/login.html" &&
     window.location.pathname != "/index.html" &&
+    window.location.pathname != "/cadastro-pessoa.html" &&
     window.location.pathname != "/" &&
     !sessionStorage.usuario &&
     !sessionStorage.staff

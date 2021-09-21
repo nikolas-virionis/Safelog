@@ -8,7 +8,7 @@
         integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Perfil</title>
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -94,9 +94,40 @@
         </ul>
     </div>
     <section class="home-section">
+        <div class="navbar-dashboard">
+            <div class="barra-pesquisa">
+                <button type="submit" class="btn-nav-dash"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+        </div>
+        <div class="perfil">
+            <div class="container-site">
+                <div class="display-perfil">
+                    <img class="img-perfil" src="https://ssl8972.websiteseguro.com/curtiram/images/fotos/mh_interna_destaque_terno-preto-homem.jpg" alt="">
+                    <h3 id="nomeCompletoPerfil"></h3>
+                    <h3>Email:</h3>
+                    <span id="emailPerfil"></span>
 
+                    <h3>Empresa:</h3>
+                    <span id="empresaPerfil"></span>
+
+                    <h3>Responsável:</h3>
+                    <span id="responsavelPerfil"></span>
+
+                    <h3>Contato:</h3>
+                    <div id="redesPerfil">
+                        <img class="img-rede" src="assets/img/redes/whatsapp.png" alt="">
+                        <img class="img-rede" src="assets/img/redes/telegram.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/perfil.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 </body>

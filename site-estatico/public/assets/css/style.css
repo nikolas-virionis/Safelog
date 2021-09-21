@@ -577,13 +577,13 @@ ul li.btn-nav a:hover {
     filter: brightness(0.5);
 }
 .dashboard-check input#contato-whatsapp + label {
-    background-image: url("https://logodownload.org/wp-content/uploads/2015/04/whatsapp-logo-1.png");
+    background-image: url("../img/redes/whatsapp.png");
 }
 .dashboard-check input#contato-telegram + label {
-    background-image: url("https://logodownload.org/wp-content/uploads/2017/11/telegram-logo.png");
+    background-image: url("../img/redes/telegram.png");
 }
 .dashboard-check input#contato-slack + label {
-    background-image: url("https://ivanmarreta172605709.files.wordpress.com/2021/01/slack.png");
+    background-image: url("../img/redes/slack.png");
 }
 .dashboard-check input:checked + label {
     filter: brightness(1);

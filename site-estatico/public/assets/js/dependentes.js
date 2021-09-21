@@ -1,6 +1,19 @@
 (() => {
-    const tabelaDependentes = document.querySelector(".tabela-listrada tbody");
+    const tabelaDependentes = document.querySelector(".tabela-listrada table");
     if (JSON.parse(sessionStorage.getItem("usuario"))?.cargo != "analista") {
+        let tbody = document.createElement("tbody");
+        let tr = document.createElement("tr");
+        let nome = document.createElement("th");
+        let email = document.createElement("th");
+        let operacoes = document.createElement("th");
+        nome.innerHTML = "Nome";
+        email.innerHTML = "Email";
+        operacoes.innerHTML = "Operações";
+        tr.appendChild(nome);
+        tr.appendChild(email);
+        tr.appendChild(operacoes);
+        tbody.appendChild(tr);
+        tabelaDependentes.appendChild(tbody);
         axios
             .post("/usuario/pessoas-dependentes", {
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
@@ -27,6 +40,69 @@
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
                         });
+                    } else {
+                        let div = document.createElement("div");
+                        div.innerHTML =
+                            "Nenhum dependente cadastrado, adicione um apertando no + acima";
+                        let tr = document.createElement("tr");
+                        tr.appendChild(div);
+                        tabelaDependentes.appendChild(tr);
+                    }
+                }
+            });
+    } else {
+        let tbody = document.createElement("tbody");
+        let tr = document.createElement("tr");
+        let id = document.createElement("th");
+        let nome = document.createElement("th");
+        let operacoes = document.createElement("th");
+        id.innerHTML = "Identificação";
+        nome.innerHTML = "Nome";
+        operacoes.innerHTML = "Operações";
+        tr.appendChild(id);
+        tr.appendChild(nome);
+        tr.appendChild(operacoes);
+        tbody.appendChild(tr);
+        tabelaDependentes.appendChild(tbody);
+        axios
+            .post("/maquina/lista-dependentes", {
+                id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+            })
+            .then((response) => {
+                let { status, res: dependentes } = response.data;
+                if (status == "ok") {
+                    if (dependentes.length > 0) {
+                        dependentes.forEach((dependente) => {
+                            let tr = document.createElement("tr");
+                            let tbId = document.createElement("td");
+                            let tbNome = document.createElement("td");
+                            let tbBtn = document.createElement("td");
+                            let excluirBtnLbl = document.createElement("i");
+                            let excluirBtn = document.createElement("button");
+                            let editarBtnLbl = document.createElement("i");
+                            let editarBtn = document.createElement("button");
+                            excluirBtnLbl.classList = "fas fa-trash-alt";
+                            excluirBtn.classList = "btn-nav-dash-red";
+                            editarBtnLbl.classList = "fas fa-pencil-alt";
+                            editarBtn.classList = "btn-nav-dash";
+                            excluirBtn.appendChild(excluirBtnLbl);
+                            editarBtn.appendChild(editarBtnLbl);
+                            tbBtn.appendChild(editarBtn);
+                            tbBtn.appendChild(excluirBtn);
+                            tbId.innerHTML = `${dependente.id_maquina}`;
+                            tbNome.innerHTML = `${dependente.nome}`;
+                            tr.appendChild(tbId);
+                            tr.appendChild(tbNome);
+                            tr.appendChild(tbBtn);
+                            tabelaDependentes.appendChild(tr);
+                        });
+                    } else {
+                        let div = document.createElement("div");
+                        div.innerHTML =
+                            "Nenhum dependente cadastrado, adicione um apertando no + acima";
+                        let tr = document.createElement("tr");
+                        tr.appendChild(div);
+                        tabelaDependentes.appendChild(tr);
                     }
                 }
             });

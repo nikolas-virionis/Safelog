@@ -133,45 +133,26 @@ router.post("/pessoas-dependentes", async (req, res) => {
         .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
+router.post("/perfil", async (req, res, next) => {
+    let { id } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
-router.post('/perfil', async (req, res, next) => {
-	console.log('mostrar informações de perfil');
+    let sqlEmpresaSup = `SELECT s.nome AS supervisor, empresa.nome AS empresa FROM usuario AS f JOIN empresa ON fk_empresa = id_empresa JOIN usuario AS s ON f.fk_supervisor = s.id_usuario WHERE f.id_usuario = ${id};`;
+    let sqlContatos = `SELECT forma_contato.nome FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario and fk_usuario = ${id};`;
 
-  let {id} = req.body;
-  let instrucaoSql = `SELECT
-     usuario.nome,
-     usuario.email,
-     empresa.nome as empresa,
-     tbl_sup.nome as supervisor FROM
-     usuario JOIN empresa ON
-     fk_empresa = id_empresa
-     JOIN usuario as tbl_sup
-     ON usuario.fk_supervisor = tbl_sup.id_usuario
-     WHERE usuario.id_usuario = ${id};`;
-
-  let instrucaoSqlRedes = `SELECT
-    forma_contato.nome
-    FROM contato JOIN
-    forma_contato ON
-    fk_forma_contato = id_forma_contato
-    JOIN usuario ON
-    contato.fk_usuario = id_usuario
-    WHERE id_usuario = ${id}`;
-
-	await sequelize.query(instrucaoSql)
-	.then(
-    (resultado) => {
-    sequelize.query(instrucaoSqlRedes).then((result) =>{
-      console.log(`Encontrados: ${resultado.length}`);
-      console.log(resultado)
-      res.json({resultado, result});
-
-    })
-	}).catch(erro => {
-		console.error(erro);
-		res.status(500).send(erro.message);
-	});
+    await sequelize
+        .query(sqlEmpresaSup, { type: sequelize.QueryTypes.SELECT })
+        .then(([response]) => {
+            sequelize
+                .query(sqlContatos, { type: sequelize.QueryTypes.SELECT })
+                .then((result) => {
+                    res.json({ status: "ok", ...response, contatos: result });
+                });
+        });
 });
-
 
 module.exports = router;

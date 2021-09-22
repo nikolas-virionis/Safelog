@@ -13,6 +13,7 @@ let authRouter = require("./routes/auth");
 let usuarioRouter = require("./routes/usuario");
 let empresaRouter = require("./routes/empresa");
 let maquinaRouter = require("./routes/maquina");
+let medicaoRouter = require("./routes/medicao");
 
 let app = express();
 
@@ -29,5 +30,6 @@ app.use("/auth", authRouter);
 app.use("/usuario", usuarioRouter);
 app.use("/empresa", empresaRouter);
 app.use("/maquina", maquinaRouter);
+app.use("/medicao", medicaoRouter);
 
 module.exports = app;

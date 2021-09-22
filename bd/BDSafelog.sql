@@ -58,6 +58,7 @@ CREATE TABLE maquina (
 
 CREATE TABLE usuario_maquina (
     id_usuario_maquina int AUTO_INCREMENT PRIMARY KEY,
+    responsavel enum('s', 'n'),
     fk_usuario int NOT NULL,
     fk_maquina varchar(20) NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
@@ -414,22 +415,22 @@ VALUES
 INSERT INTO
     usuario_maquina
 VALUES
-    (NULL, 7, '73-04-cd-e5-6f-a0'),
-    (NULL, 11, '73-04-cd-e5-6f-a0'),
-    (NULL, 9, '2f-d0-bb-62-61-14'),
-    (NULL, 13, '2f-d0-bb-62-61-14'),
-    (NULL, 7, 'a3-4e-5e-38-96-be'),
-    (NULL, 9, 'a3-4e-5e-38-96-be'),
-    (NULL, 11, '7b-a0-1d-74-7f-68'),
-    (NULL, 13, '7b-a0-1d-74-7f-68'),
-    (NULL, 8, '87-6d-74-ea-b8-d6'),
-    (NULL, 12, '87-6d-74-ea-b8-d6'),
-    (NULL, 10, '03-db-e0-03-dd-f2'),
-    (NULL, 14, '03-db-e0-03-dd-f2'),
-    (NULL, 8, '67-8f-75-1a-a2-e0'),
-    (NULL, 10, '67-8f-75-1a-a2-e0'),
-    (NULL, 12, '87-f4-a2-f4-26-7f'),
-    (NULL, 14, '87-f4-a2-f4-26-7f');
+    (NULL, 's', 7, '73-04-cd-e5-6f-a0'),
+    (NULL, 'n', 11, '73-04-cd-e5-6f-a0'),
+    (NULL, 'n', 9, '2f-d0-bb-62-61-14'),
+    (NULL, 's', 13, '2f-d0-bb-62-61-14'),
+    (NULL, 'n', 7, 'a3-4e-5e-38-96-be'),
+    (NULL, 's', 9, 'a3-4e-5e-38-96-be'),
+    (NULL, 's', 11, '7b-a0-1d-74-7f-68'),
+    (NULL, 'n', 13, '7b-a0-1d-74-7f-68'),
+    (NULL, 's', 8, '87-6d-74-ea-b8-d6'),
+    (NULL, 'n', 12, '87-6d-74-ea-b8-d6'),
+    (NULL, 'n', 10, '03-db-e0-03-dd-f2'),
+    (NULL, 's', 14, '03-db-e0-03-dd-f2'),
+    (NULL, 'n', 8, '67-8f-75-1a-a2-e0'),
+    (NULL, 's', 10, '67-8f-75-1a-a2-e0'),
+    (NULL, 's', 12, '87-f4-a2-f4-26-7f'),
+    (NULL, 'n', 14, '87-f4-a2-f4-26-7f');
 
 INSERT INTO
     categoria_medicao

@@ -9,11 +9,15 @@ axios.post(`/usuario/perfil`,{
     empresaPerfil.innerHTML = resposta.data.resultado[0][0].empresa;
     nomeCompletoPerfil.innerHTML = resposta.data.resultado[0][0].nome;
 
+    for(let i = 0; i < 3;i++){
+      redesPerfil.innerHTML += `<img class="img-rede" src="assets/img/redes/${resposta.data.result[0][i].nome}.png" alt="">`;
 
-    console.log(response)
+    }
+    console.log(response.data)
 }).catch(function (error) {
       console.error(`Erro na obtenção das publicações: ${error.message}`);
 });
+
 
 
 // fetch(`/usuario/perfil/${id}`)

@@ -44,6 +44,7 @@ axios
                         let alertarBtn = document.createElement("button");
                         alertarBtnLbl.classList = "fas fa-bell";
                         alertarBtn.classList = "btn-nav-dash";
+                        alertarBtn.title = "Alertar Responsável";
                         alertarBtn.appendChild(alertarBtnLbl);
                         tbNome.innerHTML = incidente.nome;
                         tbData.innerHTML = data;

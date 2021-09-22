@@ -55,12 +55,15 @@
         let tr = document.createElement("tr");
         let id = document.createElement("th");
         let nome = document.createElement("th");
+        let resp = document.createElement("th");
         let operacoes = document.createElement("th");
         id.innerHTML = "Identificação";
         nome.innerHTML = "Nome";
+        resp.innerHTML = "Responsável";
         operacoes.innerHTML = "Operações";
         tr.appendChild(id);
         tr.appendChild(nome);
+        tr.appendChild(resp);
         tr.appendChild(operacoes);
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
@@ -76,6 +79,7 @@
                             let tr = document.createElement("tr");
                             let tbId = document.createElement("td");
                             let tbNome = document.createElement("td");
+                            let tbResp = document.createElement("td");
                             let tbBtn = document.createElement("td");
                             let excluirBtnLbl = document.createElement("i");
                             let excluirBtn = document.createElement("button");
@@ -91,8 +95,10 @@
                             tbBtn.appendChild(excluirBtn);
                             tbId.innerHTML = `${dependente.id_maquina}`;
                             tbNome.innerHTML = `${dependente.nome}`;
+                            tbResp.innerHTML = `${dependente.responsavel}`;
                             tr.appendChild(tbId);
                             tr.appendChild(tbNome);
+                            tr.appendChild(tbResp);
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
                         });

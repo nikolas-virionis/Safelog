@@ -10,17 +10,34 @@ router.post("/relatorio-incidentes", async (req, res, next) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-
-    let sql = `SELECT data_medicao, cpu, ram, disco, maquina.nome FROM usuario JOIN usuario_maquina on fk_usuario = id_usuario JOIN maquina ON usuario_maquina.fk_maquina = maquina.id_maquina JOIN analytics ON analytics.fk_maquina = maquina.id_maquina WHERE id_usuario = ${id} and cpu > 70 or id_usuario = ${id} and ram > 70 or id_usuario = ${id} and disco > 70 ORDER BY data_medicao desc LIMIT 15;`;
+    let sql = `SELECT id_maquina, limite_cpu, limite_ram, limite_disco FROM maquina JOIN usuario_maquina ON id_maquina = fk_maquina and fk_usuario = ${id}`;
 
     await sequelize
         .query(sql, { type: sequelize.QueryTypes.SELECT })
-        .then((response) => {
-            res.json({ status: "ok", response });
+        .then(async (response) => {
+            let incidentes = [];
+            for (let {
+                id_maquina,
+                limite_cpu,
+                limite_ram,
+                limite_disco,
+            } of response) {
+                let incidente = `SELECT data_medicao, cpu, ram, disco, maquina.nome FROM usuario_maquina JOIN maquina ON usuario_maquina.fk_maquina = id_maquina and fk_usuario = ${id} JOIN analytics ON analytics.fk_maquina = maquina.id_maquina WHERE cpu >= ${limite_cpu} and id_maquina = '${id_maquina}' or ram >= ${limite_ram} and id_maquina = '${id_maquina}' or disco >= ${limite_disco} and id_maquina = '${id_maquina}' ORDER BY data_medicao desc LIMIT 15;`;
+                await sequelize
+                    .query(incidente, {
+                        type: sequelize.QueryTypes.SELECT,
+                    })
+                    .then((result) => {
+                        incidentes.push({
+                            maquinas: [...result],
+                            limite_cpu,
+                            limite_ram,
+                            limite_disco,
+                        });
+                    });
+            }
+            res.json({ status: "ok", response: incidentes });
         })
         .catch((err) => res.json({ status: "erro", msg: err }));
 });
-// let data = new Date(data)
-// data.toLocaleDateString("pt-BR")
-// data.toTimeString().slice(0, 8)
 module.exports = router;

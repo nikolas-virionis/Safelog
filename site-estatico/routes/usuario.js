@@ -103,14 +103,14 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
 });
 
 router.post("/redefinir-senha", async (req, res) => {
-    let { email, senha } = req.body;
+    let { id, senha } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
 
-    let atualizarSenha = `UPDATE usuario SET senha = MD5('${senha}') WHERE email = '${email}'`;
+    let atualizarSenha = `UPDATE usuario SET senha = MD5('${senha}') WHERE id_usuario = '${id}'`;
     await sequelize
         .query(atualizarSenha, {
             type: sequelize.QueryTypes.UPDATE,

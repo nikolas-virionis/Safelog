@@ -5,6 +5,11 @@ Grupo06_1CCO_2021_2 - Repositório criado para a disciplina de Pesquisa e Inova�
 
 ## Setup
 
+### Requisitos:
+- MySQL Server 8.0
+- Node 14
+- Git (Opicional)
+
 ### Clonar repositório
 
 https
@@ -19,17 +24,19 @@ ssh
 git clone git@github.com:BandTec/1CCO-2021-2-Grupo-06.git
 ~~~
 
+Se você não tiver o git, pode baixar o .zip do repositório.
+
 ### Banco de dados
 
-1. Abrir terminal na pasta do projeto
+1. Abra o terminal na pasta do projeto
 
-2. Abrir mysql como root
+2. Abra o mysql como root
 
     ~~~bash
     mysql -u root -p
     ~~~
 
-3. Construir banco
+3. Construir bancos
 
     Principal
     ~~~bash
@@ -58,3 +65,31 @@ git clone git@github.com:BandTec/1CCO-2021-2-Grupo-06.git
     ~~~bash
     FLUSH PRIVILEGES;
     ~~~ 
+### Server
+
+1. Com o **Terminal** aberto no diretório do repositório, acesse o diretório *site-estatico*
+
+    ~~~bash
+    cd ./site-estatico/
+    ~~~
+2. Installe as dependências
+
+    ~~~bash
+    npm i
+    ~~~
+    
+3. Adicione o arquivo .env ao diretório *site-estatico*
+    
+4. Inicie o servidor
+    
+    Ambiente de desenvolvimento:
+    
+    ~~~bash
+    npm run dev
+    ~~~
+    
+    Ambiente de produção
+    
+    ~~~bash
+    npm start
+    ~~~

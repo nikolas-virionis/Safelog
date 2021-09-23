@@ -3,6 +3,45 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 
+router.post("/cadastro", async (req, res, next) => {
+    let { id, id_maquina, nome, senha, cpu, ram, disco, empresa } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let maquinaExiste = `SELECT * FROM maquina WHERE id_maquina = '${id_maquina}';`;
+    let insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, limite_cpu, limite_ram, limite_disco, fk_empresa) VALUES ('${id_maquina}', '${nome}', MD5('${senha}'), ${cpu}, ${ram}, ${disco}, '${empresa}')`;
+    let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, '${id_maquina}');`;
+    await sequelize
+        .query(maquinaExiste, { type: sequelize.QueryTypes.SELECT })
+        .then(async (maquinas) => {
+            if (maquinas.length == 0) {
+                await sequelize
+                    .query(insertMaquina, {
+                        type: sequelize.QueryTypes.INSERT,
+                    })
+                    .then(async (response) => {
+                        await sequelize
+                            .query(insertUsuarioMaquina, {
+                                type: sequelize.QueryTypes.INSERT,
+                            })
+                            .then((responsta) =>
+                                res.json({
+                                    status: "ok",
+                                    msg: "Maquina registrada com sucesso",
+                                })
+                            )
+                            .catch((err) =>
+                                res.json({ status: "erro", msg: err })
+                            );
+                    })
+                    .catch((err) => res.json({ status: "erro", msg: err }));
+            } else res.json({ status: "erro", msg: "Maquina ja cadastrada" });
+        });
+});
+
 router.post("/lista-dependentes", async (req, res) => {
     let { id } = req.body;
     if (!req.body)

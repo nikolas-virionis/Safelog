@@ -73,6 +73,49 @@ body::-webkit-scrollbar-thumb:hover {
     box-shadow: 4px 4px 3px #666;
 }
 
+.alerta{
+    display:flex;
+    align-items: center;
+    max-width: 400px;
+    max-height: 100px;
+    margin: 10px;
+    background-color: #ffffffbb;
+    position: fixed;
+    top: 0;
+    right: -400px;
+    border-radius: 10px;
+    padding: 15px;
+    -webkit-transition: .5s;
+}
+
+.alerta i{
+    font-size: 40px;
+    margin: 0 10px 0 0;
+}
+
+.alerta.danger{
+    background-color: #ff7979bb;
+    border: 1px solid #a71919;
+    color: #fff;
+}
+
+.alerta.warning{
+    background-color: #fdec00bb;
+    border: 1px solid #ffd000;
+    color: #000;
+}
+
+.alerta.success{
+    background-color: #77dd48c4;
+    border: 1px solid #41a719;
+    color: #fff;
+}
+
+.alerta img{
+    margin: 10px;
+    height: 80px;
+}
+
 /* NAVBAR E BANNER */
 
 .banner {

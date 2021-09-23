@@ -142,7 +142,7 @@ router.post("/perfil", async (req, res, next) => {
         });
 
     let sqlEmpresaSup = `SELECT s.nome AS supervisor, empresa.nome AS empresa FROM usuario AS f JOIN empresa ON fk_empresa = id_empresa JOIN usuario AS s ON f.fk_supervisor = s.id_usuario WHERE f.id_usuario = ${id};`;
-    let sqlContatos = `SELECT forma_contato.nome FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario and fk_usuario = ${id};`;
+    let sqlContatos = `SELECT forma_contato.nome FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario AND fk_usuario = ${id};`;
 
     await sequelize
         .query(sqlEmpresaSup, { type: sequelize.QueryTypes.SELECT })

@@ -25,7 +25,7 @@ function mostrarAlerta(msg, type){
     
     if(type == "danger"){
         alerta.classList.add("danger");
-        icone.classList.add("fas","fa-skull-crossbones");
+        icone.classList.add("fas","fa-times");
     }else if(type == "success"){
         alerta.classList.add("success");
         icone.classList.add("fas","fa-check-circle");
@@ -42,7 +42,7 @@ function mostrarAlerta(msg, type){
     alerta.style.right = "0px";
 
     setTimeout(function(){
-        alerta.style.right = "-400px";
+        alerta.style.right = "-500px";
     }, 6000);
 
 }

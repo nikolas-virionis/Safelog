@@ -148,9 +148,9 @@
     box-shadow: 1px 1px 3px #666;
 }
 
-.form-item button{
-
-
+.form-item input[type="range"]{
+    width: 80%;
+    float: right;
 }
 
 /* Charts */
@@ -230,4 +230,9 @@
     width: 200px;
     height: 200px;
     border-radius: 100%;
+}
+
+
+.limites{
+    display: flex;
 }

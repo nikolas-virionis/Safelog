@@ -119,7 +119,22 @@
                                   <label for="inp-nome-empresa">Confirmar senha:</label>
                                   <input type="password" name="" id="inp-senha-maquina">
                               </div>
-                          </div>
+                          </div>                        
+                        <div class="form-item">
+                            <label>Limites para alerta: </label>
+                        </div>
+                        <div class="form-item">
+                            <label for="cpuRange">CPU: <span id="leituraCpu"></span>%</label>
+                            <input type="range" id="cpuRange" value="90">
+                        </div>
+                        <div class="form-item">
+                            <label for="memoryRange">Memória: <span id="leituraMemory"></span>%</label>
+                            <input type="range" id="memoryRange" value="90">
+                        </div>
+                        <div class="form-item">
+                            <label for="diskRange">Disco: <span id="leituraDisk"></span>%</label>
+                            <input type="range" id="diskRange" value="90">
+                        </div>
                         <div class="form-item">
                             <button class="btn-geral">Cadastrar máquina</button>
                         </div>
@@ -130,6 +145,7 @@
     </section>
 
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/cadastroMaquina.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 </body>
 

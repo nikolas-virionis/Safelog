@@ -41,7 +41,6 @@ const validarLogin = () => {
                     })
                     .then((res) => {
                         if (res.data.status == "ok") {
-                            console.log("Usuario logado");
                             mostrarAlerta("Usuario logado com sucesso", "success");
                             let { status, ...user } = res.data;
                             sessionStorage.setItem(

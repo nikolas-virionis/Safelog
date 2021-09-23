@@ -150,7 +150,7 @@ const validateEmail = (email) => {
 
 btnConfirmar.addEventListener("click", (e) => {
     if (!email.value) return;
-    if (!validateEmail(email.value)) return console.log("Email invalido");
+    if (!validateEmail(email.value)) return mostrarAlerta("Email inválido", "danger");;
     let { cargo, id, id_empresa } = JSON.parse(
         sessionStorage.getItem("usuario")
     );
@@ -163,10 +163,10 @@ btnConfirmar.addEventListener("click", (e) => {
         })
         .then((res) => {
             if (res.data?.status == "ok") {
-                console.log(
-                    "Email convidado e inserido no banco (parcialmente)"
-                );
+                mostrarAlerta("Email convidado e inserido no banco (parcialmente)", "success");
                 email.value = "";
-            } else console.log("Erro no convite do usuario");
+            } else{
+                mostrarAlerta("Erro no convite do usuario", "danger");
+            }
         });
 });

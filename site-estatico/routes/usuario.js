@@ -155,4 +155,26 @@ router.post("/perfil", async (req, res, next) => {
         });
 });
 
+router.post("/edicao-perfil", async (req, res) => {
+    let { id, nome, email, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    const updateDadosUsuario = `UPDATE usuario SET nome = '${nome}', email = '${email}', senha = MD5('${senha}') WHERE id_usuario = ${id};`;
+    await sequelize
+        .query(updateDadosUsuario, {
+            type: sequelize.QueryTypes.UPDATE,
+        })
+        .then((response) => {
+            res.json({
+                status: "ok",
+                msg: "Perfil do usuario editado com sucesso",
+            });
+        })
+        .catch((err) => res.json({ status: "erro", msg: err }));
+});
+
 module.exports = router;

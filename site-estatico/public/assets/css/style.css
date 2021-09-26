@@ -4,6 +4,12 @@
 
 /* GERAL */
 
+@-webkit-keyframes animate-div {
+    from { opacity: 0; margin-top: -100px;}
+    to { opacity: 1;margin-top: 0px;}
+}
+
+
 .linha {
     display: -ms-flexbox;
     display: flex;
@@ -103,12 +109,18 @@ body::-webkit-scrollbar-thumb:hover {
 .alerta.warning{
     background-color: #fdec00bb;
     border: 1px solid #ffd000;
-    color: #000;
+    color: #fff;
 }
 
 .alerta.success{
     background-color: #77dd48c4;
     border: 1px solid #41a719;
+    color: #fff;
+}
+
+.alerta.info{
+    background-color: #266fffc4;
+    border: 1px solid #003cff;
     color: #fff;
 }
 
@@ -539,6 +551,7 @@ ul li.btn-nav a:hover {
 }
 
 .modal-container {
+    animation: animate-div .5s;
     width: 50vw;
     background-color: #fff;
     padding: 20px 30px;

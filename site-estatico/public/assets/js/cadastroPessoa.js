@@ -155,7 +155,7 @@ form.addEventListener("submit", (e) => {
                                 "usuario",
                                 JSON.stringify(user)
                             );
-                            window.location.href = "dashboard.html";
+                            window.location.href = "perfil.html";
                         }
                     });
             }

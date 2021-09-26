@@ -32,6 +32,9 @@ function mostrarAlerta(msg, type){
     }else if(type == "warning"){
         alerta.classList.add("warning");
         icone.classList.add("fas","fa-exclamation-triangle");
+    }else if(type == "info"){
+        alerta.classList.add("info");
+        icone.classList.add("fas","fa-question-circle");
     }else{
         return;
     }
@@ -45,4 +48,11 @@ function mostrarAlerta(msg, type){
         alerta.style.right = "-500px";
     }, 6000);
 
+}
+let num = JSON.parse(localStorage.getItem("img")) ?? Math.floor(Math.random() * 11);
+let imagemAleatoria = `./assets/img/profile-pic/default${num}.png`;
+localStorage.setItem("img", num)
+let imgs = document.querySelectorAll("img.profilePic")
+for ( let img of imgs) {
+    img.src = imagemAleatoria;    
 }

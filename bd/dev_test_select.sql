@@ -6,45 +6,19 @@ FROM
     medicao;
 
 SELECT
-    DISTINCT id_medicao,
+    id_medicao,
     valor,
     medicao.tipo,
     data_medicao,
     maquina.nome,
-    componente.tipo,
+    tipo_medicao.componente,
     categoria_medicao.medicao_limite,
     id_maquina
 FROM
     medicao
     JOIN categoria_medicao ON id_categoria_medicao = fk_categoria_medicao
     JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao
-    AND categoria_medicao.fk_componente = tipo_medicao.fk_componente
-    JOIN componente ON tipo_medicao.fk_componente = id_componente
     JOIN maquina ON id_maquina = categoria_medicao.fk_maquina
-ORDER BY
-    id_maquina,
-    id_medicao;
-
-SELECT
-    id_medicao,
-    valor,
-    medicao.tipo,
-    data_medicao,
-    maquina.nome,
-    componente.tipo,
-    categoria_medicao.medicao_limite,
-    id_maquina
-FROM
-    medicao,
-    categoria_medicao,
-    tipo_medicao,
-    maquina,
-    componente
-WHERE
-    id_categoria_medicao = fk_categoria_medicao
-    AND id_tipo_medicao = fk_tipo_medicao
-    AND tipo_medicao.fk_componente = id_componente
-    AND id_maquina = categoria_medicao.fk_maquina
 ORDER BY
     id_maquina,
     id_medicao;
@@ -67,22 +41,18 @@ DROP TABLE nova;
 INSERT INTO
     nova
 SELECT
-    DISTINCT id_medicao,
+    id_medicao,
     valor,
     medicao.tipo,
     data_medicao,
     maquina.nome,
-    componente.tipo,
-    tipo_medicao.unidade,
-    tipo_medicao.tipo,
+    tipo_medicao.componente,
     categoria_medicao.medicao_limite,
     id_maquina
 FROM
     medicao
     JOIN categoria_medicao ON id_categoria_medicao = fk_categoria_medicao
     JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao
-    AND categoria_medicao.fk_componente = tipo_medicao.fk_componente
-    JOIN componente ON tipo_medicao.fk_componente = id_componente
     JOIN maquina ON id_maquina = categoria_medicao.fk_maquina
 ORDER BY
     id_maquina,

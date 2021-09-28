@@ -67,7 +67,6 @@ CREATE TABLE usuario_maquina (
 
 CREATE TABLE tipo_medicao (
     id_tipo_medicao int PRIMARY KEY AUTO_INCREMENT,
-    componente varchar(12),
     tipo varchar(45),
     unidade varchar(7)
 );
@@ -112,13 +111,13 @@ CREATE TABLE analytics (
 INSERT INTO
     tipo_medicao
 VALUES
-    (NULL, 'cpu', 'temperatura', '°C'),
-    (NULL, 'cpu', 'frequencia', '%'),
-    (NULL, 'cpu', 'porcentagem', '%'),
-    (NULL, 'ram', 'porcentagem', '%'),
-    (NULL, 'ram', 'livre', 'Gb'),
-    (NULL, 'disco', 'porcentagem', '%'),
-    (NULL, 'disco', 'livre', 'Gb');
+    (NULL, 'cpu_temperatura', '°C'),
+    (NULL, 'cpu_frequencia', '%'),
+    (NULL, 'cpu_porcentagem', '%'),
+    (NULL, 'ram_porcentagem', '%'),
+    (NULL, 'ram_livre', 'Gb'),
+    (NULL, 'disco_porcentagem', '%'),
+    (NULL, 'disco_livre', 'Gb');
 
 INSERT INTO
     forma_contato

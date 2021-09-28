@@ -65,28 +65,19 @@ CREATE TABLE usuario_maquina (
     FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
 );
 
-CREATE TABLE componente (
-    id_componente int PRIMARY KEY AUTO_INCREMENT,
-    tipo varchar(45)
-);
-
 CREATE TABLE tipo_medicao (
-    id_tipo_medicao int,
-    fk_componente int,
+    id_tipo_medicao int PRIMARY KEY AUTO_INCREMENT,
+    componente varchar(12),
     tipo varchar(45),
-    unidade varchar(7),
-    FOREIGN KEY (fk_componente) REFERENCES componente (id_componente),
-    PRIMARY KEY (id_tipo_medicao, fk_componente)
+    unidade varchar(7)
 );
 
 CREATE TABLE categoria_medicao (
     id_categoria_medicao int PRIMARY KEY AUTO_INCREMENT,
     medicao_limite decimal(6, 2),
     fk_maquina varchar(20),
-    fk_componente int,
     fk_tipo_medicao int,
     FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina),
-    FOREIGN KEY (fk_componente) REFERENCES componente (id_componente),
     FOREIGN KEY (fk_tipo_medicao) REFERENCES tipo_medicao(id_tipo_medicao)
 );
 
@@ -99,23 +90,35 @@ CREATE TABLE medicao (
     FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao (id_categoria_medicao)
 );
 
-INSERT INTO
-    componente
-VALUES
-    (NULL, 'cpu'),
-    (NULL, 'ram'),
-    (NULL, 'disco');
+CREATE TABLE maquina_analytics (
+    id_maquina_analytics int PRIMARY KEY AUTO_INCREMENT,
+    limite_cpu decimal(5, 2),
+    limite_ram decimal(5, 2),
+    limite_disco decimal(5, 2),
+    fk_maquina varchar(20),
+    FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
+);
+
+CREATE TABLE analytics (
+    id_analytics int PRIMARY KEY AUTO_INCREMENT,
+    cpu decimal(5, 2),
+    ram decimal(5, 2),
+    disco decimal(5, 2),
+    data_medicao datetime,
+    fk_maquina_analytics int,
+    FOREIGN KEY (fk_maquina_analytics) REFERENCES maquina_analytics(id_maquina_analytics)
+);
 
 INSERT INTO
     tipo_medicao
 VALUES
-    (1, 1, 'temperatura', '°C'),
-    (1, 2, 'frequencia', '%'),
-    (1, 3, 'porcentagem', '%'),
-    (2, 1, 'porcentagem', '%'),
-    (2, 2, 'livre', 'Gb'),
-    (3, 1, 'porcentagem', '%'),
-    (3, 2, 'livre', 'Gb');
+    (NULL, 'cpu', 'temperatura', '°C'),
+    (NULL, 'cpu', 'frequencia', '%'),
+    (NULL, 'cpu', 'porcentagem', '%'),
+    (NULL, 'ram', 'porcentagem', '%'),
+    (NULL, 'ram', 'livre', 'Gb'),
+    (NULL, 'disco', 'porcentagem', '%'),
+    (NULL, 'disco', 'livre', 'Gb');
 
 INSERT INTO
     forma_contato
@@ -435,130 +438,425 @@ VALUES
 INSERT INTO
     categoria_medicao
 VALUES
-    (NULL, 60, '73-04-cd-e5-6f-a0', 1, 1),
-    (NULL, 115, '73-04-cd-e5-6f-a0', 1, 2),
-    (NULL, 70, '73-04-cd-e5-6f-a0', 1, 3),
-    (NULL, 80, '73-04-cd-e5-6f-a0', 2, 1),
-    (NULL, 0.9, '73-04-cd-e5-6f-a0', 2, 2),
-    (NULL, 80, '73-04-cd-e5-6f-a0', 3, 1),
-    (NULL, 100, '73-04-cd-e5-6f-a0', 3, 2),
-    --
-    (NULL, 60, '2f-d0-bb-62-61-14', 1, 1),
-    (NULL, 115, '2f-d0-bb-62-61-14', 1, 2),
-    (NULL, 70, '2f-d0-bb-62-61-14', 1, 3),
-    (NULL, 80, '2f-d0-bb-62-61-14', 2, 1),
-    (NULL, 0.9, '2f-d0-bb-62-61-14', 2, 2),
-    (NULL, 80, '2f-d0-bb-62-61-14', 3, 1),
-    (NULL, 100, '2f-d0-bb-62-61-14', 3, 2),
-    --
-    (NULL, 60, 'a3-4e-5e-38-96-be', 1, 1),
-    (NULL, 115, 'a3-4e-5e-38-96-be', 1, 2),
-    (NULL, 70, 'a3-4e-5e-38-96-be', 1, 3),
-    (NULL, 80, 'a3-4e-5e-38-96-be', 2, 1),
-    (NULL, 0.9, 'a3-4e-5e-38-96-be', 2, 2),
-    (NULL, 80, 'a3-4e-5e-38-96-be', 3, 1),
-    (NULL, 100, 'a3-4e-5e-38-96-be', 3, 2),
-    --
-    (NULL, 60, '7b-a0-1d-74-7f-68', 1, 1),
-    (NULL, 115, '7b-a0-1d-74-7f-68', 1, 2),
-    (NULL, 70, '7b-a0-1d-74-7f-68', 1, 3),
-    (NULL, 80, '7b-a0-1d-74-7f-68', 2, 1),
-    (NULL, 0.9, '7b-a0-1d-74-7f-68', 2, 2),
-    (NULL, 80, '7b-a0-1d-74-7f-68', 3, 1),
-    (NULL, 100, '7b-a0-1d-74-7f-68', 3, 2),
-    --
-    (NULL, 60, '87-6d-74-ea-b8-d6', 1, 1),
-    (NULL, 115, '87-6d-74-ea-b8-d6', 1, 2),
-    (NULL, 70, '87-6d-74-ea-b8-d6', 1, 3),
-    (NULL, 80, '87-6d-74-ea-b8-d6', 2, 1),
-    (NULL, 0.9, '87-6d-74-ea-b8-d6', 2, 2),
-    (NULL, 80, '87-6d-74-ea-b8-d6', 3, 1),
-    (NULL, 100, '87-6d-74-ea-b8-d6', 3, 2),
-    --
-    (NULL, 60, '03-db-e0-03-dd-f2', 1, 1),
-    (NULL, 115, '03-db-e0-03-dd-f2', 1, 2),
-    (NULL, 70, '03-db-e0-03-dd-f2', 1, 3),
-    (NULL, 80, '03-db-e0-03-dd-f2', 2, 1),
-    (NULL, 0.9, '03-db-e0-03-dd-f2', 2, 2),
-    (NULL, 80, '03-db-e0-03-dd-f2', 3, 1),
-    (NULL, 100, '03-db-e0-03-dd-f2', 3, 2),
-    --
-    (NULL, 60, '67-8f-75-1a-a2-e0', 1, 1),
-    (NULL, 115, '67-8f-75-1a-a2-e0', 1, 2),
-    (NULL, 70, '67-8f-75-1a-a2-e0', 1, 3),
-    (NULL, 80, '67-8f-75-1a-a2-e0', 2, 1),
-    (NULL, 0.9, '67-8f-75-1a-a2-e0', 2, 2),
-    (NULL, 80, '67-8f-75-1a-a2-e0', 3, 1),
-    (NULL, 100, '67-8f-75-1a-a2-e0', 3, 2),
-    --
-    (NULL, 60, '87-f4-a2-f4-26-7f', 1, 1),
-    (NULL, 115, '87-f4-a2-f4-26-7f', 1, 2),
-    (NULL, 70, '87-f4-a2-f4-26-7f', 1, 3),
-    (NULL, 80, '87-f4-a2-f4-26-7f', 2, 1),
-    (NULL, 0.9, '87-f4-a2-f4-26-7f', 2, 2),
-    (NULL, 80, '87-f4-a2-f4-26-7f', 3, 1),
-    (NULL, 100, '87-f4-a2-f4-26-7f', 3, 2);
-desc categoria_medicao;
-truncate medicao;
+    (NULL, 60, '73-04-cd-e5-6f-a0', 1),
+    (NULL, 115, '73-04-cd-e5-6f-a0', 2),
+    (NULL, 70, '73-04-cd-e5-6f-a0', 3),
+    (NULL, 80, '73-04-cd-e5-6f-a0', 4),
+    (NULL, 0.9, '73-04-cd-e5-6f-a0', 5),
+    (NULL, 80, '73-04-cd-e5-6f-a0', 6),
+    (NULL, 100, '73-04-cd-e5-6f-a0', 7),
+    (NULL, 60, '2f-d0-bb-62-61-14', 1),
+    (NULL, 115, '2f-d0-bb-62-61-14', 2),
+    (NULL, 70, '2f-d0-bb-62-61-14', 3),
+    (NULL, 80, '2f-d0-bb-62-61-14', 4),
+    (NULL, 0.9, '2f-d0-bb-62-61-14', 5),
+    (NULL, 80, '2f-d0-bb-62-61-14', 6),
+    (NULL, 100, '2f-d0-bb-62-61-14', 7),
+    (NULL, 60, 'a3-4e-5e-38-96-be', 1),
+    (NULL, 115, 'a3-4e-5e-38-96-be', 2),
+    (NULL, 70, 'a3-4e-5e-38-96-be', 3),
+    (NULL, 80, 'a3-4e-5e-38-96-be', 4),
+    (NULL, 0.9, 'a3-4e-5e-38-96-be', 5),
+    (NULL, 80, 'a3-4e-5e-38-96-be', 6),
+    (NULL, 100, 'a3-4e-5e-38-96-be', 7),
+    (NULL, 60, '7b-a0-1d-74-7f-68', 1),
+    (NULL, 115, '7b-a0-1d-74-7f-68', 2),
+    (NULL, 70, '7b-a0-1d-74-7f-68', 3),
+    (NULL, 80, '7b-a0-1d-74-7f-68', 4),
+    (NULL, 0.9, '7b-a0-1d-74-7f-68', 5),
+    (NULL, 80, '7b-a0-1d-74-7f-68', 6),
+    (NULL, 100, '7b-a0-1d-74-7f-68', 7),
+    (NULL, 60, '87-6d-74-ea-b8-d6', 1),
+    (NULL, 115, '87-6d-74-ea-b8-d6', 2),
+    (NULL, 70, '87-6d-74-ea-b8-d6', 3),
+    (NULL, 80, '87-6d-74-ea-b8-d6', 4),
+    (NULL, 0.9, '87-6d-74-ea-b8-d6', 5),
+    (NULL, 80, '87-6d-74-ea-b8-d6', 6),
+    (NULL, 100, '87-6d-74-ea-b8-d6', 7),
+    (NULL, 60, '03-db-e0-03-dd-f2', 1),
+    (NULL, 115, '03-db-e0-03-dd-f2', 2),
+    (NULL, 70, '03-db-e0-03-dd-f2', 3),
+    (NULL, 80, '03-db-e0-03-dd-f2', 4),
+    (NULL, 0.9, '03-db-e0-03-dd-f2', 5),
+    (NULL, 80, '03-db-e0-03-dd-f2', 6),
+    (NULL, 100, '03-db-e0-03-dd-f2', 7),
+    (NULL, 60, '67-8f-75-1a-a2-e0', 1),
+    (NULL, 115, '67-8f-75-1a-a2-e0', 2),
+    (NULL, 70, '67-8f-75-1a-a2-e0', 3),
+    (NULL, 80, '67-8f-75-1a-a2-e0', 4),
+    (NULL, 0.9, '67-8f-75-1a-a2-e0', 5),
+    (NULL, 80, '67-8f-75-1a-a2-e0', 6),
+    (NULL, 100, '67-8f-75-1a-a2-e0', 7),
+    (NULL, 60, '87-f4-a2-f4-26-7f', 1),
+    (NULL, 115, '87-f4-a2-f4-26-7f', 2),
+    (NULL, 70, '87-f4-a2-f4-26-7f', 3),
+    (NULL, 80, '87-f4-a2-f4-26-7f', 4),
+    (NULL, 0.9, '87-f4-a2-f4-26-7f', 5),
+    (NULL, 80, '87-f4-a2-f4-26-7f', 6),
+    (NULL, 100, '87-f4-a2-f4-26-7f', 7);
+
 INSERT INTO
-    medicao
+    maquina_analytics
 VALUES
-    (NULL, 50, 'normal', NOW(), 1),
-    (NULL, 100, 'normal', NOW(), 2),
-    (NULL, 60, 'normal', NOW(), 3),
-    (NULL, 75, 'normal', NOW(), 4),
-    (NULL, 1, 'normal', NOW(), 5),
-    (NULL, 75, 'normal', NOW(), 6),
-    (NULL, 120, 'normal', NOW(), 7),
-    (NULL, 65, 'risco', NOW(), 8),
-    (NULL, 120, 'risco', NOW(), 9),
-    (NULL, 80, 'risco', NOW(), 10),
-    (NULL, 85, 'risco', NOW(), 11),
-    (NULL, 0.8, 'risco', NOW(), 12),
-    (NULL, 85, 'risco', NOW(), 13),
-    (NULL, 80, 'risco', NOW(), 14),
-    (NULL, 55, 'normal', NOW(), 15),
-    (NULL, 110, 'normal', NOW(), 16),
-    (NULL, 65, 'normal', NOW(), 17),
-    (NULL, 65, 'normal', NOW(), 18),
-    (NULL, 2, 'normal', NOW(), 19),
-    (NULL, 65, 'normal', NOW(), 20),
-    (NULL, 190, 'normal', NOW(), 21),
-    (NULL, 80, 'critico', NOW(), 22),
-    (NULL, 150, 'critico', NOW(), 23),
-    (NULL, 95, 'critico', NOW(), 24),
-    (NULL, 96, 'critico', NOW(), 25),
-    (NULL, 0.2, 'critico', NOW(), 26),
-    (NULL, 93, 'critico', NOW(), 27),
-    (NULL, 20, 'critico', NOW(), 28),
-    (NULL, 40, 'normal', NOW(), 29),
-    (NULL, 90, 'normal', NOW(), 30),
-    (NULL, 50, 'normal', NOW(), 31),
-    (NULL, 65, 'normal', NOW(), 32),
-    (NULL, 3, 'normal', NOW(), 33),
-    (NULL, 55, 'normal', NOW(), 34),
-    (NULL, 450, 'normal', NOW(), 35),
-    (NULL, 60, 'risco', NOW(), 36),
-    (NULL, 125, 'risco', NOW(), 37),
-    (NULL, 80, 'risco', NOW(), 38),
-    (NULL, 86, 'risco', NOW(), 39),
-    (NULL, 0.7, 'risco', NOW(), 40),
-    (NULL, 84, 'risco', NOW(), 41),
-    (NULL, 80, 'risco', NOW(), 42),
-    (NULL, 30, 'normal', NOW(), 43),
-    (NULL, 80, 'normal', NOW(), 44),
-    (NULL, 10, 'normal', NOW(), 45),
-    (NULL, 15, 'normal', NOW(), 46),
-    (NULL, 6.5, 'normal', NOW(), 47),
-    (NULL, 25, 'normal', NOW(), 48),
-    (NULL, 750, 'normal', NOW(), 49),
-    (NULL, 62, 'risco', NOW(), 50),
-    (NULL, 120, 'risco', NOW(), 51),
-    (NULL, 80, 'risco', NOW(), 52),
-    (NULL, 90, 'risco', NOW(), 53),
-    (NULL, 0.4, 'risco', NOW(), 54),
-    (NULL, 85, 'risco', NOW(), 55),
-    (NULL, 80, 'risco', NOW(), 56);
+    (NULL, 85, 60, 73, '73-04-cd-e5-6f-a0'),
+    (NULL, 90, 89, 68, '2f-d0-bb-62-61-14'),
+    (NULL, 74, 83, 83, 'a3-4e-5e-38-96-be'),
+    (NULL, 86, 68, 55, '7b-a0-1d-74-7f-68'),
+    (NULL, 95, 80, 85, '87-6d-74-ea-b8-d6'),
+    (NULL, 70, 60, 52, '03-db-e0-03-dd-f2'),
+    (NULL, 81, 59, 81, '67-8f-75-1a-a2-e0'),
+    (NULL, 87, 85, 90, '87-f4-a2-f4-26-7f');
+
+INSERT INTO
+    analytics
+VALUES
+    (
+        NULL,
+        58.0,
+        89.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (NULL, 19.5, 13.9, 7.3, NOW(), 2),
+    (
+        NULL,
+        23.8,
+        14.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 3.8, 8.6, 48.7, NOW(), 4),
+    (
+        NULL,
+        85.3,
+        65.4,
+        68.4,
+        NOW(),
+        5
+    ),
+    (
+        NULL,
+        59.2,
+        47.9,
+        74.1,
+        NOW(),
+        6
+    ),
+    (NULL, 79.5, 9.7, 43.4, NOW(), 7),
+    (
+        NULL,
+        72.1,
+        69.3,
+        87.9,
+        NOW(),
+        8
+    ),
+    (
+        NULL,
+        60.0,
+        78.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (
+        NULL,
+        26.5,
+        28.3,
+        10.4,
+        NOW(),
+        2
+    ),
+    (
+        NULL,
+        19.8,
+        12.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 5, 12, 50.0, NOW(), 4),
+    (NULL, 90, 63, 69, NOW(), 5),
+    (NULL, 60, 45, 75, NOW(), 6),
+    (NULL, 80, 15, 36.4, NOW(), 7),
+    (
+        NULL,
+        72.1,
+        69.3,
+        87.9,
+        NOW(),
+        8
+    ),
+    (
+        NULL,
+        35.0,
+        91.0,
+        70.3,
+        NOW(),
+        1
+    ),
+    (NULL, 46.5, 9.9, 17.3, NOW(), 2),
+    (
+        NULL,
+        18.8,
+        19.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 2, 6, 48, NOW(), 4),
+    (NULL, 92, 65.4, 69.4, NOW(), 5),
+    (
+        NULL,
+        49.2,
+        47.9,
+        74.1,
+        NOW(),
+        6
+    ),
+    (NULL, 69.5, 11, 40.4, NOW(), 7),
+    (NULL, 82.1, 80.3, 85, NOW(), 8),
+    (
+        NULL,
+        45.0,
+        77.0,
+        69.3,
+        NOW(),
+        1
+    ),
+    (NULL, 33.5, 15, 18, NOW(), 2),
+    (
+        NULL,
+        18.8,
+        23.5,
+        84.2,
+        NOW(),
+        3
+    ),
+    (NULL, 9, 6, 49, NOW(), 4),
+    (NULL, 81, 65.4, 66.4, NOW(), 5),
+    (
+        NULL,
+        38.2,
+        47.9,
+        72.1,
+        NOW(),
+        6
+    ),
+    (NULL, 78.5, 11, 40.4, NOW(), 7),
+    (NULL, 88.1, 80.3, 85, NOW(), 8),
+    (
+        NULL,
+        58.0,
+        89.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (NULL, 19.5, 13.9, 7.3, NOW(), 2),
+    (
+        NULL,
+        23.8,
+        14.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 3.8, 8.6, 48.7, NOW(), 4),
+    (
+        NULL,
+        85.3,
+        65.4,
+        68.4,
+        NOW(),
+        5
+    ),
+    (
+        NULL,
+        59.2,
+        47.9,
+        74.1,
+        NOW(),
+        6
+    ),
+    (NULL, 79.5, 9.7, 43.4, NOW(), 7),
+    (
+        NULL,
+        72.1,
+        69.3,
+        87.9,
+        NOW(),
+        8
+    ),
+    (
+        NULL,
+        60.0,
+        78.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (
+        NULL,
+        26.5,
+        28.3,
+        10.4,
+        NOW(),
+        2
+    ),
+    (
+        NULL,
+        19.8,
+        12.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 5, 12, 50.0, NOW(), 4),
+    (NULL, 90, 63, 69, NOW(), 5),
+    (NULL, 60, 45, 75, NOW(), 6),
+    (NULL, 80, 15, 36.4, NOW(), 7),
+    (
+        NULL,
+        72.1,
+        69.3,
+        87.9,
+        NOW(),
+        8
+    ),
+    (
+        NULL,
+        35.0,
+        91.0,
+        70.3,
+        NOW(),
+        1
+    ),
+    (NULL, 46.5, 9.9, 17.3, NOW(), 2),
+    (
+        NULL,
+        18.8,
+        19.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 2, 6, 48, NOW(), 4),
+    (NULL, 92, 65.4, 69.4, NOW(), 5),
+    (
+        NULL,
+        49.2,
+        47.9,
+        74.1,
+        NOW(),
+        6
+    ),
+    (NULL, 69.5, 11, 40.4, NOW(), 7),
+    (NULL, 82.1, 80.3, 85, NOW(), 8),
+    (
+        NULL,
+        45.0,
+        77.0,
+        69.3,
+        NOW(),
+        1
+    ),
+    (NULL, 33.5, 15, 18, NOW(), 2),
+    (
+        NULL,
+        18.8,
+        23.5,
+        84.2,
+        NOW(),
+        3
+    ),
+    (NULL, 9, 6, 49, NOW(), 4),
+    (NULL, 81, 65.4, 66.4, NOW(), 5),
+    (
+        NULL,
+        38.2,
+        47.9,
+        72.1,
+        NOW(),
+        6
+    ),
+    (NULL, 78.5, 11, 40.4, NOW(), 7),
+    (NULL, 88.1, 80.3, 85, NOW(), 8),
+    (
+        NULL,
+        58.0,
+        89.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (NULL, 19.5, 13.9, 7.3, NOW(), 2),
+    (
+        NULL,
+        23.8,
+        14.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 3.8, 8.6, 48.7, NOW(), 4),
+    (
+        NULL,
+        85.3,
+        65.4,
+        68.4,
+        NOW(),
+        5
+    ),
+    (
+        NULL,
+        59.2,
+        47.9,
+        74.1,
+        NOW(),
+        6
+    ),
+    (NULL, 79.5, 9.7, 43.4, NOW(), 7),
+    (
+        NULL,
+        72.1,
+        69.3,
+        87.9,
+        NOW(),
+        8
+    ),
+    (
+        NULL,
+        60.0,
+        78.0,
+        74.3,
+        NOW(),
+        1
+    ),
+    (
+        NULL,
+        26.5,
+        28.3,
+        10.4,
+        NOW(),
+        2
+    ),
+    (
+        NULL,
+        19.8,
+        12.5,
+        85.2,
+        NOW(),
+        3
+    ),
+    (NULL, 5, 12, 50.0, NOW(), 4),
+    (NULL, 90, 63, 69, NOW(), 5),
+    (NULL, 60, 45, 75, NOW(), 6),
+    (NULL, 80, 15, 36.4, NOW(), 7),
+    (NULL, 72.1, 69.3, 87.9, NOW(), 8);
+
 INSERT INTO
     medicao
 VALUES
@@ -1234,70 +1532,3 @@ VALUES
     (NULL, 0.3, 'risco', NOW(), 54),
     (NULL, 86, 'risco', NOW(), 55),
     (NULL, 70, 'risco', NOW(), 56);
-    
-    select * from medicao;
-    
-    select distinct id_medicao, valor, medicao.tipo, data_medicao, 
-			maquina.nome, componente.tipo, 
-			categoria_medicao.medicao_limite, id_maquina from medicao 
-			join categoria_medicao on id_categoria_medicao = fk_categoria_medicao 
-			join tipo_medicao on id_tipo_medicao = fk_tipo_medicao and categoria_medicao.fk_componente = tipo_medicao.fk_componente
-            join componente on tipo_medicao.fk_componente = id_componente
-            join maquina on id_maquina = categoria_medicao.fk_maquina
-            order by id_maquina, id_medicao;
-            
-            
-select id_medicao, valor, medicao.tipo, data_medicao, 
-			maquina.nome, componente.tipo, 
-			categoria_medicao.medicao_limite, id_maquina from medicao, categoria_medicao, tipo_medicao, maquina, componente
-			 where id_categoria_medicao = fk_categoria_medicao 
-and  id_tipo_medicao = fk_tipo_medicao
-            and tipo_medicao.fk_componente = id_componente
-            and  id_maquina = categoria_medicao.fk_maquina
-            order by id_maquina, id_medicao;
-            
-            
-create table nova (
-	id_medicao int primary key,
-    valor decimal(5, 2),
-    medicao_tipo varchar(10),
-    data_medicao datetime,
-    maquina_nome varchar(45),
-    componente varchar(20),
-    unidade varchar(5),
-    tipo_medicao varchar(6),
-    medicao_limite decimal(6, 2),
-    id_maquina char(20)    
-);
-drop table nova;
-
-insert into nova select distinct id_medicao, valor, medicao.tipo, data_medicao, 
-			maquina.nome, componente.tipo, tipo_medicao.unidade, tipo_medicao.tipo,
-			categoria_medicao.medicao_limite, id_maquina from medicao 
-			join categoria_medicao on id_categoria_medicao = fk_categoria_medicao 
-			join tipo_medicao on id_tipo_medicao = fk_tipo_medicao and categoria_medicao.fk_componente = tipo_medicao.fk_componente
-            join componente on tipo_medicao.fk_componente = id_componente
-            join maquina on id_maquina = categoria_medicao.fk_maquina
-            order by id_maquina, id_medicao;
-select * from nova;
-
-    SET @sql = NULL;
-SELECT
-  GROUP_CONCAT(DISTINCT
-    CONCAT(
-      'max(case when Componente = ''',
-      Componente,
-      ''' then Valor end) ',
-      Componente
-    )
-  ) INTO @sql
-FROM
-  nova;
-select @sql;
-
-SET @sql = CONCAT('SELECT id_medicao, maquina_nome, data_medicao, ', @sql, '
-                  FROM nova GROUP BY id_medicao, maquina_nome,data_medicao');
-               
-PREPARE stmt FROM @sql;
-EXECUTE stmt;
-DEALLOCATE PREPARE stmt;        

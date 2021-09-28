@@ -39,7 +39,8 @@ function mostrarAlerta(msg, type){
         return;
     }
     
-    document.getElementById("alerta").appendChild(alerta)
+    let elementoAlerta = document.querySelector("#alerta")
+    elementoAlerta.appendChild(alerta)
     alerta.appendChild(icone)
     alerta.innerHTML += msg; // Mensagem de erro
     alerta.style.right = "0px";

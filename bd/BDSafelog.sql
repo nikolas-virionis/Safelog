@@ -498,7 +498,67 @@ VALUES
     (NULL, 0.9, '87-f4-a2-f4-26-7f', 2, 2),
     (NULL, 80, '87-f4-a2-f4-26-7f', 3, 1),
     (NULL, 100, '87-f4-a2-f4-26-7f', 3, 2);
-
+desc categoria_medicao;
+truncate medicao;
+INSERT INTO
+    medicao
+VALUES
+    (NULL, 50, 'normal', NOW(), 1),
+    (NULL, 100, 'normal', NOW(), 2),
+    (NULL, 60, 'normal', NOW(), 3),
+    (NULL, 75, 'normal', NOW(), 4),
+    (NULL, 1, 'normal', NOW(), 5),
+    (NULL, 75, 'normal', NOW(), 6),
+    (NULL, 120, 'normal', NOW(), 7),
+    (NULL, 65, 'risco', NOW(), 8),
+    (NULL, 120, 'risco', NOW(), 9),
+    (NULL, 80, 'risco', NOW(), 10),
+    (NULL, 85, 'risco', NOW(), 11),
+    (NULL, 0.8, 'risco', NOW(), 12),
+    (NULL, 85, 'risco', NOW(), 13),
+    (NULL, 80, 'risco', NOW(), 14),
+    (NULL, 55, 'normal', NOW(), 15),
+    (NULL, 110, 'normal', NOW(), 16),
+    (NULL, 65, 'normal', NOW(), 17),
+    (NULL, 65, 'normal', NOW(), 18),
+    (NULL, 2, 'normal', NOW(), 19),
+    (NULL, 65, 'normal', NOW(), 20),
+    (NULL, 190, 'normal', NOW(), 21),
+    (NULL, 80, 'critico', NOW(), 22),
+    (NULL, 150, 'critico', NOW(), 23),
+    (NULL, 95, 'critico', NOW(), 24),
+    (NULL, 96, 'critico', NOW(), 25),
+    (NULL, 0.2, 'critico', NOW(), 26),
+    (NULL, 93, 'critico', NOW(), 27),
+    (NULL, 20, 'critico', NOW(), 28),
+    (NULL, 40, 'normal', NOW(), 29),
+    (NULL, 90, 'normal', NOW(), 30),
+    (NULL, 50, 'normal', NOW(), 31),
+    (NULL, 65, 'normal', NOW(), 32),
+    (NULL, 3, 'normal', NOW(), 33),
+    (NULL, 55, 'normal', NOW(), 34),
+    (NULL, 450, 'normal', NOW(), 35),
+    (NULL, 60, 'risco', NOW(), 36),
+    (NULL, 125, 'risco', NOW(), 37),
+    (NULL, 80, 'risco', NOW(), 38),
+    (NULL, 86, 'risco', NOW(), 39),
+    (NULL, 0.7, 'risco', NOW(), 40),
+    (NULL, 84, 'risco', NOW(), 41),
+    (NULL, 80, 'risco', NOW(), 42),
+    (NULL, 30, 'normal', NOW(), 43),
+    (NULL, 80, 'normal', NOW(), 44),
+    (NULL, 10, 'normal', NOW(), 45),
+    (NULL, 15, 'normal', NOW(), 46),
+    (NULL, 6.5, 'normal', NOW(), 47),
+    (NULL, 25, 'normal', NOW(), 48),
+    (NULL, 750, 'normal', NOW(), 49),
+    (NULL, 62, 'risco', NOW(), 50),
+    (NULL, 120, 'risco', NOW(), 51),
+    (NULL, 80, 'risco', NOW(), 52),
+    (NULL, 90, 'risco', NOW(), 53),
+    (NULL, 0.4, 'risco', NOW(), 54),
+    (NULL, 85, 'risco', NOW(), 55),
+    (NULL, 80, 'risco', NOW(), 56);
 INSERT INTO
     medicao
 VALUES
@@ -1174,3 +1234,70 @@ VALUES
     (NULL, 0.3, 'risco', NOW(), 54),
     (NULL, 86, 'risco', NOW(), 55),
     (NULL, 70, 'risco', NOW(), 56);
+    
+    select * from medicao;
+    
+    select distinct id_medicao, valor, medicao.tipo, data_medicao, 
+			maquina.nome, componente.tipo, 
+			categoria_medicao.medicao_limite, id_maquina from medicao 
+			join categoria_medicao on id_categoria_medicao = fk_categoria_medicao 
+			join tipo_medicao on id_tipo_medicao = fk_tipo_medicao and categoria_medicao.fk_componente = tipo_medicao.fk_componente
+            join componente on tipo_medicao.fk_componente = id_componente
+            join maquina on id_maquina = categoria_medicao.fk_maquina
+            order by id_maquina, id_medicao;
+            
+            
+select id_medicao, valor, medicao.tipo, data_medicao, 
+			maquina.nome, componente.tipo, 
+			categoria_medicao.medicao_limite, id_maquina from medicao, categoria_medicao, tipo_medicao, maquina, componente
+			 where id_categoria_medicao = fk_categoria_medicao 
+and  id_tipo_medicao = fk_tipo_medicao
+            and tipo_medicao.fk_componente = id_componente
+            and  id_maquina = categoria_medicao.fk_maquina
+            order by id_maquina, id_medicao;
+            
+            
+create table nova (
+	id_medicao int primary key,
+    valor decimal(5, 2),
+    medicao_tipo varchar(10),
+    data_medicao datetime,
+    maquina_nome varchar(45),
+    componente varchar(20),
+    unidade varchar(5),
+    tipo_medicao varchar(6),
+    medicao_limite decimal(6, 2),
+    id_maquina char(20)    
+);
+drop table nova;
+
+insert into nova select distinct id_medicao, valor, medicao.tipo, data_medicao, 
+			maquina.nome, componente.tipo, tipo_medicao.unidade, tipo_medicao.tipo,
+			categoria_medicao.medicao_limite, id_maquina from medicao 
+			join categoria_medicao on id_categoria_medicao = fk_categoria_medicao 
+			join tipo_medicao on id_tipo_medicao = fk_tipo_medicao and categoria_medicao.fk_componente = tipo_medicao.fk_componente
+            join componente on tipo_medicao.fk_componente = id_componente
+            join maquina on id_maquina = categoria_medicao.fk_maquina
+            order by id_maquina, id_medicao;
+select * from nova;
+
+    SET @sql = NULL;
+SELECT
+  GROUP_CONCAT(DISTINCT
+    CONCAT(
+      'max(case when Componente = ''',
+      Componente,
+      ''' then Valor end) ',
+      Componente
+    )
+  ) INTO @sql
+FROM
+  nova;
+select @sql;
+
+SET @sql = CONCAT('SELECT id_medicao, maquina_nome, data_medicao, ', @sql, '
+                  FROM nova GROUP BY id_medicao, maquina_nome,data_medicao');
+               
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;        

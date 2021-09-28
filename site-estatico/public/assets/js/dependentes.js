@@ -19,6 +19,7 @@
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
             })
             .then((response) => {
+                console.log(response.data);
                 let { status, res: dependentes } = response.data;
                 if (status == "ok") {
                     if (dependentes.length > 0) {
@@ -41,12 +42,11 @@
                             tabelaDependentes.appendChild(tr);
                         });
                     } else {
-                        let div = document.createElement("div");
-                        div.innerHTML =
-                            "Nenhum dependente cadastrado, adicione um apertando no + acima";
-                        let tr = document.createElement("tr");
-                        tr.appendChild(div);
-                        tabelaDependentes.appendChild(tr);
+                        // let div = document.createElement("div");
+                        // let tr = document.createElement("tr");
+                        // tr.appendChild(div);
+                        // tabelaDependentes.appendChild(tr);
+                        mostrarAlerta("Nenhum dependente cadastrado, adicione um apertando no + acima", "info");
                     }
                 }
             });
@@ -103,12 +103,13 @@
                             tabelaDependentes.appendChild(tr);
                         });
                     } else {
-                        let div = document.createElement("div");
-                        div.innerHTML =
-                            "Nenhum dependente cadastrado, adicione um apertando no + acima";
-                        let tr = document.createElement("tr");
-                        tr.appendChild(div);
-                        tabelaDependentes.appendChild(tr);
+                        // let div = document.createElement("div");
+                        // div.innerHTML =
+                        //     "Nenhum dependente cadastrado, adicione um apertando no + acima";
+                        // let tr = document.createElement("tr");
+                        // tr.appendChild(div);
+                        // tabelaDependentes.appendChild(tr);
+                        mostrarAlerta("Nenhum dependente cadastrado, adicione um apertando no + acima", "info");
                     }
                 }
             });

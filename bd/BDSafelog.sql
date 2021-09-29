@@ -856,8 +856,6 @@ VALUES
     (NULL, 80, 15, 36.4, NOW(), 7),
     (NULL, 72.1, 69.3, 87.9, NOW(), 8);
 
-DO SLEEP(5);
-
 INSERT INTO
     medicao
 VALUES

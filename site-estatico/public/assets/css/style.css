@@ -65,6 +65,7 @@ body::-webkit-scrollbar-thumb:hover {
     background-color: #e0e0e0;
 }
 .btn-geral {
+    cursor: pointer;
     border: none;
     padding: 10px 20px;
     background-color: #0071ce;
@@ -77,6 +78,15 @@ body::-webkit-scrollbar-thumb:hover {
 .btn-geral:hover {
     background-color: #025396;
     box-shadow: 4px 4px 3px #666;
+}
+
+.btn-geral.cancelar {
+    background-color: #999;
+    cursor: pointer;
+}
+
+.btn-geral.cancelar:hover {
+    background-color: #777;
 }
 
 .alerta{
@@ -582,14 +592,6 @@ ul li.btn-nav a:hover {
 .modal-footer {
     border: none;
     float: left;
-}
-
-.modal-footer .btn-geral.cancelar {
-    background-color: #999;
-}
-
-.modal-footer .btn-geral.cancelar:hover {
-    background-color: #777;
 }
 
 .checkbox-contato {

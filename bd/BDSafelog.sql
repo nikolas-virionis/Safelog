@@ -26,7 +26,7 @@ CREATE TABLE usuario (
     email varchar(60) NOT NULL UNIQUE,
     senha char(32),
     cargo enum('admin', 'gestor', 'analista'),
-    token char(8),
+    token char(16),
     fk_empresa varchar(30) NOT NULL,
     fk_supervisor int,
     FOREIGN KEY (fk_empresa) REFERENCES empresa(id_empresa),
@@ -193,7 +193,7 @@ VALUES
         'jeffrey.sprecher@gmail.com',
         MD5('ExSenha1'),
         'admin',
-        'abnanvf5',
+        'abnanvf5abnanvf5',
         '203783731',
         NULL
     ),
@@ -203,7 +203,7 @@ VALUES
         'gilson.finkelsztain@gmail.com',
         MD5('ExSenha1'),
         'admin',
-        'arblvsfa',
+        'arblvsfaarblvsfa',
         '09.346.601/0001-25',
         NULL
     ),
@@ -213,7 +213,7 @@ VALUES
         'raymond.miller@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        '9katbzd7',
+        '9katbzd79katbzd7',
         '203783731',
         1
     ),
@@ -223,7 +223,7 @@ VALUES
         'kaua.rodrigues@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        'skcmqdix',
+        'skcmqdixskcmqdix',
         '09.346.601/0001-25',
         2
     ),
@@ -233,7 +233,7 @@ VALUES
         'andrew.hutson@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        'k8xd9pys',
+        'k8xd9pysk8xd9pys',
         '203783731',
         1
     ),
@@ -243,7 +243,7 @@ VALUES
         'julia.ferreira@gmail.com',
         MD5('ExSenha1'),
         'gestor',
-        'z4d62p9x',
+        'z4d62p9xz4d62p9x',
         '09.346.601/0001-25',
         2
     ),
@@ -253,7 +253,7 @@ VALUES
         'harvey.knudsen@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'f3edujdq',
+        'f3edujdqf3edujdq',
         '203783731',
         3
     ),
@@ -263,7 +263,7 @@ VALUES
         'eduardo.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'd64h81ab',
+        'd64h81abd64h81ab',
         '09.346.601/0001-25',
         4
     ),
@@ -273,7 +273,7 @@ VALUES
         'laura.meade@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'gcmjx9u3',
+        'gcmjx9u3gcmjx9u3',
         '203783731',
         3
     ),
@@ -283,7 +283,7 @@ VALUES
         'douglas.dias@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'agdjkvxw',
+        'agdjkvxwagdjkvxw',
         '09.346.601/0001-25',
         4
     ),
@@ -293,7 +293,7 @@ VALUES
         'pamela.lennox@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'j2akj5pv',
+        'j2akj5pvj2akj5pv',
         '203783731',
         5
     ),
@@ -303,7 +303,7 @@ VALUES
         'julio.azevedo@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'bet0g4wc',
+        'bet0g4wcbet0g4wc',
         '09.346.601/0001-25',
         6
     ),
@@ -313,7 +313,7 @@ VALUES
         'susan.adams@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        'mc4y8gaw',
+        'mc4y8gawmc4y8gaw',
         '203783731',
         5
     ),
@@ -323,7 +323,7 @@ VALUES
         'nicole.gomes@gmail.com',
         MD5('ExSenha1'),
         'analista',
-        '3pta7uqx',
+        '3pta7uqx3pta7uqx',
         '09.346.601/0001-25',
         6
     );
@@ -856,6 +856,8 @@ VALUES
     (NULL, 80, 15, 36.4, NOW(), 7),
     (NULL, 72.1, 69.3, 87.9, NOW(), 8);
 
+DO SLEEP(5);
+
 INSERT INTO
     medicao
 VALUES
@@ -914,7 +916,13 @@ VALUES
     (NULL, 90, 'risco', NOW(), 53),
     (NULL, 0.4, 'risco', NOW(), 54),
     (NULL, 85, 'risco', NOW(), 55),
-    (NULL, 80, 'risco', NOW(), 56),
+    (NULL, 80, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 45, 'normal', NOW(), 1),
     (NULL, 102, 'normal', NOW(), 2),
     (NULL, 50, 'normal', NOW(), 3),
@@ -970,7 +978,13 @@ VALUES
     (NULL, 89, 'risco', NOW(), 53),
     (NULL, 0.8, 'risco', NOW(), 54),
     (NULL, 87.5, 'risco', NOW(), 55),
-    (NULL, 75, 'risco', NOW(), 56),
+    (NULL, 75, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 55, 'normal', NOW(), 1),
     (NULL, 108, 'normal', NOW(), 2),
     (NULL, 64, 'normal', NOW(), 3),
@@ -1026,7 +1040,13 @@ VALUES
     (NULL, 92, 'risco', NOW(), 53),
     (NULL, 0.3, 'risco', NOW(), 54),
     (NULL, 86, 'risco', NOW(), 55),
-    (NULL, 70, 'risco', NOW(), 56),
+    (NULL, 70, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 50, 'normal', NOW(), 1),
     (NULL, 100, 'normal', NOW(), 2),
     (NULL, 60, 'normal', NOW(), 3),
@@ -1082,7 +1102,13 @@ VALUES
     (NULL, 90, 'risco', NOW(), 53),
     (NULL, 0.4, 'risco', NOW(), 54),
     (NULL, 85, 'risco', NOW(), 55),
-    (NULL, 80, 'risco', NOW(), 56),
+    (NULL, 80, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 45, 'normal', NOW(), 1),
     (NULL, 102, 'normal', NOW(), 2),
     (NULL, 50, 'normal', NOW(), 3),
@@ -1138,7 +1164,13 @@ VALUES
     (NULL, 89, 'risco', NOW(), 53),
     (NULL, 0.8, 'risco', NOW(), 54),
     (NULL, 87.5, 'risco', NOW(), 55),
-    (NULL, 75, 'risco', NOW(), 56),
+    (NULL, 75, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 55, 'normal', NOW(), 1),
     (NULL, 108, 'normal', NOW(), 2),
     (NULL, 64, 'normal', NOW(), 3),
@@ -1194,7 +1226,13 @@ VALUES
     (NULL, 92, 'risco', NOW(), 53),
     (NULL, 0.3, 'risco', NOW(), 54),
     (NULL, 86, 'risco', NOW(), 55),
-    (NULL, 70, 'risco', NOW(), 56),
+    (NULL, 70, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 50, 'normal', NOW(), 1),
     (NULL, 100, 'normal', NOW(), 2),
     (NULL, 60, 'normal', NOW(), 3),
@@ -1250,7 +1288,13 @@ VALUES
     (NULL, 90, 'risco', NOW(), 53),
     (NULL, 0.4, 'risco', NOW(), 54),
     (NULL, 85, 'risco', NOW(), 55),
-    (NULL, 80, 'risco', NOW(), 56),
+    (NULL, 80, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 45, 'normal', NOW(), 1),
     (NULL, 102, 'normal', NOW(), 2),
     (NULL, 50, 'normal', NOW(), 3),
@@ -1306,7 +1350,13 @@ VALUES
     (NULL, 89, 'risco', NOW(), 53),
     (NULL, 0.8, 'risco', NOW(), 54),
     (NULL, 87.5, 'risco', NOW(), 55),
-    (NULL, 75, 'risco', NOW(), 56),
+    (NULL, 75, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 55, 'normal', NOW(), 1),
     (NULL, 108, 'normal', NOW(), 2),
     (NULL, 64, 'normal', NOW(), 3),
@@ -1362,7 +1412,13 @@ VALUES
     (NULL, 92, 'risco', NOW(), 53),
     (NULL, 0.3, 'risco', NOW(), 54),
     (NULL, 86, 'risco', NOW(), 55),
-    (NULL, 70, 'risco', NOW(), 56),
+    (NULL, 70, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 50, 'normal', NOW(), 1),
     (NULL, 100, 'normal', NOW(), 2),
     (NULL, 60, 'normal', NOW(), 3),
@@ -1418,7 +1474,13 @@ VALUES
     (NULL, 90, 'risco', NOW(), 53),
     (NULL, 0.4, 'risco', NOW(), 54),
     (NULL, 85, 'risco', NOW(), 55),
-    (NULL, 80, 'risco', NOW(), 56),
+    (NULL, 80, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 45, 'normal', NOW(), 1),
     (NULL, 102, 'normal', NOW(), 2),
     (NULL, 50, 'normal', NOW(), 3),
@@ -1474,7 +1536,13 @@ VALUES
     (NULL, 89, 'risco', NOW(), 53),
     (NULL, 0.8, 'risco', NOW(), 54),
     (NULL, 87.5, 'risco', NOW(), 55),
-    (NULL, 75, 'risco', NOW(), 56),
+    (NULL, 75, 'risco', NOW(), 56);
+
+DO SLEEP(5);
+
+INSERT INTO
+    medicao
+VALUES
     (NULL, 55, 'normal', NOW(), 1),
     (NULL, 108, 'normal', NOW(), 2),
     (NULL, 64, 'normal', NOW(), 3),

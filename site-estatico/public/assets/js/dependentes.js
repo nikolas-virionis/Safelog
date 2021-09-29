@@ -42,11 +42,10 @@
                             tabelaDependentes.appendChild(tr);
                         });
                     } else {
-                        // let div = document.createElement("div");
-                        // let tr = document.createElement("tr");
-                        // tr.appendChild(div);
-                        // tabelaDependentes.appendChild(tr);
-                        mostrarAlerta("Nenhum dependente cadastrado, adicione um apertando no + acima", "info");
+                        mostrarAlerta(
+                            "Nenhum dependente cadastrado, adicione um apertando no + acima",
+                            "info"
+                        );
                     }
                 }
             });
@@ -103,13 +102,10 @@
                             tabelaDependentes.appendChild(tr);
                         });
                     } else {
-                        // let div = document.createElement("div");
-                        // div.innerHTML =
-                        //     "Nenhum dependente cadastrado, adicione um apertando no + acima";
-                        // let tr = document.createElement("tr");
-                        // tr.appendChild(div);
-                        // tabelaDependentes.appendChild(tr);
-                        mostrarAlerta("Nenhum dependente cadastrado, adicione um apertando no + acima", "info");
+                        mostrarAlerta(
+                            "Nenhum dependente cadastrado, adicione um apertando no + acima",
+                            "info"
+                        );
                     }
                 }
             });
@@ -151,7 +147,8 @@ const validateEmail = (email) => {
 
 btnConfirmar.addEventListener("click", (e) => {
     if (!email.value) return;
-    if (!validateEmail(email.value)) return mostrarAlerta("Email inválido", "danger");;
+    if (!validateEmail(email.value))
+        return mostrarAlerta("Email inválido", "danger");
     let { cargo, id, id_empresa } = JSON.parse(
         sessionStorage.getItem("usuario")
     );
@@ -164,9 +161,12 @@ btnConfirmar.addEventListener("click", (e) => {
         })
         .then((res) => {
             if (res.data?.status == "ok") {
-                mostrarAlerta("Email convidado e inserido no banco (parcialmente)", "success");
+                mostrarAlerta(
+                    "Email convidado e inserido no banco (parcialmente)",
+                    "success"
+                );
                 email.value = "";
-            } else{
+            } else {
                 mostrarAlerta("Erro no convite do usuario", "danger");
             }
         });

@@ -142,7 +142,7 @@ router.post("/perfil", async (req, res, next) => {
         });
 
     let sqlEmpresaSup = `SELECT s.nome AS supervisor, empresa.nome AS empresa FROM usuario AS f JOIN empresa ON fk_empresa = id_empresa JOIN usuario AS s ON f.fk_supervisor = s.id_usuario WHERE f.id_usuario = ${id};`;
-    let sqlContatos = `SELECT forma_contato.nome FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario AND fk_usuario = ${id};`;
+    let sqlContatos = `SELECT forma_contato.nome, contato.valor FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario AND fk_usuario = ${id};`;
 
     await sequelize
         .query(sqlEmpresaSup, { type: sequelize.QueryTypes.SELECT })
@@ -156,19 +156,81 @@ router.post("/perfil", async (req, res, next) => {
 });
 
 router.post("/edicao-perfil", async (req, res) => {
-    let { id, nome, email, senha } = req.body;
+    let { id, nome, email, contatos } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
 
-    const updateDadosUsuario = `UPDATE usuario SET nome = '${nome}', email = '${email}', senha = MD5('${senha}') WHERE id_usuario = ${id};`;
+    const updateDadosUsuario = `UPDATE usuario SET nome = '${nome}', email = '${email}' WHERE id_usuario = ${id};`;
     await sequelize
         .query(updateDadosUsuario, {
             type: sequelize.QueryTypes.UPDATE,
         })
-        .then((response) => {
+        .then(async (response) => {
+            for (let contato of contatos) {
+                let { acao, valor, nome } = contato;
+                if (acao == "insert") {
+                    let sql = `SELECT id_contato FROM contato WHERE fk_usuario = ${id}`;
+                    await sequelize
+                        .query(sql, {
+                            type: sequelize.QueryTypes.SELECT,
+                        })
+                        .then(async (response) => {
+                            let sql = `INSERT INTO contato VALUES (${id}, ${
+                                response[response.length - 1].id_contato + 1
+                            }, '${valor}', ${
+                                nome == "whatsapp"
+                                    ? 1
+                                    : nome == "telegram"
+                                    ? 2
+                                    : 3
+                            })`;
+                            await sequelize
+                                .query(sql, {
+                                    type: sequelize.QueryTypes.INSERT,
+                                })
+                                .then((resposta) => {})
+                                .catch((err) =>
+                                    res.json({
+                                        status: "erro",
+                                        msg: "Erro no insert de forma de contato nova",
+                                    })
+                                );
+                        });
+                } else if (acao == "update") {
+                    let sql = `UPDATE contato SET valor = '${valor}' WHERE fk_usuario = ${id} and fk_forma_contato = ${
+                        nome == "whatsapp" ? 1 : nome == "telegram" ? 2 : 3
+                    };`;
+                    await sequelize
+                        .query(sql, {
+                            type: sequelize.QueryTypes.UPDATE,
+                        })
+                        .then((resposta) => {})
+                        .catch((err) =>
+                            res.json({
+                                status: "erro",
+                                msg: "Erro no update de forma de contato",
+                            })
+                        );
+                } else {
+                    let sql = `DELETE FROM contato WHERE fk_usuario = ${id} and fk_forma_contato = ${
+                        nome == "whatsapp" ? 1 : nome == "telegram" ? 2 : 3
+                    }; `;
+                    await sequelize
+                        .query(sql, {
+                            type: sequelize.QueryTypes.DELETE,
+                        })
+                        .then((resposta) => {})
+                        .catch((err) =>
+                            res.json({
+                                status: "erro",
+                                msg: "Erro no delete de forma de contato",
+                            })
+                        );
+                }
+            }
             res.json({
                 status: "ok",
                 msg: "Perfil do usuario editado com sucesso",

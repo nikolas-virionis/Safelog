@@ -54,7 +54,7 @@ btnCancelar.addEventListener("click", async (e) => {
     cancelarModal();
 });
 
-var redes = ["whatsapp", "telegram", "slack"];
+let redes = ["whatsapp", "telegram", "slack"];
 
 for (let rede of redes) {
     document

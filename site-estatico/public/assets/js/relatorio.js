@@ -45,7 +45,9 @@ axios
                         tbComponente.innerHTML = componente.toUpperCase();
                         tbTipo.innerHTML =
                             tipo.charAt(0).toUpperCase() + tipo.slice(1);
-                        tbMedicao.innerHTML = `${Number(valor)}${unidade}`;
+                        tbMedicao.innerHTML = `${Number(
+                            valor
+                        )}${unidade.replace("┬░C", "°C")}`;
                         tbOperacao.appendChild(alertarBtn);
                         // x * 0.6 + 38 => %
                         // 0.65x + 28.5 => °C

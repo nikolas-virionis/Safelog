@@ -537,6 +537,15 @@ ul li.btn-nav a:hover {
     border-bottom: #666666 2px solid;
 }
 
+.esqueceu-senha{
+    color: var(--cor-princial);
+    cursor: pointer;
+}
+.esqueceu-senha:hover{
+    color: var(--cor-hover);
+    text-decoration: underline;
+}
+
 .card-login form input:focus {
     border-bottom: #0071ce 2px solid;
 }
@@ -548,6 +557,11 @@ ul li.btn-nav a:hover {
 /* ----------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------------------------- */
+
+
+#modal-esqueci-senha{
+    display: none;
+}
 
 .modal-screen {
     z-index: 100;

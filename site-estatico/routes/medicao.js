@@ -2,6 +2,7 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
+let { getMachines } = require("../util/get-user-machines/script");
 
 router.post("/relatorio-incidentes", async (req, res, next) => {
     let { id } = req.body;
@@ -16,11 +17,9 @@ router.post("/relatorio-incidentes", async (req, res, next) => {
         .query(sql, { type: sequelize.QueryTypes.SELECT })
         .then(async (response) => {
             let incidentes = [];
-            let string = `id_maquina = '${response[0].id_maquina}'`;
-            for (let i = 1; i < response.length; i++) {
-                string += ` or id_maquina = '${response[i].id_maquina}'`;
-            }
-            let incidente = `SELECT id_medicao, data_medicao, valor, unidade, medicao_limite, tipo_medicao.tipo, maquina.nome FROM maquina JOIN categoria_medicao ON id_maquina = fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao and (IF(tipo_medicao.tipo like '%livre', medicao.valor <= categoria_medicao.medicao_limite, medicao.valor >= categoria_medicao.medicao_limite)) where ${string} GROUP BY valor, tipo ORDER BY data_medicao DESC;`;
+            let incidente = `SELECT id_medicao, data_medicao, valor, unidade, medicao_limite, tipo_medicao.tipo, maquina.nome FROM maquina JOIN categoria_medicao ON id_maquina = fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao and (IF(tipo_medicao.tipo like '%livre', medicao.valor <= categoria_medicao.medicao_limite, medicao.valor >= categoria_medicao.medicao_limite)) where ${getMachines(
+                response
+            )} GROUP BY valor, tipo ORDER BY data_medicao DESC;`;
             await sequelize
                 .query(incidente, {
                     type: sequelize.QueryTypes.SELECT,

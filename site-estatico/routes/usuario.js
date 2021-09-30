@@ -2,7 +2,11 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
-let sendInvite = require("../util/cadastro-parcial/convite").enviarConvite;
+const {
+    enviarConvite: sendInvite,
+    checarEmStaff,
+    checarEmUsuario,
+} = require("../util/cadastro-parcial/convite");
 const {
     updateDadosUsuario,
     criarFormasContato,
@@ -51,72 +55,6 @@ router.post("/cadastro-final", async (req, res, next) => {
     return res.json({
         status: "ok",
     });
-});
-
-router.post("/verificacao", async (req, res, next) => {
-    let { email, token } = req.body;
-    if (!req.body)
-        return res.json({
-            status: "erro",
-            msg: "Body não fornecido na requisição",
-        });
-
-    let verificarUsuario = `SELECT id_usuario FROM usuario WHERE email = '${email}' and token = '${token}';`;
-    await sequelize
-        .query(verificarUsuario, { type: sequelize.QueryTypes.SELECT })
-        .then(([response]) => {
-            if (response) res.json({ status: "ok", msg: response });
-            else res.json({ status: "erro", msg: "email ou token invalidos" });
-        });
-});
-
-router.post("/email-redefinir-senha", async (req, res, next) => {
-    let { email } = req.body;
-    if (!req.body)
-        return res.json({
-            status: "erro",
-            msg: "Body não fornecido na requisição",
-        });
-    let token = generateToken();
-    let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
-    await sequelize
-        .query(updateToken, {
-            type: sequelize.QueryTypes.UPDATE,
-        })
-        .then(async (resposta) => {
-            let nomeUsuario = `SELECT nome FROM usuario WHERE email = '${email}'`;
-            await sequelize
-                .query(nomeUsuario, {
-                    type: sequelize.QueryTypes.SELECT,
-                })
-                .then(([response]) =>
-                    mandarEmail("redefinir", response.nome, email, [token])
-                        .then((resp) =>
-                            res.json({
-                                status: "ok",
-                                msg: "email de redefinição de senha enviado com sucesso",
-                            })
-                        )
-                        .catch((err) => res.json({ status: "erro", msg: err }))
-                );
-        });
-});
-
-router.post("/redefinir-senha", async (req, res) => {
-    let { id, senha } = req.body;
-    if (!req.body)
-        return res.json({
-            status: "erro",
-            msg: "Body não fornecido na requisição",
-        });
-
-    let atualizarSenha = `UPDATE usuario SET senha = MD5('${senha}') WHERE id_usuario = '${id}'`;
-    await sequelize
-        .query(atualizarSenha, {
-            type: sequelize.QueryTypes.UPDATE,
-        })
-        .then((response) => res.json({ status: "ok", msg: "senha atualizada" }))
-        .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
 router.post("/pessoas-dependentes", async (req, res) => {
@@ -237,6 +175,112 @@ router.post("/edicao-perfil", async (req, res) => {
             });
         })
         .catch((err) => res.json({ status: "erro", msg: err }));
+});
+router.post("/email-redefinir-senha", async (req, res, next) => {
+    let { email } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    let emStaff;
+    let emUsuario;
+    await checarEmStaff(email).then((bool) => (emStaff = bool));
+    await checarEmUsuario(email).then((bool) => (emUsuario = bool));
+    if (!emUsuario && !emStaff)
+        return res.json({
+            status: "erro",
+            msg: "Usuário não registrado",
+        });
+    let tb;
+    if (emStaff) tb = "staff";
+    else tb = "usuario";
+    let token = generateToken();
+    let updateToken = `UPDATE ${tb} SET token = '${token}' WHERE email = '${email}'`;
+    await sequelize
+        .query(updateToken, {
+            type: sequelize.QueryTypes.UPDATE,
+        })
+        .then(async (resposta) => {
+            let nomeUsuario = `SELECT nome FROM ${tb} WHERE email = '${email}'`;
+            await sequelize
+                .query(nomeUsuario, {
+                    type: sequelize.QueryTypes.SELECT,
+                })
+                .then(([response]) =>
+                    mandarEmail("redefinir", response.nome, email, [token])
+                        .then((resp) =>
+                            res.json({
+                                status: "ok",
+                                msg: "email de redefinição de senha enviado com sucesso",
+                            })
+                        )
+                        .catch((err) => res.json({ status: "erro", msg: err }))
+                );
+        });
+});
+
+router.post("/redefinir-senha", async (req, res) => {
+    let { senha, tb, ...id } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    let checar;
+    id = id[`id_${tb}`];
+    await eval(`checarEm${tb.charAt(0).toUpperCase() + tb.slice(1)}`)(id).then(
+        (bool) => (checar = bool)
+    );
+    if (!checar)
+        return res.json({
+            status: "erro",
+            msg: "Usuario não pertencente à entidade informada",
+        });
+    let atualizarSenha = `UPDATE ${tb} SET senha = MD5('${senha}') WHERE id_${tb} = '${id}'`;
+    await sequelize
+        .query(atualizarSenha, {
+            type: sequelize.QueryTypes.UPDATE,
+        })
+        .then((response) => res.json({ status: "ok", msg: "senha atualizada" }))
+        .catch((err) => res.json({ status: "erro", msg: err }));
+});
+
+router.post("/verificacao", async (req, res, next) => {
+    let { email, token } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let verificarUsuario = `SELECT id_usuario FROM usuario WHERE email = '${email}' and token = '${token}';`;
+    await sequelize
+        .query(verificarUsuario, { type: sequelize.QueryTypes.SELECT })
+        .then(async ([response]) => {
+            if (response)
+                res.json({ status: "ok", msg: response, user: "usuario" });
+            else {
+                let verificarStaff = `SELECT id_staff FROM staff WHERE email = '${email}' and token = '${token}';`;
+                await sequelize
+                    .query(verificarStaff, {
+                        type: sequelize.QueryTypes.SELECT,
+                    })
+                    .then((resposta) => {
+                        if (resposta?.msg)
+                            res.json({
+                                status: "ok",
+                                msg: resposta,
+                                user: "staff",
+                            });
+                        else
+                            res.json({
+                                status: "erro",
+                                msg: "email ou token invalidos",
+                            });
+                    });
+            }
+        });
 });
 
 module.exports = router;

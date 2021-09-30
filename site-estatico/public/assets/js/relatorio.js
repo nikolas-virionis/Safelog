@@ -7,10 +7,6 @@ axios
     .then((response) => {
         if (response.data?.status == "ok") {
             let { status, response: maquinas } = response.data;
-            // let contagem = 0;
-            // for (let i of maquinas) {
-            //     contagem += i.maquinas.length;
-            // }
             if (maquinas.length > 0 && maquinas[0].length > 0) {
                 for (let maquina of maquinas) {
                     for (let incidente of maquina) {
@@ -82,53 +78,6 @@ axios
                         tr.appendChild(tbMedicao);
                         tr.appendChild(tbOperacao);
                         tabelaIncidentes.appendChild(tr);
-
-                        // Object.entries(maquina).forEach(([key, value]) => {
-                        //     if (
-                        //         key != "data_medicao" &&
-                        //         key != "nome" &&
-                        //         Number(value) >= eval(`limite_${key}`)
-                        //     ) {
-                        //         let tr = document.createElement("tr");
-                        //         let date = new Date(maquina.data_medicao);
-                        //         let data = `${date.toLocaleDateString("pt-BR")}
-                        //         ${date.toTimeString().slice(0, 8)}`;
-                        //         let tbData = document.createElement("td");
-                        //         let tbNome = document.createElement("td");
-                        //         let tbComponente = document.createElement("td");
-                        //         let tbEstado = document.createElement("td");
-                        //         let tbMedicao = document.createElement("td");
-                        //         let tbOperacao = document.createElement("td");
-                        //         let alertarBtnLbl = document.createElement("i");
-                        //         let alertarBtn =
-                        //             document.createElement("button");
-                        //         alertarBtnLbl.classList = "fas fa-bell";
-                        //         alertarBtn.classList = "btn-nav-dash";
-                        //         alertarBtn.title = "Alertar Responsável";
-                        //         alertarBtn.appendChild(alertarBtnLbl);
-                        //         tbNome.innerHTML = maquina.nome;
-                        //         tbData.innerHTML = data;
-                        //         tbComponente.innerHTML = key.toUpperCase();
-                        //         tbMedicao.innerHTML = `${Number(value).toFixed(
-                        //             2
-                        //         )}%`;
-                        //         tbOperacao.appendChild(alertarBtn);
-                        //         if (
-                        //             Number(value) >=
-                        //             eval(`limite_${key}`) * 0.6 + 38
-                        //         ) {
-                        //             tbEstado.innerHTML = "Critico";
-                        //             tr.style.color = "red";
-                        //         } else tbEstado.innerHTML = "Risco";
-                        //         tr.appendChild(tbData);
-                        //         tr.appendChild(tbNome);
-                        //         tr.appendChild(tbComponente);
-                        //         tr.appendChild(tbEstado);
-                        //         tr.appendChild(tbMedicao);
-                        //         tr.appendChild(tbOperacao);
-                        //         tabelaIncidentes.appendChild(tr);
-                        //     }
-                        // });
                     }
                 }
             } else {

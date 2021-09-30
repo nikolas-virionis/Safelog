@@ -8,7 +8,8 @@ CREATE TABLE staff (
     id_staff int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(60) NOT NULL,
     email varchar(60) NOT NULL UNIQUE,
-    senha char(32) NOT NULL
+    senha char(32) NOT NULL,
+    token char(16)
 );
 
 CREATE TABLE empresa (
@@ -133,37 +134,43 @@ VALUES
         NULL,
         'Amanda Caramico',
         'amanda.caramico@bandtec.com.br',
-        MD5('ExSenha1')
+        MD5('ExSenha1'),
+        NULL
     ),
     (
         NULL,
         'Felipe Cruz',
         'felipe.souza@bandtec.com.br',
-        MD5('ExSenha1')
+        MD5('ExSenha1'),
+        NULL
     ),
     (
         NULL,
         'João Pedro Oliveira',
         'joao.soliveira@bandtec.com.br',
-        MD5('ExSenha1')
+        MD5('ExSenha1'),
+        NULL
     ),
     (
         NULL,
         'Lucas Teixeira',
         'lucas.teixeira@bandtec.com.br',
-        MD5('ExSenha1')
+        MD5('ExSenha1'),
+        NULL
     ),
     (
         NULL,
         'Lucas Mesquita',
         'lucas.msouza@bandtec.com.br',
-        MD5('ExSenha3')
+        MD5('ExSenha3'),
+        NULL
     ),
     (
         NULL,
         'Nikolas Virionis',
         'nikolas.virionis@bandtec.com.br',
-        MD5('ExSenha1')
+        MD5('ExSenha1'),
+        NULL
     );
 
 INSERT INTO

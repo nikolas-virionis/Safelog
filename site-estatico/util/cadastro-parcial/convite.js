@@ -2,8 +2,12 @@ const { generateToken } = require("../token-user/script");
 let sequelize = require("../../models").sequelize;
 let send = require("../email/email").mandarEmail;
 
-const checarEmStaff = async (email) => {
-    let sqlEmailExistsInStaff = `SELECT * FROM staff WHERE email = '${email}';`;
+const checarEmStaff = async (identificacao) => {
+    let sqlEmailExistsInStaff;
+    if (typeof identificacao == "string")
+        sqlEmailExistsInStaff = `SELECT * FROM staff WHERE email = '${identificacao}';`;
+    else
+        sqlEmailExistsInStaff = `SELECT * FROM staff WHERE id_staff = '${identificacao}';`;
     let existe;
     await sequelize
         .query(sqlEmailExistsInStaff, {
@@ -13,8 +17,12 @@ const checarEmStaff = async (email) => {
     return existe;
 };
 
-const checarEmUsuario = async (email) => {
-    let sqlEmailExistsInUsuario = `SELECT * FROM usuario WHERE email = '${email}';`;
+const checarEmUsuario = async (identificacao) => {
+    let sqlEmailExistsInUsuario;
+    if (typeof identificacao == "string")
+        sqlEmailExistsInUsuario = `SELECT * FROM usuario WHERE email = '${identificacao}';`;
+    else
+        sqlEmailExistsInUsuario = `SELECT * FROM usuario WHERE id_usuario = '${identificacao}';`;
     let existe;
     await sequelize
         .query(sqlEmailExistsInUsuario, {
@@ -74,4 +82,4 @@ const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
     };
 };
 
-module.exports = { enviarConvite };
+module.exports = { enviarConvite, checarEmStaff, checarEmUsuario };

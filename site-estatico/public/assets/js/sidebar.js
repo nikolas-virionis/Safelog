@@ -5,12 +5,6 @@ arrow.forEach((arr) => {
         arrowParent.classList.toggle("showMenu");
     });
 });
-// for (let arr of arrow) {
-//   arr.addEventListener("click", (e) => {
-//     let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-//     arrowParent.classList.toggle("showMenu");
-//   });
-// }
 let sidebar = document.querySelector(".sidebar");
 let sidebarBtn = document.querySelector(".logo-details");
 sidebarBtn.addEventListener("click", () => sidebar.classList.toggle("close"));
@@ -21,7 +15,7 @@ nomeUser.innerText =
     JSON.parse(sessionStorage.getItem("staff"))?.nome?.split(" ").shift() ??
     "Nome usuario";
 
-document.querySelector(".icon-exit").addEventListener('click', function(){
+document.querySelector(".icon-exit").addEventListener("click", function () {
     sessionStorage.clear();
-    window.location = "index.html"
-})
+    window.location = "index.html";
+});

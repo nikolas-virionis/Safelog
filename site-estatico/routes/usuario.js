@@ -246,6 +246,25 @@ router.post("/redefinir-senha", async (req, res) => {
         .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
+router.post("/verificacao-senha-atual", async (req, res) => {
+    let { id, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let verificaSenha = `SELECT * FROM usuario WHERE id_usuario = ${id} and senha = MD5('${senha}');`;
+    await sequelize
+        .query(verificaSenha, { type: sequelize.QueryTypes.SELECT })
+        .then((response) => {
+            if (response.length)
+                res.json({ status: "ok", msg: "Senha correta" });
+            else res.json({ status: "erro", msg: "Senha incorreta" });
+        })
+        .catch((err) => res.json({ status: "erro", msg: err }));
+});
+
 router.post("/verificacao", async (req, res, next) => {
     let { email, token } = req.body;
     if (!req.body)

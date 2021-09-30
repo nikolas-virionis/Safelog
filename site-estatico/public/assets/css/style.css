@@ -65,6 +65,7 @@ body::-webkit-scrollbar-thumb:hover {
     background-color: #e0e0e0;
 }
 .btn-geral {
+    margin: 0 10px 0 0;
     cursor: pointer;
     border: none;
     padding: 10px 20px;

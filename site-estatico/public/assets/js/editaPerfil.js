@@ -49,12 +49,15 @@ axios
 
 const btnWhatsapp = document.querySelector(`#contato-whatsapp`);
 const inpWhatsapp = document.querySelector(`#input-whatsapp`);
-const btnTelegram = document.querySelector(`#contato-telegram`);
+const btnTelegram = document.querySelector(`#contato-telegram`); 
 const inpTelegram = document.querySelector(`#input-telegram`);
 const btnSlack = document.querySelector(`#contato-slack`);
 const inpSlack = document.querySelector(`#input-slack`);
 const btnAlterar = document.querySelectorAll(".btn-geral")[0];
 const btnSenha = document.querySelectorAll(".btn-geral")[1];
+
+
+btnSenha.addEventListener('click', e => e.preventDefault())
 
 btnAlterar.addEventListener("click", (e) => {
     e.preventDefault();
@@ -139,4 +142,19 @@ btnAlterar.addEventListener("click", (e) => {
                 );
             }
         });
+});
+
+const btnCancelar = document.querySelector("#btn-cancelar-modal");
+const continuar = document.querySelector("#btn-alterar-senha");
+
+btnCancelar.addEventListener("click", (e) =>
+    import("./modal.js").then(({ fecharModal }) =>
+        fecharModal("modal-alterar-senha")
+    )
+);
+
+continuar.addEventListener("click", () => {
+    import("./modal.js").then(({ abrirModal }) =>
+        abrirModal("modal-alterar-senha")
+    );
 });

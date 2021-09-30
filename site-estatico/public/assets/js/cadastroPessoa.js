@@ -37,7 +37,7 @@ btnProsseguir.addEventListener("click", (e) => {
         })
         .then((response) => {
             if (response.data?.status == "ok") {
-                console.log("usuario verificado com sucesso");
+                mostrarAlerta("Usuário verificado com sucesso", "success")
                 sessionStorage.setItem(
                     "id_usuario",
                     response.data.msg.id_usuario
@@ -46,7 +46,9 @@ btnProsseguir.addEventListener("click", (e) => {
                     fecharModal("modal-verify-token")
                 );
                 emailCadastro.value = sessionStorage.getItem("email");
-            } else console.log("Erro na verificação do usuario");
+            } else {
+                mostrarAlerta("Erro na verificação do usuario", "danger")
+            }
         });
 });
 btnCancelar.addEventListener("click", async (e) => {

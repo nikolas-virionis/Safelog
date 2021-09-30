@@ -209,6 +209,12 @@
 #modal-send-email{
     display: none;
 }
+#modal-log-cad-maq{
+    display: none;
+}
+#modal-alterar-senha{
+    display: none;
+}
 
 
 
@@ -275,6 +281,7 @@
 }
 
 .card-maquina.selected{
+    cursor: pointer;
     -webkit-transition: .2s;
     border-left: 10px solid var(--cor-princial);
 }

@@ -141,8 +141,8 @@
                             </div>
                         </div>
                         <div class="form-item">
-                            <button class="btn-geral">Alterar informações</button>
-                            <button class="btn-geral cancelar">Alterar Senha</button>
+                            <button class="btn-geral" id>Alterar informações</button>
+                            <button class="btn-geral cancelar" id="btn-alterar-senha">Alterar Senha</button>
                         </div>
                     </form>
                 </div>
@@ -150,6 +150,24 @@
         </div>
     </section>
 
+    <div class="modal-screen" id="modal-alterar-senha">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Alterar senha</h2>
+                <br>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span>Digite sua senha atual:</span>
+                    <input type="password" name="" id="" placeholder="Senha">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Continuar...</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

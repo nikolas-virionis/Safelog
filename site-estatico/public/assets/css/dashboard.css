@@ -117,7 +117,7 @@
 .form-cadastro{
     background: #e0e0e0;
     border-radius: 30px;
-    box-shadow: 3px 3px 3px #666;
+    box-shadow: 3px 3px 6px #666;
     padding: 40px 40px;
     margin: 30px 0;
     display: flex;
@@ -156,7 +156,7 @@
 /* Charts */
 
 .charts{
-    margin: 50px 0;
+    /* padding: 30px 0; */
 }
 
 .canvas-container {
@@ -166,9 +166,18 @@
     /* border: 1px rgb(63, 63, 63) solid; */
     background-color: #e0e0e0;
     border-radius: 10px;
-    box-shadow: 3px 3px 5px #666;
+    box-shadow: 3px 3px 6px #666;
     margin: 10px;
     padding: 20px;
+}
+
+.canvas-destaque{
+    /* box-shadow: 10px 0px 10px #666; */
+    width: 100%;
+    padding: 20px 5%;
+    height: 40vh;
+    margin: 0 auto 20px auto;
+    /* background-image: linear-gradient(#e0e0e0, #e0e0e0, transparent); */
 }
 
 .charts .centralizar{
@@ -213,7 +222,7 @@
     background-color: #e0e0e0;
     padding: 50px;
     border-radius: 30px;
-    box-shadow: 3px 3px 3px #666;
+    box-shadow: 3px 3px 6px #666;
 }
 
 .display-perfil h3, span{
@@ -235,4 +244,37 @@
 
 .limites{
     display: flex;
+}
+
+.select-maquinas{
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+.card-maquina{
+    cursor: pointer;
+    display: flex;
+    margin: 0 15px 10px 0;
+    background-color: #e0e0e0;
+    border-radius: 7px;
+    padding: 15px 25px;
+    -webkit-transition: .2s;
+    border-left: 2px solid var(--cor-princial);
+}
+
+.card-maquina div{
+    font-size: 17px;
+    margin: 5px;
+}
+
+.card-maquina:hover{
+    -webkit-transition: .2s;
+    border-left: 7px solid var(--cor-princial);
+}
+
+.card-maquina.selected{
+    -webkit-transition: .2s;
+    border-left: 10px solid var(--cor-princial);
 }

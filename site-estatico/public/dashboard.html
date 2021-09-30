@@ -99,21 +99,58 @@
     <section class="home-section">
 
         <!-- HEADER -->
-        <div class="navbar-dashboard">
+        <!-- <div class="navbar-dashboard">
             <div class="barra-pesquisa">
                 <input type="search" name="" value="" placeholder="Buscar">
                 <button type="submit" class="btn-nav-dash"><i class="fas fa-search"></i></button>
             </div>
+        </div> -->
+
+        <div class="container-site">
+            <br>
+            <h2>Máquinas</h2>
+            <div id="selectMaquina" class="select-maquinas">
+                <div class="card-maquina selected">
+                    <div>
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <span>Server1</span>
+                    </div>
+                </div>
+                <div class="card-maquina danger">
+                    <div>
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <span>Server2</span>
+                    </div>
+                </div>
+                <div class="card-maquina">
+                    <div>
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <span>Server3</span>
+                    </div>
+                </div>
+                <div class="card-maquina">
+                    <div>
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <span>Server4</span>
+                    </div>
+                </div>
+            </div>            
         </div>
 
         <!-- CPU graph -->
         <div class="charts">
+            <div class="canvas-destaque">
+                <canvas id="idChart1" class="canvas-chart"></canvas>
+            </div>
             <div class="container-site">
-                <div class="linha centralizar">
-                    <div class="">
-                        <canvas id="idChart1" class="canvas-chart"></canvas>
-                    </div>
-                </div>
                 <div class="linha">
                     <div class="col-6 centralizar">
                         <div class="canvas-container">

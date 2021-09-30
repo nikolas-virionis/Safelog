@@ -15,7 +15,6 @@
   left: 0;
   height: 100%;
   width: 260px;
-  /* background: var(--cor-princial); */
   background-image: url("../img/wpp-teste.jpg");
   background-size: cover;
   z-index: 100;

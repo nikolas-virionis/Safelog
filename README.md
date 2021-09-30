@@ -1,6 +1,8 @@
 # 1CCO-2021-2-Grupo-06
 Grupo06_1CCO_2021_2 - Repositório criado para a disciplina de Pesquisa e Inovação
 
+![Safelog Logo](./site-estatico/public/assets/img/logo/logo-escrita-branco.png)
+
 - [Setup](#setup)
 
 ## Setup
@@ -8,7 +10,7 @@ Grupo06_1CCO_2021_2 - Repositório criado para a disciplina de Pesquisa e Inova�
 ### Requisitos:
 - MySQL Server 8.0
 - Node 14
-- Git (Opicional)
+- Git (Opcional)
 
 ### Clonar repositório
 

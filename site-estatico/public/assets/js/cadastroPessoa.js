@@ -28,7 +28,10 @@ tokenInModal.addEventListener("keypress", (e) => {
         btnProsseguir.click();
     }
 });
-btnProsseguir.addEventListener("click", (e) => {
+btnProsseguir.addEventListener("click", async (e) => {
+    const { validateEmail } = await import("./email.js");
+    if (!validateEmail(emailInModal.value))
+        return mostrarAlerta("Email inválido", "danger");
     sessionStorage.setItem("email", emailInModal.value);
     axios
         .post("/usuario/verificacao", {
@@ -37,7 +40,7 @@ btnProsseguir.addEventListener("click", (e) => {
         })
         .then((response) => {
             if (response.data?.status == "ok") {
-                mostrarAlerta("Usuário verificado com sucesso", "success")
+                mostrarAlerta("Usuário verificado com sucesso", "success");
                 sessionStorage.setItem(
                     "id_usuario",
                     response.data.msg.id_usuario
@@ -47,7 +50,7 @@ btnProsseguir.addEventListener("click", (e) => {
                 );
                 emailCadastro.value = sessionStorage.getItem("email");
             } else {
-                mostrarAlerta("Erro na verificação do usuario", "danger")
+                mostrarAlerta("Erro na verificação do usuario", "danger");
             }
         });
 });
@@ -89,12 +92,6 @@ const btn = document.querySelector(".btn-geral");
 const form = document.querySelector("#form-cadastro");
 sessionStorage.removeItem("email");
 
-const validateEmail = (email) => {
-    const re =
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
-};
-
 nome.addEventListener("keypress", (e) => {
     if (e.key == "Enter") {
         e.preventDefault();
@@ -120,8 +117,11 @@ confirmarSenha.addEventListener("keypress", (e) => {
     }
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const { validateEmail } = await import("./email.js");
+    if (!validateEmail(emailCadastro.value))
+        return mostrarAlerta("Email inválido", "danger");
     if (senha.value !== confirmarSenha.value)
         return console.log("Senhas diferentes");
     let contatos = {};

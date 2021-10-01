@@ -31,7 +31,7 @@ btnEsqSenha.addEventListener("click", (e) => {
 
 btnFecharModal.addEventListener("click", (e) => {
     import("./modal.js").then(({ fecharModal }) => {
-        fecharModal("modal-esqueci-senha")
+        fecharModal("modal-esqueci-senha");
     });
 });
 
@@ -55,7 +55,10 @@ const validarLogin = () => {
                     })
                     .then((res) => {
                         if (res.data.status == "ok") {
-                            mostrarAlerta("Usuario logado com sucesso", "success");
+                            mostrarAlerta(
+                                "Usuario logado com sucesso",
+                                "success"
+                            );
                             let { status, ...user } = res.data;
                             sessionStorage.setItem(
                                 "usuario",
@@ -63,9 +66,45 @@ const validarLogin = () => {
                             );
                             window.location.href = "dashboard.html";
                         } else {
-                            mostrarAlerta("Usuário ou senha inválidos", "warning");
+                            mostrarAlerta(
+                                "Usuário ou senha inválidos",
+                                "warning"
+                            );
                         }
                     });
             }
         });
 };
+
+const emailInModal = document.querySelector("#idInputEmail");
+const btnModal = document.querySelector("#btn-prosseguir-modal");
+
+emailInModal.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        btnModal.click();
+    }
+});
+btnModal.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (!emailInModal.value) return;
+    const { validateEmail } = await import("./email.js");
+    if (!validateEmail(emailInModal.value))
+        return mostrarAlerta("Email inválido", "danger");
+    axios
+        .post("/usuario/email-redefinir-senha", {
+            email: emailInModal.value,
+        })
+        .then((response) => {
+            if (response.data?.status == "ok") {
+                console.log(
+                    "Email de redefinição de senha enviado com sucesso"
+                );
+            } else {
+                mostrarAlerta(
+                    "Erro no processo de redefinição de senha",
+                    "danger"
+                );
+            }
+        });
+});

@@ -118,21 +118,19 @@ const email = document.querySelector("#email-convite");
 const btnConfirmar = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const btnCancelar2 = document.querySelector("#btn-cancelar-modal2");
-const btnCadastroMaq = document.querySelector("#btn-cadastro-maq")
+const btnCadastroMaq = document.querySelector("#btn-cadastro-maq");
 const btnAbrirConvite = document.querySelector(".convite-email");
 btnAbrirConvite.title = "Adicionar dependentes";
 
 btnAbrirConvite.addEventListener("click", (e) => {
-    if (JSON.parse(sessionStorage.getItem("usuario")).cargo != "analista"){
+    if (JSON.parse(sessionStorage.getItem("usuario")).cargo != "analista") {
         import("./modal.js").then(({ abrirModal }) =>
             abrirModal("modal-send-email")
         );
-    }
-    else 
+    } else
         import("./modal.js").then(({ abrirModal }) =>
             abrirModal("modal-log-cad-maq")
         );
-    
 });
 btnCancelar.addEventListener("click", (e) =>
     import("./modal.js").then(({ fecharModal }) =>
@@ -153,16 +151,11 @@ email.addEventListener("keypress", (e) => {
     }
 });
 
-btnCadastroMaq.addEventListener("click", (e)=>{
+btnCadastroMaq.addEventListener("click", (e) => {
     window.location = "./cadastro-maquina.html";
 });
-const validateEmail = (email) => {
-    const re =
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email.toLowerCase());
-};
-
-btnConfirmar.addEventListener("click", (e) => {
+btnConfirmar.addEventListener("click", async (e) => {
+    const { validateEmail } = await import("./email.js");
     if (!email.value) return;
     if (!validateEmail(email.value))
         return mostrarAlerta("Email inválido", "danger");

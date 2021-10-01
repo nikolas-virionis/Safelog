@@ -221,14 +221,13 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
 });
 
 router.post("/redefinir-senha", async (req, res) => {
-    let { senha, tb, ...id } = req.body;
+    let { senha, tb, id } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
     let checar;
-    id = id[`id_${tb}`];
     await eval(`checarEm${tb.charAt(0).toUpperCase() + tb.slice(1)}`)(id).then(
         (bool) => (checar = bool)
     );
@@ -257,10 +256,26 @@ router.post("/verificacao-senha-atual", async (req, res) => {
     let verificaSenha = `SELECT * FROM usuario WHERE id_usuario = ${id} and senha = MD5('${senha}');`;
     await sequelize
         .query(verificaSenha, { type: sequelize.QueryTypes.SELECT })
-        .then((response) => {
-            if (response.length)
+        .then(async (response) => {
+            if (response.length) {
+                let { email, nome } = response[0];
+                let token = generateToken();
+                let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
+                await sequelize
+                    .query(updateToken, {
+                        type: sequelize.QueryTypes.UPDATE,
+                    })
+                    .then(async (resposta) => {
+                        mandarEmail("redefinir", nome, email, [token]);
+                        res.json({
+                            status: "ok",
+                            msg: "email de redefinição de senha enviado com sucesso",
+                        });
+                    });
                 res.json({ status: "ok", msg: "Senha correta" });
-            else res.json({ status: "erro", msg: "Senha incorreta" });
+            } else {
+                res.json({ status: "erro", msg: "Senha incorreta" });
+            }
         })
         .catch((err) => res.json({ status: "erro", msg: err }));
 });

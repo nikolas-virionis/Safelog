@@ -50,7 +50,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a) ${nome},</p>
-    <p><a href="http://localhost:3000/redefinicao-de-senha.html" target="_blank">
+    <p><a href="http://localhost:3000/redefinir-senha.html?token=${rest[0]}&email=${email}" target="_blank">
     Clique aqui</a> para se redefinir sua senha</p>
     <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,

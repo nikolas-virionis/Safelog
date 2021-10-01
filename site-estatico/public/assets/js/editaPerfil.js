@@ -49,15 +49,14 @@ axios
 
 const btnWhatsapp = document.querySelector(`#contato-whatsapp`);
 const inpWhatsapp = document.querySelector(`#input-whatsapp`);
-const btnTelegram = document.querySelector(`#contato-telegram`); 
+const btnTelegram = document.querySelector(`#contato-telegram`);
 const inpTelegram = document.querySelector(`#input-telegram`);
 const btnSlack = document.querySelector(`#contato-slack`);
 const inpSlack = document.querySelector(`#input-slack`);
 const btnAlterar = document.querySelectorAll(".btn-geral")[0];
 const btnSenha = document.querySelectorAll(".btn-geral")[1];
 
-
-btnSenha.addEventListener('click', e => e.preventDefault())
+btnSenha.addEventListener("click", (e) => e.preventDefault());
 
 btnAlterar.addEventListener("click", (e) => {
     e.preventDefault();
@@ -159,4 +158,34 @@ continuar.addEventListener("click", () => {
     import("./modal.js").then(({ abrirModal }) =>
         abrirModal("modal-alterar-senha")
     );
+});
+
+const senha = document.querySelector("#inp-senha");
+const btnAltSenha = document.querySelector("#btn-prosseguir-modal");
+
+btnAltSenha.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!senha.value) return;
+    axios
+        .post("/usuario/verificacao-senha-atual", {
+            id: JSON.parse(sessionStorage.getItem("usuario")).id,
+            senha: senha.value,
+        })
+        .then((response) => {
+            if (response.data?.status == "ok") {
+                senha.value = "";
+                mostrarAlerta(
+                    "Senha correta \nEmail de confirmação enviado",
+                    "success"
+                );
+            } else {
+                mostrarAlerta("Senha incorreta", "danger");
+            }
+        });
+});
+senha.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        btnAltSenha.click();
+    }
 });

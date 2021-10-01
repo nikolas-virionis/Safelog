@@ -34,3 +34,72 @@ btnCancelar.addEventListener("click", async (e) => {
     let { cancelarModal } = await import("./modal.js");
     cancelarModal();
 });
+
+btnProsseguir.addEventListener("click", (e) => {
+    e.preventDefault();
+    axios
+        .post("/usuario/verificacao", {
+            email: emailInModal.value,
+            token: tokenInModal.value,
+        })
+        .then(async (response) => {
+            if (response.data?.status == "ok") {
+                mostrarAlerta("Usuário verificado com sucesso", "success");
+                sessionStorage.setItem(
+                    `id_${response.data.user}`,
+                    response.data.msg[`id_${response.data.user}`]
+                );
+                await import("./modal.js").then(({ fecharModal }) =>
+                    fecharModal("modal-verify-token")
+                );
+            } else {
+                mostrarAlerta("Erro na verificação do usuario", "danger");
+            }
+        });
+});
+
+const senha = document.querySelector("#inp-senha");
+const confSenha = document.querySelector("#inp-conf-senha");
+const btnConcluir = document.querySelector(".btn-geral");
+
+senha.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        confSenha.focus();
+    }
+});
+confSenha.addEventListener("keypress", (e) => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        btnConcluir.click();
+    }
+});
+
+btnConcluir.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!senha.value || !confSenha.value) return;
+    if (senha.value != confSenha.value)
+        return mostrarAlerta("Senhas diferentes", "danger");
+    let id, tb;
+    if (JSON.parse(sessionStorage.getItem("id_usuario"))) {
+        id = JSON.parse(sessionStorage.getItem("id_usuario"));
+        tb = "usuario";
+    } else {
+        id = JSON.parse(sessionStorage.getItem("id_staff"));
+        tb = "staff";
+    }
+    axios
+        .post("/usuario/redefinir-senha", {
+            id,
+            senha: senha.value,
+            tb,
+        })
+        .then((response) => {
+            if (response.data?.status == "ok") {
+                mostrarAlerta("Senha alterada com sucesso", "success");
+                window.location.href = "login.html";
+            } else {
+                mostrarAlerta("Erro na redefinição de senha", "danger");
+            }
+        });
+});

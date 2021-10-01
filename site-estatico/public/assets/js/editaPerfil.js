@@ -122,6 +122,7 @@ btnAlterar.addEventListener("click", (e) => {
         })
         .then((response) => {
             if (response.data?.status == "ok") {
+                mostrarAlerta("Perfil alterado com sucesso!", "success");
                 console.log("Perfil alterado com sucesso");
                 sessionStorage.setItem(
                     "usuario",
@@ -136,6 +137,7 @@ btnAlterar.addEventListener("click", (e) => {
                 );
                 window.location.href = "perfil.html";
             } else {
+                mostrarAlerta("Erro na edição de perfil", "danger");
                 console.log(
                     "Erro na edição do perfil do usuario",
                     response.data?.msg

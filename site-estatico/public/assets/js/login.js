@@ -87,7 +87,13 @@ emailInModal.addEventListener("keypress", (e) => {
 });
 btnModal.addEventListener("click", async (e) => {
     e.preventDefault();
-    if (!emailInModal.value) return;
+    if (!emailInModal.value){
+        mostrarAlerta(
+            "Digite um email",
+            "warning"
+        );
+        return;
+    };
     const { validateEmail } = await import("./email.js");
     if (!validateEmail(emailInModal.value))
         return mostrarAlerta("Email inválido", "danger");
@@ -97,8 +103,9 @@ btnModal.addEventListener("click", async (e) => {
         })
         .then((response) => {
             if (response.data?.status == "ok") {
-                console.log(
-                    "Email de redefinição de senha enviado com sucesso"
+                mostrarAlerta(
+                    "Verifique seu email para redefinir a senha",
+                    "success"
                 );
             } else {
                 mostrarAlerta(

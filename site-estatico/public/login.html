@@ -61,7 +61,7 @@
                             <!-- <a class="btn-geral" href="dashboard.html">Entrar</a> -->
                         </div>
                         <div class="col-md-8 col-sm-12">
-                            <span class="text-center"><a href="">Esqueceu a senha?</a></span><br>
+                            <span class="esqueceu-senha" id="spanEsqueciSenha">Esqueceu a senha?</span><br>
                             <!-- <span class="text-center"><a href="">Entre em contato conosco para cadastro</a></span> -->
                         </div>
                     </div>
@@ -69,10 +69,6 @@
             </div>
         </div>
     </div>
-
-
-
-
     <!-- FOOTER -->
     <div class="footer">
         <div class="divisoria">
@@ -91,6 +87,27 @@
         </div>
     </div>
 
+
+
+
+    <div class="modal-screen" id="modal-esqueci-senha">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Esqueceu a senha?</h2>
+                <h6>Digite seu email para entrarmos em contato</h6>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h6>Email:</h6>
+                    <input id="idInputEmail" type="text" name="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
     <div id="alerta"></div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

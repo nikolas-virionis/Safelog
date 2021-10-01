@@ -2,6 +2,8 @@ const email = document.querySelector("#email");
 const senha = document.querySelector("#senha");
 const form = document.querySelector("#form_login");
 const btn = document.querySelector(".btn-geral");
+const btnEsqSenha = document.querySelector("#spanEsqueciSenha");
+const btnFecharModal = document.querySelector("#btn-cancelar-modal");
 
 email.addEventListener("keypress", (e) => {
     if (e.key == "Enter") {
@@ -19,6 +21,18 @@ senha.addEventListener("keypress", (e) => {
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     validarLogin();
+});
+
+btnEsqSenha.addEventListener("click", (e) => {
+    import("./modal.js").then(({ abrirModal }) => {
+        abrirModal("modal-esqueci-senha");
+    });
+});
+
+btnFecharModal.addEventListener("click", (e) => {
+    import("./modal.js").then(({ fecharModal }) => {
+        fecharModal("modal-esqueci-senha")
+    });
 });
 
 const validarLogin = () => {

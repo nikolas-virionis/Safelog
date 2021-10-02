@@ -123,7 +123,7 @@ form.addEventListener("submit", async (e) => {
     if (!validateEmail(emailCadastro.value))
         return mostrarAlerta("Email inválido", "danger");
     if (senha.value !== confirmarSenha.value)
-        return console.log("Senhas diferentes");
+        return mostrarAlerta("Senhas diferentes", "danger");
     let contatos = {};
     if (document.getElementById("contato-whatsapp").checked)
         contatos.whatsapp = document.getElementById("input-whatsapp").value;

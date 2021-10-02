@@ -10,9 +10,9 @@ router.post("/cadastro", async (req, res, next) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-
+    id_maquina = id_maquina.replace("-", ":");
     let maquinaExiste = `SELECT * FROM maquina WHERE id_maquina = '${id_maquina}';`;
-    let insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, limite_cpu, limite_ram, limite_disco, fk_empresa) VALUES ('${id_maquina}', '${nome}', MD5('${senha}'), ${cpu}, ${ram}, ${disco}, '${empresa}')`;
+    let insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES ('${id_maquina}', '${nome}', MD5('${senha}'), '${empresa}')`;
     let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, '${id_maquina}');`;
     await sequelize
         .query(maquinaExiste, { type: sequelize.QueryTypes.SELECT })

@@ -2,47 +2,105 @@ package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
 import java.util.List;
-
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
-import oshi.hardware.ComputerSystem;
-import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
 
 public class Monitoring extends Looca {
-
-    public String getMacAddress() {
-        List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
-        return netIfs.get(0).getMacaddr();
-    }
 
     public HardwareAbstractionLayer getSystemHardware() {
         SystemInfo sys = new SystemInfo();
         return sys.getHardware();
     }
 
+    public String getMacAddress() {
+        List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
+        return netIfs.get(0).getMacaddr();
+    }
+
+    public Double getTemp() {
+        return Math.round(super.getTemperatura().getTemperatura() * 100) / 100d;
+    }
+
+    public Double getClockCPU() {
+        return Math.round(super.getProcessador().getFrequencia() / 10000) / 100d;
+    }
+
+    public Double getUsoCPU() {
+        return Math.round(super.getProcessador().getUso() * 100) / 100d;
+    }
+
+    public Double getUsoRAMGb() {
+        return Math.round(super.getMemoria().getEmUso() * 100 / 1_073_741_824) / 100d;
+    }
+
+    public Double getFreeRAMGb() {
+        return Math.round(
+                super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
+    }
+
+    public Double getTotalRAMGb() {
+        return Math.round(super.getMemoria().getTotal() * 100 / 1_073_741_824) / 100d;
+    }
+
+    public Double getUsoDiscoGb() {
+        return Math.round((super.getGrupoDeDiscos().getDiscos().get(0).
+                getBytesDeEscritas() + super.getGrupoDeDiscos().getDiscos().get(
+                        0).getBytesDeLeitura()) * 100 / 1_073_741_824) / 100d;
+    }
+
+    public Double getTotalDiscoGb() {
+        return Math.round(super.getGrupoDeDiscos().getDiscos().get(0).
+                getTamanho() * 100 / 1_073_741_824) / 100d;
+    }
+
+    public Double getFreeDiscoGb() {
+        return Math.round(
+                (getTotalDiscoGb() - getUsoDiscoGb()) * 100) / 100d;
+    }
+
+    public Double getFreeDisco() {
+        return Math.round(
+                (getFreeDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
+    }
+
+    public Double getUsoDisco() {
+        return Math.round(
+                (getUsoDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
+    }
+
+    public Double getFreeRAM() {
+        return Math.round(
+                (getFreeRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
+    }
+
+    public Double getUsoRAM() {
+        return Math.round(
+                (getUsoRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
+    }
+
     @Override
     public String toString() {
-        return String.format("Monitoramento Looca %s: "
-                + "\n\tgetTemperatura().getTemperatura(): %s\n\t"
-                + "getProcessador().getUso(): %s \n\t"
-                + "getProcessador().getFrequencia(): %s \n\t"
-                + "getMemoria().getEmUso(): %s \n\t"
-                + "getMemoria().getDisponivel(): %s \n\t"
-                + "getMemoria().getTotal(): %s \n\t"
-                + "getGrupoDeDiscos().getDiscos().get(0).getTamanho(): %s \n\t"
-                + "getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas(): %s \n\t"
-                + "getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura(): %s \n\t",
+        return String.format("Monitoramento Servidor: %s: "
+                + "\n\tTemperatura: %.2fºC\n\t"
+                + "Uso de CPU: %.2f%% \n\t"
+                + "Clock CPU: %.2fMhz \n\t"
+                + "Uso de RAM: %.2f%% \n\t"
+                + "RAM Disponível: %.2fGb \n\t"
+                + "RAM Total: %.2fGb \n\t"
+                + "Uso de Disco: %.2f%% \n\t"
+                + "Disco Disponível: %.2fGb \n\t"
+                + "Disco Total: %.2fGb \n\t",
                 getMacAddress(),
-                getTemperatura().getTemperatura(),
-                getProcessador().getUso(),
-                getProcessador().getFrequencia(),
-                getMemoria().getEmUso(),
-                getMemoria().getDisponivel(),
-                getMemoria().getTotal(),
-                getGrupoDeDiscos().getDiscos().get(0).getTamanho(),
-                getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas(),
-                getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura());
+                getTemp(),
+                getUsoCPU(),
+                getClockCPU(),
+                getUsoRAM(),
+                getFreeRAMGb(),
+                getTotalRAMGb(),
+                getUsoDisco(),
+                getFreeDiscoGb(),
+                getTotalDiscoGb());
     }
 
 }

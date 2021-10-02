@@ -1,18 +1,28 @@
 package com.mycompany.projeto.artefato.sprint.entidades;
 
+import java.util.List;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class Medicao {
-    private Integer id_medicao;
+    private Integer idMedicao;
     private Double valor;
     private String tipo;
-    private String data_medicao;
-    private Integer fk_categoria_medicao;
+    private String dataMedicao;
+    private Integer fkCategoriaMedicao;
 
-    public Medicao(Integer id_medicao, Double valor, String tipo,
-            String data_medicao, Integer fk_categoria_medicao) {
-        this.id_medicao = id_medicao;
+    public Medicao(Integer idMedicao, Double valor, String tipo,
+            String dataMedicao, Integer fkCategoriaMedicao) {
+        this.idMedicao = idMedicao;
         this.valor = valor;
         this.tipo = tipo;
-        this.data_medicao = data_medicao;
-        this.fk_categoria_medicao = fk_categoria_medicao;
+        this.dataMedicao = dataMedicao;
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
+    }
+    public List<Medicao> selectAll(BasicDataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.query("SELECT * FROM medicao",
+                new BeanPropertyRowMapper(Medicao.class));
     }
 }

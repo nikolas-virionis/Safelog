@@ -211,25 +211,21 @@ public class TelaLogin extends javax.swing.JFrame {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
         String maquina = txtMaquina.getText();
-        
-        Autenticacao aut = new Autenticacao();
-        if(aut.autenticar(email, senha, maquina)){
-         TelaPrincipal tela = new TelaPrincipal();
-        tela.setVisible(true);
 
-        this.setVisible(false);
-        
-        }else{
+        Autenticacao aut = new Autenticacao();
+        if (aut.autenticar(email, senha, maquina)) {
+            TelaPrincipal tela = new TelaPrincipal();
+            tela.setVisible(true);
+
+            this.setVisible(false);
+
+        } else {
             erroEmail.setText("Email inválido");
             ErroSenha.setText("Senha inválida");
             erroMaquina.setText("Máquina inválida");
         }
-        
-       
-                
-        
-        
-       
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtMaquinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaquinaActionPerformed
@@ -258,8 +254,7 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         });
     }
-    
-   
+
 //        .setIcon(new javax.swing.ImageIcon("./logo-escrita-branco.png"));
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ErroSenha;

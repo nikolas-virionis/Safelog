@@ -1,17 +1,27 @@
 package com.mycompany.projeto.artefato.sprint.entidades;
 
+import java.util.List;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class Maquina {
 
-    private String id_maquina;
+    private String idMaquina;
     private String nome;
     private String senha;
-    private String fk_empresa;
+    private String fkEmpresa;
 
-    public Maquina(String id_maquina, String nome, String senha,
-            String fk_empresa) {
-        this.id_maquina = id_maquina;
+    public Maquina(String idMaquina, String nome, String senha,
+            String fkEmpresa) {
+        this.idMaquina = idMaquina;
         this.nome = nome;
         this.senha = senha;
-        this.fk_empresa = fk_empresa;
+        this.fkEmpresa = fkEmpresa;
+    }
+    public List<Maquina> selectAll(BasicDataSource dataSource){
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.query("SELECT * FROM maquina",
+                new BeanPropertyRowMapper(Maquina.class));
     }
 }

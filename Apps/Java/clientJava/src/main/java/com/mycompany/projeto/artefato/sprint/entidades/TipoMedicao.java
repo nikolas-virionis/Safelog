@@ -1,13 +1,23 @@
 package com.mycompany.projeto.artefato.sprint.entidades;
 
+import java.util.List;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class TipoMedicao {
-    private Integer id_tipo_medicao;
+    private Integer idTipoMedicao;
     private String tipo;
     private String unidade;
 
-    public TipoMedicao(Integer id_tipo_medicao, String tipo, String unidade) {
-        this.id_tipo_medicao = id_tipo_medicao;
+    public TipoMedicao(Integer idTipoMedicao, String tipo, String unidade) {
+        this.idTipoMedicao = idTipoMedicao;
         this.tipo = tipo;
         this.unidade = unidade;
+    }
+    public List<TipoMedicao> selectAll(BasicDataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return jdbcTemplate.query("SELECT * FROM tipo_medicao",
+                new BeanPropertyRowMapper(TipoMedicao.class));
     }
 }

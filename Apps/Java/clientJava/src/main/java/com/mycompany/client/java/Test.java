@@ -8,19 +8,19 @@ import com.mycompany.client.java.entidades.Usuario;
 
 public class Test {
 
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
         // Monitoring m = new Monitoring();
         // System.out.println(m);  
 
-        ConfigDB config = new ConfigDB();
-        BasicDataSource dataSource = config.getBasicDataSource();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+//        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
 
-        String sql = "SELECT * FROM usuario LIMIT 3";
-        BeanPropertyRowMapper<Usuario> bean = new BeanPropertyRowMapper<>(Usuario.class);
-        List<Usuario> users = jdbcTemplate.query(sql, bean);
-        for (Usuario u : users) {
-            System.out.println(u);
-        }
+//        String sql = "SELECT * FROM usuario LIMIT 3";
+//        BeanPropertyRowMapper<Usuario> bean = new BeanPropertyRowMapper<>(Usuario.class);
+//        List<Usuario> users = jdbcTemplate.query(sql, bean);
+//        for (Usuario u : users) {
+//            System.out.println(u);
+//        }
+        System.out.println(MonitoringTypes.getObjectArray());
+        System.out.println(Usuario.selectAll());
     }
 }

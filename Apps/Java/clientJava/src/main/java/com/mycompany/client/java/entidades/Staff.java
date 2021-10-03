@@ -1,5 +1,6 @@
 package com.mycompany.client.java.entidades;
 
+import com.mycompany.client.java.ConfigDB;
 import java.util.List;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -20,8 +21,51 @@ public class Staff {
         this.senha = senha;
         this.token = token;
     }
-    public static List<Staff> selectAll(BasicDataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+    public Integer getIdStaff() {
+        return idStaff;
+    }
+
+    public void setIdStaff(Integer idStaff) {
+        this.idStaff = idStaff;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Staff() {
+    }
+    public static List<Staff> selectAll() {
+        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         return jdbcTemplate.query("SELECT * FROM staff",
                 new BeanPropertyRowMapper(Staff.class));
     }

@@ -14,24 +14,37 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
-
 public class MonitoringTypes {
 
     private static JdbcTemplate getJdbcTemplate() {
-        ConfigDB config = new ConfigDB();
-        BasicDataSource dataSource = config.getBasicDataSource();
-        return new JdbcTemplate(dataSource);
+        return ConfigDB.getJdbc();
     }
 
-    private static List<Object> getObjectArray(JdbcTemplate jdbcTemplate) throws DataAccessException {
-        String sql = String.format("SELECT tipo_medicao.tipo FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = '%s'", Monitoring.getMacAddress());
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper());
+    public static List<TiposMedicao> getObjectArray() throws DataAccessException {
+        String sql = String.format(
+                "SELECT tipo_medicao.tipo, medicao_limite, unidade FROM categoria_medicao INNER JOIN "
+                        + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao "
+                        + "WHERE fk_maquina = '%s'",
+                Monitoring.getMacAddress());
+        return ConfigDB.getJdbc().query(sql, new BeanPropertyRowMapper(TiposMedicao.class));
     }
-
-    public static void getTypes() {
-        List array = getObjectArray(getJdbcTemplate());
-        
-        
+    
+    public static List<Double> getLimits() {
+        List<Double> list = new ArrayList();
+        List<TiposMedicao> array = getObjectArray();
+        for (TiposMedicao tipo : array) {
+            list.add(tipo.getMedicaoLimite());
+        }
+        return list;
+    }
+    
+    public static List<String> getTypes() {
+        List<String> list = new ArrayList();
+        List<TiposMedicao> array = getObjectArray();
+        for (TiposMedicao tipo : array) {
+            list.add(tipo.getTipo());
+        }
+        return list;
         // for (Integer i = 0; i < array.size(); i++) {
         //     System.out.println((String) array.get(i).get(convertKey ));
         // }

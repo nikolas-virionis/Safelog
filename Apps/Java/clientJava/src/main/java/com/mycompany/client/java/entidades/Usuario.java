@@ -16,21 +16,36 @@ public class Usuario {
     private String fkEmpresa;
     private Integer fkSupervisor;
 
-    public Usuario(Integer idUsuario, String nome, String email, String senha,
-            String cargo, String token, String fkEmpresa, Integer fkSupervisor) {
-        this.idUsuario = idUsuario;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cargo = cargo;
-        this.token = token;
-        this.fkEmpresa = fkEmpresa;
-        this.fkSupervisor = fkSupervisor;
+    // public Usuario(Integer idUsuario, String nome, String email, String senha,
+    //         String cargo, String token, String fkEmpresa, Integer fkSupervisor) {
+    //     this.idUsuario = idUsuario;
+    //     this.nome = nome;
+    //     this.email = email;
+    //     this.senha = senha;
+    //     this.cargo = cargo;
+    //     this.token = token;
+    //     this.fkEmpresa = fkEmpresa;
+    //     this.fkSupervisor = fkSupervisor;
+    // }
+
+    public Usuario() {
+        
+    }
+
+    public String getName() {
+        return this.nome;
     }
 
     public static List<Usuario> selectAll(BasicDataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.query("SELECT * FROM usuario",
                 new BeanPropertyRowMapper(Usuario.class));
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario [cargo=" + cargo + ", email=" + email + ", fkEmpresa=" + fkEmpresa + ", fkSupervisor="
+                + fkSupervisor + ", idUsuario=" + idUsuario + ", nome=" + nome + ", senha=" + senha + ", token=" + token
+                + "]";
     }
 }

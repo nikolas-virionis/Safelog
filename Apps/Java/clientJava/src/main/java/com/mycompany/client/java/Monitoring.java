@@ -11,12 +11,12 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 public class Monitoring extends Looca {
 
-    public String getMacAddress() {
+    public static String getMacAddress() {
         List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
         return netIfs.get(0).getMacaddr();
     }
 
-    public HardwareAbstractionLayer getSystemHardware() {
+    public static HardwareAbstractionLayer getSystemHardware() {
         SystemInfo sys = new SystemInfo();
         return sys.getHardware();
     }

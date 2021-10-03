@@ -8,12 +8,7 @@ import oshi.hardware.HardwareAbstractionLayer;
 
 public class Monitoring extends Looca {
 
-    public HardwareAbstractionLayer getSystemHardware() {
-        SystemInfo sys = new SystemInfo();
-        return sys.getHardware();
-    }
-
-    public String getMacAddress() {
+    public static String getMacAddress() {
         List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
         return netIfs.get(0).getMacaddr();
     }
@@ -77,6 +72,11 @@ public class Monitoring extends Looca {
     public Double getUsoRAM() {
         return Math.round(
                 (getUsoRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
+    }
+
+    public static HardwareAbstractionLayer getSystemHardware() {
+        SystemInfo sys = new SystemInfo();
+        return sys.getHardware();
     }
 
     @Override

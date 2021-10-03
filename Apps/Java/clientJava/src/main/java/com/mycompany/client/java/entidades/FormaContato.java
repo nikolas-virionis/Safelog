@@ -13,6 +13,25 @@ public class FormaContato {
         this.idFormaContato = idFormaContato;
         this.nome = nome;
     }
+
+    public FormaContato() {
+    }
+
+    public Integer getIdFormaContato() {
+        return idFormaContato;
+    }
+
+    public void setIdFormaContato(Integer idFormaContato) {
+        this.idFormaContato = idFormaContato;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
     
     
     public static List<FormaContato> selectAll(BasicDataSource dataSource){

@@ -1,5 +1,6 @@
 package com.mycompany.client.java.entidades;
 
+import com.mycompany.client.java.ConfigDB;
 import java.util.List;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -22,9 +23,36 @@ public class Analytics {
         this.dataMedicao = dataMedicao;
         this.fkMaquinaAnalytics = fkMaquinaAnalytics;
     }
+
+    public Analytics() {
+    }
+
+    public Integer getIdAnalytics() {
+        return idAnalytics;
+    }
+
+    public Double getCpu() {
+        return cpu;
+    }
+
+    public Double getRam() {
+        return ram;
+    }
+
+    public Double getDisco() {
+        return disco;
+    }
+
+    public String getDataMedicao() {
+        return dataMedicao;
+    }
+
+    public Integer getFkMaquinaAnalytics() {
+        return fkMaquinaAnalytics;
+    }
     
-    public static List<Analytics> selectAll(BasicDataSource dataSource){
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    public static List<Analytics> selectAll() {
+        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         return jdbcTemplate.query("SELECT * FROM analytics",
                 new BeanPropertyRowMapper(Analytics.class));
     }

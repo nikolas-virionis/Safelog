@@ -11,9 +11,7 @@ public class Auth {
     public boolean autenticar(String inpEmail, String inpSenha,
             String inpMaquina) {
         Monitoring m = new Monitoring();
-        ConfigDB config = new ConfigDB();
-        BasicDataSource dataSource = config.getBasicDataSource();
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List loginsValidos = jdbcTemplate.queryForList(String.format(
                 "SELECT * FROM usuario "
                 + "JOIN usuario_maquina ON id_usuario = fk_usuario "

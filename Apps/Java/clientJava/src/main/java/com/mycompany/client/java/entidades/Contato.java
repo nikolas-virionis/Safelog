@@ -2,7 +2,6 @@ package com.mycompany.client.java.entidades;
 
 import com.mycompany.client.java.ConfigDB;
 import java.util.List;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -13,7 +12,7 @@ public class Contato {
     private Integer fkFormaContato;
 
     public Contato(Integer fkUsuario, Integer idContato, String valor,
-            Integer fk_forma_contato) {
+            Integer fkFormaContato) {
         this.fkUsuario = fkUsuario;
         this.idContato = idContato;
         this.valor = valor;

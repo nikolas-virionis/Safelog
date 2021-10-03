@@ -2,7 +2,6 @@ package com.mycompany.client.java.entidades;
 
 import com.mycompany.client.java.ConfigDB;
 import java.util.List;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,7 +14,7 @@ public class Analytics {
     private Integer fkMaquinaAnalytics;
 
     public Analytics(Integer idAnalytics, Double cpu, Double ram, Double disco,
-            String data_medicao, Integer fkMaquinaAnalytics) {
+            String dataMedicao, Integer fkMaquinaAnalytics) {
         this.idAnalytics = idAnalytics;
         this.cpu = cpu;
         this.ram = ram;

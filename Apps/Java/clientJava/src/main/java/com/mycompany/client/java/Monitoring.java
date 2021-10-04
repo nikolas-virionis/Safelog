@@ -1,7 +1,11 @@
 package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
 import oshi.hardware.HardwareAbstractionLayer;
@@ -30,8 +34,7 @@ public class Monitoring extends Looca {
     }
 
     public Double getFreeRAMGb() {
-        return Math.round(
-                super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
+        return Math.round(super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
     }
 
     public Double getTotalRAMGb() {
@@ -39,39 +42,34 @@ public class Monitoring extends Looca {
     }
 
     public Double getUsoDiscoGb() {
-        return Math.round((super.getGrupoDeDiscos().getDiscos().get(0).
-                getBytesDeEscritas() + super.getGrupoDeDiscos().getDiscos().get(
-                        0).getBytesDeLeitura()) * 100 / 1_073_741_824) / 100d;
+        return Math
+                .round((super.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas()
+                        + super.getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura()) * 100 / 1_073_741_824)
+                / 100d;
     }
 
     public Double getTotalDiscoGb() {
-        return Math.round(super.getGrupoDeDiscos().getDiscos().get(0).
-                getTamanho() * 100 / 1_073_741_824) / 100d;
+        return Math.round(super.getGrupoDeDiscos().getDiscos().get(0).getTamanho() * 100 / 1_073_741_824) / 100d;
     }
 
     public Double getFreeDiscoGb() {
-        return Math.round(
-                (getTotalDiscoGb() - getUsoDiscoGb()) * 100) / 100d;
+        return Math.round((getTotalDiscoGb() - getUsoDiscoGb()) * 100) / 100d;
     }
 
     public Double getFreeDisco() {
-        return Math.round(
-                (getFreeDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
+        return Math.round((getFreeDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
     }
 
     public Double getUsoDisco() {
-        return Math.round(
-                (getUsoDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
+        return Math.round((getUsoDiscoGb() * 100 / getTotalDiscoGb()) * 100) / 100d;
     }
 
     public Double getFreeRAM() {
-        return Math.round(
-                (getFreeRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
+        return Math.round((getFreeRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
     }
 
     public Double getUsoRAM() {
-        return Math.round(
-                (getUsoRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
+        return Math.round((getUsoRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
     }
 
     public static HardwareAbstractionLayer getSystemHardware() {
@@ -79,28 +77,21 @@ public class Monitoring extends Looca {
         return sys.getHardware();
     }
 
+    public static String getDatetime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
     @Override
     public String toString() {
-        return String.format("Monitoramento Servidor: %s: "
-                + "\n\tTemperatura: %.2fºC\n\t"
-                + "Uso de CPU: %.2f%% \n\t"
-                + "Clock CPU: %.2fMhz \n\t"
-                + "Uso de RAM: %.2f%% \n\t"
-                + "RAM Disponível: %.2fGb \n\t"
-                + "RAM Total: %.2fGb \n\t"
-                + "Uso de Disco: %.2f%% \n\t"
-                + "Disco Disponível: %.2fGb \n\t"
-                + "Disco Total: %.2fGb \n\t",
-                getMacAddress(),
-                getTemp(),
-                getUsoCPU(),
-                getClockCPU(),
-                getUsoRAM(),
-                getFreeRAMGb(),
-                getTotalRAMGb(),
-                getUsoDisco(),
-                getFreeDiscoGb(),
-                getTotalDiscoGb());
+        return String.format(
+                "Monitoramento Servidor: %s: " + "\n\tTemperatura: %.2fºC\n\t" + "Uso de CPU: %.2f%% \n\t"
+                        + "Clock CPU: %.2fMhz \n\t" + "Uso de RAM: %.2f%% \n\t" + "RAM Disponível: %.2fGb \n\t"
+                        + "RAM Total: %.2fGb \n\t" + "Uso de Disco: %.2f%% \n\t" + "Disco Disponível: %.2fGb \n\t"
+                        + "Disco Total: %.2fGb \n\t",
+                getMacAddress(), getTemp(), getUsoCPU(), getClockCPU(), getUsoRAM(), getFreeRAMGb(), getTotalRAMGb(),
+                getUsoDisco(), getFreeDiscoGb(), getTotalDiscoGb());
     }
 
 }

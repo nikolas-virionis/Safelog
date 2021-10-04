@@ -12,7 +12,7 @@ public class InsertDado {
         ConfigDB.getJdbc().execute(sql);
     }
 
-    public static void formatInsert(TiposMedicao tipoMedicao, Double medicao) {
+    public static void formatInsert(TiposMedicao tipoMedicao, Double medicao, String data) {
         String sql = String.format(
                 "SELECT id_categoria_medicao FROM categoria_medicao "
                         + "JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao "
@@ -20,13 +20,7 @@ public class InsertDado {
                 tipoMedicao.getTipo(), Monitoring.getMacAddress());
         Integer fkCategoriaMedicao = Integer
                 .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_categoria_medicao").toString());
-        insert(new Medicao(medicao, getTipo(tipoMedicao, medicao), getDatetime(), fkCategoriaMedicao));
-    }
-
-    private static String getDatetime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        return dtf.format(now);
+        insert(new Medicao(medicao, getTipo(tipoMedicao, medicao), data, fkCategoriaMedicao));
     }
 
     private static String getTipo(TiposMedicao tipoMedicao, Double medicao) {

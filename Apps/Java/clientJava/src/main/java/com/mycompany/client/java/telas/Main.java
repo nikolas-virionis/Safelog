@@ -6,10 +6,13 @@
 package com.mycompany.client.java.telas;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import com.mycompany.client.java.*;
 
 /**
  *
@@ -17,6 +20,8 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Main extends javax.swing.JFrame {
     private String email;
+    private static Boolean continuarMonitoramento = true;
+    Thread thread;
 
     private Integer MaxCpu = 0;
     private Integer MinCpu = 101;
@@ -46,6 +51,61 @@ public class Main extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+        thread = new Thread(() -> {
+            insertBanco();
+        });
+        thread.start();
+
+        // try {
+        // TimeUnit.SECONDS.sleep(10);
+        // } catch (InterruptedException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+
+    }
+
+    private void insertBanco() {
+        do {
+            String data = Monitoring.getDatetime();
+            for (TiposMedicao tipo : MonitoringTypes.getTiposMedicao()) {
+                Double medicao;
+                Monitoring m = new Monitoring();
+                if (tipo.getTipo().equals("cpu_porcentagem")) {
+                    medicao = m.getUsoCPU();
+                } else if (tipo.getTipo().equals("cpu_frequencia")) {
+                    medicao = m.getClockCPU();
+                } else if (tipo.getTipo().equals("cpu_temperatura")) {
+                    medicao = m.getTemp();
+                } else if (tipo.getTipo().equals("ram_porcentagem")) {
+                    medicao = m.getUsoRAM();
+                } else if (tipo.getTipo().equals("ram_livre")) {
+                    medicao = m.getFreeRAMGb();
+                } else if (tipo.getTipo().equals("disco_livre")) {
+                    medicao = m.getFreeDiscoGb();
+                } else if (tipo.getTipo().equals("disco_porcentagem")) {
+                    medicao = m.getUsoDisco();
+                } else {
+                    throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");
+                }
+                InsertDado.formatInsert(tipo, medicao, data);
+            }
+
+            try {
+                TimeUnit.SECONDS.sleep(30);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Erro no time sleep");
+            }
+        } while (getContinuarMonitoramento());
+    }
+
+    public static Boolean getContinuarMonitoramento() {
+        return continuarMonitoramento;
+    }
+
+    public static void setContinuarMonitoramento(Boolean continuarMonitoramentos) {
+        continuarMonitoramento = continuarMonitoramentos;
     }
 
     public String getEmail() {
@@ -429,28 +489,21 @@ public class Main extends javax.swing.JFrame {
         Integer MedMem = somaM / contagem;
 
         if (valorCpu > MaxCpu) {
-
             MaxCpu = valorCpu;
         }
         if (valorCpu < MinCpu) {
-
             MinCpu = valorCpu;
         }
-
         if (valorDisk > MaxDisk) {
-
             MaxDisk = valorDisk;
         }
         if (valorDisk < MinDisk) {
-
             MinDisk = valorDisk;
         }
         if (valorMem > MaxMem) {
-
             MaxMem = valorMem;
         }
         if (valorMem < MinMem) {
-
             MinMem = valorMem;
         }
 
@@ -474,6 +527,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        setContinuarMonitoramento(false);
         Login tela = new Login();
         this.setVisible(false);
         tela.setVisible(true);
@@ -482,7 +536,9 @@ public class Main extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+
     public static void main(String args[]) {
+
         /* Set the Nimbus look and feel */
         // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
         // (optional) ">
@@ -518,6 +574,7 @@ public class Main extends javax.swing.JFrame {
                 new Main().setVisible(true);
             }
         });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

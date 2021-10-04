@@ -18,7 +18,7 @@ public class Usuario {
 
     public Integer getIdUsuario() {
         return idUsuario;
-        
+
     }
 
     public void setIdUsuario(Integer idUsuario) {
@@ -78,28 +78,26 @@ public class Usuario {
     }
 
     // public Usuario(Integer idUsuario, String nome, String email, String senha,
-    //         String cargo, String token, String fkEmpresa, Integer fkSupervisor) {
-    //     this.idUsuario = idUsuario;
-    //     this.nome = nome;
-    //     this.email = email;
-    //     this.senha = senha;
-    //     this.cargo = cargo;
-    //     this.token = token;
-    //     this.fkEmpresa = fkEmpresa;
-    //     this.fkSupervisor = fkSupervisor;
+    // String cargo, String token, String fkEmpresa, Integer fkSupervisor) {
+    // this.idUsuario = idUsuario;
+    // this.nome = nome;
+    // this.email = email;
+    // this.senha = senha;
+    // this.cargo = cargo;
+    // this.token = token;
+    // this.fkEmpresa = fkEmpresa;
+    // this.fkSupervisor = fkSupervisor;
     // }
     public void setFkSupervisor(Integer fkSupervisor) {
         this.fkSupervisor = fkSupervisor;
     }
 
-    
     public Usuario() {
     }
 
     public static List<Usuario> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM usuario",
-                new BeanPropertyRowMapper(Usuario.class));
+        return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper(Usuario.class));
     }
 
     @Override

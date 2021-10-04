@@ -11,8 +11,7 @@ public class CategoriaMedicao {
     private String fkMaquina;
     private Integer fkTipoMedicao;
 
-    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite,
-            String fkMaquina, Integer fkTipoMedicao) {
+    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, String fkMaquina, Integer fkTipoMedicao) {
         this.idCategoriaMedicao = idCategoriaMedicao;
         this.medicaoLimite = medicaoLimite;
         this.fkMaquina = fkMaquina;
@@ -53,9 +52,9 @@ public class CategoriaMedicao {
     public void setFkTipoMedicao(Integer fkTipoMedicao) {
         this.fkTipoMedicao = fkTipoMedicao;
     }
+
     public static List<CategoriaMedicao> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM categoria_medicao",
-                new BeanPropertyRowMapper(CategoriaMedicao.class));
+        return jdbcTemplate.query("SELECT * FROM categoria_medicao", new BeanPropertyRowMapper(CategoriaMedicao.class));
     }
 }

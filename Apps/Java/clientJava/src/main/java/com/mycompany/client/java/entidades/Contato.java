@@ -11,8 +11,7 @@ public class Contato {
     private String valor;
     private Integer fkFormaContato;
 
-    public Contato(Integer fkUsuario, Integer idContato, String valor,
-            Integer fkFormaContato) {
+    public Contato(Integer fkUsuario, Integer idContato, String valor, Integer fkFormaContato) {
         this.fkUsuario = fkUsuario;
         this.idContato = idContato;
         this.valor = valor;
@@ -53,10 +52,9 @@ public class Contato {
     public void setFkFormaContato(Integer fkFormaContato) {
         this.fkFormaContato = fkFormaContato;
     }
-    
+
     public static List<Contato> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM contato",
-                new BeanPropertyRowMapper(Contato.class));
+        return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper(Contato.class));
     }
 }

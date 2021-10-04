@@ -12,8 +12,7 @@ public class Staff {
     private String senha;
     private String token;
 
-    public Staff(Integer idStaff, String nome, String email, String senha,
-            String token) {
+    public Staff(Integer idStaff, String nome, String email, String senha, String token) {
         this.idStaff = idStaff;
         this.nome = nome;
         this.email = email;
@@ -63,10 +62,10 @@ public class Staff {
 
     public Staff() {
     }
+
     public static List<Staff> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM staff",
-                new BeanPropertyRowMapper(Staff.class));
+        return jdbcTemplate.query("SELECT * FROM staff", new BeanPropertyRowMapper(Staff.class));
     }
-            
+
 }

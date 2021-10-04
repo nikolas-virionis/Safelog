@@ -12,8 +12,7 @@ public class Empresa {
     private String cidade;
     private Integer fkStaff;
 
-    public Empresa(String idEmpresa, String nome, String pais, String cidade,
-            Integer fkStaff) {
+    public Empresa(String idEmpresa, String nome, String pais, String cidade, Integer fkStaff) {
         this.idEmpresa = idEmpresa;
         this.nome = nome;
         this.pais = pais;
@@ -63,10 +62,9 @@ public class Empresa {
     public void setFkStaff(Integer fkStaff) {
         this.fkStaff = fkStaff;
     }
-    
+
     public static List<Empresa> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM empresa",
-                new BeanPropertyRowMapper(Empresa.class));
+        return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper(Empresa.class));
     }
 }

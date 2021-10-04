@@ -6,7 +6,9 @@ public class Tests {
         // Monitoring m = new Monitoring();
         // System.out.println(m);
 
-        // System.out.println(MonitoringTypes.getObjectArray());
+        // System.out.println(MonitoringTypes.getTiposMedicao());
         // System.out.println(Usuario.selectAll());
+        // InsertDado.getDatetime();
+        InsertDado.formatInsert(MonitoringTypes.getTiposMedicao().get(0), 45d);
     }
 }

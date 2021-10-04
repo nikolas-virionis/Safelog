@@ -12,8 +12,7 @@ public class UsuarioMaquina {
     private Integer fkUsuario;
     private String fkMaquina;
 
-    public UsuarioMaquina(Integer idUsuarioMaquina, Character responsavel,
-            Integer fkUsuario, String fkMaquina) {
+    public UsuarioMaquina(Integer idUsuarioMaquina, Character responsavel, Integer fkUsuario, String fkMaquina) {
         this.idUsuarioMaquina = idUsuarioMaquina;
         this.responsavel = responsavel;
         this.fkUsuario = fkUsuario;
@@ -57,7 +56,6 @@ public class UsuarioMaquina {
 
     public static List<UsuarioMaquina> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM usuario_maquina",
-                new BeanPropertyRowMapper(UsuarioMaquina.class));
+        return jdbcTemplate.query("SELECT * FROM usuario_maquina", new BeanPropertyRowMapper(UsuarioMaquina.class));
     }
 }

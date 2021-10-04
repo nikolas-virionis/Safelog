@@ -42,9 +42,9 @@ public class TipoMedicao {
 
     public TipoMedicao() {
     }
+
     public static List<TipoMedicao> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM tipo_medicao",
-                new BeanPropertyRowMapper(TipoMedicao.class));
+        return jdbcTemplate.query("SELECT * FROM tipo_medicao", new BeanPropertyRowMapper(TipoMedicao.class));
     }
 }

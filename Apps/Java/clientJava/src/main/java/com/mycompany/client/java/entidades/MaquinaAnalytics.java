@@ -13,8 +13,8 @@ public class MaquinaAnalytics {
     private Double limiteDisco;
     private String fkMaquina;
 
-    public MaquinaAnalytics(Integer idMaquinaAnalytics, Double limiteCpu,
-            Double limiteRam, Double limiteDisco, String fkMaquina) {
+    public MaquinaAnalytics(Integer idMaquinaAnalytics, Double limiteCpu, Double limiteRam, Double limiteDisco,
+            String fkMaquina) {
         this.idMaquinaAnalytics = idMaquinaAnalytics;
         this.limiteCpu = limiteCpu;
         this.limiteRam = limiteRam;
@@ -67,7 +67,6 @@ public class MaquinaAnalytics {
 
     public static List<MaquinaAnalytics> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM maquina_analytics",
-                new BeanPropertyRowMapper(MaquinaAnalytics.class));
+        return jdbcTemplate.query("SELECT * FROM maquina_analytics", new BeanPropertyRowMapper(MaquinaAnalytics.class));
     }
 }

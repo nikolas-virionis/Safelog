@@ -32,11 +32,9 @@ public class FormaContato {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
-    public static List<FormaContato> selectAll(BasicDataSource dataSource){
+
+    public static List<FormaContato> selectAll(BasicDataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        return jdbcTemplate.query("SELECT * FROM forma_contato",
-                new BeanPropertyRowMapper(FormaContato.class));
+        return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper(FormaContato.class));
     }
 }

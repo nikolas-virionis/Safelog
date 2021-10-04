@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public class MonitoringTypes {
 
-    public static List<TiposMedicao> getObjectArray() {
+    public static List<TiposMedicao> getTiposMedicao() {
         String sql = String.format(
                 "SELECT tipo_medicao.tipo, medicao_limite, unidade FROM categoria_medicao INNER JOIN "
                         + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao " + "WHERE fk_maquina = '%s'",
@@ -16,7 +16,7 @@ public class MonitoringTypes {
 
     public static List<Double> getLimits() {
         List<Double> list = new ArrayList<Double>();
-        List<TiposMedicao> array = getObjectArray();
+        List<TiposMedicao> array = getTiposMedicao();
         for (TiposMedicao tipo : array) {
             list.add(tipo.getMedicaoLimite());
         }
@@ -25,7 +25,7 @@ public class MonitoringTypes {
 
     public static List<String> getTypes() {
         List<String> list = new ArrayList<String>();
-        List<TiposMedicao> array = getObjectArray();
+        List<TiposMedicao> array = getTiposMedicao();
         for (TiposMedicao tipo : array) {
             list.add(tipo.getTipo());
         }

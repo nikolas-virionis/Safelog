@@ -13,8 +13,8 @@ public class Analytics {
     private String dataMedicao;
     private Integer fkMaquinaAnalytics;
 
-    public Analytics(Integer idAnalytics, Double cpu, Double ram, Double disco,
-            String dataMedicao, Integer fkMaquinaAnalytics) {
+    public Analytics(Integer idAnalytics, Double cpu, Double ram, Double disco, String dataMedicao,
+            Integer fkMaquinaAnalytics) {
         this.idAnalytics = idAnalytics;
         this.cpu = cpu;
         this.ram = ram;
@@ -49,11 +49,10 @@ public class Analytics {
     public Integer getFkMaquinaAnalytics() {
         return fkMaquinaAnalytics;
     }
-    
+
     public static List<Analytics> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM analytics",
-                new BeanPropertyRowMapper(Analytics.class));
+        return jdbcTemplate.query("SELECT * FROM analytics", new BeanPropertyRowMapper(Analytics.class));
     }
-    
+
 }

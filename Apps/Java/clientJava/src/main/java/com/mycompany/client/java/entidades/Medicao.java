@@ -12,9 +12,15 @@ public class Medicao {
     private String dataMedicao;
     private Integer fkCategoriaMedicao;
 
-    public Medicao(Integer idMedicao, Double valor, String tipo,
-            String dataMedicao, Integer fkCategoriaMedicao) {
+    public Medicao(Integer idMedicao, Double valor, String tipo, String dataMedicao, Integer fkCategoriaMedicao) {
         this.idMedicao = idMedicao;
+        this.valor = valor;
+        this.tipo = tipo;
+        this.dataMedicao = dataMedicao;
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
+    }
+
+    public Medicao(Double valor, String tipo, String dataMedicao, Integer fkCategoriaMedicao) {
         this.valor = valor;
         this.tipo = tipo;
         this.dataMedicao = dataMedicao;
@@ -63,9 +69,9 @@ public class Medicao {
 
     public Medicao() {
     }
+
     public static List<Medicao> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM medicao",
-                new BeanPropertyRowMapper(Medicao.class));
+        return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper(Medicao.class));
     }
 }

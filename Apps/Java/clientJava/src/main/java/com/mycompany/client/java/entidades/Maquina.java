@@ -12,8 +12,7 @@ public class Maquina {
     private String senha;
     private String fkEmpresa;
 
-    public Maquina(String idMaquina, String nome, String senha,
-            String fkEmpresa) {
+    public Maquina(String idMaquina, String nome, String senha, String fkEmpresa) {
         this.idMaquina = idMaquina;
         this.nome = nome;
         this.senha = senha;
@@ -54,9 +53,9 @@ public class Maquina {
 
     public Maquina() {
     }
+
     public static List<Maquina> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM maquina",
-                new BeanPropertyRowMapper(Maquina.class));
+        return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper(Maquina.class));
     }
 }

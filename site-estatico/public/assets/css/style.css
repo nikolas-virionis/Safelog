@@ -40,17 +40,17 @@ body {
     background-color: #fcfcfc;
 }
 body::-webkit-scrollbar {
-    width: 16px; /* width of the entire scrollbar */
+    width: 10px; /* width of the entire scrollbar */
 }
 body::-webkit-scrollbar-track {
-    background: #e0e0e0; /* color of the tracking area */
+    background: transparent; /* color of the tracking area */
 }
 body::-webkit-scrollbar-thumb {
-    background-color: var(--cor-princial); /* color of the scroll thumb */
+    background-color: #c7c7c7; /* color of the scroll thumb */
     border-radius: 20px;
 }
 body::-webkit-scrollbar-thumb:hover {
-    background-color: var(--cor-hover); /* color of the scroll thumb on hover*/
+    background-color: #b5b5b5; /* color of the scroll thumb on hover*/
 }
 .container-site {
     width: 70vw;

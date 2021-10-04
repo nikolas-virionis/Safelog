@@ -5,7 +5,7 @@ var ctx3 = document.getElementById('idChart3').getContext('2d');
 const data1 = {
   labels: ['18:00', '18:03', '18:06', '18:09', '18:12', '18:15', '18:18', '18:21', '18:24', '18:27'],
   datasets: [{
-    label: 'Uso de CPU (%)',
+    label: 'Uso de CPU',
     data: [65, 59, 80, 81, 56, 55, 40, 50, 65, 70],
     fill: false,
     backgroundColor: '#0071ce',
@@ -13,7 +13,7 @@ const data1 = {
     tension: 0.3
   },
   {
-    label: 'Temperatura CPU (°C)',
+    label: 'Frequencia CPU',
     data: [75, 69, 70, 21, 26, 45, 80, 10, 65, 90],
     fill: false,
     backgroundColor: '#025396',

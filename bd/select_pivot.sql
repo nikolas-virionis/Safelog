@@ -14,14 +14,15 @@ SELECT * FROM join_dados ORDER BY data_medicao DESC LIMIT 10;
 
 -- view analytics pivot
 DROP VIEW v_analytics;
+
 SET @sql = NULL;
-SELECT GROUP_CONCAT(DISTINCT CONCAT( 
-			'max(case when tipo = ''',
-            tipo, ''' then valor end) ', tipo)) 
-            INTO @sql FROM join_dados;
-SET @sql = CONCAT('CREATE VIEW v_analytics AS SELECT fk_maquina, nome, data_medicao, ', @sql, 
-		' FROM join_dados GROUP BY data_medicao, fk_maquina
-        ORDER BY nome' );
+SET @sql = CONCAT('CREATE OR REPLACE VIEW v_analytics AS SELECT fk_maquina, nome, data_medicao, ', 
+	(SELECT GROUP_CONCAT(DISTINCT CONCAT( 
+	'max(case when tipo = ''',
+	tipo, ''' then valor end) ', tipo)) 
+	FROM join_dados), 
+	' FROM join_dados GROUP BY data_medicao, fk_maquina
+	ORDER BY nome' );
 
 PREPARE stmt FROM @sql;
 EXECUTE stmt;
@@ -33,8 +34,14 @@ SELECT * FROM v_analytics ORDER BY data_medicao DESC LIMIT 10; -- sempre ordenar
 INSERT INTO tipo_medicao VALUES(null, 'teste_1', 't1'); -- não inserir tipos contendo " "
 SELECT * FROM tipo_medicao ORDER BY id_tipo_medicao DESC LIMIT 10;
 
-INSERT INTO categoria_medicao VALUES(null, 100, '87-f4-a2-f4-26-7f', 8);
+INSERT INTO categoria_medicao VALUES
+(null, 100, '87:f4:a2:f4:26:7f', 8),
+(null, 100, '87:f4:a2:f4:26:7f', 7),
+(null, 100, '87:f4:a2:f4:26:7f', 6);
 SELECT * FROM categoria_medicao ORDER BY id_categoria_medicao DESC LIMIT 10;
 
-INSERT INTO medicao VALUES(null, 80, 'normal', '2021-09-30 21:26:52', 57);
-SELECT * FROM medicao ORDER BY data_medicao LIMIT 10;
+INSERT INTO medicao VALUES
+(null, 80, 'normal', NOW(), 57),
+(null, 90, 'normal', NOW(), 58),
+(null, 100, 'normal', NOW(), 59);
+SELECT * FROM medicao ORDER BY data_medicao DESC LIMIT 10;

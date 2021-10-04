@@ -1,6 +1,6 @@
 package com.mycompany.client.java;
 
-public class Test {
+public class Tests {
 
     public static void main(String[] args) throws InterruptedException {
         // Monitoring m = new Monitoring();

@@ -8,9 +8,16 @@ import java.util.List;
 
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
+import oshi.hardware.CentralProcessor;
+
 import oshi.hardware.HardwareAbstractionLayer;
 
 public class Monitoring extends Looca {
+
+    public static HardwareAbstractionLayer getSystemHardware() {
+        SystemInfo sys = new SystemInfo();
+        return sys.getHardware();
+    }
 
     public static String getMacAddress() {
         List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
@@ -22,7 +29,10 @@ public class Monitoring extends Looca {
     }
 
     public Double getClockCPU() {
-        return Math.round(super.getProcessador().getFrequencia() / 10000) / 100d;
+        CentralProcessor cpu = getSystemHardware().getProcessor();
+        Long maxFreq = cpu.getMaxFreq();
+        Long freq = cpu.getCurrentFreq()[0];
+        return Math.round((freq * 10000) / (maxFreq)) / 100d;
     }
 
     public Double getUsoCPU() {
@@ -34,7 +44,8 @@ public class Monitoring extends Looca {
     }
 
     public Double getFreeRAMGb() {
-        return Math.round(super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
+        return Math.round(
+                super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
     }
 
     public Double getTotalRAMGb() {
@@ -43,13 +54,16 @@ public class Monitoring extends Looca {
 
     public Double getUsoDiscoGb() {
         return Math
-                .round((super.getGrupoDeDiscos().getDiscos().get(0).getBytesDeEscritas()
-                        + super.getGrupoDeDiscos().getDiscos().get(0).getBytesDeLeitura()) * 100 / 1_073_741_824)
+                .round((super.getGrupoDeDiscos().getDiscos().get(0).
+                        getBytesDeEscritas()
+                        + super.getGrupoDeDiscos().getDiscos().get(0).
+                                getBytesDeLeitura()) * 100 / 1_073_741_824)
                 / 100d;
     }
 
     public Double getTotalDiscoGb() {
-        return Math.round(super.getGrupoDeDiscos().getDiscos().get(0).getTamanho() * 100 / 1_073_741_824) / 100d;
+        return Math.round(super.getGrupoDeDiscos().getDiscos().get(0).
+                getTamanho() * 100 / 1_073_741_824) / 100d;
     }
 
     public Double getFreeDiscoGb() {
@@ -72,13 +86,9 @@ public class Monitoring extends Looca {
         return Math.round((getUsoRAMGb() * 100 / getTotalRAMGb()) * 100) / 100d;
     }
 
-    public static HardwareAbstractionLayer getSystemHardware() {
-        SystemInfo sys = new SystemInfo();
-        return sys.getHardware();
-    }
-
     public static String getDatetime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
+                "yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
@@ -87,10 +97,11 @@ public class Monitoring extends Looca {
     public String toString() {
         return String.format(
                 "Monitoramento Servidor: %s: " + "\n\tTemperatura: %.2fºC\n\t" + "Uso de CPU: %.2f%% \n\t"
-                        + "Clock CPU: %.2fMhz \n\t" + "Uso de RAM: %.2f%% \n\t" + "RAM Disponível: %.2fGb \n\t"
-                        + "RAM Total: %.2fGb \n\t" + "Uso de Disco: %.2f%% \n\t" + "Disco Disponível: %.2fGb \n\t"
-                        + "Disco Total: %.2fGb \n\t",
-                getMacAddress(), getTemp(), getUsoCPU(), getClockCPU(), getUsoRAM(), getFreeRAMGb(), getTotalRAMGb(),
+                + "Clock CPU: %.2f%% \n\t" + "Uso de RAM: %.2f%% \n\t" + "RAM Disponível: %.2fGb \n\t"
+                + "RAM Total: %.2fGb \n\t" + "Uso de Disco: %.2f%% \n\t" + "Disco Disponível: %.2fGb \n\t"
+                + "Disco Total: %.2fGb \n\t",
+                getMacAddress(), getTemp(), getUsoCPU(), getClockCPU(),
+                getUsoRAM(), getFreeRAMGb(), getTotalRAMGb(),
                 getUsoDisco(), getFreeDiscoGb(), getTotalDiscoGb());
     }
 

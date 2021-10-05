@@ -24,7 +24,7 @@
         </div>
 
         <ul class="nav-links">
-            <li class="li-selected">
+            <li class="li-not-selected">
                 <a href="dashboard.html">
                     <i class='bx bxs-bar-chart-alt-2'></i>
                     <span class="link_name">Dashboard</span>
@@ -51,7 +51,7 @@
                     <li><a class="link_name" href="relatorio.html">Relatório</a></li>
                 </ul>
             </li>
-            <li class="li-not-selected">
+            <li class="li-selected">
                 <a href="dependentes.html">
                     <i class='bx bxs-group'></i>
                     <span class="link_name">Dependentes</span>
@@ -93,12 +93,93 @@
             </li>
         </ul>
     </div>
+
+
+
     <section class="home-section">
+        <div class="container-site">
+            <div class="lista-componentes">
+                <div class="componente-principal">
+                    <label for="checkCpu">CPU</label>                
+                    <input type="checkbox" name="" id="checkCpu">
+                </div>
+    
+                <div class="componente-principal">
+                    <label for="checkMem">Memória</label>                
+                    <input type="checkbox" name="" id="checkMem">
+                </div>
+    
+                <div class="componente-principal">
+                    <label for="checkDis">Disco</label>                
+                    <input type="checkbox" name="" id="checkDis">
+                </div>
+            </div>
+            
+
+
+
+            <div id="medicoes" class="medicoes">
+                <div class="lista-medicoes" id="componentesCpu">
+                    <h2>CPU:</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao1">
+                        <label for="medicao1">Porcentagem de uso:</label>
+                        <span id="rangeValue1">80%</span><br>
+                        <input type="range" step="0.1" value="80" id="limite1" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao2">
+                        <label for="medicao2">Frequência: </label>
+                        <span id="rangeValue2">80%</span><br>
+                        <input type="range" step="0.1" value="80" id="limite2" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao3">
+                        <label for="medicao3">Temperatura ºC</label><br>
+                        <input type="number" value="70" step="0.25" id="limite3" disabled>
+                    </div>
+                </div>
+
+                <div class="lista-medicoes" id="componentesMem">
+                    <h2>Memória</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao4">
+                        <label for="medicao4">Porcentagem de uso: </label>
+                        <span id="rangeValue4">80%</span><br>
+                        <input type="range" step="0.1" value="80" id="limite4" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao5">
+                        <label for="medicao5">Disponível (Gb)</label><br>
+                        <input type="number" value="100" step="0.25" id="limite5" disabled>
+                    </div>
+                </div>
+
+                <div class="lista-medicoes" id="componentesDis">
+                    <h2>Disco</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao6">
+                        <label for="medicao6">Porcentagem de uso: </label>
+                        <span id="rangeValue6">80%</span><br>
+                        <input type="range" step="0.1" value="80" id="limite6" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="" id="medicao7">
+                        <label for="medicao7">Disponível (Gb)</label><br>
+                        <input type="number" value="100" step="0.25" id="limite7" disabled>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+
 
     </section>
 
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/sidebar.js"></script>
+    <script src="assets/js/componentes.js"></script>
 </body>
 
 </html>

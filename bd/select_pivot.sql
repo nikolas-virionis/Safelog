@@ -4,7 +4,7 @@ SELECT * FROM medicao;
 
 -- view de auxilio, join tabelas: medicao, categoria_medicao, tipo_medicao
 DROP VIEW join_dados;
-CREATE VIEW join_dados AS
+CREATE OR REPLACE VIEW join_dados AS
 SELECT id_medicao, m.valor, m.data_medicao, tm.tipo, cm.fk_maquina, maquina.nome FROM medicao AS m
     JOIN categoria_medicao cm ON m.fk_categoria_medicao = cm.id_categoria_medicao
 	JOIN tipo_medicao AS tm ON cm.fk_tipo_medicao = tm.id_tipo_medicao

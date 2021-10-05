@@ -37,7 +37,7 @@ public class TelaErro extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(5, 0, 255));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cruz\\Desktop\\Rep-Grupo06\\1CCO-2021-2-Grupo-06\\Apps\\Design_sem_nome__9_-removebg-preview.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cruz\\Desktop\\Rep-Grupo06\\1CCO-2021-2-Grupo-06\\1CCO-2021-2-Grupo-06\\Apps\\Design_sem_nome__9_-removebg-preview.png")); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -94,6 +94,9 @@ public class TelaErro extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        Login tela = new Login();
+        this.setVisible(false);
+        tela.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

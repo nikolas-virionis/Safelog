@@ -3,17 +3,17 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-if (
-    window.location.pathname != "/login.html" &&
-    window.location.pathname != "/index.html" &&
-    window.location.pathname != "/cadastro-pessoa.html" &&
-    window.location.pathname != "/redefinir-senha.html" &&
-    window.location.pathname != "/" &&
-    !sessionStorage.usuario &&
-    !sessionStorage.staff
-) {
-    window.location.href = "login.html";
-}
+// if (
+//     window.location.pathname != "/login.html" &&
+//     window.location.pathname != "/index.html" &&
+//     window.location.pathname != "/cadastro-pessoa.html" &&
+//     window.location.pathname != "/redefinir-senha.html" &&
+//     window.location.pathname != "/" &&
+//     !sessionStorage.usuario &&
+//     !sessionStorage.staff
+// ) {
+//     window.location.href = "login.html";
+// }
 
 
 function mostrarAlerta(msg, type){
@@ -48,9 +48,14 @@ function mostrarAlerta(msg, type){
 
     setTimeout(function(){
         alerta.style.right = "-500px";
-    }, 6000);
+    }, 5000);
 
 }
+
+function esconderAlerta(){
+    document.querySelector("#alerta").style.right = "-500px";
+}
+
 let num = JSON.parse(localStorage.getItem("img")) ?? Math.floor(Math.random() * 11);
 let imagemAleatoria = `./assets/img/profile-pic/default${num}.png`;
 localStorage.setItem("img", num)

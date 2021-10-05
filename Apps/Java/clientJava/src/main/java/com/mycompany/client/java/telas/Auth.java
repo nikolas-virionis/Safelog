@@ -54,6 +54,8 @@ public class Auth {
         List<Map<String, Object>> maquinaValida = jdbcTemplate
                 .queryForList(String.format("SELECT * FROM maquina WHERE id_maquina = '%s' AND senha = MD5('%s')",
                         Monitoring.getMacAddress(), maquina));
+        System.out.println(String.format("SELECT * FROM maquina WHERE id_maquina = '%s' AND senha = MD5('%s')",
+                        Monitoring.getMacAddress(), maquina));
         return maquinaValida.size() > 0;
     }
 

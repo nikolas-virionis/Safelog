@@ -52,21 +52,16 @@
                   <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel6" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
-                                  <Component id="jLabel5" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
-                                  <Component id="txtSenha" alignment="0" pref="250" max="32767" attributes="0"/>
-                                  <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtMaquina" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="erroEmail" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
-                              <Component id="ErroSenha" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
-                              <Component id="erroMaquina" alignment="0" min="-2" pref="169" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel6" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="0" min="-2" pref="233" max="-2" attributes="0"/>
+                          <Component id="txtSenha" alignment="0" pref="250" max="32767" attributes="0"/>
+                          <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtMaquina" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="erroEmail" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
+                      <Component id="ErroSenha" alignment="0" min="-2" pref="184" max="-2" attributes="0"/>
+                      <Component id="erroMaquina" alignment="0" min="-2" pref="169" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -105,7 +100,7 @@
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="46" max="32767" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane4" min="-2" pref="47" max="-2" attributes="0"/>

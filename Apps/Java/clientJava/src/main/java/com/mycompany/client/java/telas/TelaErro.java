@@ -5,6 +5,8 @@
  */
 package com.mycompany.client.java.telas;
 
+import java.awt.Toolkit;
+
 /**
  *
  * @author Cruz
@@ -16,6 +18,8 @@ public class TelaErro extends javax.swing.JFrame {
      */
     public TelaErro() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -97,6 +101,7 @@ public class TelaErro extends javax.swing.JFrame {
         Login tela = new Login();
         this.setVisible(false);
         tela.setVisible(true);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -140,4 +145,7 @@ public class TelaErro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
-}
+
+   
+    }
+

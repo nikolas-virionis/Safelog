@@ -1,15 +1,12 @@
 package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
 import oshi.hardware.CentralProcessor;
-
 import oshi.hardware.HardwareAbstractionLayer;
 
 public class Monitoring extends Looca {

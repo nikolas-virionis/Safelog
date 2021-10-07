@@ -20,6 +20,7 @@ datas = medicoes["data_medicao"]
 fks = medicoes["fk_categoria_medicao"]
 
 insert_sql = ""
+
 insert_sql += "INSERT INTO maquina VALUES ('0C:9D:92:C6:CC:19', 'DESKTOP1', MD5('ExSenha1'), '203783731'); \n"
 insert_sql += "INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '0C:9D:92:C6:CC:19'); \n"
 for i, j in enumerate(limites):

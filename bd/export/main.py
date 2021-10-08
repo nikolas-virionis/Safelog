@@ -4,19 +4,20 @@ import sys
 import os
 
 db_connection = sql.connect(host='localhost', database='safelog',
-                            user='root', password='bandtec')
+                            user='root', password='DigitalSchool1$')
+directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
 
 
 def df_to_csv(tb, emp, name):
     df = pd.read_sql(f"SELECT * FROM v_analytics WHERE fk_maquina = '{tb}'",
                      con=db_connection)
     emp = emp.strip().replace(" ", "_")
-    print(os.path.exists(f"bd/export/csv/{emp}"), emp == 'NYSE_MARKET,_INC')
-    if not os.path.exists(f"bd/export/csv/{emp}"):
-        os.mkdir(f"bd/export/csv/{emp}")
+    print(os.path.exists(f"{directory}/csv/{emp}"), emp == 'NYSE_MARKET,_INC')
+    if not os.path.exists(f"{directory}/csv/{emp}"):
+        os.mkdir(f"{directory}/csv/{emp}")
     print(df)
     df.to_csv(
-        f"./bd/export/csv/{emp}/amostra{name.capitalize()}.csv", index=False)
+        f"{directory}/csv/{emp}/amostra{name.capitalize()}.csv", index=False)
 
 
 if len(sys.argv) == 1:

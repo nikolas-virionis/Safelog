@@ -54,6 +54,7 @@ const validarLogin = () => {
                         senha: senha.value,
                     })
                     .then((res) => {
+                        console.log(res);
                         if (res.data.status == "ok") {
                             mostrarAlerta(
                                 "Usuario logado com sucesso",

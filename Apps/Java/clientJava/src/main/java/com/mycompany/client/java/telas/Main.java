@@ -416,33 +416,44 @@ public class Main extends javax.swing.JFrame {
 
         brCpuClock.setStringPainted(true);
 
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Uso:");
 
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Frequencia:");
 
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Temperatura:");
 
+        lblTemp.setForeground(new java.awt.Color(255, 255, 255));
         lblTemp.setText("jLabel22");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
         jLabel23.setText("(% em relação ao máximo)");
 
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("Uso:");
 
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
         jLabel25.setText("Uso:");
 
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setText("Disponível: ");
 
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setText("Disponível: ");
 
+        lblDiskFree.setForeground(new java.awt.Color(255, 255, 255));
         lblDiskFree.setText("jLabel28");
 
+        lblMemFree.setForeground(new java.awt.Color(255, 255, 255));
         lblMemFree.setText("jLabel28");
 
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cruz\\Desktop\\Rep-Grupo06\\1CCO-2021-2-Grupo-06\\Apps\\Java\\clientJava\\src\\main\\java\\com\\mycompany\\client\\java\\telas\\logo-escrita-branco.png")); // NOI18N
+        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/client/java/telas/logo-escrita-branco.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

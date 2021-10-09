@@ -9,9 +9,11 @@ public class MonitoringTypes {
     public static List<TiposMedicao> getTiposMedicao() {
         String sql = String.format(
                 "SELECT tipo_medicao.tipo, medicao_limite, unidade FROM categoria_medicao INNER JOIN "
-                        + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao " + "WHERE fk_maquina = '%s'",
+                + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao " + "WHERE fk_maquina = '%s'",
                 Monitoring.getMacAddress());
-        return ConfigDB.getJdbc().query(sql, new BeanPropertyRowMapper(TiposMedicao.class));
+
+        BeanPropertyRowMapper<TiposMedicao> bean = new BeanPropertyRowMapper<>(TiposMedicao.class);
+        return ConfigDB.getJdbc().query(sql, bean);
     }
 
     public static List<Double> getLimits() {

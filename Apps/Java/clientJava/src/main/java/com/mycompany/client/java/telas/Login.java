@@ -68,7 +68,6 @@ public final class Login extends javax.swing.JFrame {
         txtEmail.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtEmail.setToolTipText("");
-        // txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
         txtEmail.setBorder(null);
         jScrollPane4.setViewportView(txtEmail);
 
@@ -228,6 +227,8 @@ public final class Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        this.getRootPane().setDefaultButton(jButton1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

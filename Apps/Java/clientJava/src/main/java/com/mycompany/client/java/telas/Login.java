@@ -330,5 +330,5 @@ public final class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 
-   
+    
 }

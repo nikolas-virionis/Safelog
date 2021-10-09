@@ -51,6 +51,12 @@ public class Main extends javax.swing.JFrame {
         });
         thread.start();
     }
+    public Main(String email) {
+        this();
+
+        this.setEmail(email);
+        // System.out.println(email);
+    }
 
     private void insertBanco() {
         do {
@@ -121,13 +127,6 @@ public class Main extends javax.swing.JFrame {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Main(String email) {
-        this();
-
-        this.setEmail(email);
-        // System.out.println(email);
     }
 
     /**

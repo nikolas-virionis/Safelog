@@ -276,8 +276,12 @@ public final class Login extends javax.swing.JFrame {
             erroMaquina.setText("Senha da máquina inválida");
         } else {
             Main tela = new Main(email);
+            tela.setDefaultCloseOperation(tela.EXIT_ON_CLOSE);
+            tela.setSize(600, 600);
+            tela.pack();
             this.setVisible(false);
             tela.setVisible(true);
+            tela.setLocationRelativeTo(null);
         }
 
     }// GEN-LAST:event_jButton1ActionPerformed

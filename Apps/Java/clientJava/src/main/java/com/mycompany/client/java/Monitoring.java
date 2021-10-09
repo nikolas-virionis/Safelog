@@ -50,14 +50,6 @@ public class Monitoring extends Looca {
     }
 
     public Double getUsoDiscoGb() {
-        // System.out.println("-".repeat(30));
-        // System.out.println(super.getGrupoDeDiscos().getDiscos().get(0));
-        // System.out.println("-".repeat(30));
-        // System.out.println(super.getGrupoDeDiscos().getDiscos().get(1));
-        // return Math
-        //         .round((getSystemHardware().getDiskStores().get(1).getReadBytes()
-        //                 + getSystemHardware().getDiskStores().get(1).getWriteBytes()) * 100 / 1_073_741_824)
-        //         / 100d;
         return (getTotalDiscoGb() - getFreeDiscoGb());
     }
 

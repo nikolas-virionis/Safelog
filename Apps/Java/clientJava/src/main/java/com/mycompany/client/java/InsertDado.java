@@ -3,11 +3,12 @@ package com.mycompany.client.java;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.mycompany.client.java.entidades.Medicao;
+import java.util.Locale;
 
 public class InsertDado {
 
     public static void insert(Medicao medicao) {
-        String sql = String.format("INSERT INTO medicao values (NULL, %.2f, '%s', '%s', %d)", medicao.getValor(),
+        String sql = String.format(Locale.US, "INSERT INTO medicao values (NULL, %.2f, '%s', '%s', %d)", medicao.getValor(),
                 medicao.getTipo(), medicao.getDataMedicao(), medicao.getFkCategoriaMedicao());
         ConfigDB.getJdbc().execute(sql);
     }

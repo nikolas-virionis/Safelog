@@ -60,24 +60,37 @@ public class Main extends javax.swing.JFrame {
                 Monitoring m = new Monitoring();
                 if (tipo.getTipo().equals("cpu_porcentagem")) {
                     medicao = m.getUsoCPU();
+                    System.out.println("cpu uso: ");
+                    System.out.println(medicao);
                     brCpu.setValue(medicao.intValue());
                 } else if (tipo.getTipo().equals("cpu_frequencia")) {
                     medicao = m.getClockCPU();
+                    System.out.println("cpu freq");
                     brCpuClock.setValue(medicao.intValue());
                 } else if (tipo.getTipo().equals("cpu_temperatura")) {
                     medicao = m.getTemp();
+                    System.out.println("cpu temperatura: ");
+                    System.out.println(medicao);
                     lblTemp.setText(medicao.toString());
                 } else if (tipo.getTipo().equals("ram_porcentagem")) {
                     medicao = m.getUsoRAM();
+                    System.out.println("ram uso");
+                    System.out.println(medicao);
                     brMem.setValue(medicao.intValue());
                 } else if (tipo.getTipo().equals("ram_livre")) {
                     medicao = m.getFreeRAMGb();
+                    System.out.println("ram livre: ");
+                    System.out.println(medicao);
                     lblMemFree.setText(medicao.toString());
                 } else if (tipo.getTipo().equals("disco_livre")) {
                     medicao = m.getFreeDiscoGb();
+                    System.out.println("disco livre: ");
+                    System.out.println(medicao);
                     lblDiskFree.setText(medicao.toString());
                 } else if (tipo.getTipo().equals("disco_porcentagem")) {
                     medicao = m.getUsoDisco();
+                    System.out.println("disco uso: ");
+                    System.out.println(medicao);
                     brDisk.setValue(medicao.intValue());
                 } else {
                     throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");

@@ -4,7 +4,7 @@ let router = express.Router();
 let sequelize = require("../models").sequelize;
 
 router.post("/cadastro", async (req, res, next) => {
-    let { id, id_maquina, nome, senha, cpu, ram, disco, empresa } = req.body;
+    let { id, id_maquina, nome, senha, empresa } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
@@ -39,7 +39,7 @@ router.post("/cadastro", async (req, res, next) => {
                     })
                     .catch((err) => res.json({ status: "erro", msg: err }));
             } else res.json({ status: "erro", msg: "Maquina ja cadastrada" });
-        });
+        }).catch((err) => res.json({ status: "erro", msg: err}));
 });
 
 router.post("/lista-dependentes", async (req, res) => {
@@ -72,6 +72,30 @@ router.post("/lista-dependentes", async (req, res) => {
             res.json({ status: "ok", res: maquinas });
         })
         .catch((err) => res.json({ status: "erro", msg: err }));
+});
+
+router.post("/verificarUsuario", async (req, res) => {
+    let { id, idMaquina } = req.body;
+    let consulta = `SELECT
+     count(responsavel) as contagem,
+     responsavel,
+     fk_usuario,
+     fk_maquina
+     FROM usuario_maquina
+     WHERE fk_usuario = ${id} 
+     AND fk_maquina = '${idMaquina}';`;
+    console.log("Entrei")
+    await sequelize.query(consulta, {
+        type: sequelize.QueryTypes.SELECT 
+    }).then((resposta) =>
+        res.json({
+            resp: resposta,
+            status: "ok",
+            msg: "Usuário verificado com sucesso",
+        }
+        
+    )).catch((err) => res.json({ status: "erro", err }));
+
 });
 
 module.exports = router;

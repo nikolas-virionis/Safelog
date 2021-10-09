@@ -54,7 +54,7 @@
                                   <Component id="brMem" min="-2" pref="339" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="jLabel1" min="-2" pref="339" max="-2" attributes="0"/>
@@ -106,7 +106,7 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
                                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
@@ -119,6 +119,11 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jLabel28" min="-2" pref="396" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -130,10 +135,12 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="15" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace pref="17" max="32767" attributes="0"/>
                           <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -176,9 +183,12 @@
                           </Group>
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="11" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -247,25 +257,6 @@
                       <EmptySpace pref="82" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="cpuMax" min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="jLabel16" min="-2" pref="61" max="-2" attributes="0"/>
-                                      <Component id="jLabel15" min="-2" pref="41" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="cpuMed" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="cpuMin" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="memMax" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="memMin" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                                  <Component id="memMed" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="diskMax" min="-2" pref="48" max="-2" attributes="0"/>
                                   <Component id="jLabel17" min="-2" pref="41" max="-2" attributes="0"/>
@@ -276,6 +267,30 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="jLabel18" min="-2" pref="48" max="-2" attributes="0"/>
                                   <Component id="jButton1" min="-2" pref="71" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="cpuMax" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace pref="34" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="jLabel16" min="-2" pref="61" max="-2" attributes="0"/>
+                                              <Component id="jLabel15" min="-2" pref="41" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <Component id="cpuMed" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Component id="cpuMin" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Component id="memMax" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Component id="memMin" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                      <Component id="memMed" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -692,8 +707,13 @@
         <Component class="javax.swing.JLabel" name="jLabel22">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel28">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Cruz\Desktop\Rep-Grupo06\1CCO-2021-2-Grupo-06\1CCO-2021-2-Grupo-06\site-estatico\public\assets\img\logo\logo-escrita-branco.png"/>
+              <Image iconType="3" name="/com/mycompany/client/java/telas/logo-escrita-branco.png"/>
             </Property>
           </Properties>
         </Component>

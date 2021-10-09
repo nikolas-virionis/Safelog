@@ -144,7 +144,7 @@ public final class Login extends javax.swing.JFrame {
         });
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cruz\\Desktop\\Rep-Grupo06\\1CCO-2021-2-Grupo-06\\Apps\\Java\\clientJava\\src\\main\\java\\com\\mycompany\\client\\java\\telas\\logo-escrita-branco.png")); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/client/java/telas/logo-escrita-branco.png"))); // NOI18N
 
         cop.setForeground(new java.awt.Color(0, 255, 51));
 

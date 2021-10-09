@@ -713,7 +713,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/mycompany/client/java/telas/logo-escrita-branco.png"/>
+              <Image iconType="2" name="C:\Users\Cruz\Desktop\Rep-Grupo06\1CCO-2021-2-Grupo-06\Apps\Java\clientJava\src\main\java\com\mycompany\client\java\telas\logo-escrita-branco.png"/>
             </Property>
           </Properties>
         </Component>

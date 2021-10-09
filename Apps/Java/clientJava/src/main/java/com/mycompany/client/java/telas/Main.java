@@ -442,7 +442,7 @@ public class Main extends javax.swing.JFrame {
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/mycompany/client/java/telas/logo-escrita-branco.png"))); // NOI18N
+        jLabel28.setIcon(new javax.swing.ImageIcon("C:\\Users\\Cruz\\Desktop\\Rep-Grupo06\\1CCO-2021-2-Grupo-06\\Apps\\Java\\clientJava\\src\\main\\java\\com\\mycompany\\client\\java\\telas\\logo-escrita-branco.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

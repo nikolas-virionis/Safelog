@@ -46,8 +46,8 @@ confirmarSenha.addEventListener("keypress", (e) => {
 
 btn.addEventListener("click", (e) => {
     e.preventDefault();
-    if (senha.value !== confirmarSenha.value){
-        mostrarAlerta("As senhas são diferentes", "warning")
+    if (senha.value !== confirmarSenha.value) {
+        mostrarAlerta("As senhas são diferentes", "warning");
         return;
     }
     axios
@@ -56,19 +56,15 @@ btn.addEventListener("click", (e) => {
             id_maquina: id_maquina.value,
             nome: nome.value,
             senha: senha.value,
-            // cpu: Number(cpu.value),
-            // ram: Number(ram.value),
-            // disco: Number(dsk.value),
             empresa,
         })
         .then((response) => {
             console.log(response);
             if (response.data?.status == "ok") {
-                mostrarAlerta("Maquina registrada com sucesso", "success")
+                mostrarAlerta("Maquina registrada com sucesso", "success");
                 window.location = `componentes.html?id_maquina=${id_maquina.value}`;
             } else {
-                mostrarAlerta("Erro no cadastro da máquina", "danger")
-
+                mostrarAlerta("Erro no cadastro da máquina", "danger");
             }
         });
 });

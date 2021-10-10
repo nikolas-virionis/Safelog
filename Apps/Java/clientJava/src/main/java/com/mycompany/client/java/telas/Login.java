@@ -250,8 +250,19 @@ public final class Login extends javax.swing.JFrame {
         ErroSenha.setText("");
         erroMaquina.setText("");
         String email = txtEmail.getText();
-        String senha = txtSenha.getText();
-        String maquina = txtMaquina.getText();
+        char[] senhaChar = txtSenha.getPassword();
+        char[] maquinaChar = txtMaquina.getPassword();
+        String senha = "";
+        String maquina = "";
+
+        for (char c : senhaChar) {
+            senha += c;
+        }   
+
+        for (char c : maquinaChar) {
+            maquina += c;
+        }  
+
         System.out.println(maquina);
         if (email.equals("") || senha.equals("") || maquina.equals("")) {
             if (email.equals("")) {

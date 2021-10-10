@@ -97,7 +97,7 @@ public class Usuario {
 
     public static List<Usuario> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper(Usuario.class));
+        return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper<>(Usuario.class));
     }
 
     @Override

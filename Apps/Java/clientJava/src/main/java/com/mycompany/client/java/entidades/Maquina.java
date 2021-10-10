@@ -56,6 +56,6 @@ public class Maquina {
 
     public static List<Maquina> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper(Maquina.class));
+        return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
     }
 }

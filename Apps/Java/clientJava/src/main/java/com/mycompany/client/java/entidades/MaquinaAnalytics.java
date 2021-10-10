@@ -67,6 +67,6 @@ public class MaquinaAnalytics {
 
     public static List<MaquinaAnalytics> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM maquina_analytics", new BeanPropertyRowMapper(MaquinaAnalytics.class));
+        return jdbcTemplate.query("SELECT * FROM maquina_analytics", new BeanPropertyRowMapper<>(MaquinaAnalytics.class));
     }
 }

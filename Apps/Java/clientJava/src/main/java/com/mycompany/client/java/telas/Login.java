@@ -68,7 +68,6 @@ public final class Login extends javax.swing.JFrame {
         txtEmail.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtEmail.setToolTipText("");
-        // txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
         txtEmail.setBorder(null);
         jScrollPane4.setViewportView(txtEmail);
 
@@ -229,6 +228,8 @@ public final class Login extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        this.getRootPane().setDefaultButton(jButton1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -249,8 +250,19 @@ public final class Login extends javax.swing.JFrame {
         ErroSenha.setText("");
         erroMaquina.setText("");
         String email = txtEmail.getText();
-        String senha = txtSenha.getText();
-        String maquina = txtMaquina.getText();
+        char[] senhaChar = txtSenha.getPassword();
+        char[] maquinaChar = txtMaquina.getPassword();
+        String senha = "";
+        String maquina = "";
+
+        for (char c : senhaChar) {
+            senha += c;
+        }   
+
+        for (char c : maquinaChar) {
+            maquina += c;
+        }  
+
         System.out.println(maquina);
         if (email.equals("") || senha.equals("") || maquina.equals("")) {
             if (email.equals("")) {

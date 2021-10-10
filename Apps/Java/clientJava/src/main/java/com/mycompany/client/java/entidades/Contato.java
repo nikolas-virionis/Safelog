@@ -55,6 +55,6 @@ public class Contato {
 
     public static List<Contato> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper(Contato.class));
+        return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper<>(Contato.class));
     }
 }

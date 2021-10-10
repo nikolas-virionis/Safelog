@@ -7,12 +7,14 @@ import java.util.Locale;
 
 public class InsertDado {
 
+    // insere medições no banco
     public static void insert(Medicao medicao) {
         String sql = String.format(Locale.US, "INSERT INTO medicao values (NULL, %.2f, '%s', '%s', %d)", medicao.getValor(),
                 medicao.getTipo(), medicao.getDataMedicao(), medicao.getFkCategoriaMedicao());
         ConfigDB.getJdbc().execute(sql);
     }
 
+    // formata categoria de medição para insert
     public static void formatInsert(TiposMedicao tipoMedicao, Double medicao, String data) {
         String sql = String.format(
                 "SELECT id_categoria_medicao FROM categoria_medicao "
@@ -24,6 +26,7 @@ public class InsertDado {
         insert(new Medicao(medicao, getTipo(tipoMedicao, medicao), data, fkCategoriaMedicao));
     }
 
+    // retorna nível de criticidade da medicao
     private static String getTipo(TiposMedicao tipoMedicao, Double medicao) {
         // x * 0.6 + 38 => %
         // 0.65x + 28.5 => °C

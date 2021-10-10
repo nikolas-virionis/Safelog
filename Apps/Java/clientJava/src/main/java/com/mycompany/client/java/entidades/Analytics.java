@@ -52,7 +52,7 @@ public class Analytics {
 
     public static List<Analytics> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM analytics", new BeanPropertyRowMapper(Analytics.class));
+        return jdbcTemplate.query("SELECT * FROM analytics", new BeanPropertyRowMapper<>(Analytics.class));
     }
 
 }

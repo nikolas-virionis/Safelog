@@ -4,6 +4,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+// Essa classe faz as configurações do Banco de Dados
 public class ConfigDB {
     private static BasicDataSource getBasicDataSource(){
         Dotenv dotenv = Dotenv.load();
@@ -19,6 +20,7 @@ public class ConfigDB {
         return basicDataSource;
     }
     
+    // retorna jdbc template pronto para realizar query
     public static JdbcTemplate getJdbc(){
         return new JdbcTemplate(getBasicDataSource());
     }

@@ -65,6 +65,6 @@ public class Empresa {
 
     public static List<Empresa> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper(Empresa.class));
+        return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper<>(Empresa.class));
     }
 }

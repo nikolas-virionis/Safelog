@@ -65,7 +65,7 @@ public class Staff {
 
     public static List<Staff> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM staff", new BeanPropertyRowMapper(Staff.class));
+        return jdbcTemplate.query("SELECT * FROM staff", new BeanPropertyRowMapper<>(Staff.class));
     }
 
 }

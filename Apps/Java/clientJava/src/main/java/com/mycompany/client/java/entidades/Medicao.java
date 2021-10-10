@@ -72,6 +72,6 @@ public class Medicao {
 
     public static List<Medicao> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper(Medicao.class));
+        return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper<>(Medicao.class));
     }
 }

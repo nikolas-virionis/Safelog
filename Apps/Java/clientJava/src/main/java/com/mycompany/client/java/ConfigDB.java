@@ -20,6 +20,7 @@ public class ConfigDB {
         return basicDataSource;
     }
     
+    // retorna jdbc template pronto para realizar query
     public static JdbcTemplate getJdbc(){
         return new JdbcTemplate(getBasicDataSource());
     }

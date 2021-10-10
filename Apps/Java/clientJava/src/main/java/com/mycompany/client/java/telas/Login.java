@@ -43,7 +43,7 @@ public final class Login extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txtEmail = new javax.swing.JTextPane();
+        txtEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -65,11 +65,10 @@ public final class Login extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(5, 0, 255));
-
         txtEmail.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         txtEmail.setForeground(new java.awt.Color(0, 0, 0));
         txtEmail.setToolTipText("");
-        txtEmail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txtEmail.setBorder(null);
         jScrollPane4.setViewportView(txtEmail);
 
         jButton1.setBackground(new java.awt.Color(0, 0, 153));
@@ -229,6 +228,8 @@ public final class Login extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        this.getRootPane().setDefaultButton(jButton1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -325,7 +326,7 @@ public final class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextPane txtEmail;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtMaquina;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables

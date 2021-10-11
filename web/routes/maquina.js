@@ -10,7 +10,7 @@ router.post("/cadastro", async (req, res, next) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-    id_maquina = id_maquina.replace("-", ":");
+    id_maquina = id_maquina.replace(/-/g, ":").toLowerCase();
     let maquinaExiste = `SELECT * FROM maquina WHERE id_maquina = '${id_maquina}';`;
     let insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES ('${id_maquina}', '${nome}', MD5('${senha}'), '${empresa}')`;
     let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, '${id_maquina}');`;
@@ -100,30 +100,39 @@ router.post("/componentes", async (req, res) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-
-    for (let componente of componentes) {
-        let { acao, nome, limite } = componente;
-        if (acao === "insert") {
-            let sql = `INSERT INTO categoria_medicao VALUES (NULL, ${limite}, '${id}', (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
-            await sequelize
-                .query(sql, { type: sequelize.QueryTypes.INSERT })
-                .then((response) => {})
-                .catch((err) => {res.json({status: "erro", msg: err})});
-        } else if (acao === "update") {
-            let sql = `UPDATE categoria_medicao SET limite = ${limite} WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`
-            await sequelize
-                .query(sql, { type: sequelize.QueryTypes.UPDATE })
-                .then((response) => {})
-                .catch((err) => {res.json({status: "erro", msg: err})});
-        } else {
-            let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`
-            await sequelize
-                .query(sql, { type: sequelize.QueryTypes.DELETE })
-                .then((response) => {})
-                .catch((err) => {res.json({status: "erro", msg: err})});
+    try {
+        for (let componente of componentes) {
+            let { acao, nome, limite } = componente;
+            if (acao === "insert") {
+                let sql = `INSERT INTO categoria_medicao VALUES (NULL, ${limite}, '${id}', (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
+                await sequelize
+                    .query(sql, { type: sequelize.QueryTypes.INSERT })
+                    .then((response) => {})
+                    .catch((err) => {
+                        res.json({ status: "erro", msg: err });
+                    });
+            } else if (acao === "update") {
+                let sql = `UPDATE categoria_medicao SET medicao_limite = ${limite} WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
+                await sequelize
+                    .query(sql, { type: sequelize.QueryTypes.UPDATE })
+                    .then((response) => {})
+                    .catch((err) => {
+                        res.json({ status: "erro", msg: err });
+                    });
+            } else {
+                let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
+                await sequelize
+                    .query(sql, { type: sequelize.QueryTypes.DELETE })
+                    .then((response) => {})
+                    .catch((err) => {
+                        res.json({ status: "erro", msg: err });
+                    });
+            }
         }
+        res.json({ status: "ok", msg: "Componentes atualizados" });
+    } catch (err) {
+        res.json({ status: "erro", msg: err });
     }
-
 });
 
 router.post("/lista-componentes", async (req, res) => {

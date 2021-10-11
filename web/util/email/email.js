@@ -49,16 +49,26 @@ const msgEmail = (tipo, nome, rest, email) => {
     if (tipo.toLowerCase() == "redefinir")
         return [
             `
-    <p>Prezado(a) ${nome},</p>
-    <p><a href="http://localhost:3000/redefinir-senha.html?token=${rest[0]}&email=${email}" target="_blank">
-    Clique aqui</a> para se redefinir sua senha</p>
-    <p>Seu token de verificação é <i>${rest[0]}</i></p>
-    `,
+        <p>Prezado(a) ${nome},</p>
+        <p><a href="http://localhost:3000/redefinir-senha.html?token=${rest[0]}&email=${email}" target="_blank">
+        Clique aqui</a> para se redefinir sua senha</p>
+        <p>Seu token de verificação é <i>${rest[0]}</i></p>
+        `,
             "Redefinição de senha - SafeLog",
+        ];
+    if (tipo.toLowerCase() == "acesso")
+        return [
+            `
+            <p>Prezado(a) ${nome},</p>
+            <p><a href="http://localhost:3000/permitir-acesso.html?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
+            Clique aqui</a> para se permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
+            <p>Seu token de verificação é <i>${rest[0]}</i></p>
+            `,
+            "Permissão de acesso a maquina - SafeLog",
         ];
     throw new Error(
         "tipo de email não especificado ou escrito de forma errada"
     );
 };
-// mandarEmail("tipo", "nome", "remetente", "destinatario", "senha");
+
 module.exports = { mandarEmail };

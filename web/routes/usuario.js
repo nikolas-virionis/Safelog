@@ -285,6 +285,78 @@ router.post("/verificacao-senha-atual", async (req, res) => {
         .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
+router.post("/acesso-maquina", async (req, res) => {
+    let { id, maquina } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let acessoExiste = `SELECT * FROM usuario_maquina WHERE fk_usuario = '${id}' AND fk_maquina = '${maquina}'`;
+
+    await sequelize
+        .query(acessoExiste, { type: sequelize.QueryTypes.SELECT })
+        .then(async ([response]) => {
+            if (response) {
+                res.json({
+                    status: "erro",
+                    msg: "Usuario ja possui acesso à maquina",
+                });
+            } else {
+                let dadosUsuario = `SELECT nome FROM usuario WHERE id_usuario = '${id}'`;
+                await sequelize
+                    .query(dadosUsuario, { type: sequelize.QueryTypes.SELECT })
+                    .then(async ([analista]) => {
+                        let { nome: nomeUsuario } = analista;
+                        let dados = `SELECT maquina.nome as nomeMaquina, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
+
+                        await sequelize
+                            .query(dados, { type: sequelize.QueryTypes.SELECT })
+                            .then(async ([resposta]) => {
+                                let {
+                                    nomeResp,
+                                    nomeMaquina,
+                                    email: emailResp,
+                                } = resposta;
+                                let token = generateToken();
+                                let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${emailResp}'`;
+                                await sequelize
+                                    .query(updateToken, {
+                                        type: sequelize.QueryTypes.UPDATE,
+                                    })
+                                    .then((update) => {
+                                        mandarEmail(
+                                            "acesso",
+                                            nomeResp,
+                                            emailResp,
+                                            [
+                                                token,
+                                                nomeUsuario,
+                                                nomeMaquina,
+                                                id,
+                                                maquina,
+                                            ]
+                                        )
+                                            .then(() => {
+                                                res.json({
+                                                    status: "ok",
+                                                    msg: "Email de permissão de acesso enviado",
+                                                });
+                                            })
+                                            .catch((err) => {
+                                                res.json({
+                                                    status: "erro",
+                                                    msg: err,
+                                                });
+                                            });
+                                    });
+                            });
+                    });
+            }
+        });
+});
+
 router.post("/verificacao", async (req, res, next) => {
     let { email, token } = req.body;
     if (!req.body)

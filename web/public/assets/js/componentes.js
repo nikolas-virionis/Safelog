@@ -1,7 +1,13 @@
 const { id, id_empresa: empresa } = JSON.parse(
     sessionStorage.getItem("usuario")
 );
-
+let cpuPercentDef,
+    cpuTempDef,
+    cpuClockDef,
+    ramFreeDef,
+    ramPercentDef,
+    discoFreeDef,
+    discoPercentDef;
 const urlParams = new URLSearchParams(window.location.search);
 let maquina = urlParams.get("id_maquina").replaceAll("-", ":");
 
@@ -20,7 +26,6 @@ axios
             console.log("Erro na verificação do usuario");
         }
     });
-
 
 mostrarAlerta("Selecione um ou mais componentes para o monitoramento", "info");
 
@@ -100,18 +105,11 @@ for (let i = 1; i <= 7; i++) {
     });
 }
 
-btn.addEventListener("click", (e) => {
-    if (!btn.classList.contains("cancelar")) {
-    }
-});
-
 // verificando lista de componentes existentes na máquina
-axios.post("/maquina/lista-componentes", { id: maquina })
-.then(result => {
+axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
     let components = result.data.msg;
-    
-    for (let c of components) {
 
+    for (let c of components) {
         // checking and displaying boxes
         if (c.tipo.includes("cpu") && !checkCpu.checked) {
             checkCpu.click();
@@ -126,22 +124,69 @@ axios.post("/maquina/lista-componentes", { id: maquina })
             continue;
         }
 
-        // 
+        //
         let element = document.getElementsByName(c.tipo)[0];
         element.checked = true;
-        let rand = document.querySelector(`#${element.id.replace("medicao", "limite")}`);
+        let rand = document.querySelector(
+            `#${element.id.replace("medicao", "limite")}`
+        );
         rand.disabled = false;
-        rand.value = Number(c.medicao_limite)
+        rand.value = Number(c.medicao_limite);
 
         // update labels values
-        let valor = Number(document.querySelector(`#limite${element.id.slice(7)}`).value);
+        let valor = Number(
+            document.querySelector(`#limite${element.id.slice(7)}`).value
+        );
         if (document.querySelector(`#rangeValue${element.id.slice(7)}`)) {
             let index = componentes.indexOf(
-                Number(document.querySelector(`#medicao${element.id.slice(7)}`).name)
+                Number(
+                    document.querySelector(`#medicao${element.id.slice(7)}`)
+                        .name
+                )
             );
             limites.splice(index, 1, valor);
-            document.querySelector(`#rangeValue${element.id.slice(7)}`).innerHTML = `${valor}%`;
+            document.querySelector(
+                `#rangeValue${element.id.slice(7)}`
+            ).innerHTML = `${valor}%`;
         }
-        console.log(c)
+        console.log(c);
     }
-}) 
+});
+const cpuPercent = document.querySelector("#medicao1");
+const cpuPercentLim = document.querySelector("#limite1");
+const cpuPercent = document.querySelector("#medicao2");
+const cpuPercentLim = document.querySelector("#limite2");
+const cpuPercent = document.querySelector("#medicao3");
+const cpuPercentLim = document.querySelector("#limite3");
+const cpuPercent = document.querySelector("#medicao4");
+const cpuPercentLim = document.querySelector("#limite4");
+const cpuPercent = document.querySelector("#medicao5");
+const cpuPercentLim = document.querySelector("#limite5");
+const cpuPercent = document.querySelector("#medicao6");
+const cpuPercentLim = document.querySelector("#limite6");
+const cpuPercent = document.querySelector("#medicao7");
+const cpuPercentLim = document.querySelector("#limite7");
+
+btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!btn.classList.contains("cancelar")) {
+        let contatos = [];
+        if (!btnWhatsapp.checked && whatsappDefault != "") {
+            contatos.push({ nome: "whatsapp", acao: "delete", valor: "" });
+        } else if (inpWhatsapp.value != whatsappDefault) {
+            if (whatsappDefault == "" && btnWhatsapp.checked) {
+                contatos.push({
+                    nome: "whatsapp",
+                    acao: "insert",
+                    valor: inpWhatsapp.value,
+                });
+            } else if (btnWhatsapp.checked) {
+                contatos.push({
+                    nome: "whatsapp",
+                    acao: "update",
+                    valor: inpWhatsapp.value,
+                });
+            }
+        }
+    }
+});

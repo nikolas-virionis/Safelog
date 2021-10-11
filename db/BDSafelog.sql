@@ -1609,7 +1609,7 @@ INSERT INTO
     maquina
 VALUES
     (
-        '0C:9D:92:C6:CC:19',
+        '0c:9d:92:c6:cc:19',
         'DESKTOP1',
         MD5('ExSenha1'),
         '203783731'
@@ -1618,42 +1618,18 @@ VALUES
 INSERT INTO
     usuario_maquina(responsavel, fk_usuario, fk_maquina)
 VALUES
-    ('s', 13, '0C:9D:92:C6:CC:19');
+    ('s', 13, '0c:9d:92:c6:cc:19');
 
 INSERT INTO
     categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
 VALUES
-    (50.0, '0C:9D:92:C6:CC:19', 1);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (60.0, '0C:9D:92:C6:CC:19', 2);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (80.0, '0C:9D:92:C6:CC:19', 3);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (105.0, '0C:9D:92:C6:CC:19', 4);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (0.5, '0C:9D:92:C6:CC:19', 5);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (60.0, '0C:9D:92:C6:CC:19', 6);
-
-INSERT INTO
-    categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
-VALUES
-    (100.0, '0C:9D:92:C6:CC:19', 7);
+    (50.0, '0c:9d:92:c6:cc:19', 1),
+    (60.0, '0c:9d:92:c6:cc:19', 2),
+    (80.0, '0c:9d:92:c6:cc:19', 3),
+    (105.0, '0c:9d:92:c6:cc:19', 4),
+    (0.5, '0c:9d:92:c6:cc:19', 5),
+    (60.0, '0c:9d:92:c6:cc:19', 6),
+    (100.0, '0c:9d:92:c6:cc:19', 7);
 
 INSERT INTO
     medicao(valor, tipo, data_medicao, fk_categoria_medicao)

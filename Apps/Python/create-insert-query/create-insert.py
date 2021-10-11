@@ -21,8 +21,8 @@ fks = medicoes["fk_categoria_medicao"]
 
 insert_sql = ""
 
-insert_sql += "INSERT INTO maquina VALUES ('0C:9D:92:C6:CC:19', 'DESKTOP1', MD5('ExSenha1'), '203783731'); \n"
-insert_sql += "INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '0C:9D:92:C6:CC:19'); \n"
+insert_sql += "INSERT INTO maquina VALUES ('0c:9d:92:c6:cc:19', 'DESKTOP1', MD5('ExSenha1'), '203783731'); \n"
+insert_sql += "INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '0c:9d:92:c6:cc:19'); \n"
 for i, j in enumerate(limites):
     insert_sql += f"INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUES ({limites[i]}, '{maquinas[i]}', {tipos_med[i]}); \n"
 for i, j in enumerate(valores):

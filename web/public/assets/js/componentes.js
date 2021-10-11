@@ -3,7 +3,9 @@ const { id, id_empresa: empresa } = JSON.parse(
 );
 
 const urlParams = new URLSearchParams(window.location.search);
-const maquina = urlParams.get("id_maquina");
+let maquina = urlParams.get("id_maquina").replaceAll("-", ":");
+
+// console.log(maquina);
 const btn = document.querySelector(".btn-geral");
 axios
     .post("maquina/verificar-usuario", {
@@ -102,3 +104,44 @@ btn.addEventListener("click", (e) => {
     if (!btn.classList.contains("cancelar")) {
     }
 });
+
+// verificando lista de componentes existentes na máquina
+axios.post("/maquina/lista-componentes", { id: maquina })
+.then(result => {
+    let components = result.data.msg;
+    
+    for (let c of components) {
+
+        // checking and displaying boxes
+        if (c.tipo.includes("cpu") && !checkCpu.checked) {
+            checkCpu.click();
+            continue;
+        }
+        if (c.tipo.includes("ram") && !checkMem.checked) {
+            checkMem.click();
+            continue;
+        }
+        if (c.tipo.includes("disco") && !checkDis.checked) {
+            checkDis.click();
+            continue;
+        }
+
+        // 
+        let element = document.getElementsByName(c.tipo)[0];
+        element.checked = true;
+        let rand = document.querySelector(`#${element.id.replace("medicao", "limite")}`);
+        rand.disabled = false;
+        rand.value = Number(c.medicao_limite)
+
+        // update labels values
+        let valor = Number(document.querySelector(`#limite${element.id.slice(7)}`).value);
+        if (document.querySelector(`#rangeValue${element.id.slice(7)}`)) {
+            let index = componentes.indexOf(
+                Number(document.querySelector(`#medicao${element.id.slice(7)}`).name)
+            );
+            limites.splice(index, 1, valor);
+            document.querySelector(`#rangeValue${element.id.slice(7)}`).innerHTML = `${valor}%`;
+        }
+        console.log(c)
+    }
+}) 

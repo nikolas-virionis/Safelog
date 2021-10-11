@@ -20,7 +20,6 @@ const tipos = [
 const urlParams = new URLSearchParams(window.location.search);
 let maquina = urlParams.get("id_maquina").replace(/-/g, ":");
 
-// console.log(maquina);
 const btn = document.querySelector(".btn-geral");
 axios
     .post("maquina/verificar-usuario", {
@@ -177,28 +176,7 @@ axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
             }`
         );
     }
-    // cpuPercentDef = limite1.value;
-    // cpuClockDef = limite2.value;
-    // cpuTempDef = limite3.value;
-    // ramPercentDef = limite4.value;
-    // ramFreeDef = limite5.value;
-    // discoPercentDef = limite6.value;
-    // discoFreeDef = limite7.value;
 });
-// const cpuPercent = document.querySelector("#medicao1");
-// const cpuPercentLim = document.querySelector("#limite1");
-// const cpuClock = document.querySelector("#medicao2");
-// const cpuClockLim = document.querySelector("#limite2");
-// const cpuTemp = document.querySelector("#medicao3");
-// const cpuTempLim = document.querySelector("#limite3");
-// const ramPercent = document.querySelector("#medicao4");
-// const ramPercentLim = document.querySelector("#limite4");
-// const ramFree = document.querySelector("#medicao5");
-// const ramFreeLim = document.querySelector("#limite5");
-// const discoPercent = document.querySelector("#medicao6");
-// const discoPercentLim = document.querySelector("#limite6");
-// const discoFree = document.querySelector("#medicao7");
-// const discoFreeLim = document.querySelector("#limite7");
 
 btn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -252,7 +230,7 @@ btn.addEventListener("click", (e) => {
                         "Erro na atualização dos componentes",
                         "danger"
                     );
-                    console.log(response.data?.msg.sql);
+                    console.log(response.data);
                 }
             });
     }

@@ -2,14 +2,23 @@ const { id, id_empresa: empresa } = JSON.parse(
     sessionStorage.getItem("usuario")
 );
 let cpuPercentDef,
-    cpuTempDef,
     cpuClockDef,
-    ramFreeDef,
+    cpuTempDef,
     ramPercentDef,
-    discoFreeDef,
-    discoPercentDef;
+    ramFreeDef,
+    discoPercentDef,
+    discoFreeDef;
+const tipos = [
+    "cpuPercent",
+    "cpuClock",
+    "cpuTemp",
+    "ramPercent",
+    "ramFree",
+    "discoPercent",
+    "discoFree",
+];
 const urlParams = new URLSearchParams(window.location.search);
-let maquina = urlParams.get("id_maquina").replaceAll("-", ":");
+let maquina = urlParams.get("id_maquina").replace(/-/g, ":");
 
 // console.log(maquina);
 const btn = document.querySelector(".btn-geral");
@@ -31,7 +40,6 @@ mostrarAlerta("Selecione um ou mais componentes para o monitoramento", "info");
 
 let qtdComponentes = 0;
 let componentes = [];
-let limites = [];
 
 checkCpu.addEventListener("click", (e) => {
     if (checkCpu.checked) {
@@ -67,7 +75,6 @@ for (let i = 1; i <= 7; i++) {
         if (document.querySelector(`#medicao${i}`).checked) {
             qtdComponentes++;
             componentes.push(document.querySelector(`#medicao${i}`).name);
-            limites.push(Number(document.querySelector(`#limite${i}`).value));
             document.querySelector(`#limite${i}`).disabled = false;
             if (i == 3 || i == 5 || i == 7) {
                 document.querySelector(`#limite${i}`).style.borderBottom =
@@ -79,7 +86,6 @@ for (let i = 1; i <= 7; i++) {
                 document.querySelector(`#medicao${i}`).name
             );
             componentes.splice(index, 1);
-            limites.splice(index, 1);
             document.querySelector(`#limite${i}`).disabled = true;
             if (i == 3 || i == 5 || i == 7) {
                 document.querySelector(`#limite${i}`).style.borderBottom =
@@ -89,18 +95,27 @@ for (let i = 1; i <= 7; i++) {
 
         if (qtdComponentes == 0) {
             mostrarAlerta("Nenhum componente selecionado", "info");
+            btn.classList.add("cancelar");
+        } else {
+            btn.classList.remove("cancelar");
         }
-        btn.classList.toggle("cancelar");
     });
-
-    document.querySelector(`#limite${i}`).addEventListener("mousemove", (e) => {
+    const updateLabel = (i) => {
         let valor = Number(document.querySelector(`#limite${i}`).value);
         if (document.querySelector(`#rangeValue${i}`)) {
             let index = componentes.indexOf(
                 Number(document.querySelector(`#medicao${i}`).name)
             );
-            limites.splice(index, 1, valor);
             document.querySelector(`#rangeValue${i}`).innerHTML = `${valor}%`;
+        }
+    };
+    document
+        .querySelector(`#limite${i}`)
+        .addEventListener("mousemove", (e) => updateLabel(i));
+
+    document.querySelector(`#limite${i}`).addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+            updateLabel(i);
         }
     });
 }
@@ -113,18 +128,14 @@ axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
         // checking and displaying boxes
         if (c.tipo.includes("cpu") && !checkCpu.checked) {
             checkCpu.click();
-            continue;
         }
         if (c.tipo.includes("ram") && !checkMem.checked) {
             checkMem.click();
-            continue;
         }
         if (c.tipo.includes("disco") && !checkDis.checked) {
             checkDis.click();
-            continue;
         }
 
-        //
         let element = document.getElementsByName(c.tipo)[0];
         element.checked = true;
         let rand = document.querySelector(
@@ -144,49 +155,105 @@ axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
                         .name
                 )
             );
-            limites.splice(index, 1, valor);
             document.querySelector(
                 `#rangeValue${element.id.slice(7)}`
             ).innerHTML = `${valor}%`;
         }
-        console.log(c);
+        componentes.push(c.tipo);
+        qtdComponentes++;
     }
+    for (let index in tipos) {
+        window[`${tipos[index]}`] = document.querySelector(
+            `#medicao${Number(index) + 1}`
+        );
+        window[`${tipos[index]}Lim`] = document.querySelector(
+            `#limite${Number(index) + 1}`
+        );
+        eval(
+            `${tipos[index]}Def = ${
+                window[`${tipos[index]}`].checked
+                    ? Number(window[`${tipos[index]}Lim`].value)
+                    : 0
+            }`
+        );
+    }
+    // cpuPercentDef = limite1.value;
+    // cpuClockDef = limite2.value;
+    // cpuTempDef = limite3.value;
+    // ramPercentDef = limite4.value;
+    // ramFreeDef = limite5.value;
+    // discoPercentDef = limite6.value;
+    // discoFreeDef = limite7.value;
 });
-const cpuPercent = document.querySelector("#medicao1");
-const cpuPercentLim = document.querySelector("#limite1");
-const cpuPercent = document.querySelector("#medicao2");
-const cpuPercentLim = document.querySelector("#limite2");
-const cpuPercent = document.querySelector("#medicao3");
-const cpuPercentLim = document.querySelector("#limite3");
-const cpuPercent = document.querySelector("#medicao4");
-const cpuPercentLim = document.querySelector("#limite4");
-const cpuPercent = document.querySelector("#medicao5");
-const cpuPercentLim = document.querySelector("#limite5");
-const cpuPercent = document.querySelector("#medicao6");
-const cpuPercentLim = document.querySelector("#limite6");
-const cpuPercent = document.querySelector("#medicao7");
-const cpuPercentLim = document.querySelector("#limite7");
+// const cpuPercent = document.querySelector("#medicao1");
+// const cpuPercentLim = document.querySelector("#limite1");
+// const cpuClock = document.querySelector("#medicao2");
+// const cpuClockLim = document.querySelector("#limite2");
+// const cpuTemp = document.querySelector("#medicao3");
+// const cpuTempLim = document.querySelector("#limite3");
+// const ramPercent = document.querySelector("#medicao4");
+// const ramPercentLim = document.querySelector("#limite4");
+// const ramFree = document.querySelector("#medicao5");
+// const ramFreeLim = document.querySelector("#limite5");
+// const discoPercent = document.querySelector("#medicao6");
+// const discoPercentLim = document.querySelector("#limite6");
+// const discoFree = document.querySelector("#medicao7");
+// const discoFreeLim = document.querySelector("#limite7");
 
 btn.addEventListener("click", (e) => {
     e.preventDefault();
     if (!btn.classList.contains("cancelar")) {
-        let contatos = [];
-        if (!btnWhatsapp.checked && whatsappDefault != "") {
-            contatos.push({ nome: "whatsapp", acao: "delete", valor: "" });
-        } else if (inpWhatsapp.value != whatsappDefault) {
-            if (whatsappDefault == "" && btnWhatsapp.checked) {
-                contatos.push({
-                    nome: "whatsapp",
-                    acao: "insert",
-                    valor: inpWhatsapp.value,
-                });
-            } else if (btnWhatsapp.checked) {
-                contatos.push({
-                    nome: "whatsapp",
-                    acao: "update",
-                    valor: inpWhatsapp.value,
-                });
+        let categorias = [];
+        for (let tipo of tipos) {
+            let nome = `${tipo.split(/[A-Z]\S+/).shift()}_${
+                tipo.endsWith("Percent")
+                    ? "porcentagem"
+                    : tipo.endsWith("Free")
+                    ? "livre"
+                    : tipo.endsWith("Temp")
+                    ? "temperatura"
+                    : "frequencia"
+            }`;
+            let componente = window[`${tipo}`];
+            let limite = window[`${tipo}Lim`];
+            if (!componente.checked && Number(eval(`${tipo}Def`)) != 0) {
+                categorias.push({ nome, acao: "delete", limite: 0 });
+            } else if (Number(limite.value) != Number(eval(`${tipo}Def`))) {
+                if (Number(eval(`${tipo}Def`)) == 0 && componente.checked) {
+                    categorias.push({
+                        nome,
+                        acao: "insert",
+                        limite: Number(limite.value),
+                    });
+                } else if (componente.checked) {
+                    categorias.push({
+                        nome,
+                        acao: "update",
+                        limite: Number(limite.value),
+                    });
+                }
             }
         }
+        axios
+            .post("/maquina/componentes", {
+                id: maquina,
+                componentes: categorias,
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.data?.status == "ok") {
+                    mostrarAlerta(
+                        "Componentes atualizados com sucesso",
+                        "success"
+                    );
+                    window.location.href = "dependentes.html";
+                } else {
+                    mostrarAlerta(
+                        "Erro na atualização dos componentes",
+                        "danger"
+                    );
+                    console.log(response.data?.msg.sql);
+                }
+            });
     }
 });

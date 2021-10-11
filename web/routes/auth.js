@@ -85,12 +85,41 @@ router.post("/usuario", (req, res, next) => {
         });
 });
 
-router.post("/maquinas", (req, res) => {
+router.post("/maquina", async (req, res) => {
     let { id, senha } = req.body;
     if (!req.body)
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
+        });
+
+    let sqlMaquina = `SELECT * FROM maquina WHERE id_maquina = '${id}'`;
+    let sqlSenha = `SELECT * FROM maquina WHERE id_maquina = '${id}' AND senha = MD5('${senha}')`;
+    await sequelize
+        .query(sqlMaquina, { type: sequelize.QueryTypes.SELECT })
+        .then(async ([response]) => {
+            if (response) {
+                await sequelize
+                    .query(sqlSenha, { type: sequelize.QueryTypes.SELECT })
+                    .then(([response]) => {
+                        if (response) {
+                            res.json({
+                                status: "ok",
+                                msg: "Credenciais da maquina corretas",
+                            });
+                        } else {
+                            res.json({
+                                status: "erro",
+                                msg: "Senha incorreta",
+                            });
+                        }
+                    });
+            } else {
+                res.json({ status: "erro", msg: "Maquina não encontrada" });
+            }
+        })
+        .catch((err) => {
+            res.json({ status: "erro", msg: err });
         });
 });
 

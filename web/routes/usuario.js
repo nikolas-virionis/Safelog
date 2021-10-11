@@ -33,6 +33,11 @@ router.post("/convite", async (req, res, next) => {
 
 router.post("/cadastro-final", async (req, res, next) => {
     const { id, nome, email, senha, contatos } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
     await updateDadosUsuario(id, nome, email, senha)
         .then((response) => console.log(response))

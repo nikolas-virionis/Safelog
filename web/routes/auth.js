@@ -8,6 +8,11 @@ let env = process.env.NODE_ENV || "development";
 // autenticação de staff user baseado em email e senha
 router.post("/staff", (req, res, next) => {
     let { email, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
     let sql = `SELECT * FROM staff WHERE email = '${email}' and senha = MD5('${senha}');`;
 
@@ -39,6 +44,11 @@ router.post("/staff", (req, res, next) => {
 // autenticação de usuário baseado no email e senha
 router.post("/usuario", (req, res, next) => {
     let { email, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
     let sql = `SELECT * FROM usuario WHERE email = '${email}' and senha = MD5('${senha}');`;
 
@@ -72,6 +82,15 @@ router.post("/usuario", (req, res, next) => {
         })
         .catch((err) => {
             res.json(err);
+        });
+});
+
+router.post("/maquinas", (req, res) => {
+    let { id, senha } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
         });
 });
 

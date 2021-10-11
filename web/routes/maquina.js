@@ -77,6 +77,11 @@ router.post("/lista-dependentes", async (req, res) => {
 
 router.post("/verificar-usuario", async (req, res) => {
     let { id, maquina } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
     let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = '${maquina}';`;
 
     await sequelize
@@ -94,6 +99,11 @@ router.post("/verificar-usuario", async (req, res) => {
 
 router.post("/componentes", async (req, res) => {
     let { id, componentes } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
     if (!req.body)
         return res.json({

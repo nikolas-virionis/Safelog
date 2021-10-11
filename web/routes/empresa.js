@@ -6,6 +6,11 @@ let sendInvite = require("../util/cadastro-parcial/convite").enviarConvite;
 
 router.post("/cadastro", async (req, res, next) => {
     let { id, nome, cidade, pais, email, staff } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
 
     let idExists = `SELECT * FROM empresa WHERE id_empresa = '${id}'`;
     let empresaExiste;

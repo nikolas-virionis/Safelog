@@ -101,8 +101,29 @@ router.post("/componentes", async (req, res) => {
             msg: "Body não fornecido na requisição",
         });
 
-    for (let componentes of componentes) {
+    for (let componente of componentes) {
+        let { acao, nome, limite } = componente;
+        if (acao === "insert") {
+            let sql = `INSERT INTO categoria_medicao VALUES (NULL, ${limite}, '${id}', (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
+            await sequelize
+                .query(sql, { type: sequelize.QueryTypes.INSERT })
+                .then((response) => {})
+                .catch((err) => {res.json({status = "erro", msg: err})});
+        } else if (acao === "update") {
+            let sql = `UPDATE categoria_medicao SET limite = ${limite} WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`
+            await sequelize
+                .query(sql, { type: sequelize.QueryTypes.UPDATE })
+                .then((response) => {})
+                .catch((err) => {res.json({status = "erro", msg: err})});
+        } else {
+            let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = '${id}' AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`
+            await sequelize
+                .query(sql, { type: sequelize.QueryTypes.DELETE })
+                .then((response) => {})
+                .catch((err) => {res.json({status = "erro", msg: err})});
+        }
     }
+
 });
 
 router.post("/lista-componentes", async (req, res) => {

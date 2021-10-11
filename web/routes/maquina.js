@@ -78,7 +78,7 @@ router.post("/lista-dependentes", async (req, res) => {
 router.post("/verificar-usuario", async (req, res) => {
     let { id, maquina } = req.body;
     let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = '${maquina}';`;
-    
+
     await sequelize
         .query(consulta, {
             type: sequelize.QueryTypes.SELECT,
@@ -92,4 +92,36 @@ router.post("/verificar-usuario", async (req, res) => {
         .catch((err) => res.json({ status: "erro", err }));
 });
 
+router.post("/componentes", async (req, res) => {
+    let { id, componentes } = req.body;
+
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    for (let componentes of componentes) {
+    }
+});
+
+router.post("/lista-componentes", async (req, res) => {
+    let { id } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let sql = `SELECT tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = '${id}'`;
+
+    await sequelize
+        .query(sql, { type: sequelize.QueryTypes.SELECT })
+        .then((response) => {
+            res.json({ status: "ok", msg: response });
+        })
+        .catch((err) => {
+            res.json({ status: "erro", msg: err });
+        });
+});
 module.exports = router;

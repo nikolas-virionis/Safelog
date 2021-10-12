@@ -19,7 +19,7 @@
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
             })
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 let { status, res: dependentes } = response.data;
                 if (status == "ok") {
                     if (dependentes.length > 0) {
@@ -40,6 +40,21 @@
                             tr.appendChild(tbEmail);
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
+
+                            // evento click para deletar usuário.
+                            excluirBtn.addEventListener("click", function() {
+                                // solicitando confirmação do delete
+                                let sure = confirm(`Você tem certeza que deseja deletar o usuário: ${dependente.nome}?`);
+                                if(sure) {
+                                    // requisição de delete
+                                    axios.post("/usuario/delete", {id: dependente.id_usuario})
+                                    .then(result => {
+                                        if(result.data.status == "ok") {
+                                            window.location.reload();
+                                        };
+                                    })
+                                }
+                            })
                         });
                     } else {
                         mostrarAlerta(
@@ -100,6 +115,11 @@
                             tr.appendChild(tbResp);
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
+
+                            // evento click para deletar máquina
+                            excluirBtn.addEventListener("click", function() {
+                                let sure = confirm(`Você tem certeza de que quer deletar a máquina ${dependente.nome}?`);
+                            })
                         });
                     } else {
                         mostrarAlerta(

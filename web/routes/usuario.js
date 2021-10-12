@@ -69,7 +69,7 @@ router.post("/pessoas-dependentes", async (req, res) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-    let dependentes = `SELECT nome, email FROM usuario WHERE fk_supervisor = ${id}`;
+    let dependentes = `SELECT id_usuario, nome, email FROM usuario WHERE fk_supervisor = ${id}`;
     await sequelize
         .query(dependentes, { type: sequelize.QueryTypes.SELECT })
         .then((response) => res.json({ status: "ok", res: response }))
@@ -393,5 +393,48 @@ router.post("/verificacao", async (req, res, next) => {
             }
         });
 });
+
+router.post("/delete", async(req, res, next) => {
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    } else {
+        let { id } = req.body;
+        
+        // ordem de delete
+        // contato -> usuario_maquina -> usuario
+        
+        // formato de deletes
+        let sqlDelContato = `DELETE FROM contato WHERE fk_usuario = ${id}`;
+        let sqlDelUsMac = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id}`;
+        let sqlDelUser = `DELETE FROM usuario WHERE id_usuario = ${id}`;
+
+        // delete contatos
+        await sequelize.query(sqlDelContato, {types: sequelize.QueryTypes.DELETE})
+        .then(async resultContato => {
+
+            // delete usuario_maquina
+            await sequelize.query(sqlDelUsMac, {types: sequelize.QueryTypes.DELETE})
+            .then(async resultUsMac => {
+                // delete usuario
+                await sequelize.query(sqlDelUser, {types: sequelize.QueryTypes.DELETE})
+                .then(resultUser => {
+                    res.json({status: "ok", msg: "usuário deletado com sucesso"});
+                })
+                .catch(err => {
+                    res.json({status: "err", msg: err});
+                })
+            })
+            .catch(err => {
+                res.json({status: "err", msg: err});
+            })
+        })
+        .catch(err => {
+            res.json({status: "err", msg: err});
+        })
+    }
+})
 
 module.exports = router;

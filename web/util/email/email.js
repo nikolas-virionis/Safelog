@@ -61,8 +61,8 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p><a href="http://localhost:3000/permitir-acesso.html?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
-            Clique aqui</a> para se permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
-            <p>Seu token de verificação é <i>${rest[0]}</i></p>
+            Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
+            <p>Seu token de verificação é <i>${rest[0]}</i></p> 
             `,
             "Permissão de acesso a maquina - SafeLog",
         ];

@@ -125,7 +125,9 @@
                                 if (sure) {
                                     axios.post("/maquina/delete", {id: dependente.id_maquina})
                                     .then(result => {
-                                        console.log(result.data);
+                                        if(result.data.status == "ok") {
+                                            window.location.reload();
+                                        };
                                     });
                                 }
                             })

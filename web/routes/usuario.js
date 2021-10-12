@@ -412,15 +412,16 @@ router.post("/delete", async(req, res, next) => {
         let sqlDelUser = `DELETE FROM usuario WHERE id_usuario = ${id}`;
 
         // delete contatos
-        await sequelize.query(sqlDelContato, {types: sequelize.QueryTypes.DELETE})
+        await sequelize.query(sqlDelContato, {type: sequelize.QueryTypes.DELETE})
         .then(async resultContato => {
 
             // delete usuario_maquina
-            await sequelize.query(sqlDelUsMac, {types: sequelize.QueryTypes.DELETE})
+            await sequelize.query(sqlDelUsMac, {type: sequelize.QueryTypes.DELETE})
             .then(async resultUsMac => {
                 // delete usuario
-                await sequelize.query(sqlDelUser, {types: sequelize.QueryTypes.DELETE})
+                await sequelize.query(sqlDelUser, {type: sequelize.QueryTypes.DELETE})
                 .then(resultUser => {
+                    console.log(resultUser);
                     res.json({status: "ok", msg: "usuário deletado com sucesso"});
                 })
                 .catch(err => {

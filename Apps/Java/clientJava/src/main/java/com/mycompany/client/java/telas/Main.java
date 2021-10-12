@@ -69,20 +69,25 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("cpu uso: ");
                     System.out.println(medicao);
                     brCpu.setValue(medicao.intValue());
+                    brCpu.setString(medicao.intValue()+"%");
                 } else if (tipo.getTipo().equals("cpu_frequencia")) {
                     medicao = m.getClockCPU();
                     System.out.println("cpu freq");
                     brCpuClock.setValue(medicao.intValue());
+                    brCpuClock.setString(medicao.intValue()+"%");
                 } else if (tipo.getTipo().equals("cpu_temperatura")) {
                     medicao = m.getTemp();
                     System.out.println("cpu temperatura: ");
                     System.out.println(medicao);
+                    
                     lblTemp.setText(medicao.toString());
+                   
                 } else if (tipo.getTipo().equals("ram_porcentagem")) {
                     medicao = m.getUsoRAM();
                     System.out.println("ram uso");
                     System.out.println(medicao);
                     brMem.setValue(medicao.intValue());
+                    brMem.setString(medicao.intValue()+"%");
                 } else if (tipo.getTipo().equals("ram_livre")) {
                     medicao = m.getFreeRAMGb();
                     System.out.println("ram livre: ");
@@ -98,6 +103,7 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("disco uso: ");
                     System.out.println(medicao);
                     brDisk.setValue(medicao.intValue());
+                    brDisk.setString(medicao.intValue()+"&");
                 } else {
                     throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");
                 }
@@ -149,24 +155,18 @@ public class Main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         cpuMax = new javax.swing.JLabel();
-        cpuMed = new javax.swing.JLabel();
         cpuMin = new javax.swing.JLabel();
         memMax = new javax.swing.JLabel();
         memMin = new javax.swing.JLabel();
-        memMed = new javax.swing.JLabel();
         diskMax = new javax.swing.JLabel();
-        diskMed = new javax.swing.JLabel();
         diskMin = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -196,10 +196,13 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        brCpu.setString("Métrica não monitorada");
         brCpu.setStringPainted(true);
 
+        brDisk.setString("Métrica não monitorada");
         brDisk.setStringPainted(true);
 
+        brMem.setString("Métrica não monitorada");
         brMem.setStringPainted(true);
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 153));
@@ -216,26 +219,17 @@ public class Main extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Minímo:");
 
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Média:");
-
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Máxima:");
 
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Minímo:");
 
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Média:");
-
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Máxima:");
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Minímo:");
-
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Média:");
+        jLabel13.setText("Minímo: ");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
@@ -253,10 +247,6 @@ public class Main extends javax.swing.JFrame {
         cpuMax.setForeground(new java.awt.Color(255, 255, 255));
         cpuMax.setText("0");
 
-        cpuMed.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        cpuMed.setForeground(new java.awt.Color(255, 255, 255));
-        cpuMed.setText("0");
-
         cpuMin.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         cpuMin.setForeground(new java.awt.Color(255, 255, 255));
         cpuMin.setText("0");
@@ -269,17 +259,9 @@ public class Main extends javax.swing.JFrame {
         memMin.setForeground(new java.awt.Color(255, 255, 255));
         memMin.setText("0");
 
-        memMed.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        memMed.setForeground(new java.awt.Color(255, 255, 255));
-        memMed.setText("0");
-
         diskMax.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         diskMax.setForeground(new java.awt.Color(255, 255, 255));
         diskMax.setText("0");
-
-        diskMed.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        diskMed.setForeground(new java.awt.Color(255, 255, 255));
-        diskMed.setText("0");
 
         diskMin.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         diskMin.setForeground(new java.awt.Color(255, 255, 255));
@@ -302,25 +284,28 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(diskMin, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(18, 18, 18)
+                        .addComponent(diskMax, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel10)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel8)
                     .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cpuMax, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(121, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(82, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(diskMax, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(diskMin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(diskMed, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,17 +313,14 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cpuMax, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(cpuMed, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(cpuMin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(memMax, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(memMin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(memMed, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(memMin, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(100, 100, 100))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel5)
@@ -366,11 +348,7 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(cpuMin))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(cpuMed))
-                        .addGap(20, 20, 20)
+                        .addGap(43, 43, 43)
                         .addComponent(jLabel16)
                         .addGap(5, 5, 5)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -380,11 +358,7 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(memMin))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(memMed))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(jLabel17)
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -394,11 +368,7 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(diskMin))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(diskMed))
-                        .addContainerGap())
+                        .addGap(31, 31, 31))
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
@@ -414,6 +384,7 @@ public class Main extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Disco");
 
+        brCpuClock.setString("Métrica não monitorada");
         brCpuClock.setStringPainted(true);
 
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -426,7 +397,7 @@ public class Main extends javax.swing.JFrame {
         jLabel21.setText("Temperatura:");
 
         lblTemp.setForeground(new java.awt.Color(255, 255, 255));
-        lblTemp.setText("jLabel22");
+        lblTemp.setText("Métrica não monitorada");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
@@ -445,10 +416,10 @@ public class Main extends javax.swing.JFrame {
         jLabel27.setText("Disponível: ");
 
         lblDiskFree.setForeground(new java.awt.Color(255, 255, 255));
-        lblDiskFree.setText("jLabel28");
+        lblDiskFree.setText("Métrica não monitorada");
 
         lblMemFree.setForeground(new java.awt.Color(255, 255, 255));
-        lblMemFree.setText("jLabel28");
+        lblMemFree.setText("Métrica não monitorada");
 
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -486,8 +457,8 @@ public class Main extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(145, 145, 145)
-                                        .addComponent(lblTemp))
+                                        .addGap(104, 104, 104)
+                                        .addComponent(lblTemp, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -497,16 +468,15 @@ public class Main extends javax.swing.JFrame {
                                         .addComponent(jLabel25)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(brDisk, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel27)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblDiskFree)
-                                        .addGap(147, 147, 147))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel26)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblMemFree)
-                                        .addGap(149, 149, 149)))))
+                                        .addComponent(lblMemFree, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel27)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblDiskFree, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(13, 13, 13)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -547,9 +517,9 @@ public class Main extends javax.swing.JFrame {
                         .addGap(2, 2, 2)
                         .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTemp)
-                            .addComponent(jLabel21))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(lblTemp))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(brMem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -693,18 +663,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JProgressBar brDisk;
     private javax.swing.JProgressBar brMem;
     private javax.swing.JLabel cpuMax;
-    private javax.swing.JLabel cpuMed;
     private javax.swing.JLabel cpuMin;
     private javax.swing.JLabel diskMax;
-    private javax.swing.JLabel diskMed;
     private javax.swing.JLabel diskMin;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -725,7 +691,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -733,7 +698,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel lblMemFree;
     private javax.swing.JLabel lblTemp;
     private javax.swing.JLabel memMax;
-    private javax.swing.JLabel memMed;
     private javax.swing.JLabel memMin;
     // End of variables declaration//GEN-END:variables
 }

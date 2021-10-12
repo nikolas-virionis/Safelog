@@ -31,5 +31,11 @@ app.use("/usuario", usuarioRouter);
 app.use("/empresa", empresaRouter);
 app.use("/maquina", maquinaRouter);
 app.use("/medicao", medicaoRouter);
+app.use((req, res, next) => {
+    res.status(404).sendFile("public/index.html", { root: __dirname });
+});
+// app.use((req, res, next) => {
+//     res.status(404).sendFile("public/404.html", { root: __dirname });
+// });
 
 module.exports = app;

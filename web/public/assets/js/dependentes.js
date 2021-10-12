@@ -118,7 +118,16 @@
 
                             // evento click para deletar máquina
                             excluirBtn.addEventListener("click", function() {
+                                // solicitando confirmação do delete
                                 let sure = confirm(`Você tem certeza de que quer deletar a máquina ${dependente.nome}?`);
+
+                                // realizando requisição do delete
+                                if (sure) {
+                                    axios.post("/maquina/delete", {id: dependente.id_maquina})
+                                    .then(result => {
+                                        console.log(result.data);
+                                    });
+                                }
                             })
                         });
                     } else {

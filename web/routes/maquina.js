@@ -164,4 +164,25 @@ router.post("/lista-componentes", async (req, res) => {
             res.json({ status: "erro", msg: err });
         });
 });
+
+// delete maquina
+router.post("/delete", async (req, res, next) => {
+    let { id } = req.body;
+
+    /*
+        seqeência de deletes
+
+        analytics -> maquina_analytics -> usuario_maquina
+        medicao   -> categoria_medicao -> maquina
+    */
+
+    // estrutura de deletes
+    // let sqlDelAnalytics = `DELETE FROM analytics WHERE fk_maquina = ${id}`;
+    // let sqlDelMacAnalytics = `DELETE FROM maquina_analytics WHERE fk_maquina = ${id}`;
+    // let sqlDelUsMac = `DELETE FROM usuario_maquina WHERE fk_maquina = ${id}`;
+    // let sqlDelMedicao = `DELETE FROM medicao WHERE fk_maquina = ${id}`;
+    // let sqlDelAnalytics = `DELETE FROM analytics WHERE fk_maquina = ${id}`;
+    // let sqlDelAnalytics = `DELETE FROM analytics WHERE fk_maquina = ${id}`;
+})
+
 module.exports = router;

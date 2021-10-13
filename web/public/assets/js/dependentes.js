@@ -42,19 +42,24 @@
                             tabelaDependentes.appendChild(tr);
 
                             // evento click para deletar usuário.
-                            excluirBtn.addEventListener("click", function() {
+                            excluirBtn.addEventListener("click", function () {
                                 // solicitando confirmação do delete
-                                let sure = confirm(`Você tem certeza que deseja deletar o usuário: ${dependente.nome}?`);
-                                if(sure) {
+                                let sure = confirm(
+                                    `Você tem certeza que deseja deletar o usuário: ${dependente.nome}?`
+                                );
+                                if (sure) {
                                     // requisição de delete
-                                    axios.post("/usuario/delete", {id: dependente.id_usuario})
-                                    .then(result => {
-                                        if(result.data.status == "ok") {
-                                            window.location.reload();
-                                        };
-                                    })
+                                    axios
+                                        .post("/usuario/delete", {
+                                            id: dependente.id_usuario,
+                                        })
+                                        .then((result) => {
+                                            if (result.data.status == "ok") {
+                                                window.location.reload();
+                                            }
+                                        });
                                 }
-                            })
+                            });
                         });
                     } else {
                         mostrarAlerta(
@@ -117,20 +122,25 @@
                             tabelaDependentes.appendChild(tr);
 
                             // evento click para deletar máquina
-                            excluirBtn.addEventListener("click", function() {
+                            excluirBtn.addEventListener("click", function () {
                                 // solicitando confirmação do delete
-                                let sure = confirm(`Você tem certeza de que quer deletar a máquina ${dependente.nome}?`);
+                                let sure = confirm(
+                                    `Você tem certeza de que quer deletar a máquina ${dependente.nome}?`
+                                );
 
                                 // realizando requisição do delete
                                 if (sure) {
-                                    axios.post("/maquina/delete", {id: dependente.id_maquina})
-                                    .then(result => {
-                                        if(result.data.status == "ok") {
-                                            window.location.reload();
-                                        };
-                                    });
+                                    axios
+                                        .post("/maquina/delete", {
+                                            id: dependente.id_maquina,
+                                        })
+                                        .then((result) => {
+                                            if (result.data.status == "ok") {
+                                                window.location.reload();
+                                            }
+                                        });
                                 }
-                            })
+                            });
                         });
                     } else {
                         mostrarAlerta(
@@ -150,6 +160,7 @@ const btnConfirmar = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const btnCancelar2 = document.querySelector("#btn-cancelar-modal2");
 const btnCadastroMaq = document.querySelector("#btn-cadastro-maq");
+const btnAtribuirMaq = document.querySelector("#btn-atribuir-maq");
 const btnAbrirConvite = document.querySelector(".convite-email");
 btnAbrirConvite.title = "Adicionar dependentes";
 
@@ -184,6 +195,9 @@ email.addEventListener("keypress", (e) => {
 
 btnCadastroMaq.addEventListener("click", (e) => {
     window.location = "./cadastro-maquina.html";
+});
+btnAtribuirMaq.addEventListener("click", (e) => {
+    window.location = "./atribuir-maquina.html";
 });
 btnConfirmar.addEventListener("click", async (e) => {
     const { validateEmail } = await import("./email.js");

@@ -59,12 +59,21 @@ const msgEmail = (tipo, nome, rest, email) => {
     if (tipo.toLowerCase() == "acesso")
         return [
             `
-            <p>Prezado(a) ${nome},</p>
-            <p><a href="http://localhost:3000/permitir-acesso.html?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
-            Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
-            <p>Seu token de verificação é <i>${rest[0]}</i></p> 
-            `,
+                <p>Prezado(a) ${nome},</p>
+                <p><a href="http://localhost:3000/permitir-acesso.html?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
+                Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
+                <p>Seu token de verificação é <i>${rest[0]}</i></p> 
+                `,
             "Permissão de acesso a maquina - SafeLog",
+        ];
+    if (tipo.toLowerCase() == "convite de acesso")
+        return [
+            `
+                    <p>Prezado(a) ${nome},</p>
+                    <p>Você recebeu um convite de acesso para a máquina ${rest[0]} de ${rest[1]}</p> 
+                    <p>Para utilizar e visualizar seus recursos, acesse seu perfil em nosso site</p>
+                    `,
+            "Convite de acesso a maquina - SafeLog",
         ];
     throw new Error(
         "tipo de email não especificado ou escrito de forma errada"

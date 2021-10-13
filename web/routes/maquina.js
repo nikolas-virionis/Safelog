@@ -2,6 +2,7 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
+const { mandarEmail } = require("../util/email/email");
 
 router.post("/cadastro", async (req, res, next) => {
     let { id, id_maquina, nome, senha, empresa } = req.body;
@@ -300,6 +301,135 @@ router.post("/lista-usuarios", async (req, res) => {
         .query(sql, { type: sequelize.QueryTypes.SELECT })
         .then((response) => {
             res.json({ status: "ok", msg: response });
+        })
+        .catch((err) => {
+            res.json({ status: "erro", msg: err });
+        });
+});
+
+router.post("/convite", async (req, res) => {
+    let { email, maquina } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let usuarioExisteEmStaff = `SELECT * FROM staff WHERE email = '${email}'`;
+    let usuarioExiste = `SELECT id_usuario, nome, cargo FROM usuario WHERE email = '${email}'`;
+    let usuarioMaquinaExiste = `SELECT * FROM usuario_maquina WHERE fk_maquina = '${maquina}' AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '${email}') `;
+    await sequelize
+        .query(usuarioExisteEmStaff, {
+            type: sequelize.QueryTypes.SELECT,
+        })
+        .then(async (response) => {
+            if (response.length == 0) {
+                await sequelize
+                    .query(usuarioExiste, {
+                        type: sequelize.QueryTypes.SELECT,
+                    })
+                    .then(async (resposta) => {
+                        if (resposta.length > 0) {
+                            let { id_usuario: id, nome, cargo } = resposta[0];
+                            if (cargo != "analista") {
+                                res.json({
+                                    status: "erro",
+                                    msg: "Usuario cadastrado como gestor",
+                                });
+                            }
+                            await sequelize
+                                .query(usuarioMaquinaExiste, {
+                                    type: sequelize.QueryTypes.SELECT,
+                                })
+                                .then(async (result) => {
+                                    if (result.length == 0) {
+                                        let insertUsuarioMaquina = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, '${maquina}')`;
+                                        await sequelize
+                                            .query(insertUsuarioMaquina, {
+                                                type: sequelize.QueryTypes
+                                                    .INSERT,
+                                            })
+                                            .then(async () => {
+                                                let sql = `SELECT usuario.nome as resp, maquina.nome as nomeMaquina from usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}'`;
+
+                                                await sequelize
+                                                    .query(sql, {
+                                                        type: sequelize
+                                                            .QueryTypes.SELECT,
+                                                    })
+                                                    .then(
+                                                        ([
+                                                            {
+                                                                resp,
+                                                                nomeMaquina,
+                                                            },
+                                                        ]) => {
+                                                            mandarEmail(
+                                                                "convite de acesso",
+                                                                nome,
+                                                                email,
+                                                                [
+                                                                    nomeMaquina,
+                                                                    resp,
+                                                                ]
+                                                            )
+                                                                .then(() => {
+                                                                    res.json({
+                                                                        status: "ok",
+                                                                        msg: "Usuário com acesso à maquina",
+                                                                    });
+                                                                })
+                                                                .catch(
+                                                                    (err) => {
+                                                                        res.json(
+                                                                            {
+                                                                                status: "erro",
+                                                                                msg: err,
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                );
+                                                        }
+                                                    )
+                                                    .catch((err) => {
+                                                        res.json({
+                                                            status: "erro",
+                                                            msg: err,
+                                                        });
+                                                    });
+                                            })
+                                            .catch((err) => {
+                                                res.json({
+                                                    status: "erro",
+                                                    msg: err,
+                                                });
+                                            });
+                                    } else {
+                                        res.json({
+                                            status: "erro",
+                                            msg: "Usuario já possui acesso à maquina",
+                                        });
+                                    }
+                                })
+                                .catch((err) => {
+                                    res.json({ status: "erro", msg: err });
+                                });
+                        } else {
+                            res.json({
+                                status: "erro",
+                                msg: "Usuario não cadastrado",
+                            });
+                        }
+                    })
+                    .catch((err) => {
+                        res.json({ status: "erro", msg: err });
+                    });
+            } else {
+                res.json({
+                    status: "erro",
+                    msg: "Usuario cadastrado como staff",
+                });
+            }
         })
         .catch((err) => {
             res.json({ status: "erro", msg: err });

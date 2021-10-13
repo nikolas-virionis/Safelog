@@ -286,4 +286,23 @@ router.post("/permissao-acesso", async (req, res) => {
         });
 });
 
+router.post("/lista-usuarios", async (req, res) => {
+    let { id } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let sql = `SELECT nome, email FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND fk_maquina = '${id}'`;
+
+    await sequelize
+        .query(sql, { type: sequelize.QueryTypes.SELECT })
+        .then((response) => {
+            res.json({ status: "ok", msg: response });
+        })
+        .catch((err) => {
+            res.json({ status: "erro", msg: err });
+        });
+});
 module.exports = router;

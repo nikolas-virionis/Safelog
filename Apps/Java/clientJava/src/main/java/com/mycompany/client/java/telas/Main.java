@@ -103,7 +103,7 @@ public class Main extends javax.swing.JFrame {
                     System.out.println("disco uso: ");
                     System.out.println(medicao);
                     brDisk.setValue(medicao.intValue());
-                    brDisk.setString(medicao.intValue()+"&");
+                    brDisk.setString(medicao.intValue()+"%");
                 } else {
                     throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");
                 }
@@ -598,15 +598,15 @@ public class Main extends javax.swing.JFrame {
 
         cpuMax.setText(MaxCpu.toString() + "%");
         cpuMin.setText(MinCpu.toString() + "%");
-        cpuMed.setText(MedCpu.toString() + "%");
+       
 
         diskMax.setText(MaxDisk.toString() + "%");
         diskMin.setText(MinDisk.toString() + "%");
-        diskMed.setText(MedDisk.toString() + "%");
+      
 
         memMax.setText(MaxMem.toString() + "%");
         memMin.setText(MinMem.toString() + "%");
-        memMed.setText(MedMem.toString() + "%");
+     
 
     }// GEN-LAST:event_btnPrincipalActionPerformed
 

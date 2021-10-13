@@ -1,7 +1,7 @@
 let { id, cargo } = JSON.parse(sessionStorage.getItem("usuario"));
 let tabelaIncidentes = document.querySelector(".tabela-listrada table");
 axios
-    .post("/medicao/relatorio-incidentes", {
+    .post(`/medicao/relatorio-incidentes/${cargo}`, {
         id,
     })
     .then((response) => {

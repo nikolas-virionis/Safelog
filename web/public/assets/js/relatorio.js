@@ -10,25 +10,27 @@ axios
             if (maquinas.length > 0 && maquinas[0].length > 0) {
                 for (let maquina of maquinas) {
                     for (let incidente of maquina) {
-                        let {
-                            tipo_categoria: tipoMedicao,
-                            nome,
-                            valor,
-                            unidade,
-                            data_medicao: dataMedicao,
-                            estado,
-                        } = incidente;
+                        let tr = document.createElement("tr");
+                        let tbData = document.createElement("td");
+                        let tbNome = document.createElement("td");
+                        let tbComponente = document.createElement("td");
+                        let tbTipo = document.createElement("td");
+                        let tbEstado = document.createElement("td");
                         if (cargo == "analista") {
-                            let [componente, tipo] = tipoMedicao.split("_");
-                            let tr = document.createElement("tr");
+                            medicao.style.display = "";
+                            operacao.style.display = "";
+                            let {
+                                tipo_categoria: tipoMedicao,
+                                nome,
+                                valor,
+                                unidade,
+                                data_medicao: dataMedicao,
+                                estado,
+                            } = incidente;
                             let date = new Date(dataMedicao);
+                            let [componente, tipo] = tipoMedicao.split("_");
                             let data = `${date.toLocaleDateString("pt-BR")}
-                                ${date.toTimeString().slice(0, 8)}`;
-                            let tbData = document.createElement("td");
-                            let tbNome = document.createElement("td");
-                            let tbComponente = document.createElement("td");
-                            let tbTipo = document.createElement("td");
-                            let tbEstado = document.createElement("td");
+                            ${date.toTimeString().slice(0, 8)}`;
                             let tbMedicao = document.createElement("td");
                             let tbOperacao = document.createElement("td");
                             let alertarBtnLbl = document.createElement("i");
@@ -64,20 +66,21 @@ axios
                             tr.appendChild(tbEstado);
                             tr.appendChild(tbMedicao);
                             tr.appendChild(tbOperacao);
-                            tabelaIncidentes.appendChild(tr);
                         } else {
+                            responsavel.style.display = "";
+                            let {
+                                tipo_categoria: tipoMedicao,
+                                resp,
+                                nome,
+                                data_medicao: dataMedicao,
+                                estado,
+                            } = incidente;
+                            let date = new Date(dataMedicao);
+                            let [componente, tipo] = tipoMedicao.split("_");
+                            let data = `${date.toLocaleDateString("pt-BR")}
+                            ${date.toTimeString().slice(0, 8)}`;
                             if (estado.toLowerCase() == "critico") {
-                                let [componente, tipo] = tipoMedicao.split("_");
-                                let tr = document.createElement("tr");
-                                let date = new Date(dataMedicao);
-                                let data = `${date.toLocaleDateString("pt-BR")}
-                                ${date.toTimeString().slice(0, 8)}`;
-                                let tbData = document.createElement("td");
-                                let tbNome = document.createElement("td");
-                                let tbComponente = document.createElement("td");
-                                let tbTipo = document.createElement("td");
-                                let tbEstado = document.createElement("td");
-                                let tbMedicao = document.createElement("td");
+                                let tbResp = document.createElement("td");
                                 tbNome.innerHTML = nome;
                                 tbData.innerHTML = data;
                                 tbComponente.innerHTML =
@@ -85,21 +88,19 @@ axios
                                 tbTipo.innerHTML =
                                     tipo.charAt(0).toUpperCase() +
                                     tipo.slice(1);
-                                tbMedicao.innerHTML = `${Number(
-                                    valor
-                                )}${unidade.replace("┬░C", "°C")}`;
+                                tbResp.innerHTML = resp;
                                 tbEstado.innerHTML =
                                     estado.charAt(0).toUpperCase() +
                                     estado.slice(1);
                                 tr.appendChild(tbData);
+                                tr.appendChild(tbResp);
                                 tr.appendChild(tbNome);
                                 tr.appendChild(tbComponente);
                                 tr.appendChild(tbTipo);
                                 tr.appendChild(tbEstado);
-                                tr.appendChild(tbMedicao);
-                                tabelaIncidentes.appendChild(tr);
                             }
                         }
+                        tabelaIncidentes.appendChild(tr);
                     }
                 }
             } else {

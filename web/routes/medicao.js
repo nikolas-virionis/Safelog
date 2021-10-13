@@ -45,7 +45,7 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
         .query(sql, { type: sequelize.QueryTypes.SELECT })
         .then(async (response) => {
             let incidentes = [];
-            let incidente = `SELECT id_medicao, data_medicao, valor, unidade, medicao_limite, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, usuario.nome as resp FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON usuario_maquina.fk_maquina = id_maquina JOIN categoria_medicao ON id_maquina = categoria_medicao.fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE ${getMachines(
+            let incidente = `SELECT id_medicao, data_medicao, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, usuario.nome as resp FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON usuario_maquina.fk_maquina = id_maquina JOIN categoria_medicao ON id_maquina = categoria_medicao.fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE ${getMachines(
                 response
             )} GROUP BY valor, tipo_medicao.tipo ORDER BY data_medicao DESC;`;
             // res.json(incidente);

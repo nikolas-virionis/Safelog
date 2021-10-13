@@ -34,7 +34,14 @@ btn.addEventListener("click", (e) => {
                         maquina: macAddress,
                     })
                     .then((res) => {
-                        console.log(res);
+                        if (res.data?.status == "ok") {
+                            mostrarAlerta(
+                                "Email de solicitação de acesso enviado com sucesso",
+                                "success"
+                            );
+                        } else {
+                            mostrarAlerta(res.data?.msg, "danger");
+                        }
                     });
             } else {
                 mostrarAlerta(response.data.msg, "danger");

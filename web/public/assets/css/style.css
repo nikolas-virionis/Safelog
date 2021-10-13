@@ -577,7 +577,8 @@ ul li.btn-nav a:hover {
 
 .modal-container {
     animation: animate-div .5s;
-    width: 50vw;
+    min-width: 50vw;
+    max-width: 80vw;
     background-color: #fff;
     padding: 20px 30px;
     border-radius: 20px;

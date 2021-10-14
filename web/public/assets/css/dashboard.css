@@ -78,7 +78,7 @@ h1,h2,h3,h4,h5,h6{
 
 /* Tela de dependentes */
 
-.sub-chefe{
+.sub-chefe, .nome-maquina{
     display: flex;
     align-items: center;
     padding: 30px 10vw;

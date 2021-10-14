@@ -317,7 +317,7 @@ VALUES
     (
         NULL,
         'Susan K. Adams',
-        'susan.adams@gmail.com',
+        'jpso0907@gmail.com',
         MD5('ExSenha1'),
         'analista',
         'mc4y8gawmc4y8gaw',
@@ -327,7 +327,7 @@ VALUES
     (
         NULL,
         'Nicole Silva Gomes',
-        'nicole.gomes@gmail.com',
+        'sycol.network@gmail.com',
         MD5('ExSenha1'),
         'analista',
         '3pta7uqx3pta7uqx',

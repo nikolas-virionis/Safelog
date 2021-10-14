@@ -407,144 +407,162 @@ router.post("/delete", async (req, res, next) => {
     // contato -> usuario_maquina -> usuario
 
     // formato de deletes
-
-    let usuarioResponsavel = `SELECT fk_maquina FROM usuario_maquina WHERE fk_usuario = '${id}' AND responsavel = 's'`;
+    let deletar = true;
+    const setFalse = () => {
+        deletar = false;
+        console.log("\n\n", { deletar }, "\n\n");
+    };
+    let usuarioResponsavel = `SELECT fk_maquina FROM usuario_maquina WHERE fk_usuario = ${id} AND responsavel = 's'`;
     await sequelize
         .query(usuarioResponsavel, {
             type: sequelize.QueryTypes.SELECT,
         })
         .then(async (usuarioResponsavel) => {
             if (usuarioResponsavel.length > 0) {
-                let sql = `SELECT fk_maquina FROM usuario_maquina WHERE fk_usuario = '${id}'`;
-                await sequelize
-                    .query(sql, {
-                        type: sequelize.QueryTypes.SELECT,
-                    })
-                    .then((listaMaquinas) => {
-                        listaMaquinas = listaMaquinas.map(
-                            (el) => el.fk_maquina
-                        );
-                        listaMaquinas.forEach(async (maq) => {
-                            let sql = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = '${maq}' AND responsavel = 'n'`;
-                            await sequelize
-                                .query(sql, {
-                                    type: sequelize.QueryTypes.SELECT,
-                                })
-                                .then(async (resposta) => {
-                                    resposta = resposta.map(
-                                        (el) => el?.fk_usuario
-                                    );
-                                    if (resposta.length == 0) {
-                                        //reatribuição de responsavel
-                                        let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
-                                        await sequelize
-                                            .query(sql, {
-                                                type: sequelize.QueryTypes
-                                                    .SELECT,
-                                            })
-                                            .then(([response]) => {
-                                                let {
-                                                    nome,
-                                                    nomeMaquina,
-                                                    nomeGestor,
-                                                    email,
-                                                } = response;
-                                                mandarEmail(
-                                                    "atribuir responsavel",
-                                                    nomeGestor,
-                                                    email,
-                                                    [nome, nomeMaquina]
-                                                ).catch((err) => {
+                usuarioResponsavel = usuarioResponsavel.map(
+                    (el) => el?.fk_maquina
+                );
+                await usuarioResponsavel.forEach(async (maq) => {
+                    let sql = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = '${maq}' AND responsavel = 'n'`;
+                    await sequelize
+                        .query(sql, {
+                            type: sequelize.QueryTypes.SELECT,
+                        })
+                        .then(async (resposta) => {
+                            resposta = resposta.map((el) => el?.fk_usuario);
+                            if (resposta.length == 0) {
+                                setFalse();
+                                res.json({ deletar });
+                                throw new Error("");
+                                //reatribuição de responsavel
+                                console.log("\n\n0 pessoas\n\n");
+                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
+                                await sequelize
+                                    .query(sql, {
+                                        type: sequelize.QueryTypes.SELECT,
+                                    })
+                                    .then(
+                                        ([
+                                            {
+                                                nome,
+                                                nomeMaquina,
+                                                nomeGestor,
+                                                email,
+                                            },
+                                        ]) => {
+                                            console.log("\n\nantes email\n\n");
+                                            mandarEmail(
+                                                "atribuir responsavel",
+                                                nomeGestor,
+                                                email,
+                                                [nome, nomeMaquina]
+                                            )
+                                                .then(() => {
+                                                    console.log(
+                                                        "\n\ndps email"
+                                                    );
+                                                })
+                                                .catch((err) => {
                                                     res.json({
-                                                        status: "erro",
+                                                        status: "erro1",
                                                         msg: err,
                                                     });
                                                 });
-                                            })
-                                            .catch((err) => {
-                                                res.json({
-                                                    status: "erro",
-                                                    msg: err,
-                                                });
-                                            });
-                                    } else if (resposta.length == 1) {
-                                        //redefinição automática de responsavel
-                                        let updateResponsavel = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = '${maq}' AND fk_usuario = ${el[0]}`;
+                                        }
+                                    )
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro2",
+                                            err,
+                                        });
+                                    });
+                            } else if (resposta.length == 1) {
+                                console.log("\n\n1 pessoa\n\n");
+                                //redefinição automática de responsavel
+                                let updateResponsavel = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = '${maq}' AND fk_usuario = ${resposta[0]}`;
 
-                                        await sequelize
-                                            .query(updateResponsavel, {
-                                                type: sequelize.QueryTypes
-                                                    .UPDATE,
-                                            })
-                                            .catch((err) => {
+                                await sequelize
+                                    .query(updateResponsavel, {
+                                        type: sequelize.QueryTypes.UPDATE,
+                                    })
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro3",
+                                            err,
+                                        });
+                                    });
+                            } else {
+                                //redefinição de responsavel
+                                console.log("\n\nvarias pessoas\n\n");
+                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
+                                await sequelize
+                                    .query(sql, {
+                                        type: sequelize.QueryTypes.SELECT,
+                                    })
+                                    .then(
+                                        ([
+                                            {
+                                                nome,
+                                                nomeMaquina,
+                                                nomeGestor,
+                                                email,
+                                            },
+                                        ]) => {
+                                            mandarEmail(
+                                                "redefinir responsavel",
+                                                nomeGestor,
+                                                email,
+                                                [nome, nomeMaquina]
+                                            ).catch((err) => {
                                                 res.json({
-                                                    status: "erro",
+                                                    status: "erro4",
                                                     msg: err,
                                                 });
                                             });
-                                    } else {
-                                        //redefinição de responsavel
-                                        let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
-                                        await sequelize
-                                            .query(sql, {
-                                                type: sequelize.QueryTypes
-                                                    .SELECT,
-                                            })
-                                            .then(([response]) => {
-                                                let {
-                                                    nome,
-                                                    nomeMaquina,
-                                                    nomeGestor,
-                                                    email,
-                                                } = response;
-                                                mandarEmail(
-                                                    "redefinir responsavel",
-                                                    nomeGestor,
-                                                    email,
-                                                    [nome, nomeMaquina]
-                                                ).catch((err) => {
-                                                    res.json({
-                                                        status: "erro",
-                                                        msg: err,
-                                                    });
-                                                });
-                                            })
-                                            .catch((err) => {
-                                                res.json({
-                                                    status: "erro",
-                                                    msg: err,
-                                                });
-                                            });
-                                    }
-                                })
-                                .catch((err) => {
-                                    res.json({ status: "erro", msg: err });
-                                });
-                        });
-                        deleteUsuario(id)
-                            .then((response) => {
-                                res.json(response);
-                            })
-                            .catch((err) => {
-                                res.json({
-                                    status: "erro",
-                                    msg: err,
-                                });
+                                        }
+                                    )
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro5",
+                                            msg: err,
+                                        });
+                                    });
+                            }
+                        })
+                        .catch((err) => {
+                            res.json({
+                                status: "erro6",
+                                msg: err,
                             });
-                    });
+                        });
+                });
+                // res.json({ deletar });
+                throw new Error("");
+                if (deletar) {
+                    deleteUsuario(id)
+                        .then((response) => {
+                            res.json(response);
+                        })
+                        .catch((err) => {
+                            res.json({
+                                status: "erro7",
+                                msg: err,
+                            });
+                        });
+                }
             } else {
                 deleteUsuario(id)
                     .then((response) => {
                         res.json(response);
                     })
                     .catch((err) => {
-                        res.json({ status: "erro", msg: err });
+                        res.json({ status: "erro8", msg: err });
                     });
             }
-        })
-        .catch((err) => {
-            res.json({ status: "erro", msg: err });
         });
+    // .catch((err) => {
+    //     res.json({ status: "erro9", msg: err });
+    // });
 });
 
 module.exports = router;

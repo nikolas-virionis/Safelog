@@ -533,7 +533,7 @@ router.post("/delete", async (req, res, next) => {
                                 msg: err,
                             });
                         });
-                };
+                }
                 // res.json({ deletar });
                 if (deletar) {
                     deleteUsuario(id)
@@ -546,9 +546,11 @@ router.post("/delete", async (req, res, next) => {
                                 msg: err,
                             });
                         });
-                }
-                else {
-                    res.json({status: "ok", msg: "Usuario é o único responsavel de uma maquina"})
+                } else {
+                    res.json({
+                        status: "ok",
+                        msg: "Usuario é o único responsavel de uma maquina",
+                    });
                 }
             } else {
                 deleteUsuario(id)
@@ -560,9 +562,61 @@ router.post("/delete", async (req, res, next) => {
                     });
             }
         })
-    .catch((err) => {
-        res.json({ status: "erro9", msg: err });
-    });
+        .catch((err) => {
+            res.json({ status: "erro9", msg: err });
+        });
+});
+
+router.post("/remocao-acesso", async (req, res) => {
+    let { id, maquina } = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+    }
+    let selectUsuario = `SELECT nome, email FROM usuario WHERE id_usuario = ${id}`;
+    let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}'`;
+    let deleteAcesso = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = '${maquina}'`;
+
+    await sequelize
+        .query(selectDados, { type: sequelize.QueryTypes.SELECT })
+        .then(async ([{ responsavel, nomeMaquina }]) => {
+            await sequelize
+                .query(selectUsuario, { type: sequelize.QueryTypes.SELECT })
+                .then(async ([{ nome, email }]) => {
+                    await sequelize
+                        .query(deleteAcesso, {
+                            type: sequelize.QueryTypes.DELETE,
+                        })
+                        .then(() => {
+                            mandarEmail(
+                                "notificacao remocao acesso",
+                                nome,
+                                email,
+                                [nomeMaquina, responsavel]
+                            )
+                                .then(() => {
+                                    res.json({
+                                        status: "ok",
+                                        msg: "Acesso do usuario removido com sucesso",
+                                    });
+                                })
+                                .catch((err) => {
+                                    res.json({ status: "erro", msg: err });
+                                });
+                        })
+                        .catch((err) => {
+                            res.json({ status: "erro", msg: err });
+                        });
+                })
+                .catch((err) => {
+                    res.json({ status: "erro", msg: err });
+                });
+        })
+        .catch((err) => {
+            res.json({ status: "erro", msg: err });
+        });
 });
 
 module.exports = router;

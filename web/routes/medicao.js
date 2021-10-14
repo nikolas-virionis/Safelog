@@ -2,7 +2,7 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
-let { getMachines } = require("../util/get-user-machines/script");
+let { getMachines } = require("../util/get-user-machines/machines");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
     let { id } = req.body;

@@ -11,9 +11,9 @@ const {
     updateDadosUsuario,
     criarFormasContato,
 } = require("../util/cadastro-final/updateCadastro");
-const { generateToken } = require("../util/token-user/script");
+const { generateToken } = require("../util/token-user/token");
 const { mandarEmail } = require("../util/email/email");
-const { deleteUsuario } = require("../util/delete-usuario/script");
+const { deleteUsuario } = require("../util/delete-usuario/delete");
 
 //rotas
 router.post("/convite", async (req, res, next) => {

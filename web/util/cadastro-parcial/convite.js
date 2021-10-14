@@ -1,4 +1,4 @@
-const { generateToken } = require("../token-user/script");
+const { generateToken } = require("../token-user/token");
 let sequelize = require("../../models").sequelize;
 let send = require("../email/email").mandarEmail;
 

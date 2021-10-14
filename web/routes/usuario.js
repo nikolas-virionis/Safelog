@@ -13,6 +13,7 @@ const {
 } = require("../util/cadastro-final/updateCadastro");
 const { generateToken } = require("../util/token-user/script");
 const { mandarEmail } = require("../util/email/email");
+const { deleteUsuario } = require("../util/delete-usuario/script");
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -394,48 +395,174 @@ router.post("/verificacao", async (req, res, next) => {
         });
 });
 
-router.post("/delete", async(req, res, next) => {
+router.post("/delete", async (req, res, next) => {
+    let { id } = req.body;
     if (!req.body) {
         return res.json({
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-    } else {
-        let { id } = req.body;
-        
-        // ordem de delete
-        // contato -> usuario_maquina -> usuario
-        
-        // formato de deletes
-        let sqlDelContato = `DELETE FROM contato WHERE fk_usuario = ${id}`;
-        let sqlDelUsMac = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id}`;
-        let sqlDelUser = `DELETE FROM usuario WHERE id_usuario = ${id}`;
-
-        // delete contatos
-        await sequelize.query(sqlDelContato, {type: sequelize.QueryTypes.DELETE})
-        .then(async resultContato => {
-
-            // delete usuario_maquina
-            await sequelize.query(sqlDelUsMac, {type: sequelize.QueryTypes.DELETE})
-            .then(async resultUsMac => {
-                // delete usuario
-                await sequelize.query(sqlDelUser, {type: sequelize.QueryTypes.DELETE})
-                .then(resultUser => {
-                    console.log(resultUser);
-                    res.json({status: "ok", msg: "usuário deletado com sucesso"});
-                })
-                .catch(err => {
-                    res.json({status: "err", msg: err});
-                })
-            })
-            .catch(err => {
-                res.json({status: "err", msg: err});
-            })
-        })
-        .catch(err => {
-            res.json({status: "err", msg: err});
-        })
     }
-})
+    // ordem de delete
+    // contato -> usuario_maquina -> usuario
+
+    // formato de deletes
+    let deletar = true;
+    const setFalse = () => {
+        deletar = false;
+        console.log("\n\n", { deletar }, "\n\n");
+    };
+    let usuarioResponsavel = `SELECT fk_maquina FROM usuario_maquina WHERE fk_usuario = ${id} AND responsavel = 's'`;
+    await sequelize
+        .query(usuarioResponsavel, {
+            type: sequelize.QueryTypes.SELECT,
+        })
+        .then(async (usuarioResponsavel) => {
+            if (usuarioResponsavel.length > 0) {
+                usuarioResponsavel = usuarioResponsavel.map(
+                    (el) => el?.fk_maquina
+                );
+                for (let maq of usuarioResponsavel) {
+                    let sql = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = '${maq}' AND responsavel = 'n'`;
+                    await sequelize
+                        .query(sql, {
+                            type: sequelize.QueryTypes.SELECT,
+                        })
+                        .then(async (resposta) => {
+                            resposta = resposta.map((el) => el?.fk_usuario);
+                            if (resposta.length == 0) {
+                                setFalse();
+                                //reatribuição de responsavel
+                                console.log("\n\n0 pessoas\n\n");
+                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
+                                await sequelize
+                                    .query(sql, {
+                                        type: sequelize.QueryTypes.SELECT,
+                                    })
+                                    .then(
+                                        ([
+                                            {
+                                                nome,
+                                                nomeMaquina,
+                                                nomeGestor,
+                                                email,
+                                            },
+                                        ]) => {
+                                            console.log("\n\nantes email\n\n");
+                                            mandarEmail(
+                                                "atribuir responsavel",
+                                                nomeGestor,
+                                                email,
+                                                [nome, nomeMaquina]
+                                            )
+                                                .then(() => {
+                                                    console.log(
+                                                        "\n\ndps email"
+                                                    );
+                                                })
+                                                .catch((err) => {
+                                                    res.json({
+                                                        status: "erro1",
+                                                        msg: err,
+                                                    });
+                                                });
+                                        }
+                                    )
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro2",
+                                            err,
+                                        });
+                                    });
+                            } else if (resposta.length == 1) {
+                                console.log("\n\n1 pessoa\n\n");
+                                //redefinição automática de responsavel
+                                let updateResponsavel = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = '${maq}' AND fk_usuario = ${resposta[0]}`;
+
+                                await sequelize
+                                    .query(updateResponsavel, {
+                                        type: sequelize.QueryTypes.UPDATE,
+                                    })
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro3",
+                                            err,
+                                        });
+                                    });
+                            } else {
+                                //redefinição de responsavel
+                                console.log("\n\nvarias pessoas\n\n");
+                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
+                                await sequelize
+                                    .query(sql, {
+                                        type: sequelize.QueryTypes.SELECT,
+                                    })
+                                    .then(
+                                        ([
+                                            {
+                                                nome,
+                                                nomeMaquina,
+                                                nomeGestor,
+                                                email,
+                                            },
+                                        ]) => {
+                                            mandarEmail(
+                                                "redefinir responsavel",
+                                                nomeGestor,
+                                                email,
+                                                [nome, nomeMaquina]
+                                            ).catch((err) => {
+                                                res.json({
+                                                    status: "erro4",
+                                                    msg: err,
+                                                });
+                                            });
+                                        }
+                                    )
+                                    .catch((err) => {
+                                        res.json({
+                                            status: "erro5",
+                                            msg: err,
+                                        });
+                                    });
+                            }
+                        })
+                        .catch((err) => {
+                            res.json({
+                                status: "erro6",
+                                msg: err,
+                            });
+                        });
+                };
+                // res.json({ deletar });
+                if (deletar) {
+                    deleteUsuario(id)
+                        .then((response) => {
+                            res.json(response);
+                        })
+                        .catch((err) => {
+                            res.json({
+                                status: "erro7",
+                                msg: err,
+                            });
+                        });
+                }
+                else {
+                    res.json({status: "ok", msg: "Usuario é o único responsavel de uma maquina"})
+                }
+            } else {
+                deleteUsuario(id)
+                    .then((response) => {
+                        res.json(response);
+                    })
+                    .catch((err) => {
+                        res.json({ status: "erro8", msg: err });
+                    });
+            }
+        })
+    .catch((err) => {
+        res.json({ status: "erro9", msg: err });
+    });
+});
 
 module.exports = router;

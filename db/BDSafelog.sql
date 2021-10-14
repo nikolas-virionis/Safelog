@@ -316,7 +316,7 @@ VALUES
     ),
     (
         NULL,
-        'Susan K. Adams',
+        'Pedro Santos Oliveira',
         'jpso0907@gmail.com',
         MD5('ExSenha1'),
         'analista',
@@ -326,7 +326,7 @@ VALUES
     ),
     (
         NULL,
-        'Nicole Silva Gomes',
+        'João Santos Oliveira',
         'sycol.network@gmail.com',
         MD5('ExSenha1'),
         'analista',

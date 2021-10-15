@@ -294,7 +294,7 @@ router.post("/acesso-maquina", async (req, res) => {
             msg: "Body não fornecido na requisição",
         });
 
-    let acessoExiste = `SELECT * FROM usuario_maquina WHERE fk_usuario = '${id}' AND fk_maquina = '${maquina}'`;
+    let acessoExiste = `SELECT * FROM usuario_maquina WHERE fk_usuario = '${id}' AND fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '${maquina}')`;
 
     await sequelize
         .query(acessoExiste, { type: sequelize.QueryTypes.SELECT })
@@ -310,7 +310,7 @@ router.post("/acesso-maquina", async (req, res) => {
                     .query(dadosUsuario, { type: sequelize.QueryTypes.SELECT })
                     .then(async ([analista]) => {
                         let { nome: nomeUsuario } = analista;
-                        let dados = `SELECT maquina.nome as nomeMaquina, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
+                        let dados = `SELECT maquina.pk_maquina as pkMaq, maquina.nome as nomeMaquina, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
 
                         await sequelize
                             .query(dados, { type: sequelize.QueryTypes.SELECT })
@@ -319,6 +319,7 @@ router.post("/acesso-maquina", async (req, res) => {
                                     nomeResp,
                                     nomeMaquina,
                                     email: emailResp,
+                                    pkMaq,
                                 } = resposta;
                                 let token = generateToken();
                                 let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${emailResp}'`;
@@ -336,7 +337,7 @@ router.post("/acesso-maquina", async (req, res) => {
                                                 nomeUsuario,
                                                 nomeMaquina,
                                                 id,
-                                                maquina,
+                                                pkMaq,
                                             ]
                                         )
                                             .then(() => {
@@ -576,8 +577,8 @@ router.post("/remocao-acesso", async (req, res) => {
         });
     }
     let selectUsuario = `SELECT nome, email FROM usuario WHERE id_usuario = ${id}`;
-    let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}'`;
-    let deleteAcesso = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = '${maquina}'`;
+    let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
+    let deleteAcesso = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = ${maquina}`;
 
     await sequelize
         .query(selectDados, { type: sequelize.QueryTypes.SELECT })

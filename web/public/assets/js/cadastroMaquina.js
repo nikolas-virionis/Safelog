@@ -62,7 +62,7 @@ btn.addEventListener("click", (e) => {
             console.log(response);
             if (response.data?.status == "ok") {
                 mostrarAlerta("Maquina registrada com sucesso", "success");
-                window.location = `componentes.html?id_maquina=${id_maquina.value}`;
+                window.location = `componentes.html?pk_maquina=${response.data.pk_maquina}`;
             } else {
                 mostrarAlerta("Erro no cadastro da máquina", "danger");
             }

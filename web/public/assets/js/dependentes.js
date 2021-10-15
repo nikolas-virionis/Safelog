@@ -132,7 +132,7 @@
                                 if (sure) {
                                     axios
                                         .post("/maquina/delete", {
-                                            id: dependente.id_maquina,
+                                            id: dependente.pk_maquina,
                                         })
                                         .then((result) => {
                                             if (result.data.status == "ok") {

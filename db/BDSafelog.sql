@@ -50,7 +50,8 @@ CREATE TABLE contato (
 );
 
 CREATE TABLE maquina (
-    id_maquina varchar(20) PRIMARY KEY,
+    pk_maquina int AUTO_INCREMENT primary key,
+    id_maquina varchar(20) UNIQUE NOT NULL,
     nome varchar(60) NOT NULL,
     senha char(32) NOT NULL,
     fk_empresa varchar(30) NOT NULL,
@@ -61,9 +62,9 @@ CREATE TABLE usuario_maquina (
     id_usuario_maquina int AUTO_INCREMENT PRIMARY KEY,
     responsavel enum('s', 'n'),
     fk_usuario int NOT NULL,
-    fk_maquina varchar(20) NOT NULL,
+    fk_maquina int NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina)
+    FOREIGN KEY (fk_maquina) REFERENCES maquina(pk_maquina)
 );
 
 CREATE TABLE tipo_medicao (
@@ -75,9 +76,9 @@ CREATE TABLE tipo_medicao (
 CREATE TABLE categoria_medicao (
     id_categoria_medicao int PRIMARY KEY AUTO_INCREMENT,
     medicao_limite decimal(6, 2),
-    fk_maquina varchar(20),
+    fk_maquina int NOT NULL,
     fk_tipo_medicao int,
-    FOREIGN KEY (fk_maquina) REFERENCES maquina(id_maquina),
+    FOREIGN KEY (fk_maquina) REFERENCES maquina(pk_maquina),
     FOREIGN KEY (fk_tipo_medicao) REFERENCES tipo_medicao(id_tipo_medicao)
 );
 
@@ -351,7 +352,7 @@ VALUES
     (14, 3, 'nicole.gomes@gmail.com', 3);
 
 INSERT INTO
-    maquina
+    maquina(id_maquina, nome, senha, fk_empresa)
 VALUES
     (
         '73:04:cd:e5:6f:a0',
@@ -405,82 +406,82 @@ VALUES
 INSERT INTO
     usuario_maquina
 VALUES
-    (NULL, 's', 7, '73:04:cd:e5:6f:a0'),
-    (NULL, 'n', 11, '73:04:cd:e5:6f:a0'),
-    (NULL, 'n', 9, '2f:d0:bb:62:61:14'),
-    (NULL, 's', 13, '2f:d0:bb:62:61:14'),
-    (NULL, 'n', 7, 'a3:4e:5e:38:96:be'),
-    (NULL, 's', 9, 'a3:4e:5e:38:96:be'),
-    (NULL, 's', 11, '7b:a0:1d:74:7f:68'),
-    (NULL, 'n', 13, '7b:a0:1d:74:7f:68'),
-    (NULL, 's', 8, '87:6d:74:ea:b8:d6'),
-    (NULL, 'n', 12, '87:6d:74:ea:b8:d6'),
-    (NULL, 'n', 10, '03:db:e0:03:dd:f2'),
-    (NULL, 's', 14, '03:db:e0:03:dd:f2'),
-    (NULL, 'n', 8, '67:8f:75:1a:a2:e0'),
-    (NULL, 's', 10, '67:8f:75:1a:a2:e0'),
-    (NULL, 's', 12, '87:f4:a2:f4:26:7f'),
-    (NULL, 'n', 14, '87:f4:a2:f4:26:7f');
+    (NULL, 's', 7, 1),
+    (NULL, 'n', 11, 1),
+    (NULL, 'n', 9, 2),
+    (NULL, 's', 13, 2),
+    (NULL, 'n', 7, 3),
+    (NULL, 's', 9, 3),
+    (NULL, 's', 11, 4),
+    (NULL, 'n', 13, 4),
+    (NULL, 's', 8, 5),
+    (NULL, 'n', 12, 5),
+    (NULL, 'n', 10, 6),
+    (NULL, 's', 14, 6),
+    (NULL, 'n', 8, 7),
+    (NULL, 's', 10, 7),
+    (NULL, 's', 12, 8),
+    (NULL, 'n', 14, 8);
 
 INSERT INTO
     categoria_medicao
 VALUES
-    (NULL, 60, '73:04:cd:e5:6f:a0', 1),
-    (NULL, 115, '73:04:cd:e5:6f:a0', 2),
-    (NULL, 70, '73:04:cd:e5:6f:a0', 3),
-    (NULL, 80, '73:04:cd:e5:6f:a0', 4),
-    (NULL, 0.9, '73:04:cd:e5:6f:a0', 5),
-    (NULL, 80, '73:04:cd:e5:6f:a0', 6),
-    (NULL, 100, '73:04:cd:e5:6f:a0', 7),
-    (NULL, 60, '2f:d0:bb:62:61:14', 1),
-    (NULL, 115, '2f:d0:bb:62:61:14', 2),
-    (NULL, 70, '2f:d0:bb:62:61:14', 3),
-    (NULL, 80, '2f:d0:bb:62:61:14', 4),
-    (NULL, 0.9, '2f:d0:bb:62:61:14', 5),
-    (NULL, 80, '2f:d0:bb:62:61:14', 6),
-    (NULL, 100, '2f:d0:bb:62:61:14', 7),
-    (NULL, 60, 'a3:4e:5e:38:96:be', 1),
-    (NULL, 115, 'a3:4e:5e:38:96:be', 2),
-    (NULL, 70, 'a3:4e:5e:38:96:be', 3),
-    (NULL, 80, 'a3:4e:5e:38:96:be', 4),
-    (NULL, 0.9, 'a3:4e:5e:38:96:be', 5),
-    (NULL, 80, 'a3:4e:5e:38:96:be', 6),
-    (NULL, 100, 'a3:4e:5e:38:96:be', 7),
-    (NULL, 60, '7b:a0:1d:74:7f:68', 1),
-    (NULL, 115, '7b:a0:1d:74:7f:68', 2),
-    (NULL, 70, '7b:a0:1d:74:7f:68', 3),
-    (NULL, 80, '7b:a0:1d:74:7f:68', 4),
-    (NULL, 0.9, '7b:a0:1d:74:7f:68', 5),
-    (NULL, 80, '7b:a0:1d:74:7f:68', 6),
-    (NULL, 100, '7b:a0:1d:74:7f:68', 7),
-    (NULL, 60, '87:6d:74:ea:b8:d6', 1),
-    (NULL, 115, '87:6d:74:ea:b8:d6', 2),
-    (NULL, 70, '87:6d:74:ea:b8:d6', 3),
-    (NULL, 80, '87:6d:74:ea:b8:d6', 4),
-    (NULL, 0.9, '87:6d:74:ea:b8:d6', 5),
-    (NULL, 80, '87:6d:74:ea:b8:d6', 6),
-    (NULL, 100, '87:6d:74:ea:b8:d6', 7),
-    (NULL, 60, '03:db:e0:03:dd:f2', 1),
-    (NULL, 115, '03:db:e0:03:dd:f2', 2),
-    (NULL, 70, '03:db:e0:03:dd:f2', 3),
-    (NULL, 80, '03:db:e0:03:dd:f2', 4),
-    (NULL, 0.9, '03:db:e0:03:dd:f2', 5),
-    (NULL, 80, '03:db:e0:03:dd:f2', 6),
-    (NULL, 100, '03:db:e0:03:dd:f2', 7),
-    (NULL, 60, '67:8f:75:1a:a2:e0', 1),
-    (NULL, 115, '67:8f:75:1a:a2:e0', 2),
-    (NULL, 70, '67:8f:75:1a:a2:e0', 3),
-    (NULL, 80, '67:8f:75:1a:a2:e0', 4),
-    (NULL, 0.9, '67:8f:75:1a:a2:e0', 5),
-    (NULL, 80, '67:8f:75:1a:a2:e0', 6),
-    (NULL, 100, '67:8f:75:1a:a2:e0', 7),
-    (NULL, 60, '87:f4:a2:f4:26:7f', 1),
-    (NULL, 115, '87:f4:a2:f4:26:7f', 2),
-    (NULL, 70, '87:f4:a2:f4:26:7f', 3),
-    (NULL, 80, '87:f4:a2:f4:26:7f', 4),
-    (NULL, 0.9, '87:f4:a2:f4:26:7f', 5),
-    (NULL, 80, '87:f4:a2:f4:26:7f', 6),
-    (NULL, 100, '87:f4:a2:f4:26:7f', 7);
+    (NULL, 60, 1, 1),
+    (NULL, 115, 1, 2),
+    (NULL, 70, 1, 3),
+    (NULL, 80, 1, 4),
+    (NULL, 0.9, 1, 5),
+    (NULL, 80, 1, 6),
+    (NULL, 100, 1, 7),
+    (NULL, 60, 2, 1),
+    (NULL, 115, 2, 2),
+    (NULL, 70, 2, 3),
+    (NULL, 80, 2, 4),
+    (NULL, 0.9, 2, 5),
+    (NULL, 80, 2, 6),
+    (NULL, 100, 2, 7),
+    (NULL, 60, 3, 1),
+    (NULL, 115, 3, 2),
+    (NULL, 70, 3, 3),
+    (NULL, 80, 3, 4),
+    (NULL, 0.9, 3, 5),
+    (NULL, 80, 3, 6),
+    (NULL, 100, 3, 7),
+    (NULL, 60, 4, 1),
+    (NULL, 115, 4, 2),
+    (NULL, 70, 4, 3),
+    (NULL, 80, 4, 4),
+    (NULL, 0.9, 4, 5),
+    (NULL, 80, 4, 6),
+    (NULL, 100, 4, 7),
+    (NULL, 60, 5, 1),
+    (NULL, 115, 5, 2),
+    (NULL, 70, 5, 3),
+    (NULL, 80, 5, 4),
+    (NULL, 0.9, 5, 5),
+    (NULL, 80, 5, 6),
+    (NULL, 100, 5, 7),
+    (NULL, 60, 6, 1),
+    (NULL, 115, 6, 2),
+    (NULL, 70, 6, 3),
+    (NULL, 80, 6, 4),
+    (NULL, 0.9, 6, 5),
+    (NULL, 80, 6, 6),
+    (NULL, 100, 6, 7),
+    (NULL, 60, 7, 1),
+    (NULL, 115, 7, 2),
+    (NULL, 70, 7, 3),
+    (NULL, 80, 7, 4),
+    (NULL, 0.9, 7, 5),
+    (NULL, 80, 7, 6),
+    (NULL, 100, 7, 7),
+    (NULL, 60, 8, 1),
+    (NULL, 115, 8, 2),
+    (NULL, 70, 8, 3),
+    (NULL, 80, 8, 4),
+    (NULL, 0.9, 8, 5),
+    (NULL, 80, 8, 6),
+    (NULL, 100, 8, 7);
 
 INSERT INTO
     medicao
@@ -1225,7 +1226,7 @@ VALUES
     (NULL, 70, 'risco', NOW(), 56);
 
 INSERT INTO
-    maquina
+    maquina(id_maquina, nome, senha, fk_empresa)
 VALUES
     (
         '0c:9d:92:c6:cc:19',
@@ -1237,18 +1238,18 @@ VALUES
 INSERT INTO
     usuario_maquina(responsavel, fk_usuario, fk_maquina)
 VALUES
-    ('s', 13, '0c:9d:92:c6:cc:19');
+    ('s', 13, 9);
 
 INSERT INTO
     categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
 VALUES
-    (50.0, '0c:9d:92:c6:cc:19', 1),
-    (60.0, '0c:9d:92:c6:cc:19', 2),
-    (80.0, '0c:9d:92:c6:cc:19', 3),
-    (105.0, '0c:9d:92:c6:cc:19', 4),
-    (0.5, '0c:9d:92:c6:cc:19', 5),
-    (60.0, '0c:9d:92:c6:cc:19', 6),
-    (100.0, '0c:9d:92:c6:cc:19', 7);
+    (50.0, 9, 1),
+    (60.0, 9, 2),
+    (80.0, 9, 3),
+    (105.0, 9, 4),
+    (0.5, 9, 5),
+    (60.0, 9, 6),
+    (100.0, 9, 7);
 
 INSERT INTO
     medicao(valor, tipo, data_medicao, fk_categoria_medicao)

@@ -1,18 +1,25 @@
 package com.mycompany.client.java;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import com.mycompany.client.java.entidades.Maquina;
+
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+
+import com.mycompany.client.java.entidades.Empresa;
 
 public class Tests {
 
     public static void main(String[] args) throws InterruptedException {
-        Monitoring m = new Monitoring();
+        // Monitoring m = new Monitoring();
 
-        for (int i = 0; i <= 10; i++) {
-            System.out.println(m);
-            TimeUnit.SECONDS.sleep(1);
-        }
+        // JdbcTemplate template = new ConfigDB.getJdbc();
+        String sql = "SELECT * FROM maquina WHERE id_maquina = '73:04:cd:e5:6f:a0'";
+        BeanPropertyRowMapper<Maquina> bean = new BeanPropertyRowMapper<>(Maquina.class);
 
-        // System.out.println(MonitoringTypes.getTiposMedicao());
-        // System.out.println(Usuario.selectAll());
+        Maquina machine = ConfigDB.getJdbc().query(sql, bean).get(0);
+
+        System.out.println(machine);
+
     }
 }

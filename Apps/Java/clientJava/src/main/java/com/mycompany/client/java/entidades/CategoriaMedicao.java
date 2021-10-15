@@ -8,10 +8,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class CategoriaMedicao {
     private Integer idCategoriaMedicao;
     private Double medicaoLimite;
-    private String fkMaquina;
+    private Integer fkMaquina;
     private Integer fkTipoMedicao;
 
-    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, String fkMaquina, Integer fkTipoMedicao) {
+    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, Integer fkMaquina, Integer fkTipoMedicao) {
         this.idCategoriaMedicao = idCategoriaMedicao;
         this.medicaoLimite = medicaoLimite;
         this.fkMaquina = fkMaquina;
@@ -37,11 +37,11 @@ public class CategoriaMedicao {
         this.medicaoLimite = medicaoLimite;
     }
 
-    public String getFkMaquina() {
+    public Integer getFkMaquina() {
         return fkMaquina;
     }
 
-    public void setFkMaquina(String fkMaquina) {
+    public void setFkMaquina(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 

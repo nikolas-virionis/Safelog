@@ -1,7 +1,7 @@
 const getMachines = (response) => {
-    let string = `id_maquina = '${response[0].id_maquina}'`;
+    let string = `pk_maquina = ${response[0].pk_maquina}`;
     for (let i = 1; i < response.length; i++) {
-        string += ` or id_maquina = '${response[i].id_maquina}'`;
+        string += ` or pk_maquina = ${response[i].pk_maquina}`;
     }
     return string;
 };

@@ -94,7 +94,7 @@ router.post("/verificar-usuario", async (req, res) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-    let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND pk_maquina = '${maquina}';`;
+    let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND pk_maquina = ${maquina};`;
 
     await sequelize
         .query(consulta, {
@@ -165,7 +165,7 @@ router.post("/lista-componentes", async (req, res) => {
             msg: "Body não fornecido na requisição",
         });
 
-    let sql = `SELECT tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = '${id}'`;
+    let sql = `SELECT tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = ${id}`;
 
     await sequelize
         .query(sql, { type: sequelize.QueryTypes.SELECT })

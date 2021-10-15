@@ -462,7 +462,7 @@ router.post("/delete", async (req, res, next) => {
                                                 })
                                                 .catch((err) => {
                                                     res.json({
-                                                        status: "erro1",
+                                                        status: "erro",
                                                         msg: err,
                                                     });
                                                 });
@@ -470,7 +470,7 @@ router.post("/delete", async (req, res, next) => {
                                     )
                                     .catch((err) => {
                                         res.json({
-                                            status: "erro2",
+                                            status: "erro",
                                             err,
                                         });
                                     });
@@ -485,7 +485,7 @@ router.post("/delete", async (req, res, next) => {
                                     })
                                     .catch((err) => {
                                         res.json({
-                                            status: "erro3",
+                                            status: "erro",
                                             err,
                                         });
                                     });
@@ -513,7 +513,7 @@ router.post("/delete", async (req, res, next) => {
                                                 [nome, nomeMaquina]
                                             ).catch((err) => {
                                                 res.json({
-                                                    status: "erro4",
+                                                    status: "erro",
                                                     msg: err,
                                                 });
                                             });
@@ -521,7 +521,7 @@ router.post("/delete", async (req, res, next) => {
                                     )
                                     .catch((err) => {
                                         res.json({
-                                            status: "erro5",
+                                            status: "erro",
                                             msg: err,
                                         });
                                     });
@@ -529,7 +529,7 @@ router.post("/delete", async (req, res, next) => {
                         })
                         .catch((err) => {
                             res.json({
-                                status: "erro6",
+                                status: "erro",
                                 msg: err,
                             });
                         });
@@ -542,7 +542,7 @@ router.post("/delete", async (req, res, next) => {
                         })
                         .catch((err) => {
                             res.json({
-                                status: "erro7",
+                                status: "erro",
                                 msg: err,
                             });
                         });
@@ -558,12 +558,12 @@ router.post("/delete", async (req, res, next) => {
                         res.json(response);
                     })
                     .catch((err) => {
-                        res.json({ status: "erro8", msg: err });
+                        res.json({ status: "erro", msg: err });
                     });
             }
         })
         .catch((err) => {
-            res.json({ status: "erro9", msg: err });
+            res.json({ status: "erro", msg: err });
         });
 });
 
@@ -616,6 +616,172 @@ router.post("/remocao-acesso", async (req, res) => {
         })
         .catch((err) => {
             res.json({ status: "erro", msg: err });
+        });
+});
+
+router.post("/transferencia-responsavel", async (req, res) => {
+    let { email, maquina, del } = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição",
+        });
+
+    let usuarioResponsavel = `SELECT email as emailResp FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' AND fk_maquina = '${maquina}'`;
+    let usuarioExisteEmStaff = `SELECT * from staff WHERE email = '${email}'`;
+    let usuarioExisteEmUsuario = `SELECT cargo from usuario WHERE email = '${email}'`;
+    await sequelize
+        .query(usuarioExisteEmStaff, {
+            type: sequelize.QueryTypes.SELECT,
+        })
+        .then(async ([response]) => {
+            if (response) {
+                return res.json({
+                    status: "erro",
+                    msg: "Usuario cadastrado como staff",
+                });
+            } else {
+                await sequelize
+                    .query(usuarioExisteEmUsuario, {
+                        type: sequelize.QueryTypes.SELECT,
+                    })
+                    .then(async ([usuario]) => {
+                        if (!usuario) {
+                            return res.json({
+                                status: "erro",
+                                msg: "Usuario não cadastrado",
+                            });
+                        } else if (usuario.cargo == "gestor") {
+                            return res.json({
+                                status: "erro",
+                                msg: "Usuario cadastrado como gestor",
+                            });
+                        } else {
+                            await sequelize
+                                .query(usuarioResponsavel, {
+                                    type: sequelize.QueryTypes.SELECT,
+                                })
+                                .then(async ([{ emailResp }]) => {
+                                    if (email == emailResp) {
+                                        res.json({
+                                            status: "erro",
+                                            msg: "Usuario já é o responsável pela máquina",
+                                        });
+                                    } else {
+                                        if (del) {
+                                            let sql = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = '${maquina}' AND responsavel = 's'`;
+                                            await sequelize
+                                                .query(sql, {
+                                                    type: sequelize.QueryTypes
+                                                        .SELECT,
+                                                })
+                                                .then(([{ id }]) => {
+                                                    deleteUsuario(id).catch(
+                                                        (err) => {
+                                                            res.json({
+                                                                status: "erro1",
+                                                                msg: err,
+                                                            });
+                                                        }
+                                                    );
+                                                })
+                                                .catch((err) => {
+                                                    res.json({
+                                                        status: "erro2",
+                                                        msg: err,
+                                                    });
+                                                });
+                                        } else {
+                                            let sql = `UPDATE usuario_maquina SET responsavel = 'n' WHERE fk_maquina = '${maquina}' AND responsavel = 's'`;
+                                            await sequelize
+                                                .query(sql, {
+                                                    type: sequelize.QueryTypes
+                                                        .UPDATE,
+                                                })
+                                                .catch((err) => {
+                                                    res.json({
+                                                        status: "erro3",
+                                                        msg: err,
+                                                    });
+                                                });
+                                        }
+                                        let selectUsuario = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = '${maquina}' AND id_usuario = (SELECT id_usuario FROM usuario WHERE email = '${email}')`;
+                                        await sequelize
+                                            .query(selectUsuario, {
+                                                type: sequelize.QueryTypes
+                                                    .SELECT,
+                                            })
+                                            .then(async ([{ id }]) => {
+                                                if (id) {
+                                                    let updateResp = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = '${maquina}' AND fk_usuario = ${id}`;
+                                                    await sequelize
+                                                        .query(updateResp, {
+                                                            type: sequelize
+                                                                .QueryTypes
+                                                                .UPDATE,
+                                                        })
+                                                        .catch((err) => {
+                                                            res.json({
+                                                                status: "erro4",
+                                                                msg: err,
+                                                            });
+                                                        });
+                                                } else {
+                                                    let insertResp = `INSERT INTO usuario_maquina VALUES (NULL, 's', (SELECT id_usuario FROM usuario WHERE email = '${email}'), '${maquina}')`;
+                                                    await sequelize
+                                                        .query(insertResp, {
+                                                            type: sequelize
+                                                                .QueryTypes
+                                                                .INSERT,
+                                                        })
+                                                        .catch((err) => {
+                                                            res.json({
+                                                                status: "erro5",
+                                                                msg: err,
+                                                            });
+                                                        });
+                                                }
+                                                let selectResp = `SELECT usuario.nome as nome, maquina.nome as maq FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = id_maquina AND fk_maquina = '${maquina}' WHERE email = '${email}'`;
+                                                await sequelize
+                                                    .query(selectResp, {
+                                                        type: sequelize
+                                                            .QueryTypes.SELECT,
+                                                    })
+                                                    .then(([{ nome, maq }]) => {
+                                                        mandarEmail(
+                                                            "convite responsavel",
+                                                            nome,
+                                                            email,
+                                                            [maq]
+                                                        )
+                                                            .then(() => {
+                                                                res.json({
+                                                                    status: "ok",
+                                                                    msg: "Email de acesso de responsavel por maquina enviado com sucesso",
+                                                                });
+                                                            })
+                                                            .catch((err) => {
+                                                                res.json({
+                                                                    status: "erro6",
+                                                                    msg: err,
+                                                                });
+                                                            });
+                                                    });
+                                            })
+                                            .catch((err) => {
+                                                res.json({
+                                                    status: "erro7",
+                                                    msg: err,
+                                                });
+                                            });
+                                    }
+                                })
+                                .catch((err) => {
+                                    res.json({ status: "erro8", msg: err });
+                                });
+                        }
+                    });
+            }
         });
 });
 

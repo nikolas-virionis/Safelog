@@ -50,26 +50,26 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>Você recebeu um convite de acesso para a máquina ${rest[0]} de ${rest[1]}</p> 
-            <p>Para utilizar e visualizar seus recursos, acesse seu perfil em nosso site</p>
+            <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
                         `,
             "Convite de acesso a maquina - SafeLog",
         ];
     if (tipo.toLowerCase() == "redefinir responsavel")
         return [
             `
-                <p>Prezado(a) ${nome},</p>
-                <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, e para melhor funcionamento, é necessário um usuário responsável por cada máquina, então</p> 
-                <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina
+            <p>Prezado(a) ${nome},</p>
+            <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, e para melhor funcionamento, é necessário um usuário responsável por cada máquina, então</p> 
+            <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina
                 `,
             "Redefinição de responsável por máquina - SafeLog",
         ];
     if (tipo.toLowerCase() == "atribuir responsavel")
         return [
             `
-                <p>Prezado(a) ${nome},</p>
-                <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
-                <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
-                <p><a href="http://localhost:3000/deletar-maquina.html">Clique aqui</a> para concretizar a remoção da máquina</p> 
+            <p>Prezado(a) ${nome},</p>
+            <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
+            <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
+            <p><a href="http://localhost:3000/deletar-maquina.html">Clique aqui</a> para concretizar a remoção da máquina</p> 
                         `,
             "Reatribuição de responsável por máquina - SafeLog",
         ];
@@ -78,9 +78,18 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>Você teve seu acesso à maquina ${rest[0]} removido por seu responsável ${rest[1]}</p> 
-            <p>Para utilizar e visualizar seus recursos, acesse seu perfil em nosso site</p>
-                                `,
+            <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
+                                    `,
             "Remoção de acesso a maquina - SafeLog",
+        ];
+    if (tipo.toLowerCase() == "convite responsavel")
+        return [
+            `
+            <p>Prezado(a) ${nome},</p>
+            <p>Você recebeu acesso de responsável à maquina ${rest[0]}</p> 
+            <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
+                                        `,
+            "Acesso de responsável por máquina- SafeLog",
         ];
     throw new Error(
         "tipo de email não especificado ou escrito de forma errada"

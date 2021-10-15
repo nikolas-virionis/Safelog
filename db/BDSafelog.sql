@@ -228,7 +228,7 @@ VALUES
     (
         NULL,
         'Lucas Mesquita',
-        'lucasmesquita58@gmail.com',
+        'lucasmesquita58@hotmail.com',
         MD5('ExSenha1'),
         'gestor',
         'z4d62p9xz4d62p9x',

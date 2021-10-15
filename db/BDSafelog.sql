@@ -51,7 +51,7 @@ CREATE TABLE contato (
 
 CREATE TABLE maquina (
     pk_maquina int AUTO_INCREMENT primary key,
-    id_maquina varchar(20) UNIQUE,
+    id_maquina varchar(20) UNIQUE NOT NULL,
     nome varchar(60) NOT NULL,
     senha char(32) NOT NULL,
     fk_empresa varchar(30) NOT NULL,

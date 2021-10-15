@@ -18,7 +18,7 @@ const tipos = [
     "discoFree",
 ];
 const urlParams = new URLSearchParams(window.location.search);
-let maquina = urlParams.get("id_maquina").replace(/-/g, ":");
+let maquina = urlParams.get("pk_maquina").replace(/-/g, ":");
 
 const btn = document.querySelector(".btn-geral");
 axios

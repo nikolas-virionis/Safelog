@@ -14,34 +14,44 @@ router.post("/cadastro", async (req, res, next) => {
     id_maquina = id_maquina.replace(/-/g, ":").toLowerCase();
     let maquinaExiste = `SELECT * FROM maquina WHERE id_maquina = '${id_maquina}';`;
     let insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES ('${id_maquina}', '${nome}', MD5('${senha}'), '${empresa}')`;
-    let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, '${id_maquina}');`;
+
     await sequelize
-        .query(maquinaExiste, { type: sequelize.QueryTypes.SELECT })
-        .then(async (maquinas) => {
-            if (maquinas.length == 0) {
-                await sequelize
-                    .query(insertMaquina, {
+    .query(maquinaExiste, { type: sequelize.QueryTypes.SELECT })
+    .then(async (maquinas) => {
+        if (maquinas.length == 0) {
+            await sequelize
+            .query(insertMaquina, {
+                type: sequelize.QueryTypes.INSERT,
+            })
+            .then(async (response) => {
+                // capturando id da máquina insertada
+                let sqlPkMac = `SELECT pk_maquina FROM maquina WHERE id_maquina = '${id_maquina}'`;
+                await sequelize.query(sqlPkMac, {type: sequelize.QueryTypes.SELECT})
+                .then(async resultPkMac => {
+                    console.log(resultPkMac);
+
+                    let pk_maquina = resultPkMac[0].pk_maquina;
+                    let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, ${pk_maquina});`;
+                    await sequelize
+                    .query(insertUsuarioMaquina, {
                         type: sequelize.QueryTypes.INSERT,
                     })
-                    .then(async (response) => {
-                        await sequelize
-                            .query(insertUsuarioMaquina, {
-                                type: sequelize.QueryTypes.INSERT,
-                            })
-                            .then((responsta) =>
-                                res.json({
-                                    status: "ok",
-                                    msg: "Maquina registrada com sucesso",
-                                })
-                            )
-                            .catch((err) =>
-                                res.json({ status: "erro", msg: err })
-                            );
-                    })
-                    .catch((err) => res.json({ status: "erro", msg: err }));
-            } else res.json({ status: "erro", msg: "Maquina ja cadastrada" });
-        })
-        .catch((err) => res.json({ status: "erro", msg: err }));
+                    .then((responsta) =>
+                        res.json({
+                            status: "ok",
+                            msg: "Maquina registrada com sucesso",
+                            pk_maquina
+                        })
+                    )
+                    .catch((err) =>
+                        res.json({ status: "erro", msg: err })
+                    );
+                })
+            })
+            .catch((err) => res.json({ status: "erro", msg: err }));
+        } else res.json({ status: "erro", msg: "Maquina ja cadastrada" });
+    })
+    .catch((err) => res.json({ status: "erro", msg: err }));
 });
 
 router.post("/lista-dependentes", async (req, res) => {
@@ -84,7 +94,7 @@ router.post("/verificar-usuario", async (req, res) => {
             status: "erro",
             msg: "Body não fornecido na requisição",
         });
-    let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = '${maquina}';`;
+    let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND pk_maquina = '${maquina}';`;
 
     await sequelize
         .query(consulta, {

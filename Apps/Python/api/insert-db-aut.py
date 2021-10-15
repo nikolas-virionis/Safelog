@@ -6,7 +6,7 @@ from credentials import db_connection
 from getmac import get_mac_address as mac_addr
 
 preferences = pd.read_sql(
-    f"SELECT tipo_medicao.tipo FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = '{mac_addr()}'", con=db_connection)
+    f"SELECT tipo_medicao.tipo FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')", con=db_connection)
 
 try:
     while True:

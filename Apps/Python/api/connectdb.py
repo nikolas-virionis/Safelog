@@ -33,14 +33,14 @@ def insert_db(value):
             db_Info = mydb.get_server_info()
             print("Conectado ao MySQL Server versão ", db_Info)
             for medicao in medicoes:
-                sql = f"""SELECT id_categoria_medicao, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '{medicao["tipo"]}' AND fk_maquina = '{mac_addr()}'"""
-                
+                sql = f"""SELECT id_categoria_medicao, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '{medicao["tipo"]}' AND fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')"""
+
                 sql = pd.read_sql(sql, con=db_connection)
                 fk, limite = sql["id_categoria_medicao"][0], sql["medicao_limite"][0]
-                
+
                 sql_query = f"""INSERT INTO medicao VALUES (NULL, {medicao["medicao"]}, '{get_tipo(medicao["tipo"], medicao["medicao"], limite)}', '{data}', {fk})"""
                 print(sql_query)
-                
+
                 mycursor.execute(sql_query)
 
             mydb.commit()

@@ -438,49 +438,78 @@ router.post("/update", async (req, res, next) => {
     // verificando se máquina existe
     let sqlMacExists = `SELECT nome FROM maquina WHERE id_maquina = '${idAtual}'`;
 
-    await sequelize
-        .query(sqlMacExists, selectType)
-        .then(async resultMacExists => {
-            if (resultMacExists.length === 1) {
-                // máquina existe
+    await sequelize.query(sqlMacExists, selectType)
+    .then(async resultMacExists => {
+        if (resultMacExists.length === 1) {
+            // máquina existe
 
-                if (!!novaSenha && !!senhaAtual) {
-                    // alterando informações da máquina, incluindo senha
-                    res.json({status: "alterando senha"});
-                } else {
-                    // mantendo senha, alterando apenas nome e/ou id da máquina
-                    let sqlUpdateMac = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}' WHERE id_maquina = '${idAtual}'`;
+            if (!!novaSenha && !!senhaAtual) {
+                // alterando informações da máquina, incluindo senha
 
-                    await sequelize
-                        .query(sqlUpdateMac, updateType)
-                        .then(async resultUpdateMac => {
-                            let sqlUpdateCatMed = `UPDATE categoria_medicao SET fk_maquina = '${novoId}' WHERE fk_maquina = '${idAtual}'`;
+                // autenticando senha
+                let sqlAuthPwd = `SELECT count(id_maquina) AS 'found' FROM maquina 
+                WHERE senha = MD5('${senhaAtual}') AND id_maquina = '${idAtual}'`;
 
-                            await sequelize
-                                .query(sqlUpdateCatMed, updateType)
-                                .then(async resultCatMed => {
-                                    let sqlUpdateUsMac = `UPDATE usuario_maquina SET fk_maquina = '${novoId}' WHERE fk_maquina = '${idAtual}'`;
+                await sequelize.query(sqlAuthPwd, selectType)
+                .then(async (resultAuth) => {
+                    if(resultAuth[0].found === 1) {
+                        // senha correta
+                        let sqlUpdatePwd = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}', 
+                        senha = MD5('${novaSenha}') WHERE id_maquina = '${idAtual}'`;
 
-                                    await sequelize
-                                        .query(sqlUpdateUsMac, updateType)
-                                        .then(async resultMacUs => {
-                                            res.json({
-                                                resultUpdateMac,
-                                                resultCatMed,
-                                                resultMacUs
-                                            });
-                                        });
-                                });
+                        await sequelize.query(sqlUpdatePwd, updateType)
+                        .then(async resultUpdatePwd => {
+                            res.json({
+                                status: "ok",
+                                msg: resultUpdatePwd
+                            });
+                        })
+                        .catch(err => {
+                            res.json({
+                                status: "erro",
+                                msg: err
+                            })
+                        })
+                    } else {
+                        res.json({
+                            status: "erro",
+                            msg: "senha incorreta"
                         });
-                }
+                    }
+                })
+                .catch(err => {
+                    res.json({
+                        status: "erro",
+                        msg: err
+                    })
+                })
             } else {
-                // máquina não existe
-                res.json({
-                    status: "erro",
-                    msg: `a máquina de id '${idAtual}' não existe ou não está cadastrada`
-                });
+                // mantendo senha, alterando apenas nome e/ou id da máquina
+                let sqlUpdateMac = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}' WHERE id_maquina = '${idAtual}'`;
+
+                await sequelize.query(sqlUpdateMac, updateType)
+                .then(async resultMac => {
+                    res.json({
+                        status: "ok",
+                        msg: "Dados da máquina atualizados",
+                        resultMac
+                    });
+                })
+                .catch(err => {
+                    res.json({
+                        status: "erro",
+                        msg: err
+                    })
+                })
             }
-        });
+        } else {
+            // máquina não existe
+            res.json({
+                status: "erro",
+                msg: `a máquina de id '${idAtual}' não existe ou não está cadastrada`
+            });
+        }
+    });
 });
 
 module.exports = router;

@@ -521,45 +521,6 @@ public class Main extends javax.swing.JFrame {
         frameProcs.setLocationRelativeTo(null);
     }
 
-    public void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPrincipalActionPerformed
-        Integer valorCpu = ThreadLocalRandom.current().nextInt(1, 101);
-        Integer valorDisk = ThreadLocalRandom.current().nextInt(1, 101);
-        Integer valorMem = ThreadLocalRandom.current().nextInt(1, 101);
-
-        contagem++;
-
-        somaC += valorCpu;
-        somaD += valorDisk;
-        somaM += valorMem;
-        Integer MedCpu = somaC / contagem;
-        Integer MedDisk = somaD / contagem;
-        Integer MedMem = somaM / contagem;
-
-        if (valorCpu > MaxCpu) {
-            MaxCpu = valorCpu;
-        }
-        if (valorCpu < MinCpu) {
-            MinCpu = valorCpu;
-        }
-        if (valorDisk > MaxDisk) {
-            MaxDisk = valorDisk;
-        }
-        if (valorDisk < MinDisk) {
-            MinDisk = valorDisk;
-        }
-        if (valorMem > MaxMem) {
-            MaxMem = valorMem;
-        }
-        if (valorMem < MinMem) {
-            MinMem = valorMem;
-        }
-
-        brCpu.setValue(valorCpu);
-        brDisk.setValue(valorDisk);
-        brMem.setValue(valorMem);
-
-    }// GEN-LAST:event_btnPrincipalActionPerformed
-
     /**
      * @param args the command line arguments
      */

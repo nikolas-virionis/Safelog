@@ -6,11 +6,11 @@ const {
     enviarConvite: sendInvite,
     checarEmStaff,
     checarEmUsuario
-} = require("../util/cadastro-parcial/convite");
+} = require("../util/cadastro/convite");
 const {
     updateDadosUsuario,
     criarFormasContato
-} = require("../util/cadastro-final/updateCadastro");
+} = require("../util/cadastro/updateCadastro");
 const {generateToken} = require("../util/token-user/token");
 const {mandarEmail} = require("../util/email/email");
 const {deleteUsuario} = require("../util/delete-usuario/delete");

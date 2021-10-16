@@ -7,7 +7,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     Clique aqui</a> para se cadastrar concluir seu cadastro</p>
     <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,
-            "Cadastro SafeLog",
+            "Cadastro SafeLog"
         ];
     if (tipo.toLowerCase() == "relatorio")
         return [
@@ -15,7 +15,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     <p>Prezado(a) ${nome},</p>
     <p>Relatorio enviado com sucesso</p>
     `,
-            "Relatório Periódico - SafeLog",
+            "Relatório Periódico - SafeLog"
         ];
     if (tipo.toLowerCase() == "alerta")
         return [
@@ -23,7 +23,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     <p>Prezado(a) ${nome},</p>
     <p>Alerta enviado com sucesso</p>
     `,
-            "Alerta - SafeLog",
+            "Alerta - SafeLog"
         ];
     if (tipo.toLowerCase() == "redefinir")
         return [
@@ -33,7 +33,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         Clique aqui</a> para se redefinir sua senha</p>
         <p>Seu token de verificação é <i>${rest[0]}</i></p>
         `,
-            "Redefinição de senha - SafeLog",
+            "Redefinição de senha - SafeLog"
         ];
     if (tipo.toLowerCase() == "acesso")
         return [
@@ -43,7 +43,7 @@ const msgEmail = (tipo, nome, rest, email) => {
                 Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
                 <p>Seu token de verificação é <i>${rest[0]}</i></p> 
                 `,
-            "Permissão de acesso a maquina - SafeLog",
+            "Permissão de acesso a maquina - SafeLog"
         ];
     if (tipo.toLowerCase() == "convite de acesso")
         return [
@@ -52,7 +52,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             <p>Você recebeu um convite de acesso para a máquina ${rest[0]} de ${rest[1]}</p> 
             <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
                         `,
-            "Convite de acesso a maquina - SafeLog",
+            "Convite de acesso a maquina - SafeLog"
         ];
     if (tipo.toLowerCase() == "redefinir responsavel")
         return [
@@ -61,7 +61,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, e para melhor funcionamento, é necessário um usuário responsável por cada máquina, então</p> 
             <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina
                 `,
-            "Redefinição de responsável por máquina - SafeLog",
+            "Redefinição de responsável por máquina - SafeLog"
         ];
     if (tipo.toLowerCase() == "atribuir responsavel")
         return [
@@ -71,7 +71,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
             <p><a href="http://localhost:3000/deletar-maquina.html">Clique aqui</a> para concretizar a remoção da máquina</p> 
                         `,
-            "Reatribuição de responsável por máquina - SafeLog",
+            "Reatribuição de responsável por máquina - SafeLog"
         ];
     if (tipo.toLowerCase() == "notificacao remocao acesso")
         return [
@@ -80,7 +80,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             <p>Você teve seu acesso à maquina ${rest[0]} removido por seu responsável ${rest[1]}</p> 
             <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
                                     `,
-            "Remoção de acesso a maquina - SafeLog",
+            "Remoção de acesso a maquina - SafeLog"
         ];
     if (tipo.toLowerCase() == "convite responsavel")
         return [
@@ -89,10 +89,21 @@ const msgEmail = (tipo, nome, rest, email) => {
             <p>Você recebeu acesso de responsável à maquina ${rest[0]}</p> 
             <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
                                         `,
-            "Acesso de responsável por máquina- SafeLog",
+            "Acesso de responsável por máquina - SafeLog"
+        ];
+    if (tipo.toLowerCase() == "notificacao edicao maquina")
+        return [
+            `
+            <p>Prezado(a) ${nome},</p>
+            <p>Uma das máquinas que você possui acesso, teve uma alteração, feita por ${[
+                rest[0]
+            ]}</p> 
+            <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
+                                            `,
+            "Máquina alterada por responsável - SafeLog"
         ];
     throw new Error(
         "tipo de email não especificado ou escrito de forma errada"
     );
 };
-module.exports = { msgEmail };
+module.exports = {msgEmail};

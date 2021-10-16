@@ -37,8 +37,8 @@ public class Auth {
     public static Boolean authPermissao(String email) {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List<Map<String, Object>> permissao = jdbcTemplate.queryForList(String.format(
-                "SELECT * FROM usuario_maquina WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '%s') AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
-                Monitoring.getMacAddress(), email));
+                "SELECT * FROM usuario_maquina WHERE fk_maquina = %d AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
+                Monitoring.getPkMaquina(), email));
         return permissao.size() > 0;
     }
 

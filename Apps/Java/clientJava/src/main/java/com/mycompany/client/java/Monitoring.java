@@ -10,7 +10,6 @@ import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
-import com.mycompany.client.java.ConfigDB;
 
 // Essa Classe tem como herança a Classe Looca, o comando "extends" pega os valores atributos
 // da classe Looca para serem utilizados de forma simples na classe "Monitoring"

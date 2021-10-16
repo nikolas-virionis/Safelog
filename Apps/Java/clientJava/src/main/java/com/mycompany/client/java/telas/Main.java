@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.mycompany.client.java.*;
 
 public class Main extends javax.swing.JFrame {
@@ -171,6 +173,9 @@ public class Main extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
 
+        // SystemInfo
+        Sistema sys = new Monitoring().getSistema();
+
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -223,19 +228,29 @@ public class Main extends javax.swing.JFrame {
 
         lblSo.setForeground(new java.awt.Color(255, 255, 255));
         lblSo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSo.setText("jLabel10");
+        lblSo.setText(sys.getSistemaOperacional());
 
         lblFabricante.setForeground(new java.awt.Color(255, 255, 255));
         lblFabricante.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblFabricante.setText("jLabel10");
+        lblFabricante.setText(sys.getFabricante());
 
         lblArq.setForeground(new java.awt.Color(255, 255, 255));
         lblArq.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblArq.setText("jLabel10");
+        lblArq.setText(String.valueOf(sys.getArquitetura() + "x"));
 
         lblTempAtvd.setForeground(new java.awt.Color(255, 255, 255));
         lblTempAtvd.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTempAtvd.setText("jLabel10");
+        // 
+        Double activityTimeMin = Double.valueOf(sys.getTempoDeAtividade()) / 10 / 60;
+        String timeType;
+        if (activityTimeMin > 60) {
+            activityTimeMin /= 60;
+            timeType = "h";
+        } else {
+            timeType = "min";
+        }
+        String activityTimeStr = String.format("%.2f %s", activityTimeMin, timeType);
+        lblTempAtvd.setText(activityTimeStr);
 
         btnProcessos.setBackground(new java.awt.Color(0, 0, 153));
         btnProcessos.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

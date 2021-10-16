@@ -514,7 +514,12 @@ public class Main extends javax.swing.JFrame {
 
     private void btnProcessosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnProcessosActionPerformed
+        formProcessos frameProcs = new formProcessos();
+        frameProcs.setDefaultCloseOperation(frameProcs.EXIT_ON_CLOSE);
+        frameProcs.setVisible(true);
+        frameProcs.pack();
+        frameProcs.setLocationRelativeTo(null);
+    }
 
     public void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnPrincipalActionPerformed
         Integer valorCpu = ThreadLocalRandom.current().nextInt(1, 101);

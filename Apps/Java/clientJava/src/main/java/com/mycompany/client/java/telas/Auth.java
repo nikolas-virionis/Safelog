@@ -13,7 +13,7 @@ public class Auth {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List<Map<String, Object>> loginsValidos = jdbcTemplate.queryForList(String.format(
                 "SELECT * FROM usuario " + "JOIN usuario_maquina ON id_usuario = fk_usuario "
-                        + "JOIN maquina ON fk_maquina = id_maquina "
+                        + "JOIN maquina ON fk_maquina = pk_maquina "
                         + "WHERE usuario.email = '%s' and usuario.senha = MD5('%s') "
                         + "AND maquina.senha = MD5('%s') AND id_maquina = '%s'",
                 email, senha, maquina, Monitoring.getMacAddress()));
@@ -37,7 +37,7 @@ public class Auth {
     public static Boolean authPermissao(String email) {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List<Map<String, Object>> permissao = jdbcTemplate.queryForList(String.format(
-                "SELECT * FROM usuario_maquina WHERE fk_maquina = '%s' AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
+                "SELECT * FROM usuario_maquina WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '%s') AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
                 Monitoring.getMacAddress(), email));
         return permissao.size() > 0;
     }

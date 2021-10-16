@@ -239,7 +239,7 @@ public final class Login extends javax.swing.JFrame {
         StringSelection stringSelection = new StringSelection(myString);
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
-        System.out.println("MacAddress copiado");
+        // System.out.println("MacAddress copiado");
         cop.setText("Copiado!");
         
     }//GEN-LAST:event_btnCopiarMacAddrActionPerformed

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@Deprecated
 public class Analytics {
     private Integer idAnalytics;
     private Double cpu;

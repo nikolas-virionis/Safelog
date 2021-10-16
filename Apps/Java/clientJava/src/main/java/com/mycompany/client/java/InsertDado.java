@@ -19,8 +19,8 @@ public class InsertDado {
         String sql = String.format(
                 "SELECT id_categoria_medicao FROM categoria_medicao "
                         + "JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao "
-                        + "WHERE tipo_medicao.tipo = '%s' AND fk_maquina = '%s'",
-                tipoMedicao.getTipo(), Monitoring.getMacAddress());
+                        + "WHERE tipo_medicao.tipo = '%s' AND fk_maquina = %d",
+                tipoMedicao.getTipo(), Monitoring.getPkMaquina());
         Integer fkCategoriaMedicao = Integer
                 .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_categoria_medicao").toString());
         insert(new Medicao(medicao, getTipo(tipoMedicao, medicao), data, fkCategoriaMedicao));

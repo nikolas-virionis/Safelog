@@ -10,9 +10,9 @@ public class UsuarioMaquina {
     private Integer idUsuarioMaquina;
     private Character responsavel;
     private Integer fkUsuario;
-    private String fkMaquina;
+    private Integer fkMaquina;
 
-    public UsuarioMaquina(Integer idUsuarioMaquina, Character responsavel, Integer fkUsuario, String fkMaquina) {
+    public UsuarioMaquina(Integer idUsuarioMaquina, Character responsavel, Integer fkUsuario, Integer fkMaquina) {
         this.idUsuarioMaquina = idUsuarioMaquina;
         this.responsavel = responsavel;
         this.fkUsuario = fkUsuario;
@@ -46,11 +46,11 @@ public class UsuarioMaquina {
         this.fkUsuario = fkUsuario;
     }
 
-    public String getFkMaquina() {
+    public Integer getFkMaquina() {
         return fkMaquina;
     }
 
-    public void setFkMaquina(String fkMaquina) {
+    public void setFkMaquina(Integer fkMaquina) {
         this.fkMaquina = fkMaquina;
     }
 

@@ -3,6 +3,7 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {mandarEmail} = require("../util/email/email");
+const {edicaoMaquina} = require("../util/edicao-maquina/edicaoInfo");
 
 router.post("/cadastro", async (req, res, next) => {
     let {id, id_maquina, nome, senha, empresa} = req.body;
@@ -52,7 +53,8 @@ router.post("/cadastro", async (req, res, next) => {
                             });
                     })
                     .catch(err => res.json({status: "erro", msg: err}));
-            } else res.json({status: "erro", msg: "Maquina ja cadastrada"});
+            } else
+                return res.json({status: "erro", msg: "Maquina ja cadastrada"});
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -129,7 +131,7 @@ router.post("/componentes", async (req, res) => {
                     .query(sql, {type: sequelize.QueryTypes.INSERT})
                     .then(response => {})
                     .catch(err => {
-                        res.json({status: "erro", msg: err});
+                        return res.json({status: "erro", msg: err});
                     });
             } else if (acao === "update") {
                 let sql = `UPDATE categoria_medicao SET medicao_limite = ${limite} WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
@@ -137,7 +139,7 @@ router.post("/componentes", async (req, res) => {
                     .query(sql, {type: sequelize.QueryTypes.UPDATE})
                     .then(response => {})
                     .catch(err => {
-                        res.json({status: "erro", msg: err});
+                        return res.json({status: "erro", msg: err});
                     });
             } else {
                 let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
@@ -145,13 +147,13 @@ router.post("/componentes", async (req, res) => {
                     .query(sql, {type: sequelize.QueryTypes.DELETE})
                     .then(response => {})
                     .catch(err => {
-                        res.json({status: "erro", msg: err});
+                        return res.json({status: "erro", msg: err});
                     });
             }
         }
         res.json({status: "ok", msg: "Componentes atualizados"});
     } catch (err) {
-        res.json({status: "erro", msg: err});
+        return res.json({status: "erro", msg: err});
     }
 });
 
@@ -171,7 +173,7 @@ router.post("/lista-componentes", async (req, res) => {
             res.json({status: "ok", msg: response});
         })
         .catch(err => {
-            res.json({status: "erro", msg: err});
+            return res.json({status: "erro", msg: err});
         });
 });
 
@@ -223,14 +225,14 @@ router.post("/delete", async (req, res, next) => {
                                 console.log(resultCategoria);
                             })
                             .catch(err => {
-                                res.json({
+                                return res.json({
                                     status: "erro",
                                     msg: err
                                 });
                             });
                     })
                     .catch(err => {
-                        res.json({status: "erro", msg: err});
+                        return res.json({status: "erro", msg: err});
                     });
             }
 
@@ -275,7 +277,7 @@ router.post("/permissao-acesso", async (req, res) => {
             res.json({status: "ok", msg: "Permissão concedida com sucesso"});
         })
         .catch(err => {
-            res.json({status: "erro", msg: err});
+            return res.json({status: "erro", msg: err});
         });
 });
 
@@ -295,7 +297,7 @@ router.post("/lista-usuarios", async (req, res) => {
             res.json({status: "ok", msg: response});
         })
         .catch(err => {
-            res.json({status: "erro", msg: err});
+            return res.json({status: "erro", msg: err});
         });
 });
 
@@ -390,34 +392,34 @@ router.post("/convite", async (req, res) => {
                                                 });
                                             });
                                     } else {
-                                        res.json({
+                                        return res.json({
                                             status: "erro",
                                             msg: "Usuario já possui acesso à maquina"
                                         });
                                     }
                                 })
                                 .catch(err => {
-                                    res.json({status: "erro", msg: err});
+                                    return res.json({status: "erro", msg: err});
                                 });
                         } else {
-                            res.json({
+                            return res.json({
                                 status: "erro",
                                 msg: "Usuario não cadastrado"
                             });
                         }
                     })
                     .catch(err => {
-                        res.json({status: "erro", msg: err});
+                        return res.json({status: "erro", msg: err});
                     });
             } else {
-                res.json({
+                return res.json({
                     status: "erro",
                     msg: "Usuario cadastrado como staff"
                 });
             }
         })
         .catch(err => {
-            res.json({status: "erro", msg: err});
+            return res.json({status: "erro", msg: err});
         });
 });
 
@@ -433,83 +435,76 @@ router.post("/update", async (req, res, next) => {
     }
 
     let selectType = {type: sequelize.QueryTypes.SELECT};
-    let updateType = {type: sequelize.QueryTypes.UPDATE};
 
     // verificando se máquina existe
     let sqlMacExists = `SELECT nome FROM maquina WHERE id_maquina = '${idAtual}'`;
 
-    await sequelize.query(sqlMacExists, selectType)
-    .then(async resultMacExists => {
-        if (resultMacExists.length === 1) {
-            // máquina existe
+    await sequelize
+        .query(sqlMacExists, selectType)
+        .then(async ([resultMacExists]) => {
+            if (resultMacExists) {
+                // máquina existe
 
-            if (!!novaSenha && !!senhaAtual) {
-                // alterando informações da máquina, incluindo senha
+                edicaoMaquina(
+                    idAtual,
+                    novoId,
+                    novoNome,
+                    senhaAtual,
+                    novaSenha,
+                    selectType
+                )
+                    .then(async resp => {
+                        if (resp.status == "ok") {
+                            let sql = `SELECT usuario.nome, email, responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND id_maquina = '${novoId}' ORDER BY responsavel ASC`;
 
-                // autenticando senha
-                let sqlAuthPwd = `SELECT count(id_maquina) AS 'found' FROM maquina 
-                WHERE senha = MD5('${senhaAtual}') AND id_maquina = '${idAtual}'`;
-
-                await sequelize.query(sqlAuthPwd, selectType)
-                .then(async (resultAuth) => {
-                    if(resultAuth[0].found === 1) {
-                        // senha correta
-                        let sqlUpdatePwd = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}', 
-                        senha = MD5('${novaSenha}') WHERE id_maquina = '${idAtual}'`;
-
-                        await sequelize.query(sqlUpdatePwd, updateType)
-                        .then(async resultUpdatePwd => {
-                            res.json({
-                                status: "ok",
-                                msg: resultUpdatePwd
-                            });
-                        })
-                        .catch(err => {
-                            res.json({
-                                status: "erro",
-                                msg: err
-                            })
-                        })
-                    } else {
-                        res.json({
-                            status: "erro",
-                            msg: "senha incorreta"
-                        });
-                    }
-                })
-                .catch(err => {
-                    res.json({
-                        status: "erro",
-                        msg: err
+                            await sequelize
+                                .query(sql, selectType)
+                                .then(async usuarios => {
+                                    let resp;
+                                    for (let usuario of usuarios) {
+                                        if (usuario.responsavel == "s") {
+                                            resp = {...usuario};
+                                            continue;
+                                        }
+                                        let {nome, email} = usuario;
+                                        mandarEmail(
+                                            "notificacao edicao maquina",
+                                            nome,
+                                            email,
+                                            [resp.nome]
+                                        )
+                                            .then(() =>
+                                                res.json({
+                                                    status: "ok",
+                                                    msg: "Maquina editada e email enviado aos usuarios relacionados"
+                                                })
+                                            )
+                                            .catch(err =>
+                                                res.json({
+                                                    status: "erro",
+                                                    msg: err
+                                                })
+                                            );
+                                    }
+                                })
+                                .catch(err =>
+                                    res.json({status: "erro", msg: err})
+                                );
+                        } else {
+                            return res.json({status: "erro", msg: resp.msg});
+                        }
                     })
-                })
-            } else {
-                // mantendo senha, alterando apenas nome e/ou id da máquina
-                let sqlUpdateMac = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}' WHERE id_maquina = '${idAtual}'`;
-
-                await sequelize.query(sqlUpdateMac, updateType)
-                .then(async resultMac => {
-                    res.json({
-                        status: "ok",
-                        msg: "Dados da máquina atualizados",
-                        resultMac
+                    .catch(err => {
+                        return res.json(err);
                     });
-                })
-                .catch(err => {
-                    res.json({
-                        status: "erro",
-                        msg: err
-                    })
-                })
+            } else {
+                // máquina não existe
+                return res.json({
+                    status: "erro",
+                    msg: `A máquina de id ${idAtual} não está cadastrada`
+                });
             }
-        } else {
-            // máquina não existe
-            res.json({
-                status: "erro",
-                msg: `a máquina de id '${idAtual}' não existe ou não está cadastrada`
-            });
-        }
-    });
+        });
 });
 
 module.exports = router;

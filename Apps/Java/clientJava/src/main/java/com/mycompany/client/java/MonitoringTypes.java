@@ -9,7 +9,7 @@ public class MonitoringTypes {
     public static List<TiposMedicao> getTiposMedicao() {
         String sql = String.format(
                 "SELECT tipo_medicao.tipo, medicao_limite, unidade FROM categoria_medicao INNER JOIN "
-                + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao " + "WHERE fk_maquina = '%s'",
+                + "tipo_medicao ON fk_tipo_medicao = id_tipo_medicao " + "WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '%s')",
                 Monitoring.getMacAddress());
 
         BeanPropertyRowMapper<TiposMedicao> bean = new BeanPropertyRowMapper<>(TiposMedicao.class);

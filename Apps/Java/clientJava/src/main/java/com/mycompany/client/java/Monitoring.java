@@ -1,6 +1,8 @@
 package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
+import com.mycompany.client.java.entidades.Maquina;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -8,6 +10,7 @@ import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
+import com.mycompany.client.java.ConfigDB;
 
 // Essa Classe tem como herança a Classe Looca, o comando "extends" pega os valores atributos
 // da classe Looca para serem utilizados de forma simples na classe "Monitoring"
@@ -23,6 +26,14 @@ public class Monitoring extends Looca {
     public static String getMacAddress() {
         List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
         return netIfs.get(0).getMacaddr();
+    }
+
+    // retorna pk_maquina baseado no mac address
+    public static Integer getPkMaquina() {
+        String sql = "SELECT pk_maquina FROM maquina WHERE id_maquina = '%s'";
+        sql = String.format(sql, getMacAddress());
+        List<Maquina> maquinas = ConfigDB.getJdbc().query(sql, new BeanPropertyRowMapper<>(Maquina.class));
+        return maquinas.get(0).getPkMaquina();
     }
 
     // Formatação dos dados de Temperatura

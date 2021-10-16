@@ -1,9 +1,9 @@
 package com.mycompany.client.java.telas;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.mycompany.client.java.*;
@@ -13,18 +13,6 @@ public class Main extends javax.swing.JFrame {
     private String email;
     private static Boolean continuarMonitoramento = true;
     Thread thread;
-
-    private Integer MaxCpu = 0;
-    private Integer MinCpu = 101;
-    private Integer MaxMem = 0;
-    private Integer MinMem = 101;
-    private Integer MaxDisk = 0;
-    private Integer MinDisk = 101;
-
-    private Integer contagem = 0;
-    private Integer somaC = 0;
-    private Integer somaD = 0;
-    private Integer somaM = 0;
 
     /**
      * Creates new form TelaPrincipal
@@ -515,7 +503,7 @@ public class Main extends javax.swing.JFrame {
     private void btnProcessosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessosActionPerformed
         // TODO add your handling code here:
         formProcessos frameProcs = new formProcessos();
-        frameProcs.setDefaultCloseOperation(frameProcs.EXIT_ON_CLOSE);
+        frameProcs.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameProcs.setVisible(true);
         frameProcs.pack();
         frameProcs.setLocationRelativeTo(null);

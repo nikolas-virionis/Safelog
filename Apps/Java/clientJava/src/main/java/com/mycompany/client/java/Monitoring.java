@@ -32,7 +32,7 @@ public class Monitoring extends Looca {
         String sql = "SELECT pk_maquina FROM maquina WHERE id_maquina = '%s'";
         sql = String.format(sql, getMacAddress());
         List<Maquina> maquinas = ConfigDB.getJdbc().query(sql, new BeanPropertyRowMapper<>(Maquina.class));
-        return maquinas.get(0).getPkMaquina();
+        return maquinas.size() > 0 ? maquinas.get(0).getPkMaquina() : -1;
     }
 
     // Formatação dos dados de Temperatura

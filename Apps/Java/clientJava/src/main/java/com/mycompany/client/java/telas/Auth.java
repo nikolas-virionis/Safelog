@@ -23,7 +23,7 @@ public class Auth {
     public static Boolean authEmail(String email) {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List<Map<String, Object>> emailValido = jdbcTemplate
-                .queryForList(String.format("SELECT * FROM usuario WHERE email = '%s'", email));
+                .queryForList(String.format("SELECT * FROM usuario WHERE email = '%s'", email));  
         return emailValido.size() > 0;
     }
 
@@ -36,9 +36,10 @@ public class Auth {
 
     public static Boolean authPermissao(String email) {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        List<Map<String, Object>> permissao = jdbcTemplate.queryForList(String.format(
-                "SELECT * FROM usuario_maquina WHERE fk_maquina = %d AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
-                Monitoring.getPkMaquina(), email));
+        String sql = String.format(
+            "SELECT * FROM usuario_maquina WHERE fk_maquina = %d AND fk_usuario = (SELECT id_usuario FROM usuario WHERE email = '%s')",
+            Monitoring.getPkMaquina(), email);
+        List<Map<String, Object>> permissao = jdbcTemplate.queryForList(sql);
         return permissao.size() > 0;
     }
 
@@ -53,8 +54,6 @@ public class Auth {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         List<Map<String, Object>> maquinaValida = jdbcTemplate
                 .queryForList(String.format("SELECT * FROM maquina WHERE id_maquina = '%s' AND senha = MD5('%s')",
-                        Monitoring.getMacAddress(), maquina));
-        System.out.println(String.format("SELECT * FROM maquina WHERE id_maquina = '%s' AND senha = MD5('%s')",
                         Monitoring.getMacAddress(), maquina));
         return maquinaValida.size() > 0;
     }

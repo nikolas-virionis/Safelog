@@ -1,7 +1,7 @@
 // ambiente (dev/prod)
 process.env.NODE_ENV = "dev";
-
 // dependências
+let fs = require("fs");
 let express = require("express");
 let path = require("path");
 let cookieParser = require("cookie-parser");
@@ -31,9 +31,21 @@ app.use("/usuario", usuarioRouter);
 app.use("/empresa", empresaRouter);
 app.use("/maquina", maquinaRouter);
 app.use("/medicao", medicaoRouter);
-app.use((req, res, next) => {
-    res.status(404).sendFile("public/index.html", { root: __dirname });
+
+app.get("/:page", (req, res) => {
+    let pagePath = path.join(__dirname, "public", `${req.params.page}.html`);
+    
+    if (fs.existsSync(pagePath)) {
+        res.sendFile(pagePath);
+    } else {
+        res.status(404).sendFile("public/index.html", {root: __dirname});
+    }
 });
+
+// app.use((req, res, next) => {
+//     res.status(404).sendFile("public/index.html", {root: __dirname});
+// });
+
 // app.use((req, res, next) => {
 //     res.status(404).sendFile("public/404.html", { root: __dirname });
 // });

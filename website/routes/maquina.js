@@ -460,31 +460,38 @@ router.post("/update", async (req, res, next) => {
                             await sequelize
                                 .query(sql, selectType)
                                 .then(async usuarios => {
-                                    let resp;
-                                    for (let usuario of usuarios) {
-                                        if (usuario.responsavel == "s") {
-                                            resp = {...usuario};
-                                            continue;
-                                        }
-                                        let {nome, email} = usuario;
-                                        mandarEmail(
-                                            "notificacao edicao maquina",
-                                            nome,
-                                            email,
-                                            [resp.nome]
-                                        )
-                                            .then(() =>
-                                                res.json({
-                                                    status: "ok",
-                                                    msg: "Maquina editada e email enviado aos usuarios relacionados"
-                                                })
+                                    if (usuarios.length - 1) {
+                                        let resp;
+                                        for (let usuario of usuarios) {
+                                            if (usuario.responsavel == "s") {
+                                                resp = {...usuario};
+                                                continue;
+                                            }
+                                            let {nome, email} = usuario;
+                                            mandarEmail(
+                                                "notificacao edicao maquina",
+                                                nome,
+                                                email,
+                                                [resp.nome]
                                             )
-                                            .catch(err =>
-                                                res.json({
-                                                    status: "erro",
-                                                    msg: err
-                                                })
-                                            );
+                                                .then(() =>
+                                                    res.json({
+                                                        status: "ok",
+                                                        msg: "Maquina editada e email enviado aos usuarios relacionados"
+                                                    })
+                                                )
+                                                .catch(err =>
+                                                    res.json({
+                                                        status: "erro",
+                                                        msg: err
+                                                    })
+                                                );
+                                        }
+                                    } else {
+                                        res.json({
+                                            status: "ok",
+                                            msg: "Maquina editada"
+                                        });
                                     }
                                 })
                                 .catch(err =>
@@ -505,6 +512,21 @@ router.post("/update", async (req, res, next) => {
                 });
             }
         });
+});
+
+router.post("/dados", async (req, res) => {
+    let {maquina} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+
+    let sql = `SELECT pk_maquina, nome FROM maquina WHERE id_maquina = '${maquina}'`;
+    await sequelize
+        .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .then(([msg]) => res.json({status: "ok", msg}))
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 module.exports = router;

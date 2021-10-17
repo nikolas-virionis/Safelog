@@ -20,7 +20,7 @@ let app = express();
 // config básica express
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -33,8 +33,8 @@ app.use("/maquina", maquinaRouter);
 app.use("/medicao", medicaoRouter);
 
 app.get("/:page", (req, res) => {
-    let pagePath = path.join(__dirname, "public", `${req.params.page}.html`);
-    
+    let pagePath = path.resolve(__dirname, "public", `${req.params.page}.html`);
+
     if (fs.existsSync(pagePath)) {
         res.sendFile(pagePath);
     } else {

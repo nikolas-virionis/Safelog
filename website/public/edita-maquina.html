@@ -153,42 +153,6 @@
     <script src="./assets/js/editaMaquina.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 
-    <script>
-        var inputAltSenha = document.getElementById("input-alt-senha");
-        var rowAltSenha = document.getElementById("row-alt-senha");
-        inputAltSenha.onchange = function () {
-            if (inputAltSenha.checked) {
-                unfade(rowAltSenha);
-            } else {
-                fade(rowAltSenha);
-            }
-        };
-
-        function fade(element) {
-            var op = 1;
-            var timer = setInterval(function () {
-                if (op <= 0.1) {
-                    clearInterval(timer);
-                    element.style.display = "none";
-                }
-                element.style.opacity = op;
-                element.style.filter = "alpha(opacity=" + op * 100 + ")";
-                op -= op * 0.1;
-            }, 15);
-        }
-        function unfade(element) {
-            var op = 1;
-            element.style.display = "flex";
-            var timer = setInterval(function () {
-                if (op >= 1) {
-                    clearInterval(timer);
-                }
-                element.style.opacity = op;
-                element.style.filter = "alpha(opacity=" + op * 100 + ")";
-                op += op * 0.1;
-            }, 15);
-        }
-    </script>
 </body>
 
 </html>

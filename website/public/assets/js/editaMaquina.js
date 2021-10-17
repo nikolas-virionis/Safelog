@@ -1,3 +1,37 @@
+const altSenha = document.querySelector("#input-alt-senha");
+const rowAltSenha = document.querySelector("#row-alt-senha");
+altSenha.onchange = function () {
+    if (altSenha.checked) {
+        unfade(rowAltSenha);
+    } else {
+        fade(rowAltSenha);
+    }
+};
+
+function fade(element) {
+    var op = 1;
+    var timer = setInterval(function () {
+        if (op <= 0.1) {
+            clearInterval(timer);
+            element.style.display = "none";
+        }
+        element.style.opacity = op;
+        element.style.filter = "alpha(opacity=" + op * 100 + ")";
+        op -= op * 0.1;
+    }, 15);
+}
+function unfade(element) {
+    var op = 1;
+    element.style.display = "flex";
+    var timer = setInterval(function () {
+        if (op >= 1) {
+            clearInterval(timer);
+        }
+        element.style.opacity = op;
+        element.style.filter = "alpha(opacity=" + op * 100 + ")";
+        op += op * 0.1;
+    }, 15);
+}
 const urlParams = new URLSearchParams(window.location.search);
 const idMaquina = urlParams.get("id_maquina");
 
@@ -6,7 +40,6 @@ const inpNome = document.querySelector("#inp-nome-maquina");
 const inpSenhaAtual = document.querySelector("#inp-senha-atual");
 const inpNovaSenha = document.querySelector("#inp-nova-senha");
 const inpConfSenha = document.querySelector("#inp-conf-senha");
-const altSenha = document.querySelector("#input-alt-senha");
 const btnEditar = document.querySelector("#btn-edit-maq");
 const btnComponentes = document.querySelector("#btn-edit-comp");
 

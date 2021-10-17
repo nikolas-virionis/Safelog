@@ -1,135 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-BR" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+      integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+      crossorigin="anonymous"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
-        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editando a Máquina</title>
-    <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
+    <link
+      rel="shortcut icon"
+      href="assets/img/logo/logo-icon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="assets/css/sidebar.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="sidebar close">
-        <div class="logo-details">
-            <div>
-                <img src="assets/img/logo/logo-icon-branco.png" alt="">
-            </div>
-            <span class="logo_name"><img src="assets/img/logo/logo-escrita-branco.png" alt=""></span>
+      <div class="logo-details">
+        <div>
+          <img src="assets/img/logo/logo-icon-branco.png" alt="" />
         </div>
+        <span class="logo_name"
+          ><img src="assets/img/logo/logo-escrita-branco.png" alt=""
+        /></span>
+      </div>
 
-        <ul class="nav-links">
-            <li class="li-not-selected">
-                <a href="dashboard.html">
-                    <i class='bx bxs-bar-chart-alt-2'></i>
-                    <span class="link_name">Dashboard</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="dashboard.html">Dashboard</a></li>
-                </ul>
-            </li>
-            <li class="li-not-selected">
-                <a href="perfil.html">
-                    <i class='bx bxs-user'></i>
-                    <span class="link_name">Perfil</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="perfil.html">Perfil</a></li>
-                </ul>
-            </li>
-            <li class="li-not-selected">
-                <a href="relatorio.html">
-                    <i class='bx bx-paperclip'></i>
-                    <span class="link_name">Relatório</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="relatorio.html">Relatório</a></li>
-                </ul>
-            </li>
-            <li class="li-selected">
-                <a href="dependentes.html">
-                    <i class='bx bxs-group'></i>
-                    <span class="link_name">Dependentes</span>
-                </a>
-                <ul class="sub-menu blank">
-                    <li><a class="link_name" href="dependentes.html">Dependentes</a></li>
-                </ul>
-            </li>
+      <ul class="nav-links">
+        <li class="li-not-selected">
+          <a href="dashboard.html">
+            <i class="bx bxs-bar-chart-alt-2"></i>
+            <span class="link_name">Dashboard</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="dashboard.html">Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="li-not-selected">
+          <a href="perfil.html">
+            <i class="bx bxs-user"></i>
+            <span class="link_name">Perfil</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="perfil.html">Perfil</a></li>
+          </ul>
+        </li>
+        <li class="li-not-selected">
+          <a href="relatorio.html">
+            <i class="bx bx-paperclip"></i>
+            <span class="link_name">Relatório</span>
+          </a>
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="relatorio.html">Relatório</a></li>
+          </ul>
+        </li>
+        <li class="li-selected">
+          <a href="dependentes.html">
+            <i class="bx bxs-group"></i>
+            <span class="link_name">Dependentes</span>
+          </a>
+          <ul class="sub-menu blank">
             <li>
-                <div class="iocn-link">
-                    <a href="#">
-                        <i class="fab fa-java"></i>
-                        <span class="link_name">Client Java</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li><a class="link_name" href="#">Client Java</a></li>
-                    <li><a href="#">Download</a></li>
-                    <li><a href="#">Baixar JRE</a></li>
-                </ul>
+              <a class="link_name" href="dependentes.html">Dependentes</a>
             </li>
-            <li>
-                <div class="profile-details">
-                    <div class="profile-content">
-                        <img class="profilePic" src="" alt="profileImg">
-                    </div>
-                    <div class="name-job">
-                        <div class="profile_name">Kaique</div>
-                        <!-- <div class="job">Web Desginer</div> -->
-                    </div>
-                    <div class="icon-exit">
-                        <a href="index.html">
-                            <i class='bx bx-log-out'></i>
-                        </a>
-                    </div>
-                </div>
-            </li>
-        </ul>
+          </ul>
+        </li>
+        <li>
+          <div class="iocn-link">
+            <a href="#">
+              <i class="fab fa-java"></i>
+              <span class="link_name">Client Java</span>
+            </a>
+            <i class="bx bxs-chevron-down arrow"></i>
+          </div>
+          <ul class="sub-menu">
+            <li><a class="link_name" href="#">Client Java</a></li>
+            <li><a href="#">Download</a></li>
+            <li><a href="#">Baixar JRE</a></li>
+          </ul>
+        </li>
+        <li>
+          <div class="profile-details">
+            <div class="profile-content">
+              <img class="profilePic" src="" alt="profileImg" />
+            </div>
+            <div class="name-job">
+              <div class="profile_name">Kaique</div>
+              <!-- <div class="job">Web Desginer</div> -->
+            </div>
+            <div class="icon-exit">
+              <a href="index.html">
+                <i class="bx bx-log-out"></i>
+              </a>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
     <section class="home-section">
-        <div class="container-site">
-            <div class="cadastro-empresa">
-                <h1>Edite a máquina:</h1>
-                <div class="form-cadastro">
-                    <form action="">
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
-                                <label for="inp-id-maquina">Identificação:</label>
-                                <input type="text" name="" required id="inp-id-maquina">
-                            </div>
-                            <div class="col-6 form-item">
-                                <label for="inp-nome-maquina">Nome da Máquina:</label>
-                                <input type="text" name="" required id="inp-nome-maquina">
-                            </div>
-                        </div>
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
-                                <label for="inp-senha-maquina">Senha da Máquina:</label>
-                                <input type="password" name="" required id="inp-senha-maquina">
-                            </div>
-                            <div class="col-6 form-item">
-                                <label for="inp-conf-senha-maquina">Confirmar senha:</label>
-                                <input type="password" name="" required id="inp-conf-senha-maquina">
-                            </div>
-                        </div>
-
-
-                        <div class="form-item">
-                            <button class="btn-geral" id="btnEditMaq">Atualizar dados</button>
-                            <a href="componentes.html" class="btn-geral btn-secondary" id="btnEditComp">Editar
-                                componentes</a>
-                        </div>
-                    </form>
+      <div class="container-site">
+        <div class="cadastro-empresa">
+          <h1>Edite a máquina:</h1>
+          <div class="form-cadastro">
+            <form action="">
+              <div class="dashboard-row">
+                <div class="col-6 form-item">
+                  <label for="inp-id-maquina">Identificação:</label>
+                  <input type="text" name="" required id="inp-id-maquina" />
                 </div>
-            </div>
+                <div class="col-6 form-item">
+                  <label for="inp-nome-maquina">Nome da Máquina:</label>
+                  <input type="text" name="" required id="inp-nome-maquina" />
+                </div>
+              </div>
+              <label class="customcheckbox">
+                <input type="checkbox" id="input-alt-senha" />
+                <div class="checkmark"></div>
+                Alterar senha
+              </label>
+              <div class="dashboard-row" id="row-alt-senha">
+                <div class="col-6 form-item">
+                  <label for="inp-senha-maquina">Senha da Máquina:</label>
+                  <input
+                    type="password"
+                    name=""
+                    required
+                    id="inp-senha-maquina"
+                  />
+                </div>
+                <div class="col-6 form-item">
+                  <label for="inp-conf-senha-maquina">Confirmar senha:</label>
+                  <input
+                    type="password"
+                    name=""
+                    required
+                    id="inp-conf-senha-maquina"
+                  />
+                </div>
+              </div>
+
+              <div class="form-item">
+                <button class="btn-geral" id="btnEditMaq">
+                  Atualizar dados
+                </button>
+                <a
+                  href="componentes.html"
+                  class="btn-geral btn-secondary"
+                  id="btnEditComp"
+                  >Editar componentes</a
+                >
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </section>
 
     <div id="alerta"></div>
@@ -137,6 +171,42 @@
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/editaMaquina.js"></script>
     <script src="./assets/js/sidebar.js"></script>
-</body>
 
+    <script>
+      var inputAltSenha = document.getElementById("input-alt-senha");
+      var rowAltSenha = document.getElementById("row-alt-senha");
+      inputAltSenha.onchange = function () {
+        if (inputAltSenha.checked) {
+          unfade(rowAltSenha);
+        } else {
+          fade(rowAltSenha);
+        }
+      };
+
+      function fade(element) {
+        var op = 1;
+        var timer = setInterval(function () {
+          if (op <= 0.1) {
+            clearInterval(timer);
+            element.style.display = "none";
+          }
+          element.style.opacity = op;
+          element.style.filter = "alpha(opacity=" + op * 100 + ")";
+          op -= op * 0.1;
+        }, 15);
+      }
+      function unfade(element) {
+        var op = 1;
+        element.style.display = "flex";
+        var timer = setInterval(function () {
+          if (op >= 1) {
+            clearInterval(timer);
+          }
+          element.style.opacity = op;
+          element.style.filter = "alpha(opacity=" + op * 100 + ")";
+          op += op * 0.1;
+        }, 15);
+      }
+    </script>
+  </body>
 </html>

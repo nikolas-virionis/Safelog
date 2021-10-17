@@ -50,20 +50,35 @@ public class formProcessos extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 153));
 
+        listProcessos.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
         listProcessos.setModel(new javax.swing.AbstractListModel<String>() {
             ProcessosGroup listProc = new Monitoring().getGrupoDeProcessos();
             List<Processo> procs = listProc.getProcessos();
 
             private List<String> getProcs() {
                 List<String> procsDisplay = new ArrayList<String>();
+
+                // title
+                String title = " %-30s %-10s %-10s %-10s ";
+                title = String.format(title, "Nome do processo", "CPU (%)", "MEM (%)", "PIDS");
+                procsDisplay.add(title);
+                procsDisplay.add(" ");
+
+                // looping into procs
                 for (Processo proc : procs) {
-                    String str = "%s cpu: %.1f mem: %.1f PID: %d \n";
-                    str = String.format(str, proc.getNome(), proc.getUsoCpu(), proc.getUsoMemoria(), proc.getPid());
+                    // formating double and long values
+                    String usoCpuStr = String.format("%.2f", proc.getUsoCpu());
+                    String usoMemStr = String.format("%.2f", proc.getUsoMemoria());
+                    String str = " %-30s %-10s %-10s %-10s ";
+                    str = String.format(str, proc.getNome(), usoCpuStr, usoMemStr, proc.getPid());
+                    
+                    // adding formated proc on List
                     procsDisplay.add(str);
                 }
                 return procsDisplay;
             }
             
+            // adding each item from procs list to JList
             List<String> strings = getProcs();
             public int getSize() { return strings.size(); }
             public String getElementAt(int i) { return strings.get(i); }
@@ -76,8 +91,8 @@ public class formProcessos extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,7 +111,7 @@ public class formProcessos extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
@@ -114,7 +129,9 @@ public class formProcessos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

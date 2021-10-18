@@ -16,14 +16,14 @@
         tabelaDependentes.appendChild(tbody);
         axios
             .post("/usuario/pessoas-dependentes", {
-                id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+                id: JSON.parse(sessionStorage.getItem("usuario"))?.id
             })
-            .then((response) => {
+            .then(response => {
                 // console.log(response.data);
-                let { status, res: dependentes } = response.data;
+                let {status, res: dependentes} = response.data;
                 if (status == "ok") {
                     if (dependentes.length > 0) {
-                        dependentes.forEach((dependente) => {
+                        dependentes.forEach(dependente => {
                             let tr = document.createElement("tr");
                             let tbNome = document.createElement("td");
                             let tbEmail = document.createElement("td");
@@ -51,9 +51,9 @@
                                     // requisição de delete
                                     axios
                                         .post("/usuario/delete", {
-                                            id: dependente.id_usuario,
+                                            id: dependente.id_usuario
                                         })
-                                        .then((result) => {
+                                        .then(result => {
                                             if (result.data.status == "ok") {
                                                 window.location.reload();
                                             }
@@ -88,13 +88,13 @@
         tabelaDependentes.appendChild(tbody);
         axios
             .post("/maquina/lista-dependentes", {
-                id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+                id: JSON.parse(sessionStorage.getItem("usuario"))?.id
             })
-            .then((response) => {
-                let { status, res: dependentes } = response.data;
+            .then(response => {
+                let {status, res: dependentes} = response.data;
                 if (status == "ok") {
                     if (dependentes.length > 0) {
-                        dependentes.forEach((dependente) => {
+                        dependentes.forEach(dependente => {
                             let tr = document.createElement("tr");
                             let tbId = document.createElement("td");
                             let tbNome = document.createElement("td");
@@ -108,6 +108,11 @@
                             excluirBtn.classList = "btn-nav-dash-red";
                             editarBtnLbl.classList = "fas fa-pencil-alt";
                             editarBtn.classList = "btn-nav-dash";
+                            editarBtn.addEventListener(
+                                "click",
+                                () =>
+                                    (window.location.href = `edita-maquina?id_maquina=${dependente.id_maquina}`)
+                            );
                             excluirBtn.appendChild(excluirBtnLbl);
                             editarBtn.appendChild(editarBtnLbl);
                             tbBtn.appendChild(editarBtn);
@@ -132,9 +137,9 @@
                                 if (sure) {
                                     axios
                                         .post("/maquina/delete", {
-                                            id: dependente.pk_maquina,
+                                            id: dependente.pk_maquina
                                         })
-                                        .then((result) => {
+                                        .then(result => {
                                             if (result.data.status == "ok") {
                                                 window.location.reload();
                                             }
@@ -164,57 +169,55 @@ const btnAtribuirMaq = document.querySelector("#btn-atribuir-maq");
 const btnAbrirConvite = document.querySelector(".convite-email");
 btnAbrirConvite.title = "Adicionar dependentes";
 
-btnAbrirConvite.addEventListener("click", (e) => {
+btnAbrirConvite.addEventListener("click", e => {
     if (JSON.parse(sessionStorage.getItem("usuario")).cargo != "analista") {
-        import("./modal.js").then(({ abrirModal }) =>
+        import("./modal.js").then(({abrirModal}) =>
             abrirModal("modal-send-email")
         );
     } else
-        import("./modal.js").then(({ abrirModal }) =>
+        import("./modal.js").then(({abrirModal}) =>
             abrirModal("modal-log-cad-maq")
         );
 });
-btnCancelar.addEventListener("click", (e) =>
-    import("./modal.js").then(({ fecharModal }) =>
+btnCancelar.addEventListener("click", e =>
+    import("./modal.js").then(({fecharModal}) =>
         fecharModal("modal-send-email")
     )
 );
 
-btnCancelar2.addEventListener("click", (e) =>
-    import("./modal.js").then(({ fecharModal }) =>
+btnCancelar2.addEventListener("click", e =>
+    import("./modal.js").then(({fecharModal}) =>
         fecharModal("modal-log-cad-maq")
     )
 );
 
-email.addEventListener("keypress", (e) => {
+email.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnConfirmar.click();
     }
 });
 
-btnCadastroMaq.addEventListener("click", (e) => {
-    window.location = "./cadastro-maquina.html";
+btnCadastroMaq.addEventListener("click", e => {
+    window.location.href = "cadastro-maquina";
 });
-btnAtribuirMaq.addEventListener("click", (e) => {
-    window.location = "./atribuir-maquina.html";
+btnAtribuirMaq.addEventListener("click", e => {
+    window.location.href = "atribuir-maquina";
 });
-btnConfirmar.addEventListener("click", async (e) => {
-    const { validateEmail } = await import("./email.js");
+btnConfirmar.addEventListener("click", async e => {
+    const {validateEmail} = await import("./email.js");
     if (!email.value) return;
     if (!validateEmail(email.value))
         return mostrarAlerta("Email inválido", "danger");
-    let { cargo, id, id_empresa } = JSON.parse(
-        sessionStorage.getItem("usuario")
-    );
+    let {cargo, id, id_empresa} = JSON.parse(sessionStorage.getItem("usuario"));
     axios
         .post("/usuario/convite", {
             email: email.value,
             cargo: cargo == "admin" ? "gestor" : "analista",
             fk_empresa: id_empresa,
-            fk_supervisor: id,
+            fk_supervisor: id
         })
-        .then((res) => {
+        .then(res => {
             if (res.data?.status == "ok") {
                 mostrarAlerta(
                     "Email convidado e inserido no banco (parcialmente)",

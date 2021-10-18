@@ -1,5 +1,7 @@
 (() => {
     const tabelaDependentes = document.querySelector(".tabela-listrada table");
+    const nomeUsuario = document.querySelector(".sub-chefe h3");
+    nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
     if (JSON.parse(sessionStorage.getItem("usuario"))?.cargo != "analista") {
         let tbody = document.createElement("tbody");
         let tr = document.createElement("tr");
@@ -102,32 +104,37 @@
                             let tbBtn = document.createElement("td");
                             let excluirBtnLbl = document.createElement("i");
                             let excluirBtn = document.createElement("button");
-                            let editarBtnLbl = document.createElement("i");
-                            let editarBtn = document.createElement("button");
-
-                            let acessoBtn = document.createElement("button");
-                            let acessoBtnLbl = document.createElement("i");
-                            // let acessoBtnSpan = document.createElement("span");
-                            acessoBtn.classList = "btn-dash-acesso";
-                            acessoBtnLbl.classList = "fas fa-user-cog";
-                            // acessoBtnSpan.innerHTML = "Acesso";
-                            acessoBtn.appendChild(acessoBtnLbl);
-                            // acessoBtn.appendChild(acessoBtnSpan);
-
                             excluirBtnLbl.classList = "fas fa-trash-alt";
                             excluirBtn.classList = "btn-nav-dash-red";
-                            editarBtnLbl.classList = "fas fa-pencil-alt";
-                            editarBtn.classList = "btn-nav-dash";
-                            editarBtn.addEventListener(
-                                "click",
-                                () =>
-                                    (window.location.href = `edita-maquina?id_maquina=${dependente.id_maquina}`)
-                            );
                             excluirBtn.appendChild(excluirBtnLbl);
-                            editarBtn.appendChild(editarBtnLbl);
-                            tbBtn.appendChild(editarBtn);
+                            excluirBtn.title = "Remover acesso à máquina";
                             tbBtn.appendChild(excluirBtn);
-                            tbBtn.appendChild(acessoBtn);
+
+                            if (
+                                nomeUsuario.innerText == dependente.responsavel
+                            ) {
+                                let editarBtnLbl = document.createElement("i");
+                                let editarBtn =
+                                    document.createElement("button");
+                                editarBtnLbl.classList = "fas fa-pencil-alt";
+                                editarBtn.classList = "btn-nav-dash";
+                                editarBtn.addEventListener("click", () => {
+                                    window.location.href = `edita-maquina?id_maquina=${dependente.id_maquina}`;
+                                });
+                                editarBtn.appendChild(editarBtnLbl);
+                                editarBtn.title = "Editar máquina";
+
+                                let acessoBtn =
+                                    document.createElement("button");
+                                let acessoBtnLbl = document.createElement("i");
+                                acessoBtn.classList = "btn-dash-acesso";
+                                acessoBtnLbl.classList = "fas fa-user-cog";
+                                acessoBtn.appendChild(acessoBtnLbl);
+                                acessoBtn.title = "Gerenciar acessos";
+                                tbBtn.appendChild(editarBtn);
+                                tbBtn.appendChild(acessoBtn);
+                            }
+
                             tbId.innerHTML = `${dependente.id_maquina}`;
                             tbNome.innerHTML = `${dependente.nome}`;
                             tbResp.innerHTML = `${dependente.responsavel}`;
@@ -167,8 +174,6 @@
                 }
             });
     }
-    const nomeUsuario = document.querySelector(".sub-chefe h3");
-    nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
 })();
 
 const email = document.querySelector("#email-convite");

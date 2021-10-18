@@ -55,6 +55,7 @@ btnProsseguir.addEventListener("click", async e => {
         });
 });
 btnCancelar.addEventListener("click", async e => {
+    e.preventDefault();
     let {cancelarModal} = await import("./modal.js");
     cancelarModal();
 });

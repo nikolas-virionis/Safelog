@@ -1,44 +1,47 @@
-const { id } = JSON.parse(sessionStorage.getItem("usuario"));
+const {id} = JSON.parse(sessionStorage.getItem("usuario"));
 const macAddr = document.querySelector("#inp-id-maquina");
 const senha = document.querySelector("#inp-senha-maquina");
 const btn = document.querySelector(".btn-geral");
 
-macAddr.addEventListener("keypress", (e) => {
+macAddr.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         senha.focus();
     }
 });
 
-senha.addEventListener("keypress", (e) => {
+senha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btn.click();
     }
 });
 
-btn.addEventListener("click", (e) => {
+btn.addEventListener("click", e => {
     e.preventDefault();
     if (!macAddr.value || !senha.value) return;
     let macAddress = macAddr.value.replace(/-/g, ":").toLowerCase();
     axios
         .post("/auth/maquina", {
             id: macAddress,
-            senha: senha.value,
+            senha: senha.value
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 axios
                     .post("/usuario/acesso-maquina", {
                         id,
-                        maquina: macAddress,
+                        maquina: macAddress
                     })
-                    .then((res) => {
+                    .then(res => {
                         if (res.data?.status == "ok") {
                             mostrarAlerta(
                                 "Email de solicitação de acesso enviado com sucesso",
                                 "success"
                             );
+                            setTimeout(() => {
+                                window.location.href = "dependentes";
+                            }, 4000);
                         } else {
                             mostrarAlerta(res.data?.msg, "danger");
                         }

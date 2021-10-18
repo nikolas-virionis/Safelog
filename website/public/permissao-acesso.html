@@ -100,7 +100,7 @@
                     <div class="centralizar coluna">
                         <span>FULANO quer ter acesso a máquina XXXXXXXXXXX</span>
                     </div>
-    
+
                     <div class="centralizar botoes">
                         <button class="btn-geral"> Aceitar solicitação</button>
                         <button class="btn-geral cancelar">Recusar</button>
@@ -108,12 +108,36 @@
                 </div>
             </div>
         </div>
-        
 
 
+
+        <div class="modal-screen" id="modal-verify-token">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Permissão de acesso</h2>
+                    <h6>Digite seu email e o token que foi enviado a você</h6>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h6>Email:</h6>
+                        <input id="idInputEmail" type="text" name="">
+                    </div>
+                    <div>
+                        <h6>Token:</h6>
+                        <input id="idInputToken" type="text" name="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                    <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div id="alerta"></div>
 
     </section>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/permissaoAcesso.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 </body>

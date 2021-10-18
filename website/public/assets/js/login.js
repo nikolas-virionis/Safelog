@@ -5,32 +5,32 @@ const btn = document.querySelector(".btn-geral");
 const btnEsqSenha = document.querySelector("#spanEsqueciSenha");
 const btnFecharModal = document.querySelector("#btn-cancelar-modal");
 
-email.addEventListener("keypress", (e) => {
+email.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         senha.focus();
     }
 });
-senha.addEventListener("keypress", (e) => {
+senha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btn.click();
     }
 });
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", e => {
     e.preventDefault();
     validarLogin();
 });
 
-btnEsqSenha.addEventListener("click", (e) => {
-    import("./modal.js").then(({ abrirModal }) => {
+btnEsqSenha.addEventListener("click", e => {
+    import("./modal.js").then(({abrirModal}) => {
         abrirModal("modal-esqueci-senha");
     });
 });
 
-btnFecharModal.addEventListener("click", (e) => {
-    import("./modal.js").then(({ fecharModal }) => {
+btnFecharModal.addEventListener("click", e => {
+    import("./modal.js").then(({fecharModal}) => {
         fecharModal("modal-esqueci-senha");
     });
 });
@@ -39,33 +39,33 @@ const validarLogin = () => {
     axios
         .post("/auth/staff", {
             email: email.value,
-            senha: senha.value,
+            senha: senha.value
         })
-        .then((response) => {
+        .then(response => {
             if (response.data.status == "ok") {
                 mostrarAlerta("Usuario logado como staff", "success");
-                let { status, ...user } = response.data;
+                let {status, ...user} = response.data;
                 sessionStorage.setItem("staff", JSON.stringify(user));
-                window.location.href = "cadastro-empresa.html";
+                window.location.href = "cadastro-empresa";
             } else {
                 axios
                     .post("/auth/usuario", {
                         email: email.value,
-                        senha: senha.value,
+                        senha: senha.value
                     })
-                    .then((res) => {
+                    .then(res => {
                         console.log(res);
                         if (res.data.status == "ok") {
                             mostrarAlerta(
                                 "Usuario logado com sucesso",
                                 "success"
                             );
-                            let { status, ...user } = res.data;
+                            let {status, ...user} = res.data;
                             sessionStorage.setItem(
                                 "usuario",
                                 JSON.stringify(user)
                             );
-                            window.location.href = "dashboard.html";
+                            window.location.href = "dashboard";
                         } else {
                             mostrarAlerta(
                                 "Usuário ou senha inválidos",
@@ -80,26 +80,26 @@ const validarLogin = () => {
 const emailInModal = document.querySelector("#idInputEmail");
 const btnModal = document.querySelector("#btn-prosseguir-modal");
 
-emailInModal.addEventListener("keypress", (e) => {
+emailInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnModal.click();
     }
 });
-btnModal.addEventListener("click", async (e) => {
+btnModal.addEventListener("click", async e => {
     e.preventDefault();
     if (!emailInModal.value) {
         mostrarAlerta("Digite um email", "warning");
         return;
     }
-    const { validateEmail } = await import("./email.js");
+    const {validateEmail} = await import("./email.js");
     if (!validateEmail(emailInModal.value))
         return mostrarAlerta("Email inválido", "danger");
     axios
         .post("/usuario/email-redefinir-senha", {
-            email: emailInModal.value,
+            email: emailInModal.value
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 email.value = "";
                 mostrarAlerta(

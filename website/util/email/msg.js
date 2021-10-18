@@ -3,7 +3,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a),</p>
-    <p><a href="http://localhost:3000/cadastro-pessoa.html?token=${rest[0]}&email=${email}" target="_blank">
+    <p><a href="http://localhost:3000/cadastro-pessoa?token=${rest[0]}&email=${email}" target="_blank">
     Clique aqui</a> para se cadastrar concluir seu cadastro</p>
     <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,
@@ -29,7 +29,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
         <p>Prezado(a) ${nome},</p>
-        <p><a href="http://localhost:3000/redefinir-senha.html?token=${rest[0]}&email=${email}" target="_blank">
+        <p><a href="http://localhost:3000/redefinir-senha?token=${rest[0]}&email=${email}" target="_blank">
         Clique aqui</a> para se redefinir sua senha</p>
         <p>Seu token de verificação é <i>${rest[0]}</i></p>
         `,
@@ -39,7 +39,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
                 <p>Prezado(a) ${nome},</p>
-                <p><a href="http://localhost:3000/permitir-acesso.html?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
+                <p><a href="http://localhost:3000/permitir-acesso?token=${rest[0]}&email=${email}&id=${rest[3]}&maquina=${rest[4]}" target="_blank">
                 Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
                 <p>Seu token de verificação é <i>${rest[0]}</i></p> 
                 `,
@@ -59,7 +59,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, e para melhor funcionamento, é necessário um usuário responsável por cada máquina, então</p> 
-            <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina
+            <p><a href="http://localhost:3000/redefinir-responsavel">Clique aqui</a> para redefinir o responsável pela maquina
                 `,
             "Redefinição de responsável por máquina - SafeLog"
         ];
@@ -68,8 +68,8 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
-            <p><a href="http://localhost:3000/redefinir-responsavel.html">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
-            <p><a href="http://localhost:3000/deletar-maquina.html">Clique aqui</a> para concretizar a remoção da máquina</p> 
+            <p><a href="http://localhost:3000/redefinir-responsavel">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
+            <p><a href="http://localhost:3000/deletar-maquina">Clique aqui</a> para concretizar a remoção da máquina</p> 
                         `,
             "Reatribuição de responsável por máquina - SafeLog"
         ];

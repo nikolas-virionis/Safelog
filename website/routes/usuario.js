@@ -785,5 +785,20 @@ router.post("/transferencia-responsavel", async (req, res) => {
             }
         });
 });
+router.post("/dados", async (req, res) => {
+    let {id} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+
+    let sql = `SELECT id_usuario as id, nome, email, cargo, fk_empresa as id_empresa, fk_supervisor as id_supervisor FROM usuario WHERE id_usuario = ${id}`;
+
+    await sequelize
+        .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .then(([usuario]) => res.json({status: "ok", msg: usuario}))
+        .catch(err => res.json({status: "erro", msg: err}));
+});
 
 module.exports = router;

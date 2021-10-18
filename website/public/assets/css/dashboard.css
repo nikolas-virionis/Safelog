@@ -220,10 +220,14 @@ h6 {
   /* background-image: linear-gradient(#e0e0e0, #e0e0e0, transparent); */
 }
 
-.charts .centralizar {
+.centralizar {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.coluna{
+  flex-direction: column;
 }
 
 .checkbox-contato i {
@@ -272,6 +276,10 @@ span {
   margin: 0 10px;
   width: 30px;
   height: 30px;
+}
+
+.card-login .centralizar.botoes{
+  margin: 20px 0;
 }
 
 .img-perfil {
@@ -459,4 +467,15 @@ label {
 
 #row-alt-senha{
     display: none;
+}
+
+.acesso{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.acesso .card-login{
+  width: 50vw;
 }

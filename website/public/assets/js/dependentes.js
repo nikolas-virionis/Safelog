@@ -104,6 +104,16 @@
                             let excluirBtn = document.createElement("button");
                             let editarBtnLbl = document.createElement("i");
                             let editarBtn = document.createElement("button");
+
+                            let acessoBtn = document.createElement("button");
+                            let acessoBtnLbl = document.createElement("i");
+                            // let acessoBtnSpan = document.createElement("span");
+                            acessoBtn.classList = "btn-dash-acesso";
+                            acessoBtnLbl.classList = "fas fa-user-cog";
+                            // acessoBtnSpan.innerHTML = "Acesso";
+                            acessoBtn.appendChild(acessoBtnLbl);
+                            // acessoBtn.appendChild(acessoBtnSpan);
+
                             excluirBtnLbl.classList = "fas fa-trash-alt";
                             excluirBtn.classList = "btn-nav-dash-red";
                             editarBtnLbl.classList = "fas fa-pencil-alt";
@@ -117,6 +127,7 @@
                             editarBtn.appendChild(editarBtnLbl);
                             tbBtn.appendChild(editarBtn);
                             tbBtn.appendChild(excluirBtn);
+                            tbBtn.appendChild(acessoBtn);
                             tbId.innerHTML = `${dependente.id_maquina}`;
                             tbNome.innerHTML = `${dependente.nome}`;
                             tbResp.innerHTML = `${dependente.responsavel}`;

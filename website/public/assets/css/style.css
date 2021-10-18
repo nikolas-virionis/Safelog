@@ -101,6 +101,10 @@ a.btn-nav-dash {
     cursor: pointer;
 }
 
+#btnSubmit.btn-geral.cancelar{
+    cursor: no-drop;
+}
+
 .btn-geral.cancelar:hover {
     background-color: #777;
 }

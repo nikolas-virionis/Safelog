@@ -16,40 +16,40 @@ emailInModal.value = email;
 const btnProsseguir = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 
-emailInModal.addEventListener("keypress", (e) => {
+emailInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         tokenInModal.focus();
     }
 });
 
-tokenInModal.addEventListener("keypress", (e) => {
+tokenInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnProsseguir.click();
     }
 });
 
-btnCancelar.addEventListener("click", async (e) => {
-    let { cancelarModal } = await import("./modal.js");
+btnCancelar.addEventListener("click", async e => {
+    let {cancelarModal} = await import("./modal.js");
     cancelarModal();
 });
 
-btnProsseguir.addEventListener("click", (e) => {
+btnProsseguir.addEventListener("click", e => {
     e.preventDefault();
     axios
         .post("/usuario/verificacao", {
             email: emailInModal.value,
-            token: tokenInModal.value,
+            token: tokenInModal.value
         })
-        .then(async (response) => {
+        .then(async response => {
             if (response.data?.status == "ok") {
                 mostrarAlerta("Usuário verificado com sucesso", "success");
                 sessionStorage.setItem(
                     `id_${response.data.user}`,
                     response.data.msg[`id_${response.data.user}`]
                 );
-                await import("./modal.js").then(({ fecharModal }) =>
+                await import("./modal.js").then(({fecharModal}) =>
                     fecharModal("modal-verify-token")
                 );
             } else {
@@ -62,20 +62,20 @@ const senha = document.querySelector("#inp-senha");
 const confSenha = document.querySelector("#inp-conf-senha");
 const btnConcluir = document.querySelector(".btn-geral");
 
-senha.addEventListener("keypress", (e) => {
+senha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         confSenha.focus();
     }
 });
-confSenha.addEventListener("keypress", (e) => {
+confSenha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnConcluir.click();
     }
 });
 
-btnConcluir.addEventListener("click", (e) => {
+btnConcluir.addEventListener("click", e => {
     e.preventDefault();
     if (!senha.value || !confSenha.value) return;
     if (senha.value != confSenha.value)
@@ -92,12 +92,12 @@ btnConcluir.addEventListener("click", (e) => {
         .post("/usuario/redefinir-senha", {
             id,
             senha: senha.value,
-            tb,
+            tb
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 mostrarAlerta("Senha alterada com sucesso", "success");
-                window.location.href = "login.html";
+                window.location.href = "login";
             } else {
                 mostrarAlerta("Erro na redefinição de senha", "danger");
             }

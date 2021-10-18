@@ -1,6 +1,6 @@
 let arrow = document.querySelectorAll(".arrow");
-arrow.forEach((arr) => {
-    arr.addEventListener("click", (e) => {
+arrow.forEach(arr => {
+    arr.addEventListener("click", e => {
         let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
         arrowParent.classList.toggle("showMenu");
     });
@@ -21,5 +21,5 @@ nomeUser.innerText =
 
 document.querySelector(".icon-exit").addEventListener("click", function () {
     sessionStorage.clear();
-    window.location = "index.html";
+    window.location.href = "/";
 });

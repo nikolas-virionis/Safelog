@@ -1,4 +1,4 @@
-let { id, nome, email, cargo, id_empresa, id_supervisor } = JSON.parse(
+let {id, nome, email, cargo, id_empresa, id_supervisor} = JSON.parse(
     sessionStorage.getItem("usuario")
 );
 let redes = ["whatsapp", "telegram", "slack"];
@@ -12,28 +12,26 @@ inpNome.value = nome;
 inpEmail.value = email;
 
 for (let rede of redes) {
-    document
-        .getElementById(`contato-${rede}`)
-        .addEventListener("change", (a) => {
-            if (document.getElementById(`contato-${rede}`).checked) {
-                document.getElementById(`input-${rede}`).style.visibility =
-                    "visible";
-                document.getElementById(`input-${rede}`).style.width = "40%";
-            } else {
-                document.getElementById(`input-${rede}`).style.width = "0px";
-                document.getElementById(`input-${rede}`).style.visibility =
-                    "hidden";
-            }
-        });
+    document.getElementById(`contato-${rede}`).addEventListener("change", a => {
+        if (document.getElementById(`contato-${rede}`).checked) {
+            document.getElementById(`input-${rede}`).style.visibility =
+                "visible";
+            document.getElementById(`input-${rede}`).style.width = "40%";
+        } else {
+            document.getElementById(`input-${rede}`).style.width = "0px";
+            document.getElementById(`input-${rede}`).style.visibility =
+                "hidden";
+        }
+    });
 }
 
 axios
     .post("/usuario/perfil", {
-        id,
+        id
     })
-    .then((response) => {
+    .then(response => {
         if (response.data?.status == "ok") {
-            let { contatos } = response.data;
+            let {contatos} = response.data;
             sessionStorage.setItem("contatos", contatos);
             for (let contato of contatos) {
                 document.querySelector(`#contato-${contato.nome}`).click();
@@ -45,7 +43,7 @@ axios
             slackDefault = document.querySelector(`#input-slack`).value;
         }
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 
 const btnWhatsapp = document.querySelector(`#contato-whatsapp`);
 const inpWhatsapp = document.querySelector(`#input-whatsapp`);
@@ -56,59 +54,59 @@ const inpSlack = document.querySelector(`#input-slack`);
 const btnAlterar = document.querySelectorAll(".btn-geral")[0];
 const btnSenha = document.querySelectorAll(".btn-geral")[1];
 
-btnSenha.addEventListener("click", (e) => e.preventDefault());
+btnSenha.addEventListener("click", e => e.preventDefault());
 
-btnAlterar.addEventListener("click", (e) => {
+btnAlterar.addEventListener("click", e => {
     e.preventDefault();
     let contatos = [];
     if (!btnWhatsapp.checked && whatsappDefault != "") {
-        contatos.push({ nome: "whatsapp", acao: "delete", valor: "" });
+        contatos.push({nome: "whatsapp", acao: "delete", valor: ""});
     } else if (inpWhatsapp.value != whatsappDefault) {
         if (whatsappDefault == "" && btnWhatsapp.checked) {
             contatos.push({
                 nome: "whatsapp",
                 acao: "insert",
-                valor: inpWhatsapp.value,
+                valor: inpWhatsapp.value
             });
         } else if (btnWhatsapp.checked) {
             contatos.push({
                 nome: "whatsapp",
                 acao: "update",
-                valor: inpWhatsapp.value,
+                valor: inpWhatsapp.value
             });
         }
     }
     if (!btnTelegram.checked && telegramDefault != "") {
-        contatos.push({ nome: "telegram", acao: "delete", valor: "" });
+        contatos.push({nome: "telegram", acao: "delete", valor: ""});
     } else if (inpTelegram.value != telegramDefault) {
         if (telegramDefault == "" && btnTelegram.checked) {
             contatos.push({
                 nome: "telegram",
                 acao: "insert",
-                valor: inpTelegram.value,
+                valor: inpTelegram.value
             });
         } else if (btnTelegram.checked) {
             contatos.push({
                 nome: "telegram",
                 acao: "update",
-                valor: inpTelegram.value,
+                valor: inpTelegram.value
             });
         }
     }
     if (!btnSlack.checked && slackDefault != "") {
-        contatos.push({ nome: "slack", acao: "delete", valor: "" });
+        contatos.push({nome: "slack", acao: "delete", valor: ""});
     } else if (inpSlack.value != slackDefault) {
         if (slackDefault == "" && btnSlack.checked) {
             contatos.push({
                 nome: "slack",
                 acao: "insert",
-                valor: inpSlack.value,
+                valor: inpSlack.value
             });
         } else if (btnSlack.checked) {
             contatos.push({
                 nome: "slack",
                 acao: "update",
-                valor: inpSlack.value,
+                valor: inpSlack.value
             });
         }
     }
@@ -117,9 +115,9 @@ btnAlterar.addEventListener("click", (e) => {
             id: JSON.parse(sessionStorage.getItem("usuario")).id,
             nome: inpNome.value,
             email: inpEmail.value,
-            contatos,
+            contatos
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 mostrarAlerta("Perfil alterado com sucesso!", "success");
                 console.log("Perfil alterado com sucesso");
@@ -131,10 +129,10 @@ btnAlterar.addEventListener("click", (e) => {
                         email: inpEmail.value,
                         cargo,
                         id_empresa,
-                        id_supervisor,
+                        id_supervisor
                     })
                 );
-                window.location.href = "perfil.html";
+                window.location.href = "perfil";
             } else {
                 mostrarAlerta("Erro na edição de perfil", "danger");
                 console.log(
@@ -148,14 +146,14 @@ btnAlterar.addEventListener("click", (e) => {
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const continuar = document.querySelector("#btn-alterar-senha");
 
-btnCancelar.addEventListener("click", (e) =>
-    import("./modal.js").then(({ fecharModal }) =>
+btnCancelar.addEventListener("click", e =>
+    import("./modal.js").then(({fecharModal}) =>
         fecharModal("modal-alterar-senha")
     )
 );
 
 continuar.addEventListener("click", () => {
-    import("./modal.js").then(({ abrirModal }) =>
+    import("./modal.js").then(({abrirModal}) =>
         abrirModal("modal-alterar-senha")
     );
 });
@@ -163,15 +161,15 @@ continuar.addEventListener("click", () => {
 const senha = document.querySelector("#inp-senha");
 const btnAltSenha = document.querySelector("#btn-prosseguir-modal");
 
-btnAltSenha.addEventListener("click", (e) => {
+btnAltSenha.addEventListener("click", e => {
     e.preventDefault();
     if (!senha.value) return;
     axios
         .post("/usuario/verificacao-senha-atual", {
             id: JSON.parse(sessionStorage.getItem("usuario")).id,
-            senha: senha.value,
+            senha: senha.value
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 senha.value = "";
                 mostrarAlerta(
@@ -183,7 +181,7 @@ btnAltSenha.addEventListener("click", (e) => {
             }
         });
 });
-senha.addEventListener("keypress", (e) => {
+senha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnAltSenha.click();

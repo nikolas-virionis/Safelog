@@ -1,6 +1,4 @@
-const { id, id_empresa: empresa } = JSON.parse(
-    sessionStorage.getItem("usuario")
-);
+const {id, id_empresa: empresa} = JSON.parse(sessionStorage.getItem("usuario"));
 let cpuPercentDef,
     cpuClockDef,
     cpuTempDef,
@@ -15,7 +13,7 @@ const tipos = [
     "ramPercent",
     "ramFree",
     "discoPercent",
-    "discoFree",
+    "discoFree"
 ];
 const urlParams = new URLSearchParams(window.location.search);
 let maquina = urlParams.get("pk_maquina").replace(/-/g, ":");
@@ -24,12 +22,12 @@ const btn = document.querySelector(".btn-geral");
 axios
     .post("maquina/verificar-usuario", {
         id,
-        maquina,
+        maquina
     })
-    .then((response) => {
+    .then(response => {
         if (response.data?.status == "ok" && !response.data.msg) {
             console.log("usuario não possui acesso");
-            window.location.href = "dashboard.html";
+            window.location.href = "dashboard";
         } else if (response.data?.status == "erro") {
             console.log("Erro na verificação do usuario");
         }
@@ -40,7 +38,7 @@ mostrarAlerta("Selecione um ou mais componentes para o monitoramento", "info");
 let qtdComponentes = 0;
 let componentes = [];
 
-checkCpu.addEventListener("click", (e) => {
+checkCpu.addEventListener("click", e => {
     if (checkCpu.checked) {
         document.querySelector("#componentesCpu.lista-medicoes").style.display =
             "block";
@@ -49,7 +47,7 @@ checkCpu.addEventListener("click", (e) => {
             "none";
     }
 });
-checkMem.addEventListener("click", (e) => {
+checkMem.addEventListener("click", e => {
     if (checkMem.checked) {
         document.querySelector("#componentesMem.lista-medicoes").style.display =
             "block";
@@ -58,7 +56,7 @@ checkMem.addEventListener("click", (e) => {
             "none";
     }
 });
-checkDis.addEventListener("click", (e) => {
+checkDis.addEventListener("click", e => {
     if (checkDis.checked) {
         document.querySelector("#componentesDis.lista-medicoes").style.display =
             "block";
@@ -69,7 +67,7 @@ checkDis.addEventListener("click", (e) => {
 });
 
 for (let i = 1; i <= 7; i++) {
-    document.querySelector(`#medicao${i}`).addEventListener("click", (e) => {
+    document.querySelector(`#medicao${i}`).addEventListener("click", e => {
         esconderAlerta();
         if (document.querySelector(`#medicao${i}`).checked) {
             qtdComponentes++;
@@ -99,7 +97,7 @@ for (let i = 1; i <= 7; i++) {
             btn.classList.remove("cancelar");
         }
     });
-    const updateLabel = (i) => {
+    const updateLabel = i => {
         let valor = Number(document.querySelector(`#limite${i}`).value);
         if (document.querySelector(`#rangeValue${i}`)) {
             let index = componentes.indexOf(
@@ -110,9 +108,9 @@ for (let i = 1; i <= 7; i++) {
     };
     document
         .querySelector(`#limite${i}`)
-        .addEventListener("mousemove", (e) => updateLabel(i));
+        .addEventListener("mousemove", e => updateLabel(i));
 
-    document.querySelector(`#limite${i}`).addEventListener("keydown", (e) => {
+    document.querySelector(`#limite${i}`).addEventListener("keydown", e => {
         if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
             updateLabel(i);
         }
@@ -120,7 +118,7 @@ for (let i = 1; i <= 7; i++) {
 }
 
 // verificando lista de componentes existentes na máquina
-axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
+axios.post("/maquina/lista-componentes", {id: maquina}).then(result => {
     let components = result.data.msg;
 
     for (let c of components) {
@@ -178,7 +176,7 @@ axios.post("/maquina/lista-componentes", { id: maquina }).then((result) => {
     }
 });
 
-btn.addEventListener("click", (e) => {
+btn.addEventListener("click", e => {
     e.preventDefault();
     if (!btn.classList.contains("cancelar")) {
         let categorias = [];
@@ -195,19 +193,19 @@ btn.addEventListener("click", (e) => {
             let componente = window[`${tipo}`];
             let limite = window[`${tipo}Lim`];
             if (!componente.checked && Number(eval(`${tipo}Def`)) != 0) {
-                categorias.push({ nome, acao: "delete", limite: 0 });
+                categorias.push({nome, acao: "delete", limite: 0});
             } else if (Number(limite.value) != Number(eval(`${tipo}Def`))) {
                 if (Number(eval(`${tipo}Def`)) == 0 && componente.checked) {
                     categorias.push({
                         nome,
                         acao: "insert",
-                        limite: Number(limite.value),
+                        limite: Number(limite.value)
                     });
                 } else if (componente.checked) {
                     categorias.push({
                         nome,
                         acao: "update",
-                        limite: Number(limite.value),
+                        limite: Number(limite.value)
                     });
                 }
             }
@@ -215,16 +213,16 @@ btn.addEventListener("click", (e) => {
         axios
             .post("/maquina/componentes", {
                 id: maquina,
-                componentes: categorias,
+                componentes: categorias
             })
-            .then((response) => {
+            .then(response => {
                 console.log(response);
                 if (response.data?.status == "ok") {
                     mostrarAlerta(
                         "Componentes atualizados com sucesso",
                         "success"
                     );
-                    window.location.href = "dependentes.html";
+                    window.location.href = "dependentes";
                 } else {
                     mostrarAlerta(
                         "Erro na atualização dos componentes",

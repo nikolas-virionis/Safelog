@@ -16,36 +16,36 @@ emailInModal.value = email;
 const btnProsseguir = document.querySelector("#btn-prosseguir-modal");
 const btnCancelar = document.querySelector("#btn-cancelar-modal");
 
-emailInModal.addEventListener("keypress", (e) => {
+emailInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         tokenInModal.focus();
     }
 });
-tokenInModal.addEventListener("keypress", (e) => {
+tokenInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         btnProsseguir.click();
     }
 });
-btnProsseguir.addEventListener("click", async (e) => {
-    const { validateEmail } = await import("./email.js");
+btnProsseguir.addEventListener("click", async e => {
+    const {validateEmail} = await import("./email.js");
     if (!validateEmail(emailInModal.value))
         return mostrarAlerta("Email inválido", "danger");
     sessionStorage.setItem("email", emailInModal.value);
     axios
         .post("/usuario/verificacao", {
             email: emailInModal.value,
-            token: tokenInModal.value,
+            token: tokenInModal.value
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 mostrarAlerta("Usuário verificado com sucesso", "success");
                 sessionStorage.setItem(
                     "id_usuario",
                     response.data.msg.id_usuario
                 );
-                import("./modal.js").then(({ fecharModal }) =>
+                import("./modal.js").then(({fecharModal}) =>
                     fecharModal("modal-verify-token")
                 );
                 emailCadastro.value = sessionStorage.getItem("email");
@@ -54,8 +54,8 @@ btnProsseguir.addEventListener("click", async (e) => {
             }
         });
 });
-btnCancelar.addEventListener("click", async (e) => {
-    let { cancelarModal } = await import("./modal.js");
+btnCancelar.addEventListener("click", async e => {
+    let {cancelarModal} = await import("./modal.js");
     cancelarModal();
 });
 
@@ -76,13 +76,11 @@ for (let rede of redes) {
             }
         });
 
-    document
-        .getElementById(`input-${rede}`)
-        .addEventListener("keypress", (e) => {
-            if (e.key == "Enter") {
-                e.preventDefault();
-            }
-        });
+    document.getElementById(`input-${rede}`).addEventListener("keypress", e => {
+        if (e.key == "Enter") {
+            e.preventDefault();
+        }
+    });
 }
 
 const nome = document.querySelector("#inp-nome");
@@ -92,34 +90,34 @@ const btn = document.querySelector(".btn-geral");
 const form = document.querySelector("#form-cadastro");
 sessionStorage.removeItem("email");
 
-nome.addEventListener("keypress", (e) => {
+nome.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         emailCadastro.focus();
     }
 });
-emailCadastro.addEventListener("keypress", (e) => {
+emailCadastro.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         senha.focus();
     }
 });
-senha.addEventListener("keypress", (e) => {
+senha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         confirmarSenha.focus();
     }
 });
-confirmarSenha.addEventListener("keypress", (e) => {
+confirmarSenha.addEventListener("keypress", e => {
     if (e.key == "Enter") {
         e.preventDefault();
         confirmarSenha.blur();
     }
 });
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", async e => {
     e.preventDefault();
-    const { validateEmail } = await import("./email.js");
+    const {validateEmail} = await import("./email.js");
     if (!validateEmail(emailCadastro.value))
         return mostrarAlerta("Email inválido", "danger");
     if (senha.value !== confirmarSenha.value)
@@ -138,26 +136,26 @@ form.addEventListener("submit", async (e) => {
             nome: nome.value,
             email: emailCadastro.value,
             senha: senha.value,
-            contatos,
+            contatos
         })
-        .then((response) => {
+        .then(response => {
             if (response.data?.status == "ok") {
                 console.log("Cadastro final realizado com sucesso");
                 axios
                     .post("/auth/usuario", {
                         email: emailCadastro.value,
-                        senha: senha.value,
+                        senha: senha.value
                     })
-                    .then((resposta) => {
+                    .then(resposta => {
                         sessionStorage.clear();
                         if (resposta.data.status == "ok") {
                             console.log("Usuario logado");
-                            let { status, ...user } = resposta.data;
+                            let {status, ...user} = resposta.data;
                             sessionStorage.setItem(
                                 "usuario",
                                 JSON.stringify(user)
                             );
-                            window.location.href = "perfil.html";
+                            window.location.href = "perfil";
                         }
                     });
             }

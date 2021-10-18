@@ -801,4 +801,45 @@ router.post("/dados", async (req, res) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
+router.post("/permissao-acesso", async (req, res) => {
+    let {id, pk_maquina} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+
+    let sql = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, ${pk_maquina})`;
+    let selectUsuario = `SELECT nome, email FROM usuario WHERE id_usuario = ${id}`;
+    let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${pk_maquina}`;
+    await sequelize
+        .query(sql, {type: sequelize.QueryTypes.INSERT})
+        .then(async () => {
+            await sequelize
+                .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})
+                .then(async ([{nome, email}]) => {
+                    await sequelize
+                        .query(selectDados, {type: sequelize.QueryTypes.SELECT})
+                        .then(([{responsavel, nomeMaquina}]) => {
+                            mandarEmail("notificacao acesso", nome, email, [
+                                nomeMaquina,
+                                responsavel
+                            ])
+                                .then(() =>
+                                    res.json({
+                                        status: "ok",
+                                        msg: "Email de notificação enviado com sucesso"
+                                    })
+                                )
+                                .catch(err =>
+                                    res.json({status: "erro", msg: err})
+                                );
+                        })
+                        .catch(err => res.json({status: "erro", msg: err}));
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
+
 module.exports = router;

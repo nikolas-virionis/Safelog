@@ -71,7 +71,7 @@ public class formProcessos extends javax.swing.JFrame {
                     // formating double and long values
                     String usoCpuStr = String.format("%.2f", proc.getUsoCpu());
                     String usoMemStr = String.format("%.2f", proc.getUsoMemoria());
-                    String str = " %-30s %-10s %-10s %-10s ";
+                    String str = " %-30.28s %-10s %-10s %-10s ";
                     str = String.format(str, proc.getNome(), usoCpuStr, usoMemStr, proc.getPid());
                     
                     // adding formated proc on List

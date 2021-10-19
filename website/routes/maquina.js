@@ -289,7 +289,7 @@ router.post("/lista-usuarios", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT id_usuario, nome, email FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND fk_maquina = ${id}`;
+    let sql = `SELECT id_usuario, nome, email FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND fk_maquina = ${id} AND responsavel = 'n'`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
@@ -367,7 +367,7 @@ router.post("/convite", async (req, res) => {
                                                                 .then(() => {
                                                                     res.json({
                                                                         status: "ok",
-                                                                        msg: "Usuário com acesso à maquina"
+                                                                        msg: "Acesso garantido à maquina"
                                                                     });
                                                                 })
                                                                 .catch(err => {

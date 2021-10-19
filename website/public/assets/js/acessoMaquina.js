@@ -78,6 +78,45 @@ axios
                             });
                     }
                 });
+
+                btnResp.addEventListener("click", e => {
+                    let confirmar = confirm(
+                        `Você realmente deseja tornar ${nome} o responsável pela máquina? 
+                        Você se tornará um usuário comum dela`
+                    );
+                    if (confirmar) {
+                        axios
+                            .post("/usuario/dados", {
+                                id: id_usuario
+                            })
+                            .then(({data: {status, msg}}) => {
+                                if (status === "ok") {
+                                    axios
+                                        .post(
+                                            "/usuario/transferencia-responsavel",
+                                            {
+                                                email: msg.email,
+                                                maquina: pkMaquina,
+                                                del: false
+                                            }
+                                        )
+                                        .then(({data: {status, msg}}) => {
+                                            if (status === "ok") {
+                                                mostrarAlerta(msg, "success");
+                                                setTimeout(() => {
+                                                    window.location.href =
+                                                        "dependentes";
+                                                }, 2000);
+                                            } else {
+                                                console.error(msg);
+                                            }
+                                        });
+                                } else {
+                                    console.error(msg);
+                                }
+                            });
+                    }
+                });
             });
         } else {
             mostrarAlerta("Erro no gerenciamento de usuario", "danger");

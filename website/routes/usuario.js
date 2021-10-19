@@ -758,7 +758,7 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                             .then(() => {
                                                                 res.json({
                                                                     status: "ok",
-                                                                    msg: "Email de acesso de responsavel por maquina enviado com sucesso"
+                                                                    msg: "Permissão de usuário transferida com sucesso"
                                                                 });
                                                             })
                                                             .catch(err => {

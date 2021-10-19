@@ -104,11 +104,13 @@
                             let tbBtn = document.createElement("td");
                             let excluirBtnLbl = document.createElement("i");
                             let excluirBtn = document.createElement("button");
+                            let acessoBtn = document.createElement("button");
+                            let acessoBtnLbl = document.createElement("i");
                             excluirBtnLbl.classList = "fas fa-trash-alt";
                             excluirBtn.classList = "btn-nav-dash-red";
                             excluirBtn.appendChild(excluirBtnLbl);
                             excluirBtn.title = "Remover acesso à máquina";
-                            tbBtn.appendChild(excluirBtn);
+                            
 
                             if (
                                 nomeUsuario.innerText == dependente.responsavel
@@ -124,17 +126,18 @@
                                 editarBtn.appendChild(editarBtnLbl);
                                 editarBtn.title = "Editar máquina";
 
-                                let acessoBtn =
-                                    document.createElement("button");
-                                let acessoBtnLbl = document.createElement("i");
                                 acessoBtn.classList = "btn-dash-acesso";
                                 acessoBtnLbl.classList = "fas fa-user-cog";
                                 acessoBtn.appendChild(acessoBtnLbl);
                                 acessoBtn.title = "Gerenciar acessos";
+                                acessoBtn.addEventListener("click", ()=>{
+                                    window.location.href = `acesso-maquina?pk_maquina=${dependente.pk_maquina}`;
+                                });
+
                                 tbBtn.appendChild(editarBtn);
                                 tbBtn.appendChild(acessoBtn);
                             }
-
+                            tbBtn.appendChild(excluirBtn);
                             tbId.innerHTML = `${dependente.id_maquina}`;
                             tbNome.innerHTML = `${dependente.nome}`;
                             tbResp.innerHTML = `${dependente.responsavel}`;
@@ -143,6 +146,7 @@
                             tr.appendChild(tbResp);
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
+
 
                             // evento click para deletar máquina
                             excluirBtn.addEventListener("click", function () {

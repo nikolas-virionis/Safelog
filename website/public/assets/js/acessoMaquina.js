@@ -1,0 +1,44 @@
+const urlParams = new URLSearchParams(window.location.search);
+const pkMaquina = Number(urlParams.get("pk_maquina"));
+
+axios.post("/maquina/lista-usuarios", { 
+    id: pkMaquina 
+}).then(({data: {status, msg}}) => {
+    
+    msg.forEach(registro => {
+        console.log(registro);
+        let tr = document.createElement("tr");
+        let tdNome = document.createElement("td");
+        let tdEmail = document.createElement("td");
+        let tdBotoes = document.createElement("td");
+        
+        let btnStar = document.createElement("button");
+        btnStar.classList.add("btn-nav-dash-yellow");
+        let btnTimes = document.createElement("button");
+        btnTimes.classList.add("btn-nav-dash-red");
+        
+        let starLbl = document.createElement("i");
+        starLbl.classList = "fas fa-star";
+        let timesLbl = document.createElement("i");
+        timesLbl.classList = "fas fa-times";
+
+        tdNome.innerHTML = registro.nome;
+        tdEmail.innerHTML = registro.email;
+
+        btnStar.appendChild(starLbl);
+        btnTimes.appendChild(timesLbl);
+
+        tdBotoes.appendChild(btnStar);
+        tdBotoes.appendChild(btnTimes);
+
+        tr.appendChild(tdNome);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdBotoes);
+
+        document.querySelector("#tblAcessoMaq").appendChild(tr);
+        
+    });
+
+
+
+});

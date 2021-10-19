@@ -68,6 +68,22 @@ h6 {
   transform: scale(1.08);
 }
 
+.btn-nav-dash-yellow {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background-color: #ffaa00;
+  color: #fff;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+}
+
+.btn-nav-dash-yellow:hover {
+  background-color: #bf8000;
+  transform: scale(1.08);
+}
+
 .btn-dash-acesso{
   border-radius: 100%;
   padding: 0 10px;
@@ -478,4 +494,17 @@ label {
 
 .acesso .card-login{
   width: 50vw;
+}
+
+.icon-acesso{
+  font-size: 30px;
+  margin: 0 20px 0 0; 
+  background-color: #0071ce;
+  color: #fff;
+  padding: 15px 15px;
+  border-radius: 100%;
+}
+
+.titulo-acesso{
+  font-size: 30px;
 }

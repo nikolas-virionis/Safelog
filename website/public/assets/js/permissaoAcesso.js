@@ -11,6 +11,9 @@ const btnCancelar = document.querySelector("#btn-cancelar-modal");
 const btnAceitar = document.querySelector(".botoes button.btn-geral");
 const btnRecusar = document.querySelector(".botoes button.cancelar");
 const msgSolicitacao = document.querySelector(".card-login div.coluna span");
+
+
+
 msgSolicitacao.style.textAlign = "center";
 emailInModal.addEventListener("keypress", e => {
     if (e.key == "Enter") {

@@ -270,6 +270,9 @@ h6 {
 #modal-alterar-senha {
   display: none;
 }
+#modal-invite-user{
+  display: none;
+}
 
 .display-perfil {
   width: 90%;

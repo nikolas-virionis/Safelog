@@ -1,12 +1,17 @@
 const urlParams = new URLSearchParams(window.location.search);
 const pkMaquina = Number(urlParams.get("pk_maquina"));
 
+axios.post("/maquina/dados", {
+    maquina: pkMaquina
+}).then(({data: {status, msg}}) => {
+    document.querySelector(".titulo-acesso").innerHTML = msg.nome
+});
+
 axios.post("/maquina/lista-usuarios", { 
     id: pkMaquina 
 }).then(({data: {status, msg}}) => {
     
     msg.forEach(registro => {
-        console.log(registro);
         let tr = document.createElement("tr");
         let tdNome = document.createElement("td");
         let tdEmail = document.createElement("td");
@@ -39,6 +44,20 @@ axios.post("/maquina/lista-usuarios", {
         
     });
 
-
-
 });
+
+
+document.querySelector("#btnAddUser").addEventListener("click", () => {
+    import("./modal.js").then(({abrirModal}) =>
+        abrirModal("modal-invite-user")
+    );
+});
+
+
+const btnCancelar = document.querySelector("#btn-cancelar-modal");
+
+btnCancelar.addEventListener("click", e =>
+    import("./modal.js").then(({fecharModal}) =>
+        fecharModal("modal-invite-user")
+    )
+);

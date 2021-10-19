@@ -42,6 +42,20 @@ axios.post("/maquina/lista-usuarios", {
 
         document.querySelector("#tblAcessoMaq").appendChild(tr);
         
+        
+        
+        btnTimes.addEventListener("click", (e) => {
+            let confirmar = confirm(`Você realmente deseja tirar o acesso de ${registro.nome}`)
+            if(confirmar){
+                axios.post("/usuario/remocao-acesso", {
+                    id: registro.id_usuario,
+                    maquina: pkMaquina
+                }).then((e)=>{
+                    mostrarAlerta("Acesso removido com sucesso", "success");
+                    setTimeout(()=>{ window.location.reload() } ,1000 );
+                });
+            }
+        });
     });
 
 });

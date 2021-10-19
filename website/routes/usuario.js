@@ -592,7 +592,7 @@ router.post("/remocao-acesso", async (req, res) => {
                         })
                         .then(() => {
                             mandarEmail(
-                                "notificacao remocao acesso",
+                                "notificação remoção acesso",
                                 nome,
                                 email,
                                 [nomeMaquina, responsavel]

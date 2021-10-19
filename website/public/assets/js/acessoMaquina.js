@@ -1,5 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const pkMaquina = Number(urlParams.get("pk_maquina"));
+const btnCancelar = document.querySelector("#btn-cancelar-modal");
+const btnConvidar = document.querySelector("#btn-prosseguir-modal");
+const emailConvite = document.querySelector("#email-convite");
+let reload = false;
 
 axios
     .post("/maquina/dados", {
@@ -20,6 +24,7 @@ axios
     .then(({data: {status, msg}}) => {
         if (status === "ok") {
             let tbUsuarios = document.querySelector("#tblAcessoMaq");
+
             msg.forEach(({nome, email, id_usuario}) => {
                 let tr = document.createElement("tr");
                 let tdNome = document.createElement("td");
@@ -67,6 +72,8 @@ axios
                                     setTimeout(() => {
                                         window.location.reload();
                                     }, 2000);
+                                } else {
+                                    console.error(msg);
                                 }
                             });
                     }
@@ -83,10 +90,38 @@ document.querySelector("#btnAddUser").addEventListener("click", () => {
     );
 });
 
-const btnCancelar = document.querySelector("#btn-cancelar-modal");
-
 btnCancelar.addEventListener("click", e =>
-    import("./modal.js").then(({fecharModal}) =>
-        fecharModal("modal-invite-user")
-    )
+    import("./modal.js").then(({fecharModal}) => {
+        fecharModal("modal-invite-user");
+        if (reload) window.location.reload();
+    })
 );
+
+emailConvite.addEventListener("keypress", e => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        btnConvidar.click();
+    }
+});
+
+btnConvidar.addEventListener("click", async e => {
+    const {validateEmail} = await import("./email.js");
+    if (!emailConvite.value) return;
+    if (!validateEmail(emailConvite.value))
+        return mostrarAlerta("Email inválido", "danger");
+    axios
+        .post("/maquina/convite", {
+            email: emailConvite.value,
+            maquina: pkMaquina
+        })
+        .then(({data: {status, msg}}) => {
+            if (status == "ok") {
+                mostrarAlerta(msg, "success");
+                emailConvite.value = "";
+                reload = true;
+            } else {
+                mostrarAlerta("Erro no convite do usuario", "danger");
+                console.error("ERRO:", msg);
+            }
+        });
+});

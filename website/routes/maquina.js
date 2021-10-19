@@ -367,7 +367,7 @@ router.post("/convite", async (req, res) => {
                                                                 .then(() => {
                                                                     res.json({
                                                                         status: "ok",
-                                                                        msg: "Usuário com acesso à maquina"
+                                                                        msg: "Acesso garantido à maquina"
                                                                     });
                                                                 })
                                                                 .catch(err => {

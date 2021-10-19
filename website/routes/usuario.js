@@ -590,9 +590,9 @@ router.post("/remocao-acesso", async (req, res) => {
                         .query(deleteAcesso, {
                             type: sequelize.QueryTypes.DELETE
                         })
-                        .then(() => {
-                            mandarEmail(
-                                "notificação remoção acesso",
+                        .then(async () => {
+                            await mandarEmail(
+                                "notificacao remocao acesso",
                                 nome,
                                 email,
                                 [nomeMaquina, responsavel]

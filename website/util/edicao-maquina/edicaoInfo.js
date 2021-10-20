@@ -1,4 +1,5 @@
 let sequelize = require("../../models").sequelize;
+const {mandarEmail} = require("../email/email");
 const edicaoMaquina = async (
     idAtual,
     novoId,
@@ -70,4 +71,18 @@ const edicaoMaquina = async (
     }
 };
 
-module.exports = {edicaoMaquina};
+const emailUsuarios = async usuarios => {
+    let resp;
+    for (let usuario of usuarios) {
+        if (usuario.responsavel == "s") {
+            resp = {...usuario};
+            continue;
+        }
+        let {nome, email} = usuario;
+        await mandarEmail("notificacao edicao maquina", nome, email, [
+            resp.nome
+        ]);
+    }
+};
+
+module.exports = {edicaoMaquina, emailUsuarios};

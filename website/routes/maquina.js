@@ -3,7 +3,10 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {mandarEmail} = require("../util/email/email");
-const {edicaoMaquina} = require("../util/edicao-maquina/edicaoInfo");
+const {
+    edicaoMaquina,
+    emailUsuarios
+} = require("../util/edicao-maquina/edicaoInfo");
 
 router.post("/cadastro", async (req, res, next) => {
     let {id, id_maquina, nome, senha, empresa} = req.body;
@@ -461,32 +464,20 @@ router.post("/update", async (req, res, next) => {
                                 .query(sql, selectType)
                                 .then(async usuarios => {
                                     if (usuarios.length - 1) {
-                                        let resp;
-                                        for (let usuario of usuarios) {
-                                            if (usuario.responsavel == "s") {
-                                                resp = {...usuario};
-                                                continue;
-                                            }
-                                            let {nome, email} = usuario;
-                                            mandarEmail(
-                                                "notificacao edicao maquina",
-                                                nome,
-                                                email,
-                                                [resp.nome]
-                                            )
-                                                .then(() =>
-                                                    res.json({
-                                                        status: "ok",
-                                                        msg: "Maquina editada e email enviado aos usuarios relacionados"
-                                                    })
-                                                )
-                                                .catch(err =>
-                                                    res.json({
-                                                        status: "erro",
-                                                        msg: err
-                                                    })
-                                                );
-                                        }
+                                        // res.json({status: "ok", msg: "oi"});
+                                        return emailUsuarios(usuarios)
+                                            .then(() => {
+                                                res.json({
+                                                    status: "ok",
+                                                    msg: "Emails de notificação de edição de máquina enviados"
+                                                });
+                                            })
+                                            .catch(err => {
+                                                res.json({
+                                                    status: "erro",
+                                                    msg: err
+                                                });
+                                            });
                                     } else {
                                         res.json({
                                             status: "ok",

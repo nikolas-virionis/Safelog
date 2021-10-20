@@ -2,17 +2,17 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
         integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/dashboard.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="assets/css/sidebar.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
 
     <!-- chartjs src -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -22,14 +22,14 @@
     <div class="sidebar close">
         <div class="logo-details">
             <div>
-                <img src="assets/img/logo/logo-icon-branco.png" alt="">
+                <img src="assets/img/logo/logo-icon-branco.png" alt="" />
             </div>
-            <span class="logo_name"><img src="assets/img/logo/logo-escrita-branco.png" alt=""></span>
+            <span class="logo_name"><img src="assets/img/logo/logo-escrita-branco.png" alt="" /></span>
         </div>
         <ul class="nav-links">
             <li class="li-selected">
                 <a href="dashboard">
-                    <i class='bx bxs-bar-chart-alt-2'></i>
+                    <i class="bx bxs-bar-chart-alt-2"></i>
                     <span class="link_name">Dashboard</span>
                 </a>
                 <ul class="sub-menu blank">
@@ -38,7 +38,7 @@
             </li>
             <li class="li-not-selected">
                 <a href="perfil">
-                    <i class='bx bxs-user'></i>
+                    <i class="bx bxs-user"></i>
                     <span class="link_name">Perfil</span>
                 </a>
                 <ul class="sub-menu blank">
@@ -47,7 +47,7 @@
             </li>
             <li class="li-not-selected">
                 <a href="relatorio">
-                    <i class='bx bx-paperclip'></i>
+                    <i class="bx bx-paperclip"></i>
                     <span class="link_name">Relatório</span>
                 </a>
                 <ul class="sub-menu blank">
@@ -56,7 +56,7 @@
             </li>
             <li class="li-not-selected">
                 <a href="dependentes">
-                    <i class='bx bxs-group'></i>
+                    <i class="bx bxs-group"></i>
                     <span class="link_name">Dependentes</span>
                 </a>
                 <ul class="sub-menu blank">
@@ -64,12 +64,12 @@
                 </ul>
             </li>
             <li class="seta">
-                <div class="iocn-link ">
+                <div class="iocn-link">
                     <a href="#" class="seta">
                         <i class="fab fa-java"></i>
                         <span class="link_name">Client Java</span>
                     </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
+                    <i class="bx bxs-chevron-down arrow"></i>
                 </div>
                 <ul class="sub-menu">
                     <li><a class="link_name" href="#">Client Java</a></li>
@@ -80,7 +80,7 @@
             <li>
                 <div class="profile-details">
                     <div class="profile-content">
-                        <img class="profilePic" src="" alt="profileImg">
+                        <img class="profilePic" src="" alt="profileImg" />
                     </div>
                     <div class="name-job">
                         <div class="profile_name">Kaique</div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="icon-exit">
                         <a href="/">
-                            <i class='bx bx-log-out'></i>
+                            <i class="bx bx-log-out"></i>
                         </a>
                     </div>
                 </div>
@@ -96,19 +96,17 @@
         </ul>
     </div>
     <section class="home-section">
-
         <!-- HEADER -->
-        <!-- <div class="navbar-dashboard">
+        <div class="navbar-dashboard">
             <div class="barra-pesquisa">
                 <input type="search" name="" value="" placeholder="Buscar">
                 <button type="submit" class="btn-nav-dash"><i class="fas fa-search"></i></button>
             </div>
-        </div> -->
+        </div>
 
         <div class="container-site" id="contSite">
             <div class="container-site">
                 <div class="dashboard-maquinas" id="listaMaq">
-
                     <!-- <input type="radio" id="server1" name="forma-contato" value="" checked />
                     <label for="server1" class="card-maquina">
                         <div>
@@ -118,33 +116,32 @@
                             <span>Server 1</span>
                         </div>
                     </label> -->
-                    
                 </div>
             </div>
         </div>
 
         <!-- CPU graph -->
         <div class="charts">
-            <div class="canvas-destaque">
-                <canvas id="idChart1" class="canvas-chart"></canvas>
-            </div>
             <div class="container-site">
-                <div class="linha">
-                    <div class="col-6 centralizar">
-                        <div class="canvas-container">
-                            <canvas id="idChart3" class="canvas-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-6 centralizar">
-                        <div class="canvas-container">
-                            <canvas id="idChart2" class="canvas-chart"></canvas>
-                        </div>
-                    </div>
+                <div class="canvas-destaque">
+                    <h2>CPU</h2>
+                    <canvas id="idChart1" class="canvas-chart"></canvas>
                 </div>
+                
+                <div class="canvas-destaque">
+                    <h2>Disco</h2>
+                    <canvas id="idChart3" class="canvas-chart"></canvas>
+                </div>
+                
+                <div class="canvas-destaque">
+                    <h2>Memória</h2>
+                    <canvas id="idChart2" class="canvas-chart"></canvas>
+                </div>
+
             </div>
         </div>
-
     </section>
+    <div id="alerta"></div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/dashboard-charts.js"></script>
     <script src="./assets/js/dashboard.js"></script>

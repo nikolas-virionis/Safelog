@@ -348,7 +348,7 @@ span {
   -webkit-transition: 0.2s;
   white-space: nowrap;
   height: 10vh;
-  border-left: 2px solid var(--cor-princial);
+  border-left: 3px solid var(--cor-princial);
 }
 .card-maquina:hover {
   -webkit-transition: 0.1s;
@@ -358,6 +358,38 @@ span {
   font-size: 17px;
   margin: 5px;
 }
+
+.card-maquina.warning{
+  background-color: #ffe8bb;
+  border-left: 3px solid #ffaa00;
+}
+.card-maquina.warning:hover {
+  -webkit-transition: 0.1s;
+  border-left: 10px solid #ffaa00;
+}
+
+.dashboard-maquinas input[type="radio"]:checked + label.warning {
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  border-left: 10px solid #ffaa00;
+}
+
+
+.card-maquina.danger{
+  background-color: #f8bdb9;
+  border-left: 3px solid #eb4034;
+}
+.card-maquina.danger:hover {
+  -webkit-transition: 0.1s;
+  border-left: 10px solid #eb4034;
+}
+
+.dashboard-maquinas input[type="radio"]:checked + label.danger {
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  border-left: 10px solid #eb4034;
+}
+
 
 .lista-componentes {
   margin: 10px 0px 30px 0px;

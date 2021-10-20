@@ -28,7 +28,7 @@ PREPARE stmt FROM @sql;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
-SELECT * FROM v_analytics ORDER BY data_medicao DESC LIMIT 10; -- sempre ordenar por data
+SELECT * FROM v_analytics where nome ='Servidor1' ORDER BY data_medicao DESC LIMIT 10 ; -- sempre ordenar por data
 
 -- insert novo tipo
 INSERT INTO tipo_medicao VALUES(null, 'teste_1', 't1'); -- não inserir tipos contendo " "

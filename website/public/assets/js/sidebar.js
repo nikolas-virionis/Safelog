@@ -1,8 +1,12 @@
-let arrow = document.querySelectorAll(".arrow");
+let arrow = document.querySelectorAll(".seta");
 arrow.forEach(arr => {
-    arr.addEventListener("click", e => {
-        let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-        arrowParent.classList.toggle("showMenu");
+    arr.addEventListener("mouseenter", e => {
+        let arrowParent = e.target; //selecting main parent of arrow
+        arrowParent.classList.add("showMenu");
+    });
+    arr.addEventListener("mouseleave", e => {
+        let arrowParent = e.target; //selecting main parent of arrow
+        arrowParent.classList.remove("showMenu");
     });
 });
 let sidebar = document.querySelector(".sidebar");

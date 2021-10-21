@@ -162,9 +162,9 @@ INSERT INTO
     categoria_medicao
 VALUES
     (NULL, 60, 1, 1),
-    (NULL, 115, 1, 2),
+    (NULL, 105, 1, 2),
     (NULL, 70, 1, 3),
     (NULL, 80, 1, 4),
-    (NULL, 0.9, 1, 5),
+    (NULL, 0.1, 1, 5),
     (NULL, 80, 1, 6),
-    (NULL, 100, 1, 7);
+    (NULL, 1, 1, 7);

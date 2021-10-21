@@ -2,7 +2,6 @@ import mysql.connector
 from credentials import usr, pswd
 from getmac import get_mac_address as mac_addr
 import pandas as pd
-from credentials import db_connection
 
 
 def get_tipo(tipo, medicao, limite):
@@ -35,11 +34,10 @@ def insert_db(value):
             for medicao in medicoes:
                 sql = f"""SELECT id_categoria_medicao, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '{medicao["tipo"]}' AND fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')"""
 
-                sql = pd.read_sql(sql, con=db_connection)
+                sql = pd.read_sql(sql, con=mydb)
                 fk, limite = sql["id_categoria_medicao"][0], sql["medicao_limite"][0]
 
                 sql_query = f"""INSERT INTO medicao VALUES (NULL, {medicao["medicao"]}, '{get_tipo(medicao["tipo"], medicao["medicao"], limite)}', '{data}', {fk})"""
-                print(sql_query)
 
                 mycursor.execute(sql_query)
 

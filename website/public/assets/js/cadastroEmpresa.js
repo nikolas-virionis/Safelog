@@ -53,12 +53,15 @@ const validarEmpresa = () => {
             staff: JSON.parse(sessionStorage.getItem("staff")).id,
         })
         .then((response) => {
+            console.log(response.data)
             if (response.data?.status == "ok") {
-                console.log("Empresa cadastrada");
-                let reload = confirm(
-                    "Empresa cadastrada com sucesso, Aperte ok, para cadastrar *nova* empresa"
-                );
-                if (reload) window.location.reload();
-            } else console.log("Empresa ja cadastrada");
+                mostrarAlerta(response.data.msg, "success")
+                setTimeout(() => {
+                    window.location.reload();
+                },1000)
+            } else if (response.data?.status === "alerta") {
+                console.log(response.data.msg);
+                mostrarAlerta(response.data.msg, "warning");
+            };
         });
 };

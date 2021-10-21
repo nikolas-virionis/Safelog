@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="assets/css/dashboard.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
 
-    <!-- chartjs src -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 </head>
 
 <body>
@@ -122,29 +121,31 @@
 
         <!-- CPU graph -->
         <div class="charts">
-            <div class="container-site">
-                <div class="canvas-destaque">
+            <div class="container-site" id="graficosDash">
+                <!-- <div class="canvas-destaque">
                     <h2>CPU</h2>
-                    <canvas id="idChart1" class="canvas-chart"></canvas>
+                    <canvas id="idChart1"></canvas>
                 </div>
                 
                 <div class="canvas-destaque">
                     <h2>Disco</h2>
-                    <canvas id="idChart3" class="canvas-chart"></canvas>
+                    <canvas id="idChart3"></canvas>
                 </div>
                 
                 <div class="canvas-destaque">
                     <h2>Memória</h2>
-                    <canvas id="idChart2" class="canvas-chart"></canvas>
-                </div>
+                    <canvas id="idChart2"></canvas>
+                </div> -->
 
             </div>
         </div>
     </section>
     <div id="alerta"></div>
+    <!-- chartjs src -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="./assets/js/dashboard-charts.js"></script>
     <script src="./assets/js/dashboard.js"></script>
+    <script src="./assets/js/dashboard-charts.js"></script>
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>

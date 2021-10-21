@@ -31,7 +31,7 @@
                     <li><a href="index#sobre">Sobre</a></li>
                     <li><a href="index#time">Dev Team</a></li>
                     <li><a href="index#contato">Contato</a></li>
-                    <li class="btn-nav"><a href="login">Login</li></a>
+                    <li class="btn-nav" id="btnLogin"><a href="login">Login</li></a>
                 </ul>
             </div>
         </div>
@@ -401,3 +401,10 @@
 </body>
 
 </html>
+
+
+<script>
+    document.querySelector("#btnLogin").addEventListener("click", () => {
+        window.location.href = "login";
+    })
+</script>

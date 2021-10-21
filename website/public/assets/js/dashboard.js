@@ -4,7 +4,6 @@ axios.post("/maquina/lista-dependentes", {
     let { status, res: dependentes } = response.data;
     if (status == "ok") {
 
-        console.log(dependentes)
         if (dependentes.length > 0) {
             let titulo = document.createElement("h2");
             if (dependentes.length == 1) {
@@ -24,10 +23,7 @@ axios.post("/maquina/lista-dependentes", {
             inputMaq.setAttribute("type", "radio");
             inputMaq.setAttribute("id", maq.id_maquina);
             inputMaq.setAttribute("name", "forma-contato");
-            if (response.data.res[0].id_maquina == maq.id_maquina) {
-                inputMaq.setAttribute("checked", "checked");
-                resgatarComponentes();
-            }
+            
 
             //label
             let labelMaq = document.createElement("label");
@@ -53,12 +49,9 @@ axios.post("/maquina/lista-dependentes", {
 
 
 
-            labelMaq.addEventListener("click", (e) => {
-                document.querySelector("#graficosDash").innerHTML = "";
-                resgatarComponentes();
-            });
+            
 
-            function resgatarComponentes() {
+            const resgatarComponentes = () => {
                 axios.post("/maquina/lista-componentes", {
                     id: maq.pk_maquina
                 }).then(({ data }) => {
@@ -71,17 +64,33 @@ axios.post("/maquina/lista-dependentes", {
                             let canvasChart = document.createElement("canvas");
                             canvasChart.setAttribute("id", `${componente.tipo}${maq.pk_maquina}`);
                             divChart.appendChild(canvasChart);
-
-                            document.querySelector("#graficosDash").appendChild(divChart);
-
-                         
                             
+                            document.querySelector("#graficosDash").innerHTML += `<h2>${componente.tipo}</h2>`;
+                            document.querySelector("#graficosDash").appendChild(divChart);
+                            setTimeout(()=>{
+                                mostrarGraficos(`${componente.tipo}${maq.pk_maquina}`);
+                            },10);
                         });
                     } else {
                         mostrarAlerta("Ocorreu um erro ao resgatar os componentes dessa máquina", "danger");
                     }
                 });
             }
+
+            if (response.data.res[0].id_maquina == maq.id_maquina) {
+                inputMaq.setAttribute("checked", "checked");
+                resgatarComponentes();
+            }
+
+            labelMaq.addEventListener("click", (e) => {
+                document.querySelector("#graficosDash").innerHTML = "";
+                resgatarComponentes();
+            });
+            
+            inputMaq.addEventListener("change", (e) => {
+                document.querySelector("#graficosDash").innerHTML = "";
+                // apagarGraficos();
+            });
         });
     } else {
         mostrarAlerta("Ocorreu um erro", "danger");

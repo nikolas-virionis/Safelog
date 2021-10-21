@@ -118,7 +118,7 @@ router.post("/verificar-usuario", async (req, res) => {
                 msg: resposta
             })
         )
-        .catch(err => res.json({status: "erro", err}));
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/componentes", async (req, res) => {

@@ -80,7 +80,7 @@ router.post("/medicoes-componente", async (req, res, next) => {
             let medicoes = [];
             for (let lap of response) {
                 let {id_categoria_medicao: categoria} = lap;
-                let medicao = `select medicao.data_medicao, medicao.valor, medicao.tipo, tipo_medicao.tipo, tipo_medicao.unidade from medicao inner join categoria_medicao on id_categoria_medicao = fk_categoria_medicao inner join tipo_medicao on id_tipo_medicao = fk_tipo_medicao where id_categoria_medicao = ${categoria} order by data_medicao, tipo_medicao.tipo desc limit 10`;
+                let medicao = `select medicao.data_medicao, medicao.valor, medicao.tipo, tipo_medicao.tipo, tipo_medicao.unidade from medicao inner join categoria_medicao on id_categoria_medicao = fk_categoria_medicao inner join tipo_medicao on id_tipo_medicao = fk_tipo_medicao where id_categoria_medicao = ${categoria} order by data_medicao desc limit 10`;
                 await sequelize
                     .query(medicao, {type: sequelize.QueryTypes.SELECT})
                     .then((result) => {

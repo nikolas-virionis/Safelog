@@ -64,7 +64,8 @@ axios.post("/maquina/lista-dependentes", {
                             data.msg.forEach(componente => {
                                 let listaMedicao = [];
                                 let listaDatas = [];
-                                for(var i = 0; i < res.data.msg.length; i++) {
+
+                                for(var i = res.data.msg[contadorComponente].length - 1; i >= 0 ; i--) {
                                     listaMedicao.push(res.data.msg[contadorComponente][i].valor);
                                     let data = res.data.msg[contadorComponente][i].data_medicao;
                                     listaDatas.push(data.slice(data.length - 13, data.length - 5));

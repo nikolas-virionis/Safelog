@@ -413,7 +413,7 @@ router.post("/delete", async (req, res, next) => {
     let {id} = req.body;
     if (!req.body) {
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     }

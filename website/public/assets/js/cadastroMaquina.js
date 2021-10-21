@@ -59,10 +59,10 @@ btn.addEventListener("click", e => {
         .then(response => {
             console.log(response);
             if (response.data?.status == "ok") {
-                mostrarAlerta("Maquina registrada com sucesso", "success");
+                mostrarAlerta(response.data?.msg, "success");
                 window.location.href = `componentes?pk_maquina=${response.data.pk_maquina}`;
-            } else {
-                mostrarAlerta("Erro no cadastro da máquina", "danger");
+            } else if(response.data?.status == "alerta") {
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });

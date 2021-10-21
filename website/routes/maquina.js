@@ -118,7 +118,7 @@ router.post("/verificar-usuario", async (req, res) => {
                 msg: resposta
             })
         )
-        .catch(err => res.json({status: "erro", err}));
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/componentes", async (req, res) => {
@@ -172,7 +172,7 @@ router.post("/lista-componentes", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = ${id}`;
+    let sql = `SELECT id_categoria_medicao, tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = '${id}' `;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})

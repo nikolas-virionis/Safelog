@@ -21,7 +21,7 @@ router.post("/convite", async (req, res, next) => {
     const {email, cargo, fk_empresa, fk_supervisor} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -36,7 +36,7 @@ router.post("/cadastro-final", async (req, res, next) => {
     const {id, nome, email, senha, contatos} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -67,7 +67,7 @@ router.post("/pessoas-dependentes", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     let dependentes = `SELECT id_usuario, nome, email FROM usuario WHERE fk_supervisor = ${id}`;
@@ -81,7 +81,7 @@ router.post("/perfil", async (req, res, next) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -95,15 +95,17 @@ router.post("/perfil", async (req, res, next) => {
                 .query(sqlContatos, {type: sequelize.QueryTypes.SELECT})
                 .then(result => {
                     res.json({status: "ok", ...response, contatos: result});
-                });
-        });
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/edicao-perfil", async (req, res) => {
     let {id, nome, email, contatos} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -138,7 +140,7 @@ router.post("/edicao-perfil", async (req, res) => {
                                 .then(resposta => {})
                                 .catch(err =>
                                     res.json({
-                                        status: "erro",
+                                        status: "alerta",
                                         msg: "Erro no insert de forma de contato nova"
                                     })
                                 );
@@ -154,7 +156,7 @@ router.post("/edicao-perfil", async (req, res) => {
                         .then(resposta => {})
                         .catch(err =>
                             res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "Erro no update de forma de contato"
                             })
                         );
@@ -169,7 +171,7 @@ router.post("/edicao-perfil", async (req, res) => {
                         .then(resposta => {})
                         .catch(err =>
                             res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "Erro no delete de forma de contato"
                             })
                         );
@@ -186,7 +188,7 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
     let {email} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     let emStaff;
@@ -195,7 +197,7 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
     await checarEmUsuario(email).then(bool => (emUsuario = bool));
     if (!emUsuario && !emStaff)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Usuário não registrado"
         });
     let tb;
@@ -222,24 +224,26 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
                             })
                         )
                         .catch(err => res.json({status: "erro", msg: err}))
-                );
-        });
+                )
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/redefinir-senha", async (req, res) => {
     let {senha, tb, id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     let checar;
-    await eval(`checarEm${tb.charAt(0).toUpperCase() + tb.slice(1)}`)(id).then(
-        bool => (checar = bool)
-    );
+    await eval(`checarEm${tb.charAt(0).toUpperCase() + tb.slice(1)}`)(id)
+        .then(bool => (checar = bool))
+        .catch(err => res.json({status: "erro", msg: err}));
     if (!checar)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Usuario não pertencente à entidade informada"
         });
     let atualizarSenha = `UPDATE ${tb} SET senha = MD5('${senha}') WHERE id_${tb} = '${id}'`;
@@ -255,7 +259,7 @@ router.post("/verificacao-senha-atual", async (req, res) => {
     let {id, senha} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -277,10 +281,11 @@ router.post("/verificacao-senha-atual", async (req, res) => {
                             status: "ok",
                             msg: "email de redefinição de senha enviado com sucesso"
                         });
-                    });
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
                 res.json({status: "ok", msg: "Senha correta"});
             } else {
-                res.json({status: "erro", msg: "Senha incorreta"});
+                res.json({status: "alerta", msg: "Senha incorreta"});
             }
         })
         .catch(err => res.json({status: "erro", msg: err}));
@@ -290,7 +295,7 @@ router.post("/acesso-maquina", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -301,7 +306,7 @@ router.post("/acesso-maquina", async (req, res) => {
         .then(async ([response]) => {
             if (response) {
                 res.json({
-                    status: "erro",
+                    status: "alerta",
                     msg: "Usuario ja possui acesso à maquina"
                 });
             } else {
@@ -352,18 +357,24 @@ router.post("/acesso-maquina", async (req, res) => {
                                                     msg: err
                                                 });
                                             });
-                                    });
-                            });
-                    });
+                                    })
+                                    .catch(err =>
+                                        res.json({status: "erro", msg: err})
+                                    );
+                            })
+                            .catch(err => res.json({status: "erro", msg: err}));
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
             }
-        });
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/verificacao", async (req, res, next) => {
     let {email, token} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -388,19 +399,21 @@ router.post("/verificacao", async (req, res, next) => {
                             });
                         else
                             res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "email ou token invalidos"
                             });
-                    });
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
             }
-        });
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/delete", async (req, res, next) => {
     let {id} = req.body;
     if (!req.body) {
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     }
@@ -572,7 +585,7 @@ router.post("/remocao-acesso", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body) {
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     }
@@ -624,7 +637,7 @@ router.post("/transferencia-responsavel", async (req, res) => {
     let {email, maquina, del} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -638,7 +651,7 @@ router.post("/transferencia-responsavel", async (req, res) => {
         .then(async ([response]) => {
             if (response) {
                 return res.json({
-                    status: "erro",
+                    status: "alerta",
                     msg: "Usuario cadastrado como staff"
                 });
             } else {
@@ -649,12 +662,12 @@ router.post("/transferencia-responsavel", async (req, res) => {
                     .then(async ([usuario]) => {
                         if (!usuario) {
                             return res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "Usuario não cadastrado"
                             });
                         } else if (usuario.cargo == "gestor") {
                             return res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "Usuario cadastrado como gestor"
                             });
                         } else {
@@ -665,7 +678,7 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                 .then(async ([{emailResp}]) => {
                                     if (email == emailResp) {
                                         res.json({
-                                            status: "erro",
+                                            status: "alerta",
                                             msg: "Usuario já é o responsável pela máquina"
                                         });
                                     } else {
@@ -781,15 +794,17 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                     res.json({status: "erro8", msg: err});
                                 });
                         }
-                    });
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
             }
-        });
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 router.post("/dados", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -805,7 +820,7 @@ router.post("/permissao-acesso", async (req, res) => {
     let {id, pk_maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 

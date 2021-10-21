@@ -8,7 +8,7 @@ router.post("/cadastro", async (req, res, next) => {
     let {id, nome, cidade, pais, email, staff} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -16,19 +16,22 @@ router.post("/cadastro", async (req, res, next) => {
     let empresaExiste;
     await sequelize
         .query(idExists, {type: sequelize.QueryTypes.SELECT})
-        .then(response => (empresaExiste = response.length > 0));
+        .then(response => (empresaExiste = response.length > 0))
+        .catch(err => res.json({status: "erro", msg: err}));
 
     if (!empresaExiste) {
         let insertEmpresa = `INSERT INTO empresa(id_empresa, nome, cidade, pais, fk_staff) VALUES ('${id}', '${nome}', '${cidade}', '${pais}', ${staff})`;
         await sequelize
             .query(insertEmpresa, {type: sequelize.QueryTypes.INSERT})
             .then(response => {
-                sendInvite(email, "admin", id, null).then(result => {
-                    res.json(result);
-                });
+                sendInvite(email, "admin", id, null)
+                    .then(result => {
+                        res.json(result);
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
             })
             .catch(err => console.error(err));
-    } else res.json({status: "erro", msg: "Empresa ja cadastrada"});
+    } else res.json({status: "alerta", msg: "Empresa ja cadastrada"});
 });
 
 module.exports = router;

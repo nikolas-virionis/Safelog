@@ -94,6 +94,7 @@ btnEditar.addEventListener("click", e => {
         return mostrarAlerta("Senhas diferentes", "danger");
     editarMaquina()
         .then(res => {
+            console.log(res);
             if (res) {
                 window.location.href = "dependentes";
             } else {
@@ -140,6 +141,6 @@ const editarMaquina = async () => {
             } else {
                 console.error(msg);
             }
-            return status == "ok";
+            return status;
         });
 };

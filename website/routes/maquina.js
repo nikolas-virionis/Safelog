@@ -3,13 +3,16 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {mandarEmail} = require("../util/email/email");
-const {edicaoMaquina} = require("../util/edicao-maquina/edicaoInfo");
+const {
+    edicaoMaquina,
+    emailUsuarios
+} = require("../util/edicao-maquina/edicaoInfo");
 
 router.post("/cadastro", async (req, res, next) => {
     let {id, id_maquina, nome, senha, empresa} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     id_maquina = id_maquina.replace(/-/g, ":").toLowerCase();
@@ -50,11 +53,15 @@ router.post("/cadastro", async (req, res, next) => {
                                     .catch(err =>
                                         res.json({status: "erro", msg: err})
                                     );
-                            });
+                            })
+                            .catch(err => res.json({status: "erro", msg: err}));
                     })
                     .catch(err => res.json({status: "erro", msg: err}));
             } else
-                return res.json({status: "erro", msg: "Maquina ja cadastrada"});
+                return res.json({
+                    status: "alerta",
+                    msg: "Maquina ja cadastrada"
+                });
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -63,7 +70,7 @@ router.post("/lista-dependentes", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     let dependentes = `SELECT pk_maquina, id_maquina, nome FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina and fk_usuario = ${id}`;
@@ -96,7 +103,7 @@ router.post("/verificar-usuario", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     let consulta = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = ${maquina};`;
@@ -111,14 +118,14 @@ router.post("/verificar-usuario", async (req, res) => {
                 msg: resposta
             })
         )
-        .catch(err => res.json({status: "erro", err}));
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/componentes", async (req, res) => {
     let {id, componentes} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -161,7 +168,7 @@ router.post("/lista-componentes", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -182,7 +189,7 @@ router.post("/delete", async (req, res, next) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -256,16 +263,19 @@ router.post("/delete", async (req, res, next) => {
                                 status: "ok",
                                 msg: "Maquina deletada"
                             });
-                        });
-                });
-        });
+                        })
+                        .catch(err => res.json({status: "erro", msg: err}));
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/permissao-acesso", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -285,7 +295,7 @@ router.post("/lista-usuarios", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -305,7 +315,7 @@ router.post("/convite", async (req, res) => {
     let {email, maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
@@ -327,7 +337,7 @@ router.post("/convite", async (req, res) => {
                             let {id_usuario: id, nome, cargo} = resposta[0];
                             if (cargo != "analista") {
                                 return res.json({
-                                    status: "erro",
+                                    status: "alerta",
                                     msg: "Usuario cadastrado como gestor"
                                 });
                             }
@@ -393,7 +403,7 @@ router.post("/convite", async (req, res) => {
                                             });
                                     } else {
                                         return res.json({
-                                            status: "erro",
+                                            status: "alerta",
                                             msg: "Usuario já possui acesso à maquina"
                                         });
                                     }
@@ -403,7 +413,7 @@ router.post("/convite", async (req, res) => {
                                 });
                         } else {
                             return res.json({
-                                status: "erro",
+                                status: "alerta",
                                 msg: "Usuario não cadastrado"
                             });
                         }
@@ -413,7 +423,7 @@ router.post("/convite", async (req, res) => {
                     });
             } else {
                 return res.json({
-                    status: "erro",
+                    status: "alerta",
                     msg: "Usuario cadastrado como staff"
                 });
             }
@@ -429,7 +439,7 @@ router.post("/update", async (req, res, next) => {
 
     if (!req.body) {
         res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
     }
@@ -461,32 +471,20 @@ router.post("/update", async (req, res, next) => {
                                 .query(sql, selectType)
                                 .then(async usuarios => {
                                     if (usuarios.length - 1) {
-                                        let resp;
-                                        for (let usuario of usuarios) {
-                                            if (usuario.responsavel == "s") {
-                                                resp = {...usuario};
-                                                continue;
-                                            }
-                                            let {nome, email} = usuario;
-                                            mandarEmail(
-                                                "notificacao edicao maquina",
-                                                nome,
-                                                email,
-                                                [resp.nome]
-                                            )
-                                                .then(() =>
-                                                    res.json({
-                                                        status: "ok",
-                                                        msg: "Maquina editada e email enviado aos usuarios relacionados"
-                                                    })
-                                                )
-                                                .catch(err =>
-                                                    res.json({
-                                                        status: "erro",
-                                                        msg: err
-                                                    })
-                                                );
-                                        }
+                                        // res.json({status: "ok", msg: "oi"});
+                                        return emailUsuarios(usuarios)
+                                            .then(() => {
+                                                res.json({
+                                                    status: "ok",
+                                                    msg: "Emails de notificação de edição de máquina enviados"
+                                                });
+                                            })
+                                            .catch(err => {
+                                                res.json({
+                                                    status: "erro",
+                                                    msg: err
+                                                });
+                                            });
                                     } else {
                                         res.json({
                                             status: "ok",
@@ -507,18 +505,19 @@ router.post("/update", async (req, res, next) => {
             } else {
                 // máquina não existe
                 return res.json({
-                    status: "erro",
+                    status: "alerta",
                     msg: `A máquina de id ${idAtual} não está cadastrada`
                 });
             }
-        });
+        })
+        .catch(err => res.json({status: "erro", msg: err}));;
 });
 
 router.post("/dados", async (req, res) => {
     let {maquina} = req.body;
     if (!req.body)
         return res.json({
-            status: "erro",
+            status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 

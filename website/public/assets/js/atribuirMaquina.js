@@ -36,7 +36,7 @@ btn.addEventListener("click", e => {
                     .then(res => {
                         if (res.data?.status == "ok") {
                             mostrarAlerta(
-                                "Email de solicitação de acesso enviado com sucesso",
+                                res.data.msg,
                                 "success"
                             );
                             setTimeout(() => {

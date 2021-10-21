@@ -66,9 +66,9 @@ const validarLogin = () => {
                                 JSON.stringify(user)
                             );
                             window.location.href = "dashboard";
-                        } else {
+                        } else if(res.data.status === "alerta") {
                             mostrarAlerta(
-                                "Usuário ou senha inválidos",
+                                res.data.msg,
                                 "warning"
                             );
                         }

@@ -2,9 +2,12 @@ import pandas as pd
 import psutil
 import time
 from connectdb import insert_db
-from credentials import db_connection
 from getmac import get_mac_address as mac_addr
+import mysql.connector as sql
+from credentials import usr, pswd
 
+db_connection = sql.connect(host='localhost', database='safelog',
+                            user=usr, password=pswd)
 preferences = pd.read_sql(
     f"SELECT tipo_medicao.tipo FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')", con=db_connection)
 
@@ -31,6 +34,6 @@ try:
                 continue
             dados.append({"tipo": tipo, "medicao": medicao})
         insert_db(dados)
-        time.sleep(30)
+        time.sleep(1)
 except KeyboardInterrupt:
     pass

@@ -158,9 +158,8 @@ btnConvidar.addEventListener("click", async e => {
                 mostrarAlerta(msg, "success");
                 emailConvite.value = "";
                 reload = true;
-            } else {
-                mostrarAlerta("Erro no convite do usuario", "danger");
-                console.error("ERRO:", msg);
+            } else if(status == "alerta") {
+                mostrarAlerta(msg, "danger");
             }
         });
 });

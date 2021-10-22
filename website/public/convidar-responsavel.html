@@ -93,8 +93,52 @@
         </ul>
     </div>
     <section class="home-section">
+        <div class="acesso">
+            <div class="section-login">
+                <div class="card-login">
+                    <h1 class="centralizar">Passar cargo de responsável</h1>
+                    <div class="centralizar coluna">
+                        <span>Digite o email do proximo responsável pela máquina <span>XXXXXXXXXX</span></span>
+                    </div>
 
-    </section>
+                    <div class="centralizar botoes">
+                        <div class="underline-input">
+                            <h3 class="centralizar">Email:</h3>
+                            <input id="emailInp" type="email" name="">
+                        </div>
+                    </div>
+                    <div class="centralizar botoes">
+                        <button class="btn-geral">Concluir</button>
+                        <button class="btn-geral cancelar">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal-screen" id="modal-verify-token">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Passar cargo de responsável</h2>
+                    <h4>Digite seu email e o token que foi enviado a você</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h3>Email:</h3>
+                        <input id="idInputEmail" type="text" name="">
+                    </div>
+                    <div>
+                        <h3>Token:</h3>
+                        <input id="idInputToken" type="text" name="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                    <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
     <div id="alerta"></div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

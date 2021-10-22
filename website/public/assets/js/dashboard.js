@@ -59,7 +59,7 @@ axios.post("/maquina/lista-dependentes", {
                         axios.post("medicao/medicoes-componente", {
                             id: maq.pk_maquina
                         }).then((res) => {
-                            console.log(res.data.msg.length);
+                            // console.log(res.data.msg.length);
                             let contadorComponente = 0;
                             data.msg.forEach(componente => {
                                 let listaMedicao = [];
@@ -88,8 +88,7 @@ axios.post("/maquina/lista-dependentes", {
                                 document.querySelector("#graficosDash").appendChild(divChart);
     
                                 setTimeout(()=>{
-                                    console.log(listaDatas)
-                                    aa(listaDatas)
+                                    // console.log(listaDatas)
                                     mostrarGraficos(`${componente.tipo}`,`${maq.pk_maquina}`, listaMedicao, listaDatas);
                                 },10);
                                 // console.log(res.data.msg[contador])
@@ -123,16 +122,6 @@ axios.post("/maquina/lista-dependentes", {
 });
 
 
-// setInterval(()=>{
-//     axios.post("", {
-
-//     }).then(() => {
-
-//     });
-// }, 3000);
-const aa = (listaDatas) => {
-    console.log(listaDatas)
-}
 
 
 const mostrarGraficos = (componente,idMaq,medicoes,listaDatas) => {
@@ -157,7 +146,13 @@ const mostrarGraficos = (componente,idMaq,medicoes,listaDatas) => {
       type: 'line',
       data: chartData,
       options: {
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                suggestedMin: 0,
+                suggestedMax: 100
+            }
+        }
       }
     };
     

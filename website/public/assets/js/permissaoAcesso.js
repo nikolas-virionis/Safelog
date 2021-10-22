@@ -42,7 +42,7 @@ btnProsseguir.addEventListener("click", async e => {
         })
         .then(async ({data: {status, msg}}) => {
             if (status == "ok") {
-                mostrarAlerta("Usuário verificado com sucesso", "success");
+                mostrarAlerta(msg, "success");
                 // sessionStorage.setItem("id_usuario", msg.id_usuario);
                 await axios
                     .post("/usuario/dados", {
@@ -65,7 +65,7 @@ btnProsseguir.addEventListener("click", async e => {
                     })
                     .catch(err => console.error(err));
             } else {
-                mostrarAlerta("Erro na verificação do usuario", "danger");
+                mostrarAlerta(msg, "danger");
             }
         })
         .catch(err => console.error(err));

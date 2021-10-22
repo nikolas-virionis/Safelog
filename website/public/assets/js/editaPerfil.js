@@ -173,11 +173,11 @@ btnAltSenha.addEventListener("click", e => {
             if (response.data?.status == "ok") {
                 senha.value = "";
                 mostrarAlerta(
-                    "Senha correta \nEmail de confirmação enviado",
+                    response.data?.msg,
                     "success"
                 );
             } else {
-                mostrarAlerta("Senha incorreta", "danger");
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });

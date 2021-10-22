@@ -44,7 +44,7 @@ btnProsseguir.addEventListener("click", e => {
         })
         .then(async response => {
             if (response.data?.status == "ok") {
-                mostrarAlerta("Usuário verificado com sucesso", "success");
+                mostrarAlerta(response.data?.msg, "success");
                 sessionStorage.setItem(
                     `id_${response.data.user}`,
                     response.data.msg[`id_${response.data.user}`]
@@ -53,7 +53,7 @@ btnProsseguir.addEventListener("click", e => {
                     fecharModal("modal-verify-token")
                 );
             } else {
-                mostrarAlerta("Erro na verificação do usuario", "danger");
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });
@@ -96,10 +96,10 @@ btnConcluir.addEventListener("click", e => {
         })
         .then(response => {
             if (response.data?.status == "ok") {
-                mostrarAlerta("Senha alterada com sucesso", "success");
+                mostrarAlerta(response.data?.msg, "success");
                 window.location.href = "login";
             } else {
-                mostrarAlerta("Erro na redefinição de senha", "danger");
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });

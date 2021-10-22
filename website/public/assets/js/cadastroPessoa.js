@@ -40,7 +40,7 @@ btnProsseguir.addEventListener("click", async e => {
         })
         .then(response => {
             if (response.data?.status == "ok") {
-                mostrarAlerta("Usuário verificado com sucesso", "success");
+                mostrarAlerta(response.data?.msg, "success");
                 sessionStorage.setItem(
                     "id_usuario",
                     response.data.msg.id_usuario
@@ -50,7 +50,7 @@ btnProsseguir.addEventListener("click", async e => {
                 );
                 emailCadastro.value = sessionStorage.getItem("email");
             } else {
-                mostrarAlerta("Erro na verificação do usuario", "danger");
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });

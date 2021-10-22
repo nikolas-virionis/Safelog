@@ -138,8 +138,8 @@ const editarMaquina = async () => {
         .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 mostrarAlerta(msg, "success");
-            } else {
-                console.error(msg);
+            } else if (status == "alerta"){
+                mostrarAlerta(msg, "warning")
             }
             return status;
         });

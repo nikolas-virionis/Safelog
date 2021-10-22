@@ -140,7 +140,7 @@ router.post("/edicao-perfil", async (req, res) => {
                                 .then(resposta => {})
                                 .catch(err =>
                                     res.json({
-                                        status: "alerta",
+                                        status: "erro",
                                         msg: "Erro no insert de forma de contato nova"
                                     })
                                 );
@@ -156,7 +156,7 @@ router.post("/edicao-perfil", async (req, res) => {
                         .then(resposta => {})
                         .catch(err =>
                             res.json({
-                                status: "alerta",
+                                status: "erro",
                                 msg: "Erro no update de forma de contato"
                             })
                         );
@@ -171,7 +171,7 @@ router.post("/edicao-perfil", async (req, res) => {
                         .then(resposta => {})
                         .catch(err =>
                             res.json({
-                                status: "alerta",
+                                status: "erro",
                                 msg: "Erro no delete de forma de contato"
                             })
                         );

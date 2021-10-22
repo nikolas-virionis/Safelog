@@ -134,11 +134,11 @@ btnAlterar.addEventListener("click", e => {
                 );
                 window.location.href = "perfil";
             } else {
-                mostrarAlerta("Erro na edição de perfil", "danger");
-                console.log(
-                    "Erro na edição do perfil do usuario",
-                    response.data?.msg
-                );
+                mostrarAlerta(response.data?.msg, "danger");
+                // console.log(
+                //     "Erro na edição do perfil do usuario",
+                //     response.data?.msg
+                // );
             }
         });
 });
@@ -187,3 +187,10 @@ senha.addEventListener("keypress", e => {
         btnAltSenha.click();
     }
 });
+
+const inputs = document.querySelectorAll("[onlynum]")
+inputs.forEach(el => {
+    el.addEventListener("input", evt => {
+        el.value = el.value.replaceAll(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+    })
+})

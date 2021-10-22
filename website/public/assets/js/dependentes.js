@@ -110,7 +110,6 @@
                             excluirBtn.classList = "btn-nav-dash-red";
                             excluirBtn.appendChild(excluirBtnLbl);
                             excluirBtn.title = "Remover acesso à máquina";
-                            
 
                             if (
                                 nomeUsuario.innerText == dependente.responsavel
@@ -130,7 +129,7 @@
                                 acessoBtnLbl.classList = "fas fa-user-cog";
                                 acessoBtn.appendChild(acessoBtnLbl);
                                 acessoBtn.title = "Gerenciar acessos";
-                                acessoBtn.addEventListener("click", ()=>{
+                                acessoBtn.addEventListener("click", () => {
                                     window.location.href = `acesso-maquina?pk_maquina=${dependente.pk_maquina}`;
                                 });
 
@@ -147,7 +146,6 @@
                             tr.appendChild(tbBtn);
                             tabelaDependentes.appendChild(tr);
 
-
                             // evento click para deletar máquina
                             excluirBtn.addEventListener("click", function () {
                                 // solicitando confirmação do delete
@@ -158,12 +156,29 @@
                                 // realizando requisição do delete
                                 if (sure) {
                                     axios
-                                        .post("/maquina/delete", {
-                                            id: dependente.pk_maquina
-                                        })
-                                        .then(result => {
-                                            if (result.data.status == "ok") {
-                                                window.location.reload();
+                                        .post(
+                                            "/usuario/remocao-proprio-acesso",
+                                            {
+                                                id: JSON.parse(
+                                                    sessionStorage.getItem(
+                                                        "usuario"
+                                                    )
+                                                )?.id,
+                                                maquina: dependente.pk_maquina
+                                            }
+                                        )
+                                        .then(({data: {status, msg}}) => {
+                                            if (status == "ok") {
+                                                mostrarAlerta(msg, "success");
+                                                setTimeout(
+                                                    () =>
+                                                        window.location.reload(),
+                                                    3000
+                                                );
+                                            } else if (status == "alerta") {
+                                                mostrarAlerta(msg, "info");
+                                            } else {
+                                                console.error(msg);
                                             }
                                         });
                                 }

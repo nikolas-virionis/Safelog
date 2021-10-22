@@ -26,7 +26,7 @@ const escolhaResp = async (id, maquina) => {
         });
 };
 
-const escolhaAuto = maquina => {
+const escolhaAuto = async maquina => {
     let updateResponsavel = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = ${maquina} AND responsavel = 'n'`;
 
     return await sequelize

@@ -14,7 +14,10 @@ const {
 const {generateToken} = require("../util/token-user/token");
 const {mandarEmail} = require("../util/email/email");
 const {deleteUsuario} = require("../util/delete-usuario/delete");
-const {redirecionamentoAcessos} = require("../util/acesso-maquina/escolhaAcesso")
+const {
+    redirecionamentoAcessos
+} = require("../util/acesso-maquina/escolhaAcesso");
+const {deleteAcesso} = require("../util/acesso-maquina/deleteAcesso");
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -791,19 +794,26 @@ router.post("/remocao-proprio-acesso", async (req, res) => {
                             resposta,
                             "convidar responsavel"
                         )
-                            .then(del => {})
+                            .then(del => {
+                                if (del) {
+                                    deleteAcesso(id, maquina)
+                                        .then(response => res.json(response))
+                                        .catch(err =>
+                                            res.json({status: "erro", msg: err})
+                                        );
+                                } else {
+                                    res.json({
+                                        status: "alerta",
+                                        msg: "Acesso à máquina poderá ser removido a partir da transferencia de responsabilidade"
+                                    });
+                                }
+                            })
                             .catch(err => res.json({status: "erro", msg: err}));
                     });
             } else {
-                let deleteAcesso = `DELETE FROM usuario_maquina WHERE fk_usuario = ${id} AND fk_maquina = ${maquina}`;
-                await sequelize
-                    .query(deleteAcesso, {type: sequelize.QueryTypes.DELETE})
-                    .then(() => {
-                        return res.json({status: "ok", msg: "Acesso removido"});
-                    })
-                    .catch(err => {
-                        res.json({status: "erro", msg: err});
-                    });
+                deleteAcesso(id, maquina)
+                    .then(response => res.json(response))
+                    .catch(err => res.json({status: "erro", msg: err}));
             }
         })
         .catch(err => {

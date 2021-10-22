@@ -55,22 +55,47 @@ axios.post("/maquina/lista-dependentes", {
                 axios.post("/maquina/lista-componentes", {
                     id: maq.pk_maquina
                 }).then(({ data }) => {
-                    if (data.status == "ok") {
-                        data.msg.forEach(componente => {
-                            let divChart = document.createElement("div");
-                            divChart.classList = "canvas-destaque";
+                    if (data.status == "ok") {                        
+                        axios.post("medicao/medicoes-componente", {
+                            id: maq.pk_maquina
+                        }).then((res) => {
+                            console.log(res.data.msg.length);
+                            let contadorComponente = 0;
+                            data.msg.forEach(componente => {
+                                let listaMedicao = [];
+                                let listaDatas = [];
 
-                            //canvas
-                            let canvasChart = document.createElement("canvas");
-                            canvasChart.setAttribute("id", `${componente.tipo}${maq.pk_maquina}`);
-                            divChart.appendChild(canvasChart);
-                            
-                            document.querySelector("#graficosDash").innerHTML += `<h2>${componente.tipo}</h2>`;
-                            document.querySelector("#graficosDash").appendChild(divChart);
-                            setTimeout(()=>{
-                                mostrarGraficos(`${componente.tipo}${maq.pk_maquina}`);
-                            },10);
-                        });
+                                for(var i = res.data.msg[contadorComponente].length - 1; i >= 0 ; i--) {
+                                    listaMedicao.push(res.data.msg[contadorComponente][i].valor);
+                                    let data = res.data.msg[contadorComponente][i].data_medicao;
+                                    listaDatas.push(data.slice(data.length - 13, data.length - 5));
+                                };
+                                
+
+
+                                let divChart = document.createElement("div");
+                                divChart.classList = "canvas-destaque";
+    
+                                //canvas
+                                let canvasChart = document.createElement("canvas");
+                                canvasChart.setAttribute("id", `${componente.tipo}${maq.pk_maquina}`);
+                                divChart.appendChild(canvasChart);
+                                
+                                let tituloChart = document.createElement("h3")
+                                tituloChart.innerHTML = componente.tipo;
+    
+                                document.querySelector("#graficosDash").appendChild(tituloChart);
+                                document.querySelector("#graficosDash").appendChild(divChart);
+    
+                                setTimeout(()=>{
+                                    console.log(listaDatas)
+                                    aa(listaDatas)
+                                    mostrarGraficos(`${componente.tipo}`,`${maq.pk_maquina}`, listaMedicao, listaDatas);
+                                },10);
+                                // console.log(res.data.msg[contador])
+                                contadorComponente++;
+                            });
+                        }); 
                     } else {
                         mostrarAlerta("Ocorreu um erro ao resgatar os componentes dessa máquina", "danger");
                     }
@@ -96,3 +121,46 @@ axios.post("/maquina/lista-dependentes", {
         mostrarAlerta("Ocorreu um erro", "danger");
     }
 });
+
+
+// setInterval(()=>{
+//     axios.post("", {
+
+//     }).then(() => {
+
+//     });
+// }, 3000);
+const aa = (listaDatas) => {
+    console.log(listaDatas)
+}
+
+
+const mostrarGraficos = (componente,idMaq,medicoes,listaDatas) => {
+    var canvasChart = document.getElementById(`${componente}${idMaq}`).getContext('2d');
+  
+    var colors = ['#0071ce', '#0071ee', '#0fe1fe', '#ccbbcc', '#123445', '#654321', '#666666'];
+    var color = Math.floor(Math.random() * colors.length)
+    const chartData = {
+      labels: listaDatas,
+      datasets: [{
+        label: componente,
+        data: medicoes,
+        fill: false,
+        backgroundColor: colors[color],
+        borderColor: colors[color],
+        tension: 0.3
+      }
+      ]
+    };
+    
+    const chartConfig = {
+      type: 'line',
+      data: chartData,
+      options: {
+        maintainAspectRatio: false
+      }
+    };
+    
+    var myChart = new Chart(canvasChart, chartConfig);
+  }
+  

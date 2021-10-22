@@ -14,6 +14,7 @@ const {
 const {generateToken} = require("../util/token-user/token");
 const {mandarEmail} = require("../util/email/email");
 const {deleteUsuario} = require("../util/delete-usuario/delete");
+const {redirecionamentoAcessos} = require("../util/acesso-maquina/escolhaAcesso")
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -443,7 +444,7 @@ router.post("/delete", async (req, res, next) => {
                                 id,
                                 maquina,
                                 resposta,
-                                "convidar responsavel"
+                                "atribuir responsavel"
                             )
                                 .then(del => {
                                     deletar = del;

@@ -108,7 +108,7 @@ axios
                                                         "dependentes";
                                                 }, 2000);
                                             } else {
-                                                console.error(msg);
+                                                mostrarAlerta(msg, "danger");
                                             }
                                         });
                                 } else {

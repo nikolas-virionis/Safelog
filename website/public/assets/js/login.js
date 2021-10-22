@@ -103,12 +103,12 @@ btnModal.addEventListener("click", async e => {
             if (response.data?.status == "ok") {
                 email.value = "";
                 mostrarAlerta(
-                    "Verifique seu email para redefinir a senha",
+                    response.data?.msg,
                     "success"
                 );
             } else {
                 mostrarAlerta(
-                    "Erro no processo de redefinição de senha",
+                    response.data?.msg,
                     "danger"
                 );
             }

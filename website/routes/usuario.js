@@ -768,7 +768,7 @@ router.post("/permissao-acesso", async (req, res) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
-router.post("remocao-proprio-acesso", async (req, res) => {
+router.post("/remocao-proprio-acesso", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body)
         return res.json({

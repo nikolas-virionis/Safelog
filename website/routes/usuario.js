@@ -448,31 +448,45 @@ router.post("/delete", async (req, res, next) => {
                                 setFalse();
                                 //reatribuição de responsavel
                                 console.log("\n\n0 pessoas\n\n");
-                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
+                                let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, pk_maquina, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maq}'`;
                                 await sequelize
                                     .query(sql, {
                                         type: sequelize.QueryTypes.SELECT
                                     })
                                     .then(
-                                        ([
+                                        async ([
                                             {
                                                 nome,
                                                 nomeMaquina,
                                                 nomeGestor,
-                                                email
+                                                email,
+                                                pk_maquina
                                             }
                                         ]) => {
-                                            console.log("\n\nantes email\n\n");
-                                            mandarEmail(
-                                                "atribuir responsavel",
-                                                nomeGestor,
-                                                email,
-                                                [nome, nomeMaquina]
-                                            )
+                                            let token = generateToken();
+                                            let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
+                                            await sequelize
+                                                .query(updateToken, {
+                                                    type: sequelize.QueryTypes
+                                                        .UPDATE
+                                                })
                                                 .then(() => {
-                                                    console.log(
-                                                        "\n\ndps email"
-                                                    );
+                                                    mandarEmail(
+                                                        "atribuir responsavel",
+                                                        nomeGestor,
+                                                        email,
+                                                        [
+                                                            nome,
+                                                            nomeMaquina,
+                                                            pk_maquina,
+                                                            token
+                                                        ]
+                                                    ).catch(err => {
+                                                        res.json({
+                                                            status: "erro",
+                                                            msg: err
+                                                        });
+                                                    });
                                                 })
                                                 .catch(err => {
                                                     res.json({

@@ -68,8 +68,8 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
-            <p><a href="http://localhost:3000/redefinir-responsavel">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
-            <p><a href="http://localhost:3000/deletar-maquina">Clique aqui</a> para concretizar a remoção da máquina</p> 
+            <p><a href="http://localhost:3000/convidar-responsavel?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
+            <p><a href="http://localhost:3000/deletar-maquina?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para concretizar a remoção da máquina</p> 
                         `,
             "Reatribuição de responsável por máquina - SafeLog"
         ];

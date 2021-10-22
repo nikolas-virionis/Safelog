@@ -100,6 +100,7 @@ body::-webkit-scrollbar-thumb:hover {
 .btn-geral:hover {
     background-color: #025396;
     box-shadow: 4px 4px 3px #666;
+    transform: scale(1.03);
 }
 .btn-secondary {
     background-color: #025396;
@@ -119,6 +120,16 @@ a.btn-nav-dash {
 
 .btn-geral.cancelar {
     background-color: #999;
+    cursor: pointer;
+}
+
+.btn-geral.red {
+    background-color: #eb4034;
+    cursor: pointer;
+}
+
+.btn-geral.red:hover {
+    background-color: #a3342c;
     cursor: pointer;
 }
 

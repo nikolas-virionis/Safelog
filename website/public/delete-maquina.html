@@ -8,7 +8,7 @@
         integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permissão de acesso</title>
+    <title>Delete Máquina</title>
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -96,14 +96,15 @@
         <div class="acesso">
             <div class="section-login">
                 <div class="card-login">
-                    <h1 class="centralizar">Requisição de acesso</h1>
-                    <div class="centralizar coluna">
-                        <span>FULANO quer ter acesso a máquina XXXXXXXXXXX</span>
+                    <h1 class="">Exclusão de máquina</h1>
+                    <div class="coluna">
+                        <span>Você realmente deseja excluir permanentemente a máquina <span>XXXXXXXXXX</span> e todos os seus dados?</span>
                     </div>
-
-                    <div class="centralizar botoes">
-                        <button class="btn-geral"> Aceitar solicitação</button>
-                        <button class="btn-geral cancelar">Recusar</button>
+                    
+                    <br>
+                    <div class="botoes">
+                        <button class="btn-geral red">Excluir máquina</button>
+                        <button class="btn-geral cancelar">Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -111,10 +112,10 @@
 
 
 
-        <div class="modal-screen" id="modal-verify-token">
+        <!-- <div class="modal-screen" id="modal-verify-token">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h2>Permissão de acesso</h2>
+                    <h2>Exclusão de máquina</h2>
                     <h4>Digite seu email e o token que foi enviado a você</h4>
                 </div>
                 <div class="modal-body">
@@ -132,7 +133,7 @@
                     <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div id="alerta"></div>
 
     </section>

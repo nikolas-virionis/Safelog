@@ -41,7 +41,7 @@ const escolhaAuto = maquina => {
         });
 };
 
-const conviteResp = (id, maquina, tipo) => {
+const conviteResp = async (id, maquina, tipo) => {
     let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, pk_maquina, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina WHERE id_maquina = '${maquina}' OR pk_maquina = ${maquina}`;
     await sequelize
         .query(sql, {

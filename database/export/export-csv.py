@@ -10,7 +10,7 @@ directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
 
 def df_to_csv(tb, emp, name):
     df = pd.read_sql(
-        f"SELECT * FROM v_analytics WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{tb}')", con=db_connection)
+        f"SELECT * FROM v_analytics WHERE id_maquina = '{tb}'", con=db_connection)
     emp = emp.strip().replace(" ", "_")
     print(os.path.exists(f"{directory}/csv/{emp}"), emp == 'NYSE_MARKET,_INC')
     if not os.path.exists(f"{directory}/csv/{emp}"):

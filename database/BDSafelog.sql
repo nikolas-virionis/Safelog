@@ -50,7 +50,7 @@ CREATE TABLE contato (
 );
 
 CREATE TABLE maquina (
-    pk_maquina int AUTO_INCREMENT primary key,
+    pk_maquina int AUTO_INCREMENT PRIMARY KEY,
     id_maquina varchar(20) UNIQUE NOT NULL,
     nome varchar(60) NOT NULL,
     senha char(32) NOT NULL,
@@ -2080,7 +2080,6 @@ VALUES
     (2.81, 'normal', '2021-10-05 20:24:17', 61),
     (74.51, 'critico', '2021-10-05 20:24:17', 62),
     (237.45, 'normal', '2021-10-05 20:24:17', 63),
-    (27.85, 'normal', '2021-10-05 20:24:26', 57),
     (27.85, 'normal', '2021-10-05 20:24:40', 57),
     (16.76, 'normal', '2021-10-05 20:24:40', 58),
     (63.68, 'normal', '2021-10-05 20:24:40', 59),

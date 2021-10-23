@@ -28,7 +28,10 @@ const escolhaResp = async (id, maquina) => {
 };
 
 const escolhaAuto = async maquina => {
+<<<<<<< HEAD
+=======
     console.log("\n\n", maquina);
+>>>>>>> 0bbf7e8ab168bab19dfa82b64857e0f4fb8a327a
     let updateResponsavel = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = ${maquina} AND responsavel = 'n'`;
 
     return await sequelize

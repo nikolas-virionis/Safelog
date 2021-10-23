@@ -128,7 +128,7 @@ VALUES
     ),
     (
         NULL,
-        'João Pedro Oliveira',
+        'Joao Pedro Oliveira',
         'joao.soliveira@bandtec.com.br',
         MD5('ExSenha1'),
         NULL

@@ -99,6 +99,25 @@ router.post("/lista-dependentes", async (req, res) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
+router.post("/lista-dependentes-gestor", async (req, res) => {
+    let {id} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "alerta",
+            msg: "Body não fornecido na requisição"
+        });
+    let dependentes = `select pk_maquina, id_maquina, maquina.nome, usuario.nome as usuario from usuario_maquina inner join maquina on fk_maquina = pk_maquina inner join usuario on fk_usuario = id_usuario where fk_usuario in(select analista.id_usuario from usuario as analista inner join usuario as resp on analista.fk_supervisor = resp.id_usuario where resp.id_usuario = ${id}) group by pk_maquina;
+    `;
+    await sequelize
+        .query(dependentes, {type: sequelize.QueryTypes.SELECT})
+        .then(async response => {
+            let maquinas = [];
+            res.json({status: "ok", res: response});
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
+
+
 router.post("/verificar-usuario", async (req, res) => {
     let {id, maquina} = req.body;
     if (!req.body)

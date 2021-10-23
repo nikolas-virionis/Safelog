@@ -96,7 +96,7 @@ router.post("/lista-dependentes/gestor", async (req, res) => {
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .then(async maquinas => {
             if (maquinas.length) {
-                res.json({status: "ok", res: maquinas});
+                res.json({status: "ok", msg: maquinas});
             } else {
                 res.json({
                     status: "alerta",
@@ -119,7 +119,7 @@ router.post("/lista-dependentes/admin", async (req, res) => {
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .then(async maquinas => {
             if (maquinas.length) {
-                res.json({status: "ok", res: maquinas});
+                res.json({status: "ok", msg: maquinas});
             } else {
                 res.json({
                     status: "alerta",

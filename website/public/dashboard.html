@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="assets/css/dashboard.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
 
-    
+
 </head>
 
 <body>
@@ -103,17 +103,17 @@
             </div>
         </div>
 
-        <!-- <div class="container-site" id="contSite">
+        <div class="container-site" id="contSite">
             <div class="container-site">
                 <div class="dashboard-maquinas" id="listaMaq">
-                    
+
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <!-- CPU graph -->
         <div class="charts">
-            <div class="canvas-destaque">                    
+            <div class="canvas-destaque">
                 <canvas id="idChart1"></canvas>
             </div>
             <div class="container-site" id="graficosDash">
@@ -127,7 +127,7 @@
     <!-- chartjs src -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <!-- <script src="./assets/js/dashboard.js"></script> -->
+    <script src="./assets/js/dashboard.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 </body>
@@ -142,10 +142,10 @@
     var colors = ['#0071ceee', '#0071eeee', '#0fe1feee', '#ccbbccee', '#123445ee', '#654321ee', '#666666ee'];
     var color = Math.floor(Math.random() * colors.length)
     const chartData = {
-        labels: [1,2,3,4,3,6,3,6,4,2,1],
+        labels: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
         datasets: [{
             label: "componente",
-            data: [1,2,3,4,3,6,3,6,4,2,1],
+            data: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
             fill: false,
             backgroundColor: colors[color],
             borderColor: colors[color],
@@ -154,7 +154,7 @@
         },
         {
             label: "componente",
-            data: [10,23,35,74,93,60,32,64,47,21,11],
+            data: [10, 23, 35, 74, 93, 60, 32, 64, 47, 21, 11],
             fill: false,
             backgroundColor: colors[color = Math.floor(Math.random() * colors.length)],
             borderColor: colors[color],
@@ -163,7 +163,7 @@
         },
         {
             label: "componente",
-            data: [50,30,80,80,58,69,30,60,40,20,10],
+            data: [50, 30, 80, 80, 58, 69, 30, 60, 40, 20, 10],
             fill: false,
             backgroundColor: colors[color = Math.floor(Math.random() * colors.length)],
             borderColor: colors[color],
@@ -175,10 +175,10 @@
     };
 
     const chartData2 = {
-        labels: [1,2,3,4,3,6,3,6,4,2,1],
+        labels: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
         datasets: [{
             label: "componente",
-            data: [1,2,3,4,3,6,3,6,4,2,1],
+            data: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
             fill: false,
             backgroundColor: colors[color],
             borderColor: colors[color],
@@ -204,7 +204,7 @@
         }
     };
 
-var myChart = new Chart(canvasChart1, chartConfig1);
-var myChart = new Chart(canvasChart2, chartConfig2);
+    var myChart = new Chart(canvasChart1, chartConfig1);
+    var myChart = new Chart(canvasChart2, chartConfig2);
 
 </script>

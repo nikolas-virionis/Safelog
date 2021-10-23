@@ -548,7 +548,7 @@ router.post("/remocao-acesso", async (req, res) => {
 });
 
 router.post("/transferencia-responsavel", async (req, res) => {
-    let {email, maquina, del} = req.body;
+    let {email, maquina, del, delType} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -620,18 +620,33 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                     });
                                                 });
                                         } else {
-                                            let sql = `UPDATE usuario_maquina SET responsavel = 'n' WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
-                                            await sequelize
-                                                .query(sql, {
-                                                    type: sequelize.QueryTypes
-                                                        .UPDATE
-                                                })
-                                                .catch(err => {
-                                                    res.json({
-                                                        status: "erro3",
-                                                        msg: err
+                                            if (delType) {
+                                                let sql = `DELETE FROM usuario_maquina WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
+                                                await sequelize
+                                                    .query(sql, {
+                                                        type: sequelize
+                                                            .QueryTypes.DELETE
+                                                    })
+                                                    .catch(err => {
+                                                        res.json({
+                                                            status: "erro13",
+                                                            msg: err
+                                                        });
                                                     });
-                                                });
+                                            } else {
+                                                let sql = `UPDATE usuario_maquina SET responsavel = 'n' WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
+                                                await sequelize
+                                                    .query(sql, {
+                                                        type: sequelize
+                                                            .QueryTypes.UPDATE
+                                                    })
+                                                    .catch(err => {
+                                                        res.json({
+                                                            status: "erro3",
+                                                            msg: err
+                                                        });
+                                                    });
+                                            }
                                         }
                                         let selectUsuario = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = ${maquina} AND id_usuario = (SELECT id_usuario FROM usuario WHERE email = '${email}')`;
                                         await sequelize

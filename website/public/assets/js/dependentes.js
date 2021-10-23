@@ -89,7 +89,7 @@
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
         axios
-            .post("/maquina/lista-dependentes", {
+            .post("/maquina/lista-dependentes/analista", {
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id
             })
             .then(response => {

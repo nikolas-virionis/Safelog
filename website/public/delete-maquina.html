@@ -98,13 +98,14 @@
                 <div class="card-login">
                     <h1 class="">Exclusão de máquina</h1>
                     <div class="coluna">
-                        <span>Você realmente deseja excluir permanentemente a máquina <span>XXXXXXXXXX</span> e todos os seus dados?</span>
+                        <span>Você realmente deseja excluir permanentemente a máquina <span macName>XXXXXXXXXX</span> e todos os
+                            seus dados?</span>
                     </div>
-                    
+
                     <br>
                     <div class="botoes">
-                        <button class="btn-geral red">Excluir máquina</button>
-                        <button class="btn-geral cancelar">Cancelar</button>
+                        <button class="btn-geral red" btnExcluirMaquina>Excluir máquina</button>
+                        <button class="btn-geral cancelar" btnCancelar>Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -112,7 +113,7 @@
 
 
 
-        <!-- <div class="modal-screen" id="modal-verify-token">
+        <div class="modal-screen" id="modal-verify-token">
             <div class="modal-container">
                 <div class="modal-header">
                     <h2>Exclusão de máquina</h2>
@@ -129,16 +130,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                    <button class="btn-geral" id="btn-prosseguir-modal" btnProsseguir>Prosseguir</button>
                     <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
                 </div>
             </div>
-        </div> -->
+        </div>
         <div id="alerta"></div>
 
     </section>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="./assets/js/permissaoAcesso.js"></script>
+    <script src="./assets/js/deleteMaquina.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/sidebar.js"></script>
 </body>

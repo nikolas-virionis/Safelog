@@ -201,74 +201,90 @@ router.post("/delete", async (req, res, next) => {
 
     // estrutura de deletes
 
-    let sql = `SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${id}`;
+    let sqlMaquinaExiste = `SELECT * FROM maquina WHERE id_maquina = ${id}`;
+
     await sequelize
-        .query(sql, {type: sequelize.QueryTypes.SEELCT})
-        .then(async fkCategorias => {
-            let metricas = fkCategorias[0].map(
-                item => item.id_categoria_medicao
-            );
-            console.log(metricas);
+        .query(sqlMaquinaExiste, {type: sequelize.QueryTypes.SELECT})
+        .then(async ([maquinaExiste]) => {
+            if (maquinaExiste) {
+                let sql = `SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${id}`;
+                await sequelize
+                    .query(sql, {type: sequelize.QueryTypes.SELECT})
+                    .then(async fkCategorias => {
+                        let metricas = fkCategorias.map(
+                            item => item.id_categoria_medicao
+                        );
 
-            // delete medicao
-            for (let metrica of metricas) {
-                let sqlDelMedicao = `DELETE FROM medicao WHERE fk_categoria_medicao = ${metrica}`;
+                        // delete medicao
+                        for (let metrica of metricas) {
+                            let sqlDelMedicao = `DELETE FROM medicao WHERE fk_categoria_medicao = ${metrica}`;
+                            console.log(metrica);
+                            sequelize
+                                .query(sqlDelMedicao, {
+                                    type: sequelize.QueryTypes.DELETE
+                                })
+                                .then(async resultMedicao => {
+                                    console.log(resultMedicao);
 
-                sequelize
-                    .query(sqlDelMedicao, {
-                        type: sequelize.QueryTypes.DELETE
-                    })
-                    .then(async resultMedicao => {
-                        console.log(resultMedicao);
+                                    //  delete categoria_medicao
+                                    let sqlDelCategoria = `DELETE FROM categoria_medicao WHERE id_categoria_medicao = ${metrica}`;
 
-                        //  delete categoria_medicao
-                        let sqlDelCategoria = `DELETE FROM categoria_medicao WHERE id_categoria_medicao = ${metrica}`;
+                                    await sequelize
+                                        .query(sqlDelCategoria, {
+                                            type: sequelize.QueryTypes.DELETE
+                                        })
+                                        .then(async resultCategoria => {
+                                            console.log(resultCategoria);
+                                        })
+                                        .catch(err => {
+                                            return res.json({
+                                                status: "erro 1",
+                                                msg: err
+                                            });
+                                        });
+                                })
+                                .catch(err => {
+                                    return res.json({
+                                        status: "erro 2",
+                                        msg: err
+                                    });
+                                });
+                        }
+
+                        // delete usuario máquina
+                        let sqlDelUsMac = `DELETE FROM usuario_maquina WHERE fk_maquina = ${id}`;
 
                         await sequelize
-                            .query(sqlDelCategoria, {
+                            .query(sqlDelUsMac, {
                                 type: sequelize.QueryTypes.DELETE
                             })
-                            .then(async resultCategoria => {
-                                console.log(resultCategoria);
+                            .then(async resultUsMac => {
+                                let sqlDeleteMac = `DELETE FROM maquina WHERE pk_maquina = ${id};`;
+
+                                await sequelize
+                                    .query(sqlDeleteMac, {
+                                        type: sequelize.QueryTypes.DELETE
+                                    })
+                                    .then(async resultMac => {
+                                        console.log(resultMac);
+                                        res.json({
+                                            status: "ok",
+                                            msg: "Maquina deletada"
+                                        });
+                                    })
+                                    .catch(err =>
+                                        res.json({status: "erro 3", msg: err})
+                                    );
                             })
-                            .catch(err => {
-                                return res.json({
-                                    status: "erro",
-                                    msg: err
-                                });
-                            });
+                            .catch(err =>
+                                res.json({status: "erro 4", msg: err})
+                            );
                     })
-                    .catch(err => {
-                        return res.json({status: "erro", msg: err});
-                    });
+                    .catch(err => res.json({status: "erro 5", msg: err}));
+            } else {
+                res.json({status: "alerta", msg: "Maquina não encontrada"});
             }
-
-            // delete usuario máquina
-            let sqlDelUsMac = `DELETE FROM usuario_maquina WHERE fk_maquina = ${id}`;
-
-            await sequelize
-                .query(sqlDelUsMac, {
-                    type: sequelize.QueryTypes.DELETE
-                })
-                .then(async resultUsMac => {
-                    let sqlDeleteMac = `DELETE FROM maquina WHERE pk_maquina = ${id};`;
-
-                    await sequelize
-                        .query(sqlDeleteMac, {
-                            type: sequelize.QueryTypes.DELETE
-                        })
-                        .then(async resultMac => {
-                            console.log(resultMac);
-                            res.json({
-                                status: "ok",
-                                msg: "Maquina deletada"
-                            });
-                        })
-                        .catch(err => res.json({status: "erro", msg: err}));
-                })
-                .catch(err => res.json({status: "erro", msg: err}));
-        })
-        .catch(err => res.json({status: "erro", msg: err}));
+        });
 });
 
 router.post("/permissao-acesso", async (req, res) => {
@@ -521,7 +537,7 @@ router.post("/dados", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}' or pk_maquina = '${maquina}'`;
+    let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}' or pk_maquina = ${maquina}`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
         .then(([msg]) => res.json({status: "ok", msg}))

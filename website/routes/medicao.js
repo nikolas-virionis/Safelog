@@ -2,10 +2,10 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
-let { getMachines } = require("../util/get-user-machines/machines");
+let {getMachines} = require("../util/get-user-machines/machines");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
-    let { id } = req.body;
+    let {id} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -14,7 +14,7 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
     let sql = `SELECT pk_maquina FROM maquina JOIN usuario_maquina ON pk_maquina = fk_maquina and fk_usuario = ${id}`;
 
     await sequelize
-        .query(sql, { type: sequelize.QueryTypes.SELECT })
+        .query(sql, {type: sequelize.QueryTypes.SELECT})
         .then(async response => {
             let incidentes = [];
             let incidente = `SELECT id_medicao, data_medicao, valor, unidade, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'risco' OR fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' where ${getMachines(
@@ -27,14 +27,14 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                 .then(result => {
                     incidentes.push(result);
                 })
-                .catch(err => res.json({ status: "erro", msg: err }));
-            return res.json({ status: "ok", response: incidentes });
+                .catch(err => res.json({status: "erro", msg: err}));
+            return res.json({status: "ok", response: incidentes});
         })
-        .catch(err => res.json({ status: "erro", msg: err }));
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
-    let { id } = req.body;
+    let {id} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -43,7 +43,7 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
     let sql = `SELECT pk_maquina FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina JOIN usuario ON fk_usuario = id_usuario AND fk_supervisor = ${id} GROUP BY pk_maquina;`;
 
     await sequelize
-        .query(sql, { type: sequelize.QueryTypes.SELECT })
+        .query(sql, {type: sequelize.QueryTypes.SELECT})
         .then(async response => {
             let incidentes = [];
             let incidente = `SELECT id_medicao, data_medicao, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, usuario.nome as resp FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON usuario_maquina.fk_maquina = pk_maquina JOIN categoria_medicao ON pk_maquina = categoria_medicao.fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE ${getMachines(
@@ -57,41 +57,36 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
                 .then(result => {
                     incidentes.push(result);
                 })
-                .catch(err => res.json({ status: "erro", msg: err }));
-            return res.json({ status: "ok", response: incidentes });
+                .catch(err => res.json({status: "erro", msg: err}));
+            return res.json({status: "ok", response: incidentes});
         })
-        .catch(err => res.json({ status: "erro", msg: err }));
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
-
-
-router.post("/medicoes-componente", async (req, res, next) => {
-    let { id } = req.body;
+router.post("/dados", async (req, res, next) => {
+    let {categorias, cargo} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let sql = `SELECT id_categoria_medicao FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = ${id};`;
 
-    await sequelize
-    .query(sql, { type: sequelize.QueryTypes.SELECT })
-    .then(async response => {
-            let medicoes = [];
-            for (let lap of response) {
-                let {id_categoria_medicao: categoria} = lap;
-                let medicao = `select medicao.data_medicao, medicao.valor, medicao.tipo, tipo_medicao.tipo, tipo_medicao.unidade from medicao inner join categoria_medicao on id_categoria_medicao = fk_categoria_medicao inner join tipo_medicao on id_tipo_medicao = fk_tipo_medicao where id_categoria_medicao = ${categoria} order by data_medicao desc limit 10`;
-                await sequelize
-                    .query(medicao, {type: sequelize.QueryTypes.SELECT})
-                    .then((result) => {
-                        medicoes.push(result);
-                    })
-                    .catch(err => res.json({ status: "erro", msg: err }));
-                };
-            console.log(medicoes)
-            return res.json({ status: "ok", msg: medicoes });
-        })
-        .catch(err => res.json({ status: "erro", msg: err }));
+    let medicoes = [];
+    for (let {idCategoria, nomeCategoria} of categorias) {
+        let sql = `SELECT valor, data_medicao FROM medicao WHERE fk_categoria_medicao = ${idCategoria} ORDER BY data_medicao LIMIT ${
+            cargo === "gestor" ? 300 : 10
+        }`;
+        await sequelize
+            .query(sql, {type: sequelize.QueryTypes.SELECT})
+            .then(result => {
+                medicoes.push({
+                    nome: nomeCategoria,
+                    medicoes: result
+                });
+            })
+            .catch(err => res.json({status: "erro", msg: err}));
+    }
+    return res.json({status: "ok", msg: medicoes});
 });
 
 module.exports = router;

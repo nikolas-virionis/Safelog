@@ -7,7 +7,9 @@ const {
     edicaoMaquina,
     emailUsuarios
 } = require("../util/edicao-maquina/edicaoInfo");
-
+const {
+    maquinasDependentes
+} = require("../util/acesso-maquina/maquinasDependentes");
 router.post("/cadastro", async (req, res, next) => {
     let {id, id_maquina, nome, senha, empresa} = req.body;
     if (!req.body)
@@ -66,57 +68,67 @@ router.post("/cadastro", async (req, res, next) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
-router.post("/lista-dependentes", async (req, res) => {
+router.post("/lista-dependentes/analista", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let dependentes = `SELECT pk_maquina, id_maquina, nome FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina and fk_usuario = ${id}`;
+    maquinasDependentes(id).then(maquinas => {
+        if (!maquinas.status) {
+            res.json({status: "ok", msg: maquinas});
+        } else {
+            res.json(maquinas);
+        }
+    });
+});
+
+router.post("/lista-dependentes/gestor", async (req, res) => {
+    let {id} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "alerta",
+            msg: "Body não fornecido na requisição"
+        });
+    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS usuario FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON pk_maquina = fk_maquina WHERE fk_supervisor = ${id} GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
-        .then(async response => {
-            let maquinas = [];
-            for (let {pk_maquina, id_maquina, nome} of response) {
-                let responsavel = `SELECT usuario.nome FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' and fk_maquina = ${pk_maquina};`;
-                await sequelize
-                    .query(responsavel, {
-                        type: sequelize.QueryTypes.SELECT
-                    })
-                    .then(([{nome: usuario}]) =>
-                        maquinas.push({
-                            pk_maquina,
-                            id_maquina,
-                            nome,
-                            responsavel: usuario
-                        })
-                    )
-                    .catch(err => res.json({status: "erro", err}));
+        .then(async maquinas => {
+            if (maquinas.length) {
+                res.json({status: "ok", res: maquinas});
+            } else {
+                res.json({
+                    status: "alerta",
+                    msg: "Usuario não possui maquinas dependentes"
+                });
             }
-            res.json({status: "ok", res: maquinas});
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
-router.post("/lista-dependentes-gestor", async (req, res) => {
+router.post("/lista-dependentes/admin", async (req, res) => {
     let {id} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let dependentes = `select pk_maquina, id_maquina, maquina.nome, usuario.nome as usuario from usuario_maquina inner join maquina on fk_maquina = pk_maquina inner join usuario on fk_usuario = id_usuario where fk_usuario in(select analista.id_usuario from usuario as analista inner join usuario as resp on analista.fk_supervisor = resp.id_usuario where resp.id_usuario = ${id}) group by pk_maquina;
-    `;
+    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, a.nome AS usuario FROM usuario AS g JOIN usuario AS a ON a.fk_supervisor = g.id_usuario AND g.fk_supervisor = ${id} JOIN usuario_maquina ON fk_usuario = a.id_usuario JOIN maquina ON pk_maquina = fk_maquina GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
-        .then(async response => {
-            let maquinas = [];
-            res.json({status: "ok", res: response});
+        .then(async maquinas => {
+            if (maquinas.length) {
+                res.json({status: "ok", res: maquinas});
+            } else {
+                res.json({
+                    status: "alerta",
+                    msg: "Usuario não possui maquinas dependentes"
+                });
+            }
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
-
 
 router.post("/verificar-usuario", async (req, res) => {
     let {id, maquina} = req.body;

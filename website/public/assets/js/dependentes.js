@@ -137,7 +137,7 @@
                             }
                             tbBtn.appendChild(excluirBtn);
                             tbId.innerHTML = `${dependente.id_maquina}`;
-                            tbNome.innerHTML = `${dependente.nome}`;
+                            tbNome.innerHTML = `${dependente.maquina}`;
                             tbResp.innerHTML = `${dependente.responsavel}`;
                             tr.appendChild(tbId);
                             tr.appendChild(tbNome);

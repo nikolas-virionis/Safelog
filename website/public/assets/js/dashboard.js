@@ -4,7 +4,7 @@ axios
     .post(`/maquina/lista-dependentes/${cargo}`, {
         id
     })
-    .then(({data: {status, res: dependentes}}) => {
+    .then(({data: {status, msg: dependentes}}) => {
         if (status == "ok") {
             if (dependentes.length) {
                 let titulo = document.createElement("h2");
@@ -17,6 +17,7 @@ axios
 
             dependentes.forEach(maq => {
                 gerarCardMaquina(maq);
+                document.querySelector(".card-maquina").click();
                 // resgatarComponentes(maq);
             });
 

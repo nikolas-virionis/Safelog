@@ -75,7 +75,7 @@ const resgatarComponentes = (maq) => {
         id: maq.pk_maquina
     }).then(({ data }) => {
         if (data.status == "ok") {
-            axios.post("medicao/medicoes-componente", {
+            axios.post("/medicao/medicoes-componente", {
                 id: maq.pk_maquina
             }).then((res) => {
                 // console.log(res.data.msg.length);

@@ -543,3 +543,15 @@ label {
 .titulo-acesso{
   font-size: 30px;
 }
+
+
+
+.graphContainer{
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px #666;
+  width:100%;
+  height: auto;
+  padding: 20px;
+  margin: 10px 0;
+  background-color: #e0e0e0;
+}

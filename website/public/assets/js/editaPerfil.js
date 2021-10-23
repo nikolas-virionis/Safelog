@@ -172,10 +172,10 @@ btnAltSenha.addEventListener("click", e => {
         .then(response => {
             if (response.data?.status == "ok") {
                 senha.value = "";
-                mostrarAlerta(
-                    response.data?.msg,
-                    "success"
-                );
+                // mostrarAlerta(
+                //     response.data?.msg,
+                //     "success"
+                // );
             } else {
                 mostrarAlerta(response.data?.msg, "danger");
             }
@@ -188,9 +188,11 @@ senha.addEventListener("keypress", e => {
     }
 });
 
-const inputs = document.querySelectorAll("[onlynum]")
+const inputs = document.querySelectorAll("[onlynum]");
 inputs.forEach(el => {
     el.addEventListener("input", evt => {
-        el.value = el.value.replaceAll(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
-    })
-})
+        el.value = el.value
+            .replaceAll(/[^0-9.]/g, "")
+            .replace(/(\..*)\./g, "$1");
+    });
+});

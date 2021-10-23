@@ -232,7 +232,7 @@ router.post("/delete", async (req, res, next) => {
 
     // estrutura de deletes
 
-    let sqlMaquinaExiste = `SELECT * FROM maquina WHERE id_maquina = ${id}`;
+    let sqlMaquinaExiste = `SELECT * FROM maquina WHERE pk_maquina = ${id}`;
 
     await sequelize
         .query(sqlMaquinaExiste, {type: sequelize.QueryTypes.SELECT})

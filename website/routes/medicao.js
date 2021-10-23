@@ -74,7 +74,7 @@ router.post("/dados", async (req, res, next) => {
     let medicoes = [];
     for (let {idCategoria, nomeCategoria} of categorias) {
         let sql = `SELECT valor, data_medicao FROM medicao WHERE fk_categoria_medicao = ${idCategoria} ORDER BY data_medicao LIMIT ${
-            cargo === "gestor" ? 300 : 10
+            cargo == "analista" ? 10 : 300
         }`;
         await sequelize
             .query(sql, {type: sequelize.QueryTypes.SELECT})

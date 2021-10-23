@@ -529,7 +529,7 @@ router.post("/update", async (req, res, next) => {
                 });
             }
         })
-        .catch(err => res.json({status: "erro", msg: err}));;
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 router.post("/dados", async (req, res) => {

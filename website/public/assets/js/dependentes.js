@@ -92,8 +92,7 @@
             .post("/maquina/lista-dependentes/analista", {
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id
             })
-            .then(response => {
-                let {status, res: dependentes} = response.data;
+            .then(({data: {status, msg: dependentes}}) => {
                 if (status == "ok") {
                     if (dependentes.length > 0) {
                         dependentes.forEach(dependente => {

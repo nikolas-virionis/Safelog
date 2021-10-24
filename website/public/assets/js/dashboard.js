@@ -13,7 +13,7 @@ axios
                 contSite.prepend(titulo);
                 contSite.prepend(document.createElement("br"));
             } else {
-                mostrarAlerta("Nenhuma máquina foi encontrada", "warning");
+                mostrarAlerta("Nenhuma máquina foi encontrada", "info");
             }
 
             dependentes.forEach(maq => {
@@ -131,18 +131,18 @@ const reqData = types => {
         })
         .then(response => {
             if (response.data.status == "ok") {
-                console.log(response.data.msg)
+                console.log(response.data.msg);
                 for (let dados of response.data.msg) {
                     // console.log(dados);
                     if (dados.nome == "cpu_porcentagem") {
                         updateChart(myChart, dados.medicoes, 0);
-                        myChart.data.datasets[0].label = dados.nome;
+                        myChart.data.datasets[0].label = "CPU - Uso";
                     } else if (dados.nome == "ram_porcentagem") {
                         updateChart(myChart, dados.medicoes, 1);
-                        myChart.data.datasets[1].label = dados.nome;
+                        myChart.data.datasets[1].label = "RAM - Uso";
                     } else if (dados.nome == "disco_porcentagem") {
                         updateChart(myChart, dados.medicoes, 2);
-                        myChart.data.datasets[2].label = dados.nome;
+                        myChart.data.datasets[2].label = "DISCO - Uso";
                     }
                 }
             } else {
@@ -241,8 +241,7 @@ const secondaryCharts = types => {
 
 const changeMachineSec = (types, chart) => {
     reqDataSec(types, chart);
-    // window.intervalSec = setInterval(() => reqDataSec(types, chart), 1000);
-    reqDataSec(types, chart)
+    window.intervalSec = setInterval(() => reqDataSec(types, chart), 1000);
 };
 
 const reqDataSec = (types, chart) => {

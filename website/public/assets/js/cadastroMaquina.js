@@ -45,7 +45,7 @@ confirmarSenha.addEventListener("keypress", e => {
 btn.addEventListener("click", e => {
     e.preventDefault();
     if (senha.value !== confirmarSenha.value) {
-        mostrarAlerta("As senhas são diferentes", "warning");
+        mostrarAlerta("As senhas são diferentes", "danger");
         return;
     }
     axios
@@ -61,7 +61,7 @@ btn.addEventListener("click", e => {
             if (response.data?.status == "ok") {
                 mostrarAlerta(response.data?.msg, "success");
                 window.location.href = `componentes?pk_maquina=${response.data.pk_maquina}`;
-            } else if(response.data?.status == "alerta") {
+            } else if (response.data?.status == "alerta") {
                 mostrarAlerta(response.data?.msg, "danger");
             }
         });

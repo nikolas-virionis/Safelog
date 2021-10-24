@@ -83,7 +83,7 @@ axios
                 contSite.prepend(titulo);
                 contSite.prepend(document.createElement("br"));
             } else {
-                mostrarAlerta("Nenhuma máquina foi encontrada", "info");
+                mostrarAlerta("Nenhuma máquina foi encontrada", "danger");
             }
 
             dependentes.forEach(maq => {

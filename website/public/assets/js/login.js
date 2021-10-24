@@ -61,7 +61,7 @@ const validarLogin = () => {
                             );
                             window.location.href = "dashboard";
                         } else if (status === "alerta") {
-                            mostrarAlerta(msg, "info");
+                            mostrarAlerta(msg, "danger");
                         }
                     });
             }
@@ -80,7 +80,7 @@ emailInModal.addEventListener("keypress", e => {
 btnModal.addEventListener("click", async e => {
     e.preventDefault();
     if (!emailInModal.value) {
-        mostrarAlerta("Digite um email", "warning");
+        mostrarAlerta("Digite um email", "danger");
         return;
     }
     const {validateEmail} = await import("./email.js");

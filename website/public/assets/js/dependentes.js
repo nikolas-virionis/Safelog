@@ -175,7 +175,7 @@
                                                     3000
                                                 );
                                             } else if (status == "alerta") {
-                                                mostrarAlerta(msg, "info");
+                                                mostrarAlerta(msg, "danger");
                                             } else {
                                                 console.error(msg);
                                             }

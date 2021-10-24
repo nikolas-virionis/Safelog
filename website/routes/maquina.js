@@ -249,7 +249,6 @@ router.post("/delete", async (req, res, next) => {
                         // delete medicao
                         for (let metrica of metricas) {
                             let sqlDelMedicao = `DELETE FROM medicao WHERE fk_categoria_medicao = ${metrica}`;
-                            console.log(metrica);
                             sequelize
                                 .query(sqlDelMedicao, {
                                     type: sequelize.QueryTypes.DELETE
@@ -568,18 +567,15 @@ router.post("/dados", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}'`;
+    let sql;
+    if (typeof maquina == "string")
+        sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}'`;
+    else
+        sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE  pk_maquina = ${maquina}`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
         .then(async ([msg]) => {
-            if (msg) {
-                res.json({status: "ok", msg});
-            } else {
-                let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE  pk_maquina = ${maquina}`;
-                await sequelize
-                    .query(sql, {type: sequelize.QueryTypes.SELECT})
-                    .then(([msg]) => res.json({status: "erro", msg}));
-            }
+            res.json({status: "ok", msg});
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

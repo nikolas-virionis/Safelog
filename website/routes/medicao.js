@@ -72,10 +72,10 @@ router.post("/dados", async (req, res, next) => {
         });
 
     let medicoes = [];
-    for (let {id_categoria_medicao,  tipo} of categorias) {
+    for (let {id_categoria_medicao, tipo} of categorias) {
         // console.log(id_categoria_medicao, tipo)
         let sql = `SELECT valor, data_medicao FROM medicao WHERE fk_categoria_medicao = ${id_categoria_medicao} ORDER BY data_medicao DESC LIMIT ${
-            cargo == "analista" ? 30 : 120
+            cargo == "analista" ? 30 : 100
         }`;
         await sequelize
             .query(sql, {type: sequelize.QueryTypes.SELECT})
@@ -86,7 +86,7 @@ router.post("/dados", async (req, res, next) => {
                 });
                 console.log(result);
             })
-            
+
             .catch(err => res.json({status: "erro", msg: err}));
     }
     return res.json({status: "ok", msg: medicoes});

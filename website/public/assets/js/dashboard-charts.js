@@ -1,5 +1,4 @@
 var canvasChart1 = document.getElementById(`idChart1`).getContext("2d");
-var canvasChart2 = document.getElementById(`idChart2`).getContext("2d");
 
 var colors = [
     "#0071ceee",
@@ -61,40 +60,11 @@ const chartData = {
     ]
 };
 
-const chartData2 = {
-    labels: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
-    datasets: [
-        {
-            label: "componente",
-            data: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
-            fill: false,
-            backgroundColor: colors[color],
-            borderColor: colors[color],
-            // fill: true,
-            tension: 0.3
-        }
-    ]
-};
-
 const chartConfig1 = {
     type: "line",
     data: chartData,
     options: {
-        title: {
-            display: true,
-            text: "awdawdwad"
-        },
         maintainAspectRatio: false
     }
 };
-
-const chartConfig2 = {
-    type: "line",
-    data: chartData2,
-    options: {
-        maintainAspectRatio: false
-    }
-};
-
-var myChart = new Chart(canvasChart1, chartConfig1);
-var myChart2 = new Chart(canvasChart2, chartConfig2);
+const myChart = new Chart(canvasChart1, chartConfig1);

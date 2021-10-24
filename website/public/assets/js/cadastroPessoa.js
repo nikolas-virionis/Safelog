@@ -40,7 +40,6 @@ btnProsseguir.addEventListener("click", async e => {
         })
         .then(response => {
             if (response.data?.status == "ok") {
-                mostrarAlerta(response.data?.msg, "success");
                 sessionStorage.setItem(
                     "id_usuario",
                     response.data.msg.id_usuario

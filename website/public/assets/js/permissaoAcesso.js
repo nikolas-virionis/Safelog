@@ -42,8 +42,6 @@ btnProsseguir.addEventListener("click", async e => {
         })
         .then(async ({data: {status, msg}}) => {
             if (status == "ok") {
-                mostrarAlerta(msg, "success");
-                // sessionStorage.setItem("id_usuario", msg.id_usuario);
                 await axios
                     .post("/usuario/dados", {
                         id: msg.id_usuario

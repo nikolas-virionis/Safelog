@@ -41,10 +41,9 @@ const validarLogin = () => {
             email: email.value,
             senha: senha.value
         })
-        .then(response => {
-            if (response.data.status == "ok") {
-                mostrarAlerta("Usuario logado como staff", "success");
-                let {status, ...user} = response.data;
+        .then(({data: {status, msg, ...user}}) => {
+            if (status == "ok") {
+                mostrarAlerta(msg, "success");
                 sessionStorage.setItem("staff", JSON.stringify(user));
                 window.location.href = "cadastro-empresa";
             } else {
@@ -53,24 +52,16 @@ const validarLogin = () => {
                         email: email.value,
                         senha: senha.value
                     })
-                    .then(res => {
-                        console.log(res);
-                        if (res.data.status == "ok") {
-                            mostrarAlerta(
-                                "Usuario logado com sucesso",
-                                "success"
-                            );
-                            let {status, ...user} = res.data;
+                    .then(({data: {status, msg, ...user}}) => {
+                        if (status == "ok") {
+                            mostrarAlerta(msg, "success");
                             sessionStorage.setItem(
                                 "usuario",
                                 JSON.stringify(user)
                             );
                             window.location.href = "dashboard";
-                        } else if(res.data.status === "alerta") {
-                            mostrarAlerta(
-                                res.data.msg,
-                                "warning"
-                            );
+                        } else if (status === "alerta") {
+                            mostrarAlerta(msg, "info");
                         }
                     });
             }
@@ -102,15 +93,9 @@ btnModal.addEventListener("click", async e => {
         .then(response => {
             if (response.data?.status == "ok") {
                 email.value = "";
-                mostrarAlerta(
-                    response.data?.msg,
-                    "success"
-                );
+                mostrarAlerta(response.data?.msg, "success");
             } else {
-                mostrarAlerta(
-                    response.data?.msg,
-                    "danger"
-                );
+                mostrarAlerta(response.data?.msg, "danger");
             }
         });
 });

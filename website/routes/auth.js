@@ -26,6 +26,7 @@ router.post("/staff", (req, res, next) => {
                 let {id_staff: id, nome, email} = result;
                 res.json({
                     status: "ok",
+                    msg: "Usuario logado como staff",
                     cargo: "staff",
                     id,
                     nome,
@@ -75,7 +76,8 @@ router.post("/usuario", (req, res, next) => {
                     nome,
                     email,
                     id_empresa,
-                    id_supervisor
+                    id_supervisor,
+                    msg: "Usuario logado com sucesso"
                 });
             } else
                 res.json({status: "alerta", msg: "Email ou senha inválidos"});

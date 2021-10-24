@@ -1,5 +1,6 @@
 let {id, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
-let maq1;
+let maq1,
+    nMaq = 0;
 axios
     .post(`/maquina/lista-dependentes/${cargo}`, {
         id
@@ -19,7 +20,8 @@ axios
                 gerarCardMaquina(maq);
                 // resgatarComponentes(maq);
             });
-            document.querySelector(".card-maquina").click();
+            let maquina = sessionStorage.getItem("maquina") ?? 0;
+            document.querySelectorAll(".card-maquina")[maquina].click();
 
             // document.getElementById(`${response.data.res[0].id_maquina}`).setAttribute("checked", "checked");
         } else {
@@ -78,6 +80,7 @@ const gerarCardMaquina = maq => {
     iconMaq.classList = "fas fa-server";
     divIcon.appendChild(iconMaq);
     labelMaq.appendChild(divIcon);
+    labelMaq.maq = nMaq;
 
     //div2
     let divName = document.createElement("div");
@@ -90,29 +93,36 @@ const gerarCardMaquina = maq => {
     document.querySelector("#listaMaq").appendChild(labelMaq);
 
     labelMaq.addEventListener("click", async e => {
-        if(window.interval) {
+        sessionStorage.setItem("maquina", labelMaq.maq);
+        if (window.interval) {
             clearInterval(window.interval);
         }
         let {pk_maquina: maquina} = maq;
         document.querySelector("#graficosDash").innerHTML = "";
         // resgatarComponentes(maq);
         let componentes = await getComponentes(maquina);
-        mainTypes = []
+        mainTypes = [];
         componentes.forEach(({tipo, id_categoria_medicao}) => {
-            if (tipo == "cpu_porcentagem" || tipo == "ram_porcentagem" || tipo == "disco_porcentagem") {
+            if (
+                tipo == "cpu_porcentagem" ||
+                tipo == "ram_porcentagem" ||
+                tipo == "disco_porcentagem"
+            ) {
                 mainTypes.push({
                     id_categoria_medicao,
                     tipo
-                })
+                });
             }
-        })
-        changeMachine(mainTypes)
+        });
+        console.log(mainTypes);
+        changeMachine(mainTypes);
     });
 
     inputMaq.addEventListener("change", e => {
         document.querySelector("#graficosDash").innerHTML = "";
         // apagarGraficos();
     });
+    nMaq++;
 };
 
 const getComponentes = maq => {
@@ -257,15 +267,16 @@ const mostrarGraficos = (componente, idMaq, medicoes, listaDatas) => {
 };
 
 // update main chart
-function changeMachine(types) {
+const changeMachine = types => {
     reqData(types);
     window.interval = setInterval(() => {
         reqData(types);
-    }, 1000)
-}
+    }, 1000);
+};
 
-const reqData = (types) => {
-    axios.post("/medicao/dados", {
+const reqData = types => {
+    axios
+        .post("/medicao/dados", {
             categorias: types,
             cargo: "analista"
         })
@@ -273,27 +284,37 @@ const reqData = (types) => {
             if (response.data.status == "ok") {
                 // console.log(response.data.msg)
                 for (let dados of response.data.msg) {
-                    console.log(dados)
+                    // console.log(dados);
                     if (dados.nome == "cpu_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 0)
+                        updateChart(myChart, dados.medicoes, 0);
                     } else if (dados.nome == "ram_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 1)
+                        updateChart(myChart, dados.medicoes, 1);
                     } else if (dados.nome == "disco_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 2)
+                        updateChart(myChart, dados.medicoes, 2);
                     }
                 }
             } else {
-                console.log(response.data.msg)
+                console.log(response.data.msg);
             }
-        })
-}
+        });
+};
 
 function updateChart(chart, dados, index) {
-    const data = []
-    const labels = []
+    const data = [];
+    const labels = [];
     for (let {valor, data_medicao} of dados) {
-        data.push(Number(valor))
-        labels.push(new Date(data_medicao).toTimeString().slice(0, 8))
+        data.push(Number(valor));
+        labels.push(
+            new Date(data_medicao)
+                .toLocaleTimeString("pt-BR", {
+                    timeZone: "UTC",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
+                })
+                .slice(0, 8)
+        );
     }
     chart.data.datasets[index].data = data.reverse();
     chart.data.labels = labels.reverse();

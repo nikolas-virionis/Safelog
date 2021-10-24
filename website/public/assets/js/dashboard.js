@@ -1,5 +1,6 @@
 let {id, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
 let maq1,
+    myChart,
     nMaq = 0;
 
 let canvasChart1 = document.getElementById(`idChart1`);
@@ -19,47 +20,7 @@ const chartData = {
         1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2,
         3, 4, 3, 6, 3, 6, 4, 2, 1
     ],
-    datasets: [
-        {
-            label: "",
-            data: [
-                1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2,
-                1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1
-            ],
-            fill: false,
-            backgroundColor: colors[0],
-            borderColor: colors[0],
-            // fill: true,
-            tension: 0.3
-        },
-        {
-            label: "componente",
-            data: [
-                10, 23, 35, 74, 93, 60, 32, 64, 47, 21, 11, 10, 23, 35, 74, 93,
-                60, 32, 64, 47, 21, 11, 10, 23, 35, 74, 93, 60, 32, 64, 47, 21,
-                11
-            ],
-            fill: false,
-            backgroundColor: colors[1],
-            borderColor: colors[1],
-            // fill: true,
-            tension: 0.3
-        },
-        {
-            label: "componente",
-            data: [
-                50, 30, 80, 80, 58, 69, 30, 60, 40, 20, 10, 50, 30, 80, 80, 58,
-                69, 30, 60, 40, 20, 10, 50, 30, 80, 80, 58, 69, 30, 60, 40, 20,
-                10
-            ],
-            fill: false,
-            backgroundColor: colors[2],
-            borderColor: colors[2],
-            // fill: true,
-            // showLine: false,
-            tension: 0.3
-        }
-    ]
+    datasets: []
 };
 
 const chartConfig1 = {
@@ -69,7 +30,6 @@ const chartConfig1 = {
         maintainAspectRatio: false
     }
 };
-const myChart = new Chart(canvasChart1, chartConfig1);
 
 axios
     .post(`/maquina/lista-dependentes/${cargo}`, {
@@ -168,6 +128,28 @@ const gerarCardMaquina = maq => {
             }
         });
         // console.log(mainTypes);
+        chartData.datasets = [];
+        let iterator = 0;
+        for (let {tipo, id_categoria_medicao} of mainTypes) {
+            let metrica = tipo.split("_");
+            metrica = `${metrica[0].toUpperCase()} - ${
+                metrica[1].charAt(0).toUpperCase() + metrica[1].slice(1)
+            }`;
+            chartData.datasets.push({
+                label: metrica,
+                data: [
+                    1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4,
+                    2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1
+                ],
+                fill: false,
+                backgroundColor: colors[iterator],
+                borderColor: colors[iterator],
+                // fill: true,
+                tension: 0.3
+            });
+            iterator++;
+        }
+        if (!myChart) myChart = new Chart(canvasChart1, chartConfig1);
         changeMachine(mainTypes);
         if (secTypes) secondaryTypes(secTypes);
     });
@@ -206,49 +188,50 @@ const reqData = types => {
             categorias: types,
             cargo
         })
-        .then(response => {
-            if (response.data.status == "ok") {
-                // console.log(response.data.msg);
-                for (let dados of response.data.msg) {
+        .then(({data: {status, msg}}) => {
+            if (status == "ok") {
+                // console.log(msg);
+                for (let dados in msg) {
                     // console.log(dados);
-                    if (dados.nome == "cpu_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 0);
-                        myChart.data.datasets[0].label = "CPU - Uso";
-                    } else if (dados.nome == "ram_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 1);
-                        myChart.data.datasets[1].label = "RAM - Uso";
-                    } else if (dados.nome == "disco_porcentagem") {
-                        updateChart(myChart, dados.medicoes, 2);
-                        myChart.data.datasets[2].label = "DISCO - Uso";
+                    if (msg[dados].nome == "cpu_porcentagem") {
+                        updateChart(myChart, msg[dados].medicoes, dados);
+                    } else if (msg[dados].nome == "ram_porcentagem") {
+                        updateChart(myChart, msg[dados].medicoes, dados);
+                    } else if (msg[dados].nome == "disco_porcentagem") {
+                        updateChart(myChart, msg[dados].medicoes, dados);
                     }
                 }
             } else {
-                console.log(response.data.msg);
+                console.log(msg);
             }
         });
 };
 
 const secondaryTypes = dados => {
     let dadosOrdenados = [];
-    let i = 0;
-    while (i < dados.length) {
-        for (let dado of dados) {
-            if (i == 0 && dado.tipo.endsWith("livre")) {
-                dadosOrdenados.push(dado);
-                i++;
-            } else if (i == 1 && dado.tipo.endsWith("livre")) {
-                dadosOrdenados.push(dado);
-                i++;
-            } else if (i == 2 && dado.tipo.endsWith("frequencia")) {
-                dadosOrdenados.push(dado);
-                i++;
-            } else if (i == 3 && dado.tipo.endsWith("temperatura")) {
-                dadosOrdenados.push(dado);
-                i++;
+    if (dados.length == 4) {
+        let i = 0;
+        while (i < dados.length) {
+            for (let dado of dados) {
+                if (i == 0 && dado.tipo.endsWith("livre")) {
+                    dadosOrdenados.push(dado);
+                    i++;
+                } else if (i == 1 && dado.tipo.endsWith("livre")) {
+                    dadosOrdenados.push(dado);
+                    i++;
+                } else if (i == 2 && dado.tipo.endsWith("frequencia")) {
+                    dadosOrdenados.push(dado);
+                    i++;
+                } else if (i == 3 && dado.tipo.endsWith("temperatura")) {
+                    dadosOrdenados.push(dado);
+                    i++;
+                }
             }
         }
+    } else {
+        dadosOrdenados = [...dados];
     }
-    // console.log(dadosOrdenados);
+    console.log(dadosOrdenados);
     secondaryCharts(dadosOrdenados);
 };
 

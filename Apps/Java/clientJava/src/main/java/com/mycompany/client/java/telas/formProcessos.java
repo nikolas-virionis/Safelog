@@ -9,7 +9,14 @@ import com.github.britooo.looca.api.group.processos.Processo;
 import com.github.britooo.looca.api.group.processos.ProcessosGroup;
 import com.mycompany.client.java.Monitoring;
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.stream.Stream;
+
+import javax.swing.JTextField;
+
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 /**
  *
@@ -82,7 +89,8 @@ public class formProcessos extends javax.swing.JFrame {
                     // adding formated proc on List
                     procsDisplay.add(str);
                 }
-                return procsDisplay;}
+                return procsDisplay;
+            }
             // adding each item from procs list to JList
             List<String> strings = getProcs();
             public int getSize() { return strings.size(); }
@@ -180,16 +188,47 @@ public class formProcessos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private String procNameByPID(Integer pid) {
+        List<Processo> procs = new Monitoring().getGrupoDeProcessos().getProcessos();
+        String name = "";
+        for (Processo proc : procs) {
+            if (proc.getPid() == pid) {
+                name = proc.getNome();
+            }
+        };
+        return name;
+    }
+
+    // private List<Integer> procPidListByName(String name) {
+    //     List<Integer> pids = new ArrayList<>();
+    //     Stream<ProcessHandle> procs = ProcessHandle.allProcesses();
+    //     procs.forEach(p -> {
+    //         System.out.println(p.info().commandLine());
+    //     });
+    //     // tmp.forEach(p -> {
+    //     //     pids.add((int) p.pid());
+    //     // });
+    //     return pids;
+    // }
+
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
         // TODO add your handling code here:
-        String pid = jTextField1.getText();
-        String cmd = String.format("taskkill /F /PID %s", pid);
+        Integer pid = Integer.valueOf(jTextField1.getText());
+        jTextField1.setText("");
+
+        String cmd = String.format("taskkill /F /PID %d", pid);
         System.out.println(cmd);
         try {  
             Runtime.getRuntime().exec(cmd);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
+        }  
+
+        // a implementação atual não garante que os subprocessos também sejam destruidos.
+
+        // final String procName = procNameByPID(pid);
+        // System.out.println(procPidListByName(procName));
+        // ProcessHandle
     }//GEN-LAST:event_btnProcessActionPerformed
 
     /**

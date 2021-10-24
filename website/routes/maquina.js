@@ -568,10 +568,19 @@ router.post("/dados", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}' or pk_maquina = ${maquina}`;
+    let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}'`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
-        .then(([msg]) => res.json({status: "ok", msg}))
+        .then(async ([msg]) => {
+            if (msg) {
+                res.json({status: "ok", msg});
+            } else {
+                let sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE  pk_maquina = ${maquina}`;
+                await sequelize
+                    .query(sql, {type: sequelize.QueryTypes.SELECT})
+                    .then(([msg]) => res.json({status: "erro", msg}));
+            }
+        })
         .catch(err => res.json({status: "erro", msg: err}));
 });
 

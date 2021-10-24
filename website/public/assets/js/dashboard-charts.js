@@ -17,7 +17,7 @@ const chartData = {
     ],
     datasets: [
         {
-            label: "componente",
+            label: "",
             data: [
                 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2,
                 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1

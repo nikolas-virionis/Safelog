@@ -68,7 +68,7 @@ const gerarCardMaquina = maq => {
             clearInterval(window.intervalSec);
         }
         let {pk_maquina: maquina} = maq;
-        // document.querySelector("#graficosDash").innerHTML = "";
+        document.querySelector("#graficosDash").innerHTML = "";
         // resgatarComponentes(maq);
         let componentes = await getComponentes(maquina);
         mainTypes = [];
@@ -131,15 +131,18 @@ const reqData = types => {
         })
         .then(response => {
             if (response.data.status == "ok") {
-                // console.log(response.data.msg)
+                console.log(response.data.msg)
                 for (let dados of response.data.msg) {
                     // console.log(dados);
                     if (dados.nome == "cpu_porcentagem") {
                         updateChart(myChart, dados.medicoes, 0);
+                        myChart.data.datasets[0].label = dados.nome;
                     } else if (dados.nome == "ram_porcentagem") {
                         updateChart(myChart, dados.medicoes, 1);
+                        myChart.data.datasets[1].label = dados.nome;
                     } else if (dados.nome == "disco_porcentagem") {
                         updateChart(myChart, dados.medicoes, 2);
+                        myChart.data.datasets[2].label = dados.nome;
                     }
                 }
             } else {
@@ -238,7 +241,8 @@ const secondaryCharts = types => {
 
 const changeMachineSec = (types, chart) => {
     reqDataSec(types, chart);
-    window.intervalSec = setInterval(() => reqDataSec(types, chart), 1000);
+    // window.intervalSec = setInterval(() => reqDataSec(types, chart), 1000);
+    reqDataSec(types, chart)
 };
 
 const reqDataSec = (types, chart) => {

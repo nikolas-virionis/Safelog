@@ -182,6 +182,14 @@ public class formProcessos extends javax.swing.JFrame {
 
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
         // TODO add your handling code here:
+        String pid = jTextField1.getText();
+        String cmd = String.format("taskkill /F /PID %s", pid);
+        System.out.println(cmd);
+        try {  
+            Runtime.getRuntime().exec(cmd);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_btnProcessActionPerformed
 
     /**

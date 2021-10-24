@@ -11,23 +11,15 @@ import com.github.britooo.looca.api.group.processos.ProcessosGroup;
 public class Tests {
 
     public static void main(String[] args) throws InterruptedException {
-        Monitoring m = new Monitoring();
+        
+        String cmd = "taskkill /F /PID %s";
+        cmd = String.format(cmd, "15060");
 
-        ProcessosGroup listProc = m.getGrupoDeProcessos();
-
-        List<Processo> procs = listProc.getProcessos();
-
-        for (Processo proc : procs) {
-            String str = "%s cpu: %.1f mem: %.1f PID: %d";
-            str = String.format(str, proc.getNome(), proc.getUsoCpu(), proc.getUsoMemoria(), proc.getPid());
-            System.out.println(str);
-            // System.out.println(proc.getNome() + proc.getPid() + "\n");
+        try {
+            Runtime.getRuntime().exec(cmd);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-
-        // while (true) {
-        //     System.out.println(m);
-        //     TimeUnit.SECONDS.sleep(1);
-        // }
 
     }
 }

@@ -84,7 +84,9 @@ router.post("/dados", async (req, res, next) => {
                     nome: tipo,
                     medicoes: result
                 });
+                console.log(result);
             })
+            
             .catch(err => res.json({status: "erro", msg: err}));
     }
     return res.json({status: "ok", msg: medicoes});

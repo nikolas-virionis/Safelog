@@ -222,15 +222,22 @@
 
     // update main chart
     function changeMachine(types) {
+        reqData(types);
         window.interval = setInterval(() => {
-            axios.post("/medicao/dados", {
+            reqData(types);
+        }, 1000)
+    }
+
+    const reqData = (types) => {
+        axios.post("/medicao/dados", {
                 categorias: types,
                 cargo: "analista"
             })
             .then(response => {
                 if (response.data.status == "ok") {
-
+                    // console.log(response.data.msg)
                     for (let dados of response.data.msg) {
+                        console.log(dados)
                         if (dados.nome == "cpu_porcentagem") {
                             updateChart(myChart, dados.medicoes, 0)
                         } else if (dados.nome == "ram_porcentagem") {
@@ -243,7 +250,6 @@
                     console.log(response.data.msg)
                 }
             })
-        }, 1000)
     }
     
     function updateChart(chart, dados, index) {
@@ -254,7 +260,7 @@
             labels.push(new Date(data_medicao).toTimeString().slice(0, 8))
         }
         chart.data.datasets[index].data = data.reverse();
-        chart.data.labels = labels
+        chart.data.labels = labels.reverse();
         chart.update();
     }
 

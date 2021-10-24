@@ -1,15 +1,3 @@
-// const cpu = document.querySelector("#cpuRange");
-// const ram = document.querySelector("#memoryRange");
-// const dsk = document.querySelector("#diskRange");
-
-// leituraCpu.innerHTML = cpu.value;
-// leituraMemory.innerHTML = ram.value;
-// leituraDisk.innerHTML = dsk.value;
-
-// cpu.addEventListener("mousemove", () => (leituraCpu.innerHTML = cpu.value));
-// ram.addEventListener("mousemove", () => (leituraMemory.innerHTML = ram.value));
-// dsk.addEventListener("mousemove", () => (leituraDisk.innerHTML = dsk.value));
-
 const {id, id_empresa: empresa} = JSON.parse(sessionStorage.getItem("usuario"));
 const id_maquina = document.querySelector("#inp-id-maquina");
 const nome = document.querySelector("#inp-nome-maquina");
@@ -38,7 +26,7 @@ senha.addEventListener("keypress", e => {
 confirmarSenha.addEventListener("keypress", e => {
     if (e.key === "Enter") {
         e.preventDefault();
-        confirmarSenha.blur();
+        btn.click();
     }
 });
 

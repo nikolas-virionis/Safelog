@@ -180,12 +180,22 @@ router.post("/componentes", async (req, res) => {
                         return res.json({status: "erro", msg: err});
                     });
             } else {
-                let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
+                let deleteSql = `DELETE FROM medicao WHERE fk_categoria_medicao = (SELECT id_categoria_medicao FROM categoria_medicao JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${id} JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '${nome}')`;
                 await sequelize
-                    .query(sql, {type: sequelize.QueryTypes.DELETE})
-                    .then(response => {})
+                    .query(deleteSql, {
+                        type: sequelize.QueryTypes.DELETE
+                    })
+                    .then(async () => {
+                        let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
+                        await sequelize
+                            .query(sql, {type: sequelize.QueryTypes.DELETE})
+                            .then(response => {})
+                            .catch(err => {
+                                return res.json({status: "erro2", msg: err});
+                            });
+                    })
                     .catch(err => {
-                        return res.json({status: "erro", msg: err});
+                        return res.json({status: "erro1", msg: err});
                     });
             }
         }
@@ -203,7 +213,7 @@ router.post("/lista-componentes", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT id_categoria_medicao, tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = '${id}' `;
+    let sql = `SELECT id_categoria_medicao, tipo, medicao_limite FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = ${id} `;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})

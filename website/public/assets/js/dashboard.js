@@ -255,3 +255,47 @@ const mostrarGraficos = (componente, idMaq, medicoes, listaDatas) => {
 
     var myChart = new Chart(canvasChart, chartConfig);
 };
+
+// update main chart
+function changeMachine(types) {
+    reqData(types);
+    window.interval = setInterval(() => {
+        reqData(types);
+    }, 1000)
+}
+
+const reqData = (types) => {
+    axios.post("/medicao/dados", {
+            categorias: types,
+            cargo: "analista"
+        })
+        .then(response => {
+            if (response.data.status == "ok") {
+                // console.log(response.data.msg)
+                for (let dados of response.data.msg) {
+                    console.log(dados)
+                    if (dados.nome == "cpu_porcentagem") {
+                        updateChart(myChart, dados.medicoes, 0)
+                    } else if (dados.nome == "ram_porcentagem") {
+                        updateChart(myChart, dados.medicoes, 1)
+                    } else if (dados.nome == "disco_porcentagem") {
+                        updateChart(myChart, dados.medicoes, 2)
+                    }
+                }
+            } else {
+                console.log(response.data.msg)
+            }
+        })
+}
+
+function updateChart(chart, dados, index) {
+    const data = []
+    const labels = []
+    for (let {valor, data_medicao} of dados) {
+        data.push(Number(valor))
+        labels.push(new Date(data_medicao).toTimeString().slice(0, 8))
+    }
+    chart.data.datasets[index].data = data.reverse();
+    chart.data.labels = labels.reverse();
+    chart.update();
+}

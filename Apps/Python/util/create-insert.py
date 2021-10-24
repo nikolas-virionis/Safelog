@@ -25,7 +25,8 @@ insert_sql += "INSERT INTO maquina VALUES ('0c:9d:92:c6:cc:19', 'DESKTOP1', MD5(
 insert_sql += "INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '0c:9d:92:c6:cc:19'); \n"
 for i, j in enumerate(limites):
     insert_sql += f"INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUES ({limites[i]}, '{maquinas[i]}', {tipos_med[i]}); \n"
+insert_sql += "INSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES \n"
 for i, j in enumerate(valores):
-    insert_sql += f"INSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES ({valores[i]}, '{tipos[i]}', '{datas[i]}', {fks[i]}); \n"
-print(insert_sql)
-pyperclip.copy(insert_sql)
+    insert_sql += f" ({valores[i]}, '{tipos[i]}', '{datas[i]}', {fks[i]}), \n"
+print(insert_sql[:-3] + ";")
+pyperclip.copy(insert_sql[:-3] + ";")

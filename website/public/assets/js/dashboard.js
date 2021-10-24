@@ -17,9 +17,9 @@ axios
 
             dependentes.forEach(maq => {
                 gerarCardMaquina(maq);
-                document.querySelector(".card-maquina").click();
                 // resgatarComponentes(maq);
             });
+            document.querySelector(".card-maquina").click();
 
             // document.getElementById(`${response.data.res[0].id_maquina}`).setAttribute("checked", "checked");
         } else {
@@ -90,11 +90,23 @@ const gerarCardMaquina = maq => {
     document.querySelector("#listaMaq").appendChild(labelMaq);
 
     labelMaq.addEventListener("click", async e => {
+        if(window.interval) {
+            clearInterval(window.interval);
+        }
         let {pk_maquina: maquina} = maq;
         document.querySelector("#graficosDash").innerHTML = "";
         // resgatarComponentes(maq);
         let componentes = await getComponentes(maquina);
-        console.log(componentes);
+        mainTypes = []
+        componentes.forEach(({tipo, id_categoria_medicao}) => {
+            if (tipo == "cpu_porcentagem" || tipo == "ram_porcentagem" || tipo == "disco_porcentagem") {
+                mainTypes.push({
+                    id_categoria_medicao,
+                    tipo
+                })
+            }
+        })
+        changeMachine(mainTypes)
     });
 
     inputMaq.addEventListener("change", e => {

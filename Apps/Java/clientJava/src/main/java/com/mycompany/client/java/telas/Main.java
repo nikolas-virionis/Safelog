@@ -101,7 +101,7 @@ public class Main extends javax.swing.JFrame {
             }
 
             try {
-                TimeUnit.SECONDS.sleep(30);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 throw new RuntimeException("Erro no time sleep");

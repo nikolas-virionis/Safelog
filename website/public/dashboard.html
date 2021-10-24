@@ -117,8 +117,8 @@
             <div class="canvas-destaque">
                 <canvas id="idChart1"></canvas>
             </div>
-            <div class="container-site" id="graficosDash">
-                <div class="row justify-content-center ">
+            <div class="container-site">
+                <div class="row justify-content-center" id="graficosDash">
                     <div class="col-md-6 col-sm-12">
                         <div class="graphContainer">
                             <h2 class="centralizar">aaaa</h2>
@@ -218,6 +218,44 @@
     };
 
     var myChart = new Chart(canvasChart1, chartConfig1);
-    var myChart = new Chart(canvasChart2, chartConfig2);
+    var myChart2 = new Chart(canvasChart2, chartConfig2);
+
+    // update main chart
+    function changeMachine(types) {
+        window.interval = setInterval(() => {
+            axios.post("/medicao/dados", {
+                categorias: types,
+                cargo: "analista"
+            })
+            .then(response => {
+                if (response.data.status == "ok") {
+
+                    for (let dados of response.data.msg) {
+                        if (dados.nome == "cpu_porcentagem") {
+                            updateChart(myChart, dados.medicoes, 0)
+                        } else if (dados.nome == "ram_porcentagem") {
+                            updateChart(myChart, dados.medicoes, 1)
+                        } else if (dados.nome == "disco_porcentagem") {
+                            updateChart(myChart, dados.medicoes, 2)
+                        }
+                    }
+                } else {
+                    console.log(response.data.msg)
+                }
+            })
+        }, 1000)
+    }
+    
+    function updateChart(chart, dados, index) {
+        const data = []
+        const labels = []
+        for (let {valor, data_medicao} of dados) {
+            data.push(Number(valor))
+            labels.push(new Date(data_medicao).toTimeString().slice(0, 8))
+        }
+        chart.data.datasets[index].data = data.reverse();
+        chart.data.labels = labels
+        chart.update();
+    }
 
 </script>

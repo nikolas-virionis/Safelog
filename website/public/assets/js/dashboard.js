@@ -1,6 +1,76 @@
 let {id, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
 let maq1,
     nMaq = 0;
+
+let canvasChart1 = document.getElementById(`idChart1`);
+
+let colors = [
+    "#0071ce",
+    "#F8481C",
+    "#FDB147",
+    "#730039",
+    "#343837",
+    "#32BF84",
+    "#6D5ACF"
+];
+colors = colors.sort(() => Math.random() - 0.5);
+const chartData = {
+    labels: [
+        1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2,
+        3, 4, 3, 6, 3, 6, 4, 2, 1
+    ],
+    datasets: [
+        {
+            label: "",
+            data: [
+                1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2,
+                1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1
+            ],
+            fill: false,
+            backgroundColor: colors[0],
+            borderColor: colors[0],
+            // fill: true,
+            tension: 0.3
+        },
+        {
+            label: "componente",
+            data: [
+                10, 23, 35, 74, 93, 60, 32, 64, 47, 21, 11, 10, 23, 35, 74, 93,
+                60, 32, 64, 47, 21, 11, 10, 23, 35, 74, 93, 60, 32, 64, 47, 21,
+                11
+            ],
+            fill: false,
+            backgroundColor: colors[1],
+            borderColor: colors[1],
+            // fill: true,
+            tension: 0.3
+        },
+        {
+            label: "componente",
+            data: [
+                50, 30, 80, 80, 58, 69, 30, 60, 40, 20, 10, 50, 30, 80, 80, 58,
+                69, 30, 60, 40, 20, 10, 50, 30, 80, 80, 58, 69, 30, 60, 40, 20,
+                10
+            ],
+            fill: false,
+            backgroundColor: colors[2],
+            borderColor: colors[2],
+            // fill: true,
+            // showLine: false,
+            tension: 0.3
+        }
+    ]
+};
+
+const chartConfig1 = {
+    type: "line",
+    data: chartData,
+    options: {
+        maintainAspectRatio: false
+    }
+};
+const myChart = new Chart(canvasChart1, chartConfig1);
+
 axios
     .post(`/maquina/lista-dependentes/${cargo}`, {
         id
@@ -21,9 +91,7 @@ axios
                 // resgatarComponentes(maq);
             });
             let maquina = sessionStorage.getItem("maquina") ?? 0;
-            document.querySelectorAll(".card-maquina")[maquina].click();
-
-            // document.getElementById(`${response.data.res[0].id_maquina}`).setAttribute("checked", "checked");
+            document.querySelectorAll(".card-maquina")?.[maquina].click();
         } else {
             mostrarAlerta("Ocorreu um erro", "danger");
         }
@@ -64,8 +132,17 @@ const gerarCardMaquina = maq => {
         if (window.interval) {
             clearInterval(window.interval);
         }
-        if (window.intervalSec) {
-            clearInterval(window.intervalSec);
+        if (window.intervalSec1) {
+            clearInterval(window.intervalSec1);
+        }
+        if (window.intervalSec2) {
+            clearInterval(window.intervalSec2);
+        }
+        if (window.intervalSec3) {
+            clearInterval(window.intervalSec3);
+        }
+        if (window.intervalSec4) {
+            clearInterval(window.intervalSec4);
         }
         let {pk_maquina: maquina} = maq;
         document.querySelector("#graficosDash").innerHTML = "";
@@ -90,13 +167,13 @@ const gerarCardMaquina = maq => {
                 });
             }
         });
-        console.log(mainTypes);
+        // console.log(mainTypes);
         changeMachine(mainTypes);
         if (secTypes) secondaryTypes(secTypes);
     });
 
     inputMaq.addEventListener("change", e => {
-        // document.querySelector("#graficosDash").innerHTML = "";
+        document.querySelector("#graficosDash").innerHTML = "";
         // apagarGraficos();
     });
     nMaq++;
@@ -131,7 +208,7 @@ const reqData = types => {
         })
         .then(response => {
             if (response.data.status == "ok") {
-                console.log(response.data.msg);
+                // console.log(response.data.msg);
                 for (let dados of response.data.msg) {
                     // console.log(dados);
                     if (dados.nome == "cpu_porcentagem") {
@@ -197,18 +274,9 @@ const secondaryCharts = types => {
         div2.appendChild(titulo);
         div2.appendChild(div3);
         div1.appendChild(div2);
-        canvas = canvas.getContext("2d");
+        // canvas = canvas.getContext("2d");
+        graficos.appendChild(div1);
 
-        var colors = [
-            "#0071ceee",
-            "#0071eeee",
-            "#0fe1feee",
-            "#ccbbccee",
-            "#123445ee",
-            "#654321ee",
-            "#666666ee"
-        ];
-        var color = Math.floor(Math.random() * colors.length);
         const chartData = {
             labels: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
             datasets: [
@@ -216,8 +284,8 @@ const secondaryCharts = types => {
                     label: metrica,
                     data: [1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1],
                     fill: false,
-                    backgroundColor: colors[color],
-                    borderColor: colors[color],
+                    backgroundColor: colors[idChart + 1],
+                    borderColor: colors[idChart + 1],
                     // fill: true,
                     tension: 0.3
                 }
@@ -232,35 +300,36 @@ const secondaryCharts = types => {
             }
         };
         let chart = new Chart(canvas, chartConfig);
-        console.log(chart);
-        graficos.appendChild(div1);
-        changeMachineSec([{id_categoria_medicao, tipo}], chart);
+        changeMachineSec([{id_categoria_medicao, tipo}], chart, idChart - 1);
         idChart++;
     }
 };
 
-const changeMachineSec = (types, chart) => {
+const changeMachineSec = (types, chart, num) => {
     reqDataSec(types, chart);
-    window.intervalSec = setInterval(() => reqDataSec(types, chart), 1000);
+    window[`intervalSec${num}`] = setInterval(
+        () => reqDataSec(types, chart),
+        1000
+    );
 };
 
 const reqDataSec = (types, chart) => {
     axios
         .post("/medicao/dados", {
             categorias: types,
-            cargo
+            cargo: "analista"
         })
         .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 // for (let dados of msg) {
-                updateChart(chart, msg[0].medicoes, 0);
+                updateChart(chart, msg[0].medicoes);
                 // }
             } else {
                 console.log(msg);
             }
         });
 };
-function updateChart(chart, dados, index) {
+function updateChart(chart, dados, index = 0) {
     const data = [];
     const labels = [];
     for (let {valor, data_medicao} of dados) {

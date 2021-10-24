@@ -253,7 +253,7 @@ const mostrarGraficos = (componente, idMaq, medicoes, listaDatas) => {
         }
     };
 
-    var myChart = new Chart(canvasChart, chartConfig);
+    var myChart2 = new Chart(canvasChart, chartConfig);
 };
 
 // update main chart
@@ -273,7 +273,7 @@ const reqData = (types) => {
             if (response.data.status == "ok") {
                 // console.log(response.data.msg)
                 for (let dados of response.data.msg) {
-                    console.log(dados)
+                    // console.log(dados)
                     if (dados.nome == "cpu_porcentagem") {
                         updateChart(myChart, dados.medicoes, 0)
                     } else if (dados.nome == "ram_porcentagem") {

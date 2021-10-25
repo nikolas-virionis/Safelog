@@ -32,8 +32,16 @@ confirmarSenha.addEventListener("keypress", e => {
 
 btn.addEventListener("click", e => {
     e.preventDefault();
+    if(id_maquina.value == "" || 
+       nome.value == "" ||
+       senha.value == "" ||
+       confirmarSenha.value == ""
+    ){
+        mostrarAlerta("Preencha todos os campos para prosseguir", "danger");
+        return;
+    }
     if (senha.value !== confirmarSenha.value) {
-        mostrarAlerta("As senhas são diferentes", "danger");
+        mostrarAlerta("As senhas são diferentes", "warning");
         return;
     }
     axios

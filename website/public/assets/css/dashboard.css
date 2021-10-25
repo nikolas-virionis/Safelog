@@ -128,19 +128,20 @@ h6 {
 .nome-maquina {
   display: flex;
   align-items: center;
-  padding: 30px 10vw;
+  padding: 30px;
 }
 
-.sub-chefe img {
-  width: 80px;
-  height: 80px;
+.profilePic {
+  width: 70px;
+  height: 70px;
   object-fit: cover;
   border-radius: 100%;
   margin: 0 2vw 0 0;
 }
 
 .tabela-listrada {
-  padding: 30px 10vw;
+  padding: 30px 0;
+  overflow-x: auto;
 }
 
 .tabela-listrada table {
@@ -151,12 +152,12 @@ h6 {
 
 .tabela-listrada th {
   font-weight: bold;
-  text-align: left;
+  text-align: center;
   padding: 16px;
 }
 
 .tabela-listrada td {
-  text-align: left;
+  text-align: center;
   padding: 16px;
 }
 

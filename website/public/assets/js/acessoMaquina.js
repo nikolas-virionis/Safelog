@@ -43,9 +43,9 @@ axios
                     lblDelete.classList = "fas fa-times";
 
                     btnResp.appendChild(lblResp);
-                    btnResp.title = "Tornar admin da máquina"
+                    btnResp.title = "Tornar responsável da máquina";
                     btnDelete.appendChild(lblDelete);
-                    btnDelete.title = "Remover acesso a essa máquina"
+                    btnDelete.title = "Remover acesso";
 
                     tdOperacoes.appendChild(btnResp);
                     tdOperacoes.appendChild(btnDelete);

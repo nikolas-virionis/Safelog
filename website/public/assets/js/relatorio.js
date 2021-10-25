@@ -1,12 +1,11 @@
-let { id, cargo } = JSON.parse(sessionStorage.getItem("usuario"));
+let {id, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
 let tabelaIncidentes = document.querySelector(".tabela-listrada table");
 axios
     .post(`/medicao/relatorio-incidentes/${cargo}`, {
-        id,
+        id
     })
-    .then((response) => {
-        if (response.data?.status == "ok") {
-            let { status, response: maquinas } = response.data;
+    .then(({data: {status, response: maquinas}}) => {
+        if (status == "ok") {
             if (maquinas.length > 0 && maquinas[0].length > 0) {
                 for (let maquina of maquinas) {
                     for (let incidente of maquina) {
@@ -20,12 +19,13 @@ axios
                             medicao.style.display = "";
                             operacao.style.display = "";
                             let {
+                                id_medicao,
                                 tipo_categoria: tipoMedicao,
                                 nome,
                                 valor,
                                 unidade,
                                 data_medicao: dataMedicao,
-                                estado,
+                                estado
                             } = incidente;
                             let date = new Date(dataMedicao);
                             let [componente, tipo] = tipoMedicao.split("_");
@@ -39,6 +39,25 @@ axios
                             alertarBtn.classList = "btn-nav-dash";
                             alertarBtn.title = "Alertar Responsável";
                             alertarBtn.appendChild(alertarBtnLbl);
+                            alertarBtn.addEventListener("click", async e => {
+                                axios
+                                    .post("/medicao/alertar-gestor", {
+                                        id,
+                                        id_medicao
+                                    })
+                                    .then(({data: {status, msg}}) => {
+                                        if (status === "ok") {
+                                            mostrarAlerta(msg, "success");
+                                            setTimeout(
+                                                () => window.location.reload(),
+                                                4000
+                                            );
+                                        } else {
+                                            console.error(msg);
+                                        }
+                                    });
+                            });
+
                             tbNome.innerHTML = nome;
                             tbData.innerHTML = data;
                             tbComponente.innerHTML = componente.toUpperCase();
@@ -73,7 +92,7 @@ axios
                                 resp,
                                 nome,
                                 data_medicao: dataMedicao,
-                                estado,
+                                estado
                             } = incidente;
                             let date = new Date(dataMedicao);
                             let [componente, tipo] = tipoMedicao.split("_");
@@ -110,6 +129,6 @@ axios
                 );
             }
         } else {
-            console.error(response.data);
+            console.error(maquinas);
         }
     });

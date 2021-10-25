@@ -2,7 +2,8 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
-let {getMachines} = require("../util/get-user-machines/machines");
+const {getMachines} = require("../util/get-user-machines/machines");
+const {mandarEmail} = require("../util/email/email");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
     let {id} = req.body;
@@ -29,6 +30,62 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                 })
                 .catch(err => res.json({status: "erro", msg: err}));
             return res.json({status: "ok", response: incidentes});
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
+
+router.post("/alertar-gestor", async (req, res) => {
+    let {id, id_medicao} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "alerta",
+            msg: "Body não fornecido na requisição"
+        });
+
+    let dadosUsuario = `SELECT a.nome as analista, g.nome as gestor, g.email FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario and a.id_usuario = ${id}`;
+    let dadosMedicao = `SELECT tipo_medicao.tipo, maquina.nome as maquina, data_medicao as data FROM medicao JOIN categoria_medicao ON fk_categoria_medicao = id_categoria_medicao AND id_medicao = ${id_medicao} JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao JOIN maquina ON fk_maquina = pk_maquina;`;
+    let updateEstadoMedicao = `UPDATE medicao SET tipo = 'critico' WHERE id_medicao = ${id_medicao}`;
+
+    await sequelize
+        .query(dadosUsuario, {type: sequelize.QueryTypes.SELECT})
+        .then(async ([{analista, gestor, email}]) => {
+            await sequelize
+                .query(updateEstadoMedicao, {
+                    type: sequelize.QueryTypes.UPDATE
+                })
+                .then(async () => {
+                    await sequelize
+                        .query(dadosMedicao, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .then(([{tipo, maquina, data}]) => {
+                            let [componente, metrica] = tipo.split("_");
+                            data = new Date(data);
+                            data = `${data.toLocaleDateString("pt-BR")} ${data
+                                .toTimeString()
+                                .slice(0, 8)}`;
+                            mandarEmail("alerta", gestor, email, [
+                                analista,
+                                metrica,
+                                componente,
+                                maquina,
+                                data,
+                                "crítica",
+                                "manual"
+                            ])
+                                .then(() => {
+                                    res.json({
+                                        status: "ok",
+                                        msg: "Responsável alertado com sucesso"
+                                    });
+                                })
+                                .catch(err =>
+                                    res.json({status: "erro", msg: err})
+                                );
+                        })
+                        .catch(err => res.json({status: "erro", msg: err}));
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

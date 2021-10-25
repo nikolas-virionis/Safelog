@@ -6,8 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 // Essa classe faz as configurações do Banco de Dados
 public class ConfigDB {
-    
-    private String nome;
 
     private static BasicDataSource getBasicDataSource(){
         Dotenv dotenv = Dotenv.load();

@@ -43,7 +43,9 @@ axios
                     lblDelete.classList = "fas fa-times";
 
                     btnResp.appendChild(lblResp);
+                    btnResp.title = "Tornar admin da máquina"
                     btnDelete.appendChild(lblDelete);
+                    btnDelete.title = "Remover acesso a essa máquina"
 
                     tdOperacoes.appendChild(btnResp);
                     tdOperacoes.appendChild(btnDelete);
@@ -136,6 +138,7 @@ axios
         }
     });
 
+document.querySelector("#btnAddUser").title = "Convidar novo usuário";
 document.querySelector("#btnAddUser").addEventListener("click", () => {
     import("./modal.js").then(({abrirModal}) =>
         abrirModal("modal-invite-user")

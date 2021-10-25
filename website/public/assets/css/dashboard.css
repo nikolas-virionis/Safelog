@@ -531,8 +531,21 @@ label {
   width: 50vw;
 }
 
+.mg-top {
+  margin-top: 30px;
+}
+
+.mg-bot{
+  margin-top: 30px;
+}
+
 .icon-acesso{
-  font-size: 30px;
+  font-size: 25px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
   margin: 0 20px 0 0; 
   background-color: #0071ce;
   color: #fff;
@@ -554,4 +567,20 @@ label {
   padding: 20px;
   margin: 10px 0;
   background-color: #e0e0e0;
+}
+
+.caminho-span a{
+  color: #000;
+  text-decoration: none;
+}
+
+.caminho-span a:hover{
+  color: var(--cor-hover);
+  text-decoration: underline;
+  -webkit-transition: .1s;
+}
+
+.caminho-span .pagina-atual-caminho{
+  color: var(--cor-princial);
+  text-decoration: underline;
 }

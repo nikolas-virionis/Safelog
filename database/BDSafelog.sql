@@ -198,18 +198,18 @@ VALUES
     ),
     (
         NULL,
-        'Amanda Caramico',
-        'amanda@caramico.com.br',
+        'Lucas Mesquita',
+        'lucasmesquita58@hotmail.com',
         MD5('ExSenha1'),
         'gestor',
-        '9katbzd79katbzd7',
-        '203783731',
-        1
+        'z4d62p9xz4d62p9x',
+        '09.346.601/0001-25',
+        2
     ),
     (
         NULL,
         'Nikolas Virionis',
-        'nikolas.virionis@gmail.com',
+        'nickkolas.nickk@gmail.com',
         MD5('ExSenha1'),
         'gestor',
         'k8xd9pysk8xd9pys',
@@ -218,13 +218,13 @@ VALUES
     ),
     (
         NULL,
-        'Lucas Mesquita',
-        'lucasmesquita58@hotmail.com',
+        'Amanda Caramico',
+        'amanda@caramico.com.br',
         MD5('ExSenha1'),
         'gestor',
-        'z4d62p9xz4d62p9x',
-        '09.346.601/0001-25',
-        2
+        '9katbzd79katbzd7',
+        '203783731',
+        1
     ),
     (
         NULL,
@@ -1001,7 +1001,7 @@ VALUES
 INSERT INTO
     usuario_maquina(responsavel, fk_usuario, fk_maquina)
 VALUES
-    ('s', 7, 7);
+    ('s', 6, 7);
 
 INSERT INTO
     categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)

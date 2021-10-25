@@ -23,106 +23,122 @@ axios
     })
     .then(({data: {status, msg}}) => {
         if (status === "ok") {
-            let tbUsuarios = document.querySelector("#tblAcessoMaq");
+            if (msg.length) {
+                let tbUsuarios = document.querySelector("#tblAcessoMaq");
 
-            msg.forEach(({nome, email, id_usuario}) => {
-                let tr = document.createElement("tr");
-                let tdNome = document.createElement("td");
-                let tdEmail = document.createElement("td");
-                let tdOperacoes = document.createElement("td");
+                msg.forEach(({nome, email, id_usuario}) => {
+                    let tr = document.createElement("tr");
+                    let tdNome = document.createElement("td");
+                    let tdEmail = document.createElement("td");
+                    let tdOperacoes = document.createElement("td");
 
-                let btnResp = document.createElement("button");
-                btnResp.classList.add("btn-nav-dash-yellow");
-                let btnDelete = document.createElement("button");
-                btnDelete.classList.add("btn-nav-dash-red");
+                    let btnResp = document.createElement("button");
+                    btnResp.classList.add("btn-nav-dash-yellow");
+                    let btnDelete = document.createElement("button");
+                    btnDelete.classList.add("btn-nav-dash-red");
 
-                let lblResp = document.createElement("i");
-                lblResp.classList = "fas fa-star";
-                let lblDelete = document.createElement("i");
-                lblDelete.classList = "fas fa-times";
+                    let lblResp = document.createElement("i");
+                    lblResp.classList = "fas fa-star";
+                    let lblDelete = document.createElement("i");
+                    lblDelete.classList = "fas fa-times";
 
-                btnResp.appendChild(lblResp);
-                btnDelete.appendChild(lblDelete);
+                    btnResp.appendChild(lblResp);
+                    btnResp.title = "Tornar admin da máquina"
+                    btnDelete.appendChild(lblDelete);
+                    btnDelete.title = "Remover acesso a essa máquina"
 
-                tdOperacoes.appendChild(btnResp);
-                tdOperacoes.appendChild(btnDelete);
+                    tdOperacoes.appendChild(btnResp);
+                    tdOperacoes.appendChild(btnDelete);
 
-                tdNome.innerHTML = nome;
-                tdEmail.innerHTML = email;
+                    tdNome.innerHTML = nome;
+                    tdEmail.innerHTML = email;
 
-                tr.appendChild(tdNome);
-                tr.appendChild(tdEmail);
-                tr.appendChild(tdOperacoes);
+                    tr.appendChild(tdNome);
+                    tr.appendChild(tdEmail);
+                    tr.appendChild(tdOperacoes);
 
-                tbUsuarios.appendChild(tr);
+                    tbUsuarios.appendChild(tr);
 
-                btnDelete.addEventListener("click", e => {
-                    let confirmar = confirm(
-                        `Você realmente deseja tirar o acesso de ${nome}`
-                    );
-                    if (confirmar) {
-                        axios
-                            .post("/usuario/remocao-acesso", {
-                                id: id_usuario,
-                                maquina: pkMaquina
-                            })
-                            .then(({data: {status, msg}}) => {
-                                if (status === "ok") {
-                                    mostrarAlerta(msg, "success");
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    }, 2000);
-                                } else {
-                                    console.error(msg);
-                                }
-                            });
-                    }
-                });
+                    btnDelete.addEventListener("click", e => {
+                        let confirmar = confirm(
+                            `Você realmente deseja tirar o acesso de ${nome}`
+                        );
+                        if (confirmar) {
+                            axios
+                                .post("/usuario/remocao-acesso", {
+                                    id: id_usuario,
+                                    maquina: pkMaquina
+                                })
+                                .then(({data: {status, msg}}) => {
+                                    if (status === "ok") {
+                                        mostrarAlerta(msg, "success");
+                                        setTimeout(() => {
+                                            window.location.reload();
+                                        }, 2000);
+                                    } else {
+                                        console.error(msg);
+                                    }
+                                });
+                        }
+                    });
 
-                btnResp.addEventListener("click", e => {
-                    let confirmar = confirm(
-                        `Você realmente deseja tornar ${nome} o responsável pela máquina? 
+                    btnResp.addEventListener("click", e => {
+                        let confirmar = confirm(
+                            `Você realmente deseja tornar ${nome} o responsável pela máquina? 
                         Você se tornará um usuário comum dela`
-                    );
-                    if (confirmar) {
-                        axios
-                            .post("/usuario/dados", {
-                                id: id_usuario
-                            })
-                            .then(({data: {status, msg}}) => {
-                                if (status === "ok") {
-                                    axios
-                                        .post(
-                                            "/usuario/transferencia-responsavel",
-                                            {
-                                                email: msg.email,
-                                                maquina: pkMaquina,
-                                                del: false
-                                            }
-                                        )
-                                        .then(({data: {status, msg}}) => {
-                                            if (status === "ok") {
-                                                mostrarAlerta(msg, "success");
-                                                setTimeout(() => {
-                                                    window.location.href =
-                                                        "dependentes";
-                                                }, 2000);
-                                            } else {
-                                                mostrarAlerta(msg, "danger");
-                                            }
-                                        });
-                                } else {
-                                    console.error(msg);
-                                }
-                            });
-                    }
+                        );
+                        if (confirmar) {
+                            axios
+                                .post("/usuario/dados", {
+                                    id: id_usuario
+                                })
+                                .then(({data: {status, msg}}) => {
+                                    if (status === "ok") {
+                                        axios
+                                            .post(
+                                                "/usuario/transferencia-responsavel",
+                                                {
+                                                    email: msg.email,
+                                                    maquina: pkMaquina,
+                                                    del: false
+                                                }
+                                            )
+                                            .then(({data: {status, msg}}) => {
+                                                if (status === "ok") {
+                                                    mostrarAlerta(
+                                                        msg,
+                                                        "success"
+                                                    );
+                                                    setTimeout(() => {
+                                                        window.location.href =
+                                                            "dependentes";
+                                                    }, 2000);
+                                                } else {
+                                                    mostrarAlerta(
+                                                        msg,
+                                                        "danger"
+                                                    );
+                                                }
+                                            });
+                                    } else {
+                                        console.error(msg);
+                                    }
+                                });
+                        }
+                    });
                 });
-            });
+            } else {
+                mostrarAlerta(
+                    "Máquina não possui usuários\nOs adicione no icone +",
+                    "info"
+                );
+            }
         } else {
             mostrarAlerta("Erro no gerenciamento de usuario", "danger");
         }
     });
 
+document.querySelector("#btnAddUser").title = "Convidar novo usuário";
 document.querySelector("#btnAddUser").addEventListener("click", () => {
     import("./modal.js").then(({abrirModal}) =>
         abrirModal("modal-invite-user")
@@ -158,7 +174,7 @@ btnConvidar.addEventListener("click", async e => {
                 mostrarAlerta(msg, "success");
                 emailConvite.value = "";
                 reload = true;
-            } else if(status == "alerta") {
+            } else if (status == "alerta") {
                 mostrarAlerta(msg, "danger");
             }
         });

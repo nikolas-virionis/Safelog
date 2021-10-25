@@ -8,8 +8,9 @@
         integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Componentes</title>
     <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/grid.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -97,9 +98,19 @@
 
     <section class="home-section">
         <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="dependentes">Dependentes</a>
+                    >
+                    Cadastro de máquina
+                    > 
+                    <span class="pagina-atual-caminho">Gerenciamento de máquina</span>
+                </span>
+            </div>
             <br>
             <h1>Selecione os componentes que deseja monitorar</h1>
             <div class="lista-componentes">
+                
                 <div class="componente-principal">
                     <label class="customcheckbox">
                         <input type="checkbox" id="checkCpu" />

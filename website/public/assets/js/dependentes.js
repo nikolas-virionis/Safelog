@@ -149,7 +149,7 @@
                             excluirBtn.addEventListener("click", function () {
                                 // solicitando confirmação do delete
                                 let sure = confirm(
-                                    `Você tem certeza de que quer deletar a máquina ${dependente.nome}?`
+                                    `Você tem certeza de que quer deletar a máquina ${dependente.maquina}?`
                                 );
 
                                 // realizando requisição do delete
@@ -175,7 +175,7 @@
                                                     3000
                                                 );
                                             } else if (status == "alerta") {
-                                                mostrarAlerta(msg, "info");
+                                                mostrarAlerta(msg, "danger");
                                             } else {
                                                 console.error(msg);
                                             }

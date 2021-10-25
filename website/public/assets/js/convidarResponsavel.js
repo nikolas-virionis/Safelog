@@ -116,7 +116,7 @@ btnConvidar.addEventListener("click", async e => {
                 mostrarAlerta(msg, "success");
                 setTimeout(() => (window.location.href = "dependentes"));
             } else if (status === "alerta") {
-                mostrarAlerta(msg, "warning");
+                mostrarAlerta(msg, "danger");
             } else {
                 console.error(msg);
             }

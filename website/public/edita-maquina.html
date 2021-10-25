@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editando a Máquina</title>
     <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="assets/css/grid.css" />
     <link rel="stylesheet" href="assets/css/sidebar.css" />
     <link rel="stylesheet" href="assets/css/dashboard.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -97,49 +98,56 @@
     </div>
     <section class="home-section">
         <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="dependentes">Dependentes</a>
+                    > 
+                    <span class="pagina-atual-caminho">Editar máquina</span>
+                </span>
+            </div>
             <div class="cadastro-empresa">
                 <h1>Edite a máquina:</h1>
                 <div class="form-cadastro">
                     <form action="">
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-id-maquina">Identificação:</label>
                                 <input type="text" name="" required id="inp-id-maquina" />
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-nome-maquina">Nome da Máquina:</label>
                                 <input type="text" name="" required id="inp-nome-maquina" />
                             </div>
                         </div>
-                        <label class="customcheckbox">
-                            <input type="checkbox" id="input-alt-senha" />
-                            <div class="checkmark"></div>
-                            Alterar senha
-                        </label>
-                        <div class="dashboard-row" id="row-alt-senha">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <label class="customcheckbox">
+                                <input type="checkbox" id="input-alt-senha" />
+                                <div class="checkmark"></div>
+                                Alterar senha
+                            </label>
+                        </div>
+                        <div class="row" id="row-alt-senha">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-senha-atual">Senha atual:</label>
                                 <input type="password" id="inp-senha-atual" />
                             </div>
-                            <div>
+                            <!-- <div>
                                 <input style="visibility:hidden " type="text">
-                            </div>
-                            <div class="col-6 form-item">
+                            </div> -->
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-nova-senha">Nova senha:</label>
                                 <input type="password" id="inp-nova-senha" />
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-conf-senha">Confirmar senha:</label>
                                 <input type="password" id="inp-conf-senha" />
                             </div>
                         </div>
-
                         <div class="form-item">
-                            <button class="btn-geral" id="btn-edit-maq">
-                                Atualizar dados
-                            </button>
-                            <a href="componentes" class="btn-geral btn-secondary" id="btn-edit-comp">Editar
-                                componentes</a>
+                            <div class="row">
+                                <button class="btn-geral" id="btn-edit-maq">Atualizar</button>
+                                <button href="componentes" class="btn-geral btn-secondary" id="btn-edit-comp">Componentes</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -18,6 +18,11 @@
     margin-left: -15px;
 }
 
+.alinhar{
+    display: flex;
+    align-items:center;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -169,8 +174,9 @@ a.btn-nav-dash {
 }
 
 .alerta.warning{
-    background-color: #fdec00bb;
-    border: 1px solid #ffd000;
+    background-color: #ffd900;
+    border: 1px solid #ffe600;
+    box-shadow: 3px 3px 3px #666;
     color: #fff;
 }
 
@@ -668,7 +674,7 @@ ul li.btn-nav a:hover {
 }
 
 .dashboard-check :is(input[type="email"], input[type="phone"]) {
-    width: 50%;
+    width: 100%;
     font-size: 17px;
     padding: 0 10px;
     margin: 15px 30px;

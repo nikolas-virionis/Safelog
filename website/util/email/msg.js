@@ -21,9 +21,23 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a) ${nome},</p>
-    <p>Alerta enviado com sucesso</p>
+    <p>Uma medição ${rest[5]} de ${
+                rest[1] == "livre"
+                    ? "espaço disponível"
+                    : rest[1] == "porcentagem"
+                    ? "porcentagem de uso"
+                    : rest[1]
+            } do componente ${rest[2].toUpperCase()} foi observada na maquina ${
+                rest[3]
+            } em ${rest[4]}. </p>
+    <p>Para utilizar e visualizar seus recursos e dados, acesse sua dashboard em nosso site</p>
+    <p>${
+        rest[6] == "manual"
+            ? `Esse alerta foi manualmente gerado por ${rest[0]}`
+            : ``
+    }</p>
     `,
-            "Alerta - SafeLog"
+            "ALERTA - SafeLog"
         ];
     if (tipo.toLowerCase() == "redefinir")
         return [

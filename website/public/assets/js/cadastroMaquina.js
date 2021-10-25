@@ -1,15 +1,3 @@
-// const cpu = document.querySelector("#cpuRange");
-// const ram = document.querySelector("#memoryRange");
-// const dsk = document.querySelector("#diskRange");
-
-// leituraCpu.innerHTML = cpu.value;
-// leituraMemory.innerHTML = ram.value;
-// leituraDisk.innerHTML = dsk.value;
-
-// cpu.addEventListener("mousemove", () => (leituraCpu.innerHTML = cpu.value));
-// ram.addEventListener("mousemove", () => (leituraMemory.innerHTML = ram.value));
-// dsk.addEventListener("mousemove", () => (leituraDisk.innerHTML = dsk.value));
-
 const {id, id_empresa: empresa} = JSON.parse(sessionStorage.getItem("usuario"));
 const id_maquina = document.querySelector("#inp-id-maquina");
 const nome = document.querySelector("#inp-nome-maquina");
@@ -38,12 +26,20 @@ senha.addEventListener("keypress", e => {
 confirmarSenha.addEventListener("keypress", e => {
     if (e.key === "Enter") {
         e.preventDefault();
-        confirmarSenha.blur();
+        btn.click();
     }
 });
 
 btn.addEventListener("click", e => {
     e.preventDefault();
+    if(id_maquina.value == "" || 
+       nome.value == "" ||
+       senha.value == "" ||
+       confirmarSenha.value == ""
+    ){
+        mostrarAlerta("Preencha todos os campos para prosseguir", "danger");
+        return;
+    }
     if (senha.value !== confirmarSenha.value) {
         mostrarAlerta("As senhas são diferentes", "warning");
         return;
@@ -61,7 +57,7 @@ btn.addEventListener("click", e => {
             if (response.data?.status == "ok") {
                 mostrarAlerta(response.data?.msg, "success");
                 window.location.href = `componentes?pk_maquina=${response.data.pk_maquina}`;
-            } else if(response.data?.status == "alerta") {
+            } else if (response.data?.status == "alerta") {
                 mostrarAlerta(response.data?.msg, "danger");
             }
         });

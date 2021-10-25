@@ -9,6 +9,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
+    <link rel="stylesheet" href="assets/css/grid.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -93,12 +94,14 @@
         </ul>
     </div>
     <section class="home-section">
-        <div class="navbar-dashboard">
-            <a href="perfil">
-                <div class="barra-pesquisa">
-                    <button type="submit" class="btn-nav-dash"><i class="fas fa-arrow-left"></i></button>
-                </div>
-            </a>
+        <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="perfil">Perfil</a>
+                    > 
+                    <span class="pagina-atual-caminho">Editar perfil</span>
+                </span>
+            </div>
         </div>
 
 
@@ -107,18 +110,18 @@
                 <h1>Edição de perfil:</h1>
                 <div class="form-cadastro">
                     <form action="">
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-id-maquina">Nome:</label>
                                 <input type="text" name="" required id="inp-nome">
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-nome-maquina">Email:</label>
                                 <input type="email" name="" required id="inp-email">
                             </div>
                         </div>
 
-                        <div class="dashboard-row">
+                        <div class="row">
                             <div class="form-item">
                                 <label>Forma de contato:</label>
                             </div>

@@ -14,18 +14,22 @@ const btnCancelar = document.querySelector("[btnCancelar]");
 
 axios
     .post("/maquina/dados", {
-        maquina: urlParams.get("maquina")
+        maquina: Number(urlParams.get("maquina"))
     })
     .then(({data: {status, msg}}) => {
-        if (status === "ok") {
+        if (status == "ok") {
             document.querySelector("[macName]").innerHTML = msg.nome;
         } else {
             console.error(msg);
         }
     })
     .catch(err => console.error(err));
-
+let x = 0;
 btnExcluir.addEventListener("click", evt => {
+    if (x) {
+        btnExcluir.click();
+        x++;
+    }
     console.log(maquina);
     axios
         .post("/maquina/delete", {
@@ -39,7 +43,7 @@ btnExcluir.addEventListener("click", evt => {
                     window.location.href = "dependentes";
                 }, 3000);
             } else if (status == "alerta") {
-                mostrarAlerta(msg, "info");
+                mostrarAlerta(msg, "danger");
             } else {
                 console.error(msg);
             }

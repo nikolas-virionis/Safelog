@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Máquina</title>
     <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/grid.css">
     <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -95,35 +96,42 @@
     </div>
     <section class="home-section">
         <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="dependentes">Dependentes</a>
+                    > 
+                    <span class="pagina-atual-caminho">Cadastro de máquina</span>
+                </span>
+            </div>
             <div class="cadastro-empresa">
                 <h1>Cadastro de máquinas:</h1>
                 <div class="form-cadastro">
                     <form action="">
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-id-maquina">Identificação:</label>
                                 <input type="text" name="" required id="inp-id-maquina">
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-nome-maquina">Nome da Máquina:</label>
                                 <input type="text" name="" required id="inp-nome-maquina">
                             </div>
                         </div>
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-senha-maquina">Senha da Máquina:</label>
                                 <input type="password" name="" required id="inp-senha-maquina">
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-conf-senha-maquina">Confirmar senha:</label>
                                 <input type="password" name="" required id="inp-conf-senha-maquina">
+                            </div>
+                            <div class="form-item">
+                                <button class="btn-geral" id="btnCadastroMaq">Cadastrar máquina</button>
                             </div>
                         </div>
 
 
-                        <div class="form-item">
-                            <button class="btn-geral" id="btnCadastroMaq">Cadastrar máquina</button>
-                        </div>
                     </form>
                 </div>
             </div>

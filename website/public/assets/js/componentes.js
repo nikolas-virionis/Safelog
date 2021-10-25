@@ -91,7 +91,7 @@ for (let i = 1; i <= 7; i++) {
         }
 
         if (qtdComponentes == 0) {
-            mostrarAlerta("Nenhum componente selecionado", "info");
+            mostrarAlerta("Nenhum componente selecionado", "danger");
             btn.classList.add("cancelar");
         } else {
             btn.classList.remove("cancelar");

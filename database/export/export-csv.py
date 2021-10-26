@@ -4,7 +4,7 @@ import sys
 import os
 
 db_connection = sql.connect(host='localhost', database='safelog',
-                            user='root', password='DigitalSchool1$')
+                            user='safelog_dev', password='Safe_Log371$')
 directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
 
 

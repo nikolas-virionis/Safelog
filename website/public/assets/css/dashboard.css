@@ -212,9 +212,6 @@ h6 {
 
 /* Charts */
 
-.charts {
-  /* padding: 30px 0; */
-}
 
 .canvas-container {
   width: 100%;
@@ -327,14 +324,14 @@ span {
   overflow-x: auto;
 }
 
-.dashboard-maquinas::-webkit-scrollbar {
+*::-webkit-scrollbar {
   height: 10px;
 }
-.dashboard-maquinas::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #c7c7c7; /* color of the scroll thumb */
   border-radius: 20px;
 }
-.dashboard-maquinas::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   background-color: #b5b5b5; /* color of the scroll thumb on hover*/
 }
 

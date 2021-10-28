@@ -133,7 +133,7 @@ sideBarDiv.classList = "sidebar close";
         liItem4.classList = "li-not-selected";
             //<a href="dependentes">
             let linkToDependentes = document.createElement("a");
-            linkToDependentes.setAttribute("href", "relatorio");
+            linkToDependentes.setAttribute("href", "dependentes");
                 //<i class='bx bxs-group'></i>
                 let iconToDependentes = document.createElement("i");
                 iconToDependentes.classList = "bx bxs-group";
@@ -233,7 +233,7 @@ sideBarDiv.classList = "sidebar close";
                     //<img class="profilePic" src="" alt="profileImg">
                     let imgProfilePic = document.createElement("img");
                     imgProfilePic.classList = "profilePic";  
-                    imgProfilePic.setAttribute("src", "");                  
+                    // imgProfilePic.setAttribute("src", "");                  
                 //</div>
                 divProfileContent.appendChild(imgProfilePic);
                 //<div class="name-job">

@@ -15,13 +15,20 @@ import oshi.hardware.HardwareAbstractionLayer;
 // da classe Looca para serem utilizados de forma simples na classe "Monitoring"
 public class Monitoring extends Looca {
 
-    // Dentro deste Método é chamada a Classe "SystemInfo" que retorna as informações do getSystemHardware() 
+    public static String getSystemInfo() {
+        SystemInfo sys = new SystemInfo();
+        return sys.getOperatingSystem().getVersionInfo().toString();
+    }
+
+    // Dentro deste Método é chamada a Classe "SystemInfo" que retorna as
+    // informações do getSystemHardware()
     public static HardwareAbstractionLayer getSystemHardware() {
         SystemInfo sys = new SystemInfo();
         return sys.getHardware();
     }
 
-    // Criação  de uma lista com a quantidade de placas de redes e retorno desses dados com o getSystemHardware()
+    // Criação de uma lista com a quantidade de placas de redes e retorno desses
+    // dados com o getSystemHardware()
     public static String getMacAddress() {
         List<NetworkIF> netIfs = getSystemHardware().getNetworkIFs();
         return netIfs.get(0).getMacaddr();
@@ -60,11 +67,10 @@ public class Monitoring extends Looca {
 
     // Formatação dos dados de Ram livre para GB e porcentagem
     public Double getFreeRAMGb() {
-        return Math.round(
-                super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
+        return Math.round(super.getMemoria().getDisponivel() * 100 / 1_073_741_824) / 100d;
     }
 
-    // Formatação dos dados do total de Ram para GB e porcentagem 
+    // Formatação dos dados do total de Ram para GB e porcentagem
     public Double getTotalRAMGb() {
         return Math.round(super.getMemoria().getTotal() * 100 / 1_073_741_824) / 100d;
     }
@@ -76,12 +82,14 @@ public class Monitoring extends Looca {
 
     // Formatação dos dados do total de Disco para GB e porcentagem
     public Double getTotalDiscoGb() {
-        return Math.round(new SystemInfo().getOperatingSystem().getFileSystem().getFileStores().get(0).getTotalSpace() * 100 / 1_073_741_824) / 100d;
+        return Math.round(new SystemInfo().getOperatingSystem().getFileSystem().getFileStores().get(0).getTotalSpace()
+                * 100 / 1_073_741_824) / 100d;
     }
 
     // Formatação dos dados de Disco livre para GB e porcentagem
     public Double getFreeDiscoGb() {
-        return Math.round((new SystemInfo().getOperatingSystem().getFileSystem().getFileStores().get(0).getFreeSpace()) * 100 / 1_073_741_824) / 100d;
+        return Math.round((new SystemInfo().getOperatingSystem().getFileSystem().getFileStores().get(0).getFreeSpace())
+                * 100 / 1_073_741_824) / 100d;
     }
 
     public Double getFreeDisco() {
@@ -101,8 +109,7 @@ public class Monitoring extends Looca {
     }
 
     public static String getDatetime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(
-                "yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }
@@ -111,11 +118,10 @@ public class Monitoring extends Looca {
     public String toString() {
         return String.format(
                 "Monitoramento Servidor: %s: " + "\n\tTemperatura: %.2fºC\n\t" + "Uso de CPU: %.2f%% \n\t"
-                + "Clock CPU: %.2f%% \n\t" + "Uso de RAM: %.2f%% \n\t" + "RAM Disponível: %.2fGb \n\t"
-                + "RAM Total: %.2fGb \n\t" + "Uso de Disco: %.2f%% \n\t" + "Disco Disponível: %.2fGb \n\t"
-                + "Disco Total: %.2fGb \n\t",
-                getMacAddress(), getTemp(), getUsoCPU(), getClockCPU(),
-                getUsoRAM(), getFreeRAMGb(), getTotalRAMGb(),
+                        + "Clock CPU: %.2f%% \n\t" + "Uso de RAM: %.2f%% \n\t" + "RAM Disponível: %.2fGb \n\t"
+                        + "RAM Total: %.2fGb \n\t" + "Uso de Disco: %.2f%% \n\t" + "Disco Disponível: %.2fGb \n\t"
+                        + "Disco Total: %.2fGb \n\t",
+                getMacAddress(), getTemp(), getUsoCPU(), getClockCPU(), getUsoRAM(), getFreeRAMGb(), getTotalRAMGb(),
                 getUsoDisco(), getFreeDiscoGb(), getTotalDiscoGb());
     }
 

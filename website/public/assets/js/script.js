@@ -3,21 +3,21 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-if (
-    window.location.pathname != "/login" &&
-    window.location.pathname != "/index" &&
-    window.location.pathname != "/cadastro-pessoa" &&
-    window.location.pathname != "/redefinir-senha" &&
-    window.location.pathname != "/responsavel-gestor" &&
-    window.location.pathname != "/convidar-responsavel" &&
-    window.location.pathname != "/delete-maquina" &&
-    window.location.pathname != "/permissao-acesso" &&
-    window.location.pathname != "/" &&
-    !sessionStorage.usuario &&
-    !sessionStorage.staff
-) {
-    window.location.href = "login";
-}
+// if (
+//     window.location.pathname != "/login" &&
+//     window.location.pathname != "/index" &&
+//     window.location.pathname != "/cadastro-pessoa" &&
+//     window.location.pathname != "/redefinir-senha" &&
+//     window.location.pathname != "/responsavel-gestor" &&
+//     window.location.pathname != "/convidar-responsavel" &&
+//     window.location.pathname != "/delete-maquina" &&
+//     window.location.pathname != "/permissao-acesso" &&
+//     window.location.pathname != "/" &&
+//     !sessionStorage.usuario &&
+//     !sessionStorage.staff
+// ) {
+//     window.location.href = "login";
+// }
 
 function mostrarAlerta(msg, type) {
     var alerta = document.createElement("div");

@@ -237,4 +237,29 @@ router.post("/lista", async (req, res) => {
             }
         );
 });
+
+router.post("/dados", async (req, res) => {
+    let {idChamado} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+
+    const sqlChamado = `SELECT titulo, descricao, data_abertura, status_chamado as 'status', prioridade, usuario.nome, usuario.email, fk_categoria_medicao FROM chamado JOIN usuario on fk_usuario = id_usuario WHERE id_chamado = ${idChamado}`;
+    const sqlSolucoes = `SELECT titulo, descricao, data_solucao, eficacia, fk_usuario FROM solucao JOIN usuario on fk_usuario = id_usuario AND fk_chamado = ${idChamado}`;
+
+    await sequelize
+        .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
+        .then(async ([chamado]) => {
+            await sequelize
+                .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
+                .then(solucoes => {
+                    res.json({status: "ok", msg: {...chamado, solucoes}});
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
 module.exports = router;

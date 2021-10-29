@@ -105,5 +105,66 @@ router.post("/criar", async (req, res) => {
             }
         });
 });
+router.post("/fechar", async (req, res) => {
+    let {titulo, desc, idChamado, idUsuario} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+    // verificando se chamado está aberto
+    const sqlChamadoAberto = `SELECT status_chamado FROM chamado WHERE id_chamado = ${idChamado}`;
+
+    await sequelize
+        .query(sqlChamadoAberto, {type: sequelize.QueryTypes.SELECT})
+        .then(async ([{status_chamado}]) => {
+            if (status_chamado == "aberto") {
+                // chamado aberto
+                const updateStatusChamado = `UPDATE chamado SET status_chamado = 'fechado' WHERE id_chamado = ${idChamado}`;
+                await sequelize
+                    .query(updateStatusChamado, {
+                        type: sequelize.QueryTypes.UPDATE
+                    })
+                    .then(async () => {
+                        const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'total', ${idChamado}, ${idUsuario})`;
+
+                        await sequelize
+                            .query(criarSolucao, {
+                                type: sequelize.QueryTypes.INSERT
+                            })
+                            .then(async () => {
+                                res.json({
+                                    status: "ok",
+                                    msg: "Solução inserida e chamado fechado com sucesso"
+                                });
+                            })
+                            .catch(err =>
+                                res.json({
+                                    status: "erro3",
+                                    msg: err
+                                })
+                            );
+                    })
+                    .catch(err =>
+                        res.json({
+                            status: "erro3",
+                            msg: err
+                        })
+                    );
+            } else {
+                res.json({
+                    status: "alerta",
+                    msg: "Chamado já fechado/resolvido"
+                });
+            }
+        })
+        .catch(err => {
+            return res.json({
+                status: "erro3",
+                msg: err
+            });
+        });
+});
 
 module.exports = router;

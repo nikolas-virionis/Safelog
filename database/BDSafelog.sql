@@ -104,31 +104,31 @@ CREATE TABLE medicao (
 
 CREATE TABLE incidente (
     id_incidente INT AUTO_INCREMENT PRIMARY KEY,
-    fk_medicao INT,
+    fk_medicao INT NOT NULL,
     FOREIGN KEY (fk_medicao) REFERENCES medicao (id_medicao)
 );
 
 CREATE TABLE chamado (
     id_chamado INT AUTO_INCREMENT PRIMARY KEY,
-    titulo varchar(60),
+    titulo varchar(60) NOT NULL,
     descricao text,
-    data_abertura DATETIME,
-    status_chamado ENUM('aberto', 'fechado'),
-    prioridade ENUM('baixa', 'media', 'alta', 'emergencia'),
-    fk_categoria_medicao INT,
-    fk_usuario INT,
+    data_abertura DATETIME NOT NULL,
+    status_chamado ENUM('aberto', 'fechado') NOT NULL,
+    prioridade ENUM('baixa', 'media', 'alta', 'emergencia') NOT NULL,
+    fk_categoria_medicao INT NOT NULL,
+    fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao(id_categoria_medicao)
 );
 
 CREATE TABLE solucao (
     id_solucao INT PRIMARY KEY AUTO_INCREMENT,
-    titulo VARCHAR(60),
-    descricao TEXT,
-    data_solucao DATETIME,
-    eficacia ENUM('nula', 'parcial', 'total'),
-    fk_chamado INT,
-    fk_usuario INT,
+    titulo VARCHAR(60) NOT NULL,
+    descricao TEXT NOT NULL,
+    data_solucao DATETIME NOT NULL,
+    eficacia ENUM('nula', 'parcial', 'total') NOT NULL,
+    fk_chamado INT NOT NULL,
+    fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (fk_chamado) REFERENCES chamado(id_chamado)
 );

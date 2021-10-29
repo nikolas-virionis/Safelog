@@ -16,13 +16,13 @@ const pages = [
     "/"
 ];
 
-// if (
-//     !pages.includes(window.location.pathname.replace(".html", "")) &&
-//     !sessionStorage.usuario &&
-//     !sessionStorage.staff
-// ) {
-//     window.location.href = "login";
-// }
+if (
+    !pages.includes(window.location.pathname.replace(".html", "")) &&
+    !sessionStorage.usuario &&
+    !sessionStorage.staff
+) {
+    window.location.href = "login";
+}
 
 function mostrarAlerta(msg, type) {
     var alerta = document.createElement("div");

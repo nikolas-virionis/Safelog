@@ -241,12 +241,12 @@
   display: flex;
   align-items: center;
 }
-.li-selected{
+/* .li-selected{
   border-left: 4px solid var(--cor-hover);
 }
 .li-not-selected{
   border-left: 4px solid transparent;
-}
+} */
 .home-section .home-content .bx-menu,
 .home-section .home-content .text {
   color: #11101d;

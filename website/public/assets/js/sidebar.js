@@ -1,3 +1,12 @@
+// let aa = JSON.parse(sessionStorage.getItem("usuario")).cargo;
+// let bb = JSON.parse(sessionStorage.getItem("staff")).cargo;
+// let cargo;
+if(sessionStorage.getItem("usuario")){
+    cargo = JSON.parse(sessionStorage.getItem("usuario")).cargo
+}else if(sessionStorage.getItem("staff")){
+    cargo = JSON.parse(sessionStorage.getItem("staff")).cargo;
+}
+console.log(cargo)
 // -----------------------------------------------------------------------------------------------
 //  Criação da Sidebar
 // -----------------------------------------------------------------------------------------------
@@ -62,167 +71,258 @@ sideBarDiv.classList = "sidebar close";
         liItem1.appendChild(linkToDash);
         liItem1.appendChild(ulSubMenuDash);
 
-        //<li class="li-not-selected">
-        let liItem2 = document.createElement("li");
-        liItem2.classList = "li-not-selected";
-            //<a href="perfil">
-            let linkToProfile = document.createElement("a");
-            linkToProfile.setAttribute("href", "perfil");
-                //<i class='bx bxs-user'></i>
-                let iconToProfile = document.createElement("i");
-                iconToProfile.classList = "bx bxs-user";
-                //<span class="link_name">Perfil</span>
-                let spanHoverProfile = document.createElement("span");
-                spanHoverProfile.classList = "link_name";
-                spanHoverProfile.innerHTML = "Perfil";
-            //</a>
-            linkToProfile.appendChild(iconToProfile);
-            linkToProfile.appendChild(spanHoverProfile);
-            //<ul class="sub-menu blank">
-            let ulSubMenuProfile = document.createElement("ul");
-            ulSubMenuProfile.classList = "sub-menu blank";
-                //<li>
-                let liSubMenuProfile = document.createElement("li");
-                    //<a class="link_name" href="perfil">Perfil</a>
-                    let linkToProfileMini = document.createElement("a");
-                    linkToProfileMini.setAttribute("href", "perfil");
-                    linkToProfileMini.innerHTML = "Perfil";
-                //</li>
-                liSubMenuProfile.appendChild(linkToProfileMini);
-            //</ul>
-            ulSubMenuProfile.appendChild(liSubMenuProfile);
-        //</li>
-        liItem2.appendChild(linkToProfile);
-        liItem2.appendChild(ulSubMenuProfile);
+        if(cargo == "staff"){
 
-        //<li class="li-not-selected">
-        let liItem3 = document.createElement("li");
-        liItem3.classList = "li-not-selected";
-            //<a href="relatorio">
-            let linkToRelatorio = document.createElement("a");
-            linkToRelatorio.setAttribute("href", "relatorio");
-                //<i class='bx bx-paperclip'></i>
-                let iconToRelatorio = document.createElement("i");
-                iconToRelatorio.classList = "bx bx-paperclip";
-                //<span class="link_name">Relatório</span>
-                let spanHoverRelatorio = document.createElement("span");
-                spanHoverRelatorio.classList = "link_name";
-                spanHoverRelatorio.innerHTML = "Relatório";
-            //</a>
-            linkToRelatorio.appendChild(iconToRelatorio);
-            linkToRelatorio.appendChild(spanHoverRelatorio);
-            //<ul class="sub-menu blank">
-            let ulSubMenuRelatorio = document.createElement("ul");
-            ulSubMenuRelatorio.classList = "sub-menu blank";
-                //<li>
-                let liSubMenuRelatorio = document.createElement("li");
-                    //<a class="link_name" href="relatorio">Relatório</a>
-                    let linkToRelatorioMini = document.createElement("a");
-                    linkToRelatorioMini.setAttribute("href", "relatorio");
-                    linkToRelatorioMini.innerHTML = "Relatório";
-                //</li>
-                liSubMenuRelatorio.appendChild(linkToRelatorioMini);
-            //</ul>
-            ulSubMenuRelatorio.appendChild(liSubMenuRelatorio);
-        //</li>
-        liItem3.appendChild(linkToRelatorio);
-        liItem3.appendChild(ulSubMenuRelatorio);
-
-        //<li class="li-not-selected">
-        let liItem4 = document.createElement("li");
-        liItem4.classList = "li-not-selected";
-            //<a href="dependentes">
-            let linkToDependentes = document.createElement("a");
-            linkToDependentes.setAttribute("href", "dependentes");
-                //<i class='bx bxs-group'></i>
-                let iconToDependentes = document.createElement("i");
-                iconToDependentes.classList = "bx bxs-group";
-                //<span class="link_name">Dependentes</span>
-                let spanHoverDependentes = document.createElement("span");
-                spanHoverDependentes.classList = "link_name";
-                spanHoverDependentes.innerHTML = "Dependentes";
-            //</a>
-            linkToDependentes.appendChild(iconToDependentes);
-            linkToDependentes.appendChild(spanHoverDependentes);
-            //<ul class="sub-menu blank">
-            let ulSubMenuDependentes = document.createElement("ul");
-            ulSubMenuDependentes.classList = "sub-menu blank";
-                //<li>
-                let liSubMenuDependentes = document.createElement("li");
-                    //<a class="link_name" href="dependentes">Dependentes</a>
-                    let linkToDependentesMini = document.createElement("a");
-                    linkToDependentesMini.setAttribute("href", "dependentes");
-                    linkToDependentesMini.innerHTML = "Dependentes";
-                //</li>
-                liSubMenuDependentes.appendChild(linkToDependentesMini);
-            //</ul>
-            ulSubMenuDependentes.appendChild(liSubMenuDependentes);
-        //</li>
-        liItem4.appendChild(linkToDependentes);
-        liItem4.appendChild(ulSubMenuDependentes);
-
-        //<li class="seta">
-        let liItem5 = document.createElement("li");
-        liItem5.classList = "seta";
-            //<div class="iocn-link">
-            let divIconLink = document.createElement("div");
-            divIconLink.classList = "iocn-link";
-                //<a href="#">
-                let linkDropJava = document.createElement("a");
-                linkDropJava.setAttribute("href", "#");
-                    //<i class="fab fa-java"></i>
-                    let iconToJava = document.createElement("i");
-                    iconToJava.classList = "fab fa-java";
-                    //<span class="link_name">Client Java</span>
-                    let spanHoverJava = document.createElement("span");
-                    spanHoverJava.classList = "link_name";
-                    spanHoverJava.innerHTML = "Client Java";
+            let liItemStaff1 = document.createElement("li");
+            liItemStaff1.classList = "li-not-selected";
+                //<a href="cadastro-empresa">
+                let linkToCadEmpresa = document.createElement("a");
+                linkToCadEmpresa.setAttribute("href", "cadastro-empresa");
+                    //<i class="fas fa-building"></i>
+                    let iconToCadEmpresa = document.createElement("i");
+                    iconToCadEmpresa.classList = "fas fa-building";
+                    //<span class="link_name">Cadastro empresa</span>
+                    let spanHoverCadEmpresa = document.createElement("span");
+                    spanHoverCadEmpresa.classList = "link_name";
+                    spanHoverCadEmpresa.innerHTML = "Cadastro";
                 //</a>
-                linkDropJava.appendChild(iconToJava);
-                linkDropJava.appendChild(spanHoverJava);
-                //<i class="bx bxs-chevron-down arrow"></i>
-                let iconSetaJava = document.createElement("i");
-                iconSetaJava.classList = "bx bxs-chevron-down arrow";
-            //</div>
-            divIconLink.appendChild(linkDropJava);
-            divIconLink.appendChild(iconSetaJava);
-            //<ul class="sub-menu">
-            let ulSubMenuJava = document.createElement("ul");
-            ulSubMenuJava.classList = "sub-menu";
-                //<li>
-                // let liJava1 = document.createElement("li");
-                //     //<a class="link_name" href="#">Client Java</a>
-                //     let linkToJava1Mini = document.createElement("a");
-                //     linkToJava1Mini.setAttribute("href", "#");
-                //     linkToJava1Mini.innerHTML = "Client Java";
-                //</li>
-                // liJava1.appendChild(linkToJava1Mini);
-                //<li>
-                let liJava2 = document.createElement("li");
-                    //<a href="#">Download</a>
-                    let linkDownloadJava = document.createElement("a");
-                    linkDownloadJava.setAttribute("href", "#");
-                    linkDownloadJava.innerHTML = "Download";
-                //</li>
-                liJava2.appendChild(linkDownloadJava);
-                //<li>
-                let liJava3 = document.createElement("li");
-                    //<a href="#">Baixar JRE</a>
-                    let linkJreJava = document.createElement("a");
-                    linkJreJava.setAttribute("href", "#");
-                    linkJreJava.innerHTML = "Baixar JRE";
-                //</li>
-                liJava3.appendChild(linkJreJava);
-            //</ul>
-            // ulSubMenuJava.appendChild(liJava1);
-            ulSubMenuJava.appendChild(liJava2);
-            ulSubMenuJava.appendChild(liJava3);
-        //</li>
-        liItem5.appendChild(divIconLink);
-        liItem5.appendChild(ulSubMenuJava);
+                linkToCadEmpresa.appendChild(iconToCadEmpresa);
+                linkToCadEmpresa.appendChild(spanHoverCadEmpresa);
+                //<ul class="sub-menu blank">
+                let ulSubMenuCadEmpresa = document.createElement("ul");
+                ulSubMenuCadEmpresa.classList = "sub-menu blank";
+                    //<li>
+                    let liSubMenuCadEmpresa = document.createElement("li");
+                        //<a class="link_name" href="cadastro-empresa">Cadastro empresa</a>
+                        let linkToCadEmpresaMini = document.createElement("a");
+                        linkToCadEmpresaMini.setAttribute("href", "cadastro-empresa");
+                        linkToCadEmpresaMini.innerHTML = "Cadastro empresa";
+                    //</li>
+                    liSubMenuCadEmpresa.appendChild(linkToCadEmpresaMini);
+                //</ul>
+                ulSubMenuCadEmpresa.appendChild(liSubMenuCadEmpresa);
+            //</li>
+            liItemStaff1.appendChild(linkToCadEmpresa);
+            liItemStaff1.appendChild(ulSubMenuCadEmpresa);
+            
 
 
-        //<li>
+            //<li class="li-not-selected">
+            let liItem2 = document.createElement("li");
+            liItem2.classList = "li-not-selected";
+                //<a href="perfil">
+                let linkToProfile = document.createElement("a");
+                linkToProfile.setAttribute("href", "perfil");
+                    //<i class='bx bxs-user'></i>
+                    let iconToProfile = document.createElement("i");
+                    iconToProfile.classList = "bx bxs-user";
+                    //<span class="link_name">Perfil</span>
+                    let spanHoverProfile = document.createElement("span");
+                    spanHoverProfile.classList = "link_name";
+                    spanHoverProfile.innerHTML = "Perfil";
+                //</a>
+                linkToProfile.appendChild(iconToProfile);
+                linkToProfile.appendChild(spanHoverProfile);
+                //<ul class="sub-menu blank">
+                let ulSubMenuProfile = document.createElement("ul");
+                ulSubMenuProfile.classList = "sub-menu blank";
+                    //<li>
+                    let liSubMenuProfile = document.createElement("li");
+                        //<a class="link_name" href="perfil">Perfil</a>
+                        let linkToProfileMini = document.createElement("a");
+                        linkToProfileMini.setAttribute("href", "perfil");
+                        linkToProfileMini.innerHTML = "Perfil";
+                    //</li>
+                    liSubMenuProfile.appendChild(linkToProfileMini);
+                //</ul>
+                ulSubMenuProfile.appendChild(liSubMenuProfile);
+            //</li>
+            liItem2.appendChild(linkToProfile);
+            liItem2.appendChild(ulSubMenuProfile);
+
+            ulNavLinks.appendChild(liItemStaff1);
+            ulNavLinks.appendChild(liItem2);
+        }else{
+            //<li class="li-not-selected">
+            let liItem2 = document.createElement("li");
+            liItem2.classList = "li-not-selected";
+                //<a href="perfil">
+                let linkToProfile = document.createElement("a");
+                linkToProfile.setAttribute("href", "perfil");
+                    //<i class='bx bxs-user'></i>
+                    let iconToProfile = document.createElement("i");
+                    iconToProfile.classList = "bx bxs-user";
+                    //<span class="link_name">Perfil</span>
+                    let spanHoverProfile = document.createElement("span");
+                    spanHoverProfile.classList = "link_name";
+                    spanHoverProfile.innerHTML = "Perfil";
+                //</a>
+                linkToProfile.appendChild(iconToProfile);
+                linkToProfile.appendChild(spanHoverProfile);
+                //<ul class="sub-menu blank">
+                let ulSubMenuProfile = document.createElement("ul");
+                ulSubMenuProfile.classList = "sub-menu blank";
+                    //<li>
+                    let liSubMenuProfile = document.createElement("li");
+                        //<a class="link_name" href="perfil">Perfil</a>
+                        let linkToProfileMini = document.createElement("a");
+                        linkToProfileMini.setAttribute("href", "perfil");
+                        linkToProfileMini.innerHTML = "Perfil";
+                    //</li>
+                    liSubMenuProfile.appendChild(linkToProfileMini);
+                //</ul>
+                ulSubMenuProfile.appendChild(liSubMenuProfile);
+            //</li>
+            liItem2.appendChild(linkToProfile);
+            liItem2.appendChild(ulSubMenuProfile);
+    
+            //<li class="li-not-selected">
+            let liItem3 = document.createElement("li");
+            liItem3.classList = "li-not-selected";
+                //<a href="relatorio">
+                let linkToRelatorio = document.createElement("a");
+                linkToRelatorio.setAttribute("href", "relatorio");
+                    //<i class='bx bx-paperclip'></i>
+                    let iconToRelatorio = document.createElement("i");
+                    iconToRelatorio.classList = "bx bx-paperclip";
+                    //<span class="link_name">Relatório</span>
+                    let spanHoverRelatorio = document.createElement("span");
+                    spanHoverRelatorio.classList = "link_name";
+                    spanHoverRelatorio.innerHTML = "Relatório";
+                //</a>
+                linkToRelatorio.appendChild(iconToRelatorio);
+                linkToRelatorio.appendChild(spanHoverRelatorio);
+                //<ul class="sub-menu blank">
+                let ulSubMenuRelatorio = document.createElement("ul");
+                ulSubMenuRelatorio.classList = "sub-menu blank";
+                    //<li>
+                    let liSubMenuRelatorio = document.createElement("li");
+                        //<a class="link_name" href="relatorio">Relatório</a>
+                        let linkToRelatorioMini = document.createElement("a");
+                        linkToRelatorioMini.setAttribute("href", "relatorio");
+                        linkToRelatorioMini.innerHTML = "Relatório";
+                    //</li>
+                    liSubMenuRelatorio.appendChild(linkToRelatorioMini);
+                //</ul>
+                ulSubMenuRelatorio.appendChild(liSubMenuRelatorio);
+            //</li>
+            liItem3.appendChild(linkToRelatorio);
+            liItem3.appendChild(ulSubMenuRelatorio);
+    
+            //<li class="li-not-selected">
+            let liItem4 = document.createElement("li");
+            liItem4.classList = "li-not-selected";
+                //<a href="dependentes">
+                let linkToDependentes = document.createElement("a");
+                linkToDependentes.setAttribute("href", "dependentes");
+                let iconToDependentes;
+                if(cargo == "analista"){
+                    // <i class="fas fa-desktop"></i>
+                    iconToDependentes = document.createElement("i");
+                    iconToDependentes.classList = "fas fa-desktop";
+                }else{
+                    //<i class='bx bxs-group'></i>
+                    iconToDependentes = document.createElement("i");
+                    iconToDependentes.classList = "bx bxs-group";
+                }
+
+                    //<span class="link_name">Dependentes</span>
+                    let spanHoverDependentes = document.createElement("span");
+                    spanHoverDependentes.classList = "link_name";
+                    spanHoverDependentes.innerHTML = "Dependentes";
+                //</a>
+                linkToDependentes.appendChild(iconToDependentes);
+                linkToDependentes.appendChild(spanHoverDependentes);
+                //<ul class="sub-menu blank">
+                let ulSubMenuDependentes = document.createElement("ul");
+                ulSubMenuDependentes.classList = "sub-menu blank";
+                    //<li>
+                    let liSubMenuDependentes = document.createElement("li");
+                        //<a class="link_name" href="dependentes">Dependentes</a>
+                        let linkToDependentesMini = document.createElement("a");
+                        linkToDependentesMini.setAttribute("href", "dependentes");
+                        linkToDependentesMini.innerHTML = "Dependentes";
+                    //</li>
+                    liSubMenuDependentes.appendChild(linkToDependentesMini);
+                //</ul>
+                ulSubMenuDependentes.appendChild(liSubMenuDependentes);
+            //</li>
+            liItem4.appendChild(linkToDependentes);
+            liItem4.appendChild(ulSubMenuDependentes);
+    
+            //<li class="seta">
+            let liItem5 = document.createElement("li");
+            liItem5.classList = "seta";
+                //<div class="iocn-link">
+                let divIconLink = document.createElement("div");
+                divIconLink.classList = "iocn-link";
+                    //<a href="#">
+                    let linkDropJava = document.createElement("a");
+                    linkDropJava.setAttribute("href", "#");
+                        //<i class="fab fa-java"></i>
+                        let iconToJava = document.createElement("i");
+                        iconToJava.classList = "fab fa-java";
+                        //<span class="link_name">Client Java</span>
+                        let spanHoverJava = document.createElement("span");
+                        spanHoverJava.classList = "link_name";
+                        spanHoverJava.innerHTML = "Client Java";
+                    //</a>
+                    linkDropJava.appendChild(iconToJava);
+                    linkDropJava.appendChild(spanHoverJava);
+                    //<i class="bx bxs-chevron-down arrow"></i>
+                    let iconSetaJava = document.createElement("i");
+                    iconSetaJava.classList = "bx bxs-chevron-down arrow";
+                //</div>
+                divIconLink.appendChild(linkDropJava);
+                divIconLink.appendChild(iconSetaJava);
+                //<ul class="sub-menu">
+                let ulSubMenuJava = document.createElement("ul");
+                ulSubMenuJava.classList = "sub-menu";
+                    //<li>
+                    // let liJava1 = document.createElement("li");
+                    //     //<a class="link_name" href="#">Client Java</a>
+                    //     let linkToJava1Mini = document.createElement("a");
+                    //     linkToJava1Mini.setAttribute("href", "#");
+                    //     linkToJava1Mini.innerHTML = "Client Java";
+                    //</li>
+                    // liJava1.appendChild(linkToJava1Mini);
+                    //<li>
+                    let liJava2 = document.createElement("li");
+                        //<a href="#">Download</a>
+                        let linkDownloadJava = document.createElement("a");
+                        linkDownloadJava.setAttribute("href", "#");
+                        linkDownloadJava.innerHTML = "Download";
+                    //</li>
+                    liJava2.appendChild(linkDownloadJava);
+                    //<li>
+                    let liJava3 = document.createElement("li");
+                        //<a href="#">Baixar JRE</a>
+                        let linkJreJava = document.createElement("a");
+                        linkJreJava.setAttribute("href", "#");
+                        linkJreJava.innerHTML = "Baixar JRE";
+                    //</li>
+                    liJava3.appendChild(linkJreJava);
+                //</ul>
+                // ulSubMenuJava.appendChild(liJava1);
+                ulSubMenuJava.appendChild(liJava2);
+                ulSubMenuJava.appendChild(liJava3);
+            //</li>
+            liItem5.appendChild(divIconLink);
+            liItem5.appendChild(ulSubMenuJava);
+    
+    
+            //<li>
+            
+            ulNavLinks.appendChild(liItem1);
+            ulNavLinks.appendChild(liItem2);
+            ulNavLinks.appendChild(liItem3);
+            ulNavLinks.appendChild(liItem4);
+            ulNavLinks.appendChild(liItem5);
+            
+        }
+       
+        
+        
         let liItem6 = document.createElement("li");
             //<div class="profile-details">
             let divProfileDetails = document.createElement("div");
@@ -264,11 +364,7 @@ sideBarDiv.classList = "sidebar close";
         //</li>
         liItem6.appendChild(divProfileDetails);
     //</ul>
-    ulNavLinks.appendChild(liItem1);
-    ulNavLinks.appendChild(liItem2);
-    ulNavLinks.appendChild(liItem3);
-    ulNavLinks.appendChild(liItem4);
-    ulNavLinks.appendChild(liItem5);
+
     ulNavLinks.appendChild(liItem6);
 
     

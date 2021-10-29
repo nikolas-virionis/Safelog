@@ -11,6 +11,7 @@
     <title>Cadastro Empresas</title>
     <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon">
     <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/grid.css">
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -22,32 +23,36 @@
                 <h1>Cadastro empresa:</h1>
                 <div class="form-cadastro">
                     <form action="" id="form-cadastro-empresa">
-                        <div class="form-item">
-                            <label for="inp-nome-empresa">Nome da Empresa:</label>
-                            <input type="text" name="" id="inp-nome-empresa" required>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 form-item">
+                                <label for="inp-nome-empresa">Nome da Empresa:</label>
+                                <input type="text" name="" id="inp-nome-empresa" required>
+                            </div>
                         </div>
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-pais">País:</label>
                                 <input type="text" name="" id="inp-pais" required>
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-cidade">Cidade:</label>
                                 <input type="text" name="" id="inp-cidade" required>
                             </div>
                         </div>
-                        <div class="dashboard-row">
-                            <div class="col-6 form-item">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-cnpj">Identificação:</label>
                                 <input type="text" name="" id="inp-id" required>
                             </div>
-                            <div class="col-6 form-item">
+                            <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-email-rep">Email do representante:</label>
                                 <input type="email" name="" id="inp-email-rep" required>
                             </div>
                         </div>
-                        <div class="form-item">
-                            <button type="submit" class="btn-geral">Cadastrar</button>
+                        <div class="row">
+                            <div class="form-item">
+                                <button type="submit" class="btn-geral">Cadastrar</button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,9 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
+const axios = require("axios").default;
 const {abrirChamado} = require("../util/chamado/abertura");
+const {getCategorias} = require("../util/get-user-machines/machines");
 
 router.post("/criar", async (req, res) => {
     let {
@@ -167,4 +169,72 @@ router.post("/fechar", async (req, res) => {
         });
 });
 
+router.post("/lista", async (req, res) => {
+    let {idUsuario} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+    await axios
+        .post("http://localhost:3000/usuario/dados", {id: idUsuario})
+        .then(
+            ({
+                data: {
+                    status,
+                    msg: {cargo}
+                }
+            }) => {
+                if (status === "ok") {
+                    axios
+                        .post(
+                            `http://localhost:3000/maquina/lista-dependentes/${cargo}`,
+                            {id: idUsuario}
+                        )
+                        .then(async ({data: {status, msg: maquinas}}) => {
+                            if (status == "ok") {
+                                let idCategorias = [];
+                                for (let {pk_maquina} of maquinas) {
+                                    const sqlCategorias = `SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${pk_maquina}`;
+                                    await sequelize
+                                        .query(sqlCategorias, {
+                                            type: sequelize.QueryTypes.SELECT
+                                        })
+                                        .then(categorias => {
+                                            for (let {
+                                                id_categoria_medicao
+                                            } of categorias) {
+                                                idCategorias.push(
+                                                    id_categoria_medicao
+                                                );
+                                            }
+                                        });
+                                }
+
+                                const sqlChamados = `SELECT id_chamado, chamado.titulo, data_abertura, status_chamado as 'status', prioridade, (SELECT count(id_solucao) FROM solucao WHERE eficacia <> 'nula' AND fk_chamado in (SELECT id_chamado FROM chamado WHERE ${getCategorias(
+                                    idCategorias
+                                )})) as solucoes FROM chamado JOIN solucao ON id_chamado = fk_chamado WHERE ${getCategorias(
+                                    idCategorias
+                                )} ORDER BY status, data_abertura, prioridade`;
+                                await sequelize
+                                    .query(sqlChamados, {
+                                        type: sequelize.QueryTypes.SELECT
+                                    })
+                                    .then(async chamados => {
+                                        res.json({status: "ok", msg: chamados});
+                                    })
+                                    .catch(err => {
+                                        res.json({status: "erro", msg: err});
+                                    });
+                            } else {
+                                res.json({status: "erro", msg});
+                            }
+                        });
+                } else {
+                    res.json({status: "erro", msg});
+                }
+            }
+        );
+});
 module.exports = router;

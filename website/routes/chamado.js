@@ -3,6 +3,7 @@ let router = express.Router();
 let sequelize = require("../models").sequelize;
 const axios = require("axios").default;
 const {abrirChamado} = require("../util/chamado/abertura");
+const {verificarAcesso} = require("../util/chamado/acesso");
 
 router.post("/criar", async (req, res) => {
     let {
@@ -28,96 +29,46 @@ router.post("/criar", async (req, res) => {
                     status: "alerta",
                     msg: "Chamado já aberto para essa métrica"
                 });
-            } else {
-                // verificando se usuario tem acesso à máquina
-                const sqlUsuarioTemAcesso = `SELECT * FROM usuario_maquina WHERE fk_usuario = ${idUsuario} AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${idCategoriaMedicao})`;
+            }
+            // verificando se usuario tem acesso à máquina
 
-                await sequelize
-                    .query(sqlUsuarioTemAcesso, {
-                        type: sequelize.QueryTypes.SELECT
-                    })
-                    .then(async ([response]) => {
-                        if (response) {
-                            // usuario tem acesso
-                            if (eficaciaSolucoes) {
-                                const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
+            if (await verificarAcesso({idUsuario, idCategoriaMedicao})) {
+                if (eficaciaSolucoes) {
+                    const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
 
-                                await sequelize
-                                    .query(updateEficaciaSolucoes, {
-                                        type: sequelize.QueryTypes.UPDATE
-                                    })
-                                    .catch(err => {
-                                        res.json({status: "erro1", msg: err});
-                                    });
-                            }
-                            abrirChamado(
-                                titulo,
-                                desc,
-                                idUsuario,
-                                idCategoriaMedicao,
-                                prioridade
-                            )
-                                .then(resposta => {
-                                    res.json(resposta);
-                                })
-                                .catch(err => {
-                                    res.json({status: "erro1", msg: err});
-                                });
-                        } else {
-                            const sqlGestorTemAcesso = `SELECT * FROM usuario_maquina JOIN usuario ON fk_usuario = id_usuario AND fk_supervisor = ${idUsuario} AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${idCategoriaMedicao})`;
-                            sequelize
-                                .query(sqlGestorTemAcesso, {
-                                    type: sequelize.QueryTypes.SELECT
-                                })
-                                .then(async ([response]) => {
-                                    if (response) {
-                                        if (eficaciaSolucoes) {
-                                            const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
-
-                                            await sequelize
-                                                .query(updateEficaciaSolucoes, {
-                                                    type: sequelize.QueryTypes
-                                                        .UPDATE
-                                                })
-                                                .catch(err => {
-                                                    res.json({
-                                                        status: "erro1",
-                                                        msg: err
-                                                    });
-                                                });
-                                        }
-                                        abrirChamado(
-                                            titulo,
-                                            desc,
-                                            idUsuario,
-                                            idCategoriaMedicao,
-                                            prioridade
-                                        )
-                                            .then(resposta => {
-                                                res.json(resposta);
-                                            })
-                                            .catch(err => {
-                                                res.json({
-                                                    status2: "erro",
-                                                    msg: err
-                                                });
-                                            });
-                                    } else {
-                                        // usuario não tem acesso
-                                        res.json({
-                                            status: "alerta",
-                                            msg: "Usuário não tem acesso à máquina"
-                                        });
-                                    }
-                                });
-                        }
+                    await sequelize
+                        .query(updateEficaciaSolucoes, {
+                            type: sequelize.QueryTypes.UPDATE
+                        })
+                        .catch(err => {
+                            res.json({
+                                status: "erro1",
+                                msg: err
+                            });
+                        });
+                }
+                abrirChamado(
+                    titulo,
+                    desc,
+                    idUsuario,
+                    idCategoriaMedicao,
+                    prioridade
+                )
+                    .then(resposta => {
+                        res.json(resposta);
                     })
                     .catch(err => {
-                        return res.json({
-                            status: "erro3",
+                        res.json({
+                            status2: "erro",
                             msg: err
                         });
                     });
+            } else {
+                // usuario não tem acesso
+                res.json({
+                    status: "alerta",
+                    msg: "Usuário não tem acesso à máquina"
+                });
             }
         });
 });

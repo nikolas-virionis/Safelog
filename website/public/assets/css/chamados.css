@@ -1,0 +1,66 @@
+.chamado-list-container{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chamado-item-list {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px rgb(0, 0, 0) solid;
+    cursor: pointer;
+}
+
+.chamado-item-list:hover {
+    color: white;
+    background: rgb(54, 54, 54);
+}
+
+.btn-abrir-chamado {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 3px;
+    background-color:rgb(90, 143, 221);
+    color: white;
+    box-shadow: 1px 1px 3px 1px black;
+    cursor: pointer;
+}
+
+.btn-abrir-chamado:hover {
+    color: rgb(90, 143, 221);
+    background-color: white;
+}
+
+.status-chamado {
+    display: inline-block;
+    width: 15%;
+    padding: 10px;
+    border-radius: 100px;
+    text-align: center;
+    color: white;
+}
+
+.fechado {
+    background-color: rgb(68, 187, 68);
+}
+
+.aberto {
+    background-color: rgb(219, 82, 82);
+}
+
+.chamado-item-list span {
+    /* border: black 1px solid; */
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.nome-chamado {
+    width: 55%;
+    /* background-color: blue; */
+    display: inline-block;
+}
+
+/* .qtd-usuarios-chamado {
+    
+} */

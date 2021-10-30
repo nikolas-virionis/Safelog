@@ -3,7 +3,6 @@ let router = express.Router();
 let sequelize = require("../models").sequelize;
 const axios = require("axios").default;
 const {abrirChamado} = require("../util/chamado/abertura");
-const {getCategorias} = require("../util/get-user-machines/machines");
 
 router.post("/criar", async (req, res) => {
     let {

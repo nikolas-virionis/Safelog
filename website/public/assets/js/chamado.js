@@ -4,12 +4,12 @@ const idChamado = urlParams.get("idChamado");
 console.log(idChamado)
 axios.post("/chamado/dados", { idChamado })
 .then(({data: {status, msg}}) => {
-    if (status === "ok") {
-        
-        // limpando conteúdo atual do conteiner
-        const container = document.querySelector(".container-site");
-        container.innerHTML = "";
 
+    // limpando conteúdo atual do conteiner
+    const container = document.querySelector(".container-site");
+    container.innerHTML = "";
+
+    if (status === "ok") {
         // renderizando chamado
         renderChamado(msg, container);
 
@@ -17,10 +17,11 @@ axios.post("/chamado/dados", { idChamado })
             // renderizando solução
             renderSolucao(msg.solucoes[0], container);
         } else {
-            console.log("nenhuma solução foi encontrada");
+            // 
         }
     } else {
         console.warn(msg)
+        renderChamadoNaoEncontrado(container);
     }
 })
 
@@ -82,6 +83,7 @@ const renderChamado = (msg, container) => {
     container.appendChild(divBoxChamado);
 }
 
+// renderiza solução
 const renderSolucao = (solucao, container) => {
     // criando divs 
     const divBox = document.createElement("div");
@@ -117,4 +119,20 @@ const renderSolucao = (solucao, container) => {
 
     // adicionando solucao ao container 
     container.appendChild(divBox);
+}
+
+const renderChamadoNaoEncontrado = (container) => {
+    console.log(container);
+
+    // criando elemento 
+    const warnBox = document.createElement("div");
+    warnBox.innerHTML = "Chamado não encontrado! Você será redirecionado para a lista de chamados";
+
+    warnBox.classList.add("warn-box");
+
+    container.appendChild(warnBox);
+
+    setTimeout(() => {
+        document.location.href = "/chamados";
+    }, 2000);
 }

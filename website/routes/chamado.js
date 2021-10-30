@@ -40,7 +40,7 @@ router.post("/criar", async (req, res) => {
                         if (response) {
                             // usuario tem acesso
                             if (eficaciaSolucoes) {
-                                const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto')`;
+                                const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
 
                                 await sequelize
                                     .query(updateEficaciaSolucoes, {
@@ -71,6 +71,21 @@ router.post("/criar", async (req, res) => {
                                 })
                                 .then(async ([response]) => {
                                     if (response) {
+                                        if (eficaciaSolucoes) {
+                                            const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
+
+                                            await sequelize
+                                                .query(updateEficaciaSolucoes, {
+                                                    type: sequelize.QueryTypes
+                                                        .UPDATE
+                                                })
+                                                .catch(err => {
+                                                    res.json({
+                                                        status: "erro1",
+                                                        msg: err
+                                                    });
+                                                });
+                                        }
                                         abrirChamado(
                                             titulo,
                                             desc,
@@ -211,12 +226,12 @@ router.post("/lista", async (req, res) => {
                                         });
                                 }
                                 // select id_chamado from chamado as c left join solucao on id_chamado = fk_chamado;
-                                let sqlChamados = `SELECT id_chamado, c.titulo, c.descricao, data_abertura, status_chamado AS 'status', prioridade, (SELECT count(id_solucao) FROM chamado LEFT JOIN solucao ON eficacia <> 'nula' AND fk_chamado = id_chamado AND c.id_chamado = fk_chamado) as 'solucoes' FROM chamado as c LEFT JOIN solucao ON id_chamado = fk_chamado ORDER BY status, data_abertura, prioridade`;
+                                let sqlChamados = `SELECT * FROM v_chamados`;
 
-                                if (!!search) {
-                                    sqlChamados = `SELECT * FROM v_chamados WHERE TITULO LIKE '%${search}%' OR descricao LIKE '%${search}%'`;
+                                if (search) {
+                                    sqlChamados = `SELECT * FROM v_chamados WHERE titulo LIKE '%${search}%' OR status LIKE '%${search}%' OR prioridade LIKE '%${search}%'`;
                                 }
-                                
+
                                 await sequelize
                                     .query(sqlChamados, {
                                         type: sequelize.QueryTypes.SELECT

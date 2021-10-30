@@ -20,11 +20,11 @@ router.post("/criar", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
     }
-    const chamadoJaAberto = `SELECT status_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
+    const chamadoJaAberto = `SELECT status_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto'`;
     await sequelize
         .query(chamadoJaAberto, {type: sequelize.QueryTypes.SELECT})
         .then(async ([status]) => {
-            if (status?.status_chamado == "aberto") {
+            if (status) {
                 res.json({
                     status: "alerta",
                     msg: "Chamado já aberto para essa métrica"
@@ -41,7 +41,7 @@ router.post("/criar", async (req, res) => {
                         if (response) {
                             // usuario tem acesso
                             if (eficaciaSolucoes) {
-                                const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao})`;
+                                const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto')`;
 
                                 await sequelize
                                     .query(updateEficaciaSolucoes, {

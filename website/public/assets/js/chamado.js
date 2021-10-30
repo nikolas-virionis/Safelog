@@ -7,18 +7,25 @@ axios.post("/chamado/dados", { idChamado })
     if (status === "ok") {
         
         // limpando conteúdo atual do conteiner
-        const container = document.querySelector(".box-chamado");
+        const container = document.querySelector(".container-site");
         container.innerHTML = "";
 
         // renderizando chamado
-        renderChamado(msg);
+        renderChamado(msg, container);
+
+        if(msg.solucoes.length > 0) {
+            // renderizando solução
+            renderSolucao(msg.solucoes[0]);
+        } else {
+            console.log("nenhuma solução foi encontrada");
+        }
     } else {
         console.warn(msg)
     }
 })
 
 // renderiza chamado
-const renderChamado = msg => {
+const renderChamado = (msg, container) => {
     // criando box chamado
     const divBoxChamado = document.createElement("div");
     const divStatus = document.createElement("div");
@@ -47,7 +54,7 @@ const renderChamado = msg => {
     spanDataAbertura.innerHTML = data;
 
     // adicionando classe às divs/spans
-    // divBoxChamado.classList.add("box-chamado");
+    divBoxChamado.classList.add("box-chamado");
     divStatus.classList.add("status-chamado");
     divStatus.classList.add(msg.status);
     divTitulo.classList.add("titulo");
@@ -72,5 +79,9 @@ const renderChamado = msg => {
     divBoxChamado.appendChild(divFooter);
 
     // adicionando box ao Container
-    document.querySelector(".box-chamado").appendChild(divBoxChamado);
+    container.appendChild(divBoxChamado);
+}
+
+const renderSolucao = solucao => {
+    console.log(solucao);
 }

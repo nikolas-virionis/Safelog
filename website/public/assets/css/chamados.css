@@ -74,6 +74,10 @@
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 3px 1px rgb(77, 79, 112);
+    width: 50%;
+    min-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .titulo {
@@ -118,7 +122,8 @@
 /* solucoes */
 
 .box-solucao {
-    width: 90%;
+    width: 40%;
+    min-width: 600px;
     margin-left: auto;
     margin-right: auto;
     /* border: 1px solid black; */

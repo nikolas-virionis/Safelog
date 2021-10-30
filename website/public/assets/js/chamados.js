@@ -1,13 +1,13 @@
 const userId = JSON.parse(sessionStorage.getItem("usuario")).id;
 
-const renderChamados = (chamados) => {
+const renderChamados = chamados => {
     const container = document.querySelector("[list-container]");
     container.innerHTML = "";
 
     chamados.forEach(chamado => {
         // console.log(chamado);
 
-        // list 
+        // list
         const listItem = document.createElement("div");
 
         // list items
@@ -30,7 +30,7 @@ const renderChamados = (chamados) => {
         // click
         listItem.addEventListener("click", evt => {
             alert(`mover para chamado de ID: ${chamado.id_chamado}`);
-        })
+        });
 
         // append
         listItem.appendChild(status);
@@ -39,40 +39,45 @@ const renderChamados = (chamados) => {
 
         // final append
         container.appendChild(listItem);
-    })
-}
+    });
+};
 
-axios.post("/chamado/lista", {
-    idUsuario: userId
-})
-.then(({data}) => {
-    if (data.status == "ok") {
-        renderChamados(data.msg);
-    } else {
-        console.warn("error");
-        console.warn(data.msg);
-    }
-});
+axios
+    .post("/chamado/lista", {
+        idUsuario: userId
+    })
+    .then(({data}) => {
+        if (data.status == "ok") {
+            renderChamados(data.msg);
+        } else {
+            console.warn("error");
+            console.warn(data.msg);
+        }
+    });
 
 // search chamados
 const inputSearch = document.querySelector("[searchBarChamados]");
 const btnSearch = document.querySelector("[btnSearchChamados]");
 
-btnSearch.addEventListener("click", evt => {
-    if (inputSearch.value !== "") {
-        console.log(inputSearch.value);
+inputSearch.addEventListener("keypress", e => {
+    if (e.key == "Enter") {
+        e.preventDefault();
+        btnSearch.click();
+    }
+});
 
-        axios.post("/chamado/lista", {
+btnSearch.addEventListener("click", evt => {
+    axios
+        .post("/chamado/lista", {
             idUsuario: userId,
             search: inputSearch.value
         })
-        .then(({data}) => {
-            if (data.status == "ok") {
-                renderChamados(data.msg);
+        .then(({data: {status, msg}}) => {
+            if (status == "ok") {
+                renderChamados(msg);
             } else {
-                console.warn("error");
-                console.warn(data.msg);
+                console.error("error");
+                console.error(msg);
             }
-        })
-    }
-})
+        });
+});

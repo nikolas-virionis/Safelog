@@ -1,7 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
 const idChamado = urlParams.get("idChamado");
 
-console.log(idChamado)
 axios.post("/chamado/dados", { idChamado })
 .then(({data: {status, msg}}) => {
 
@@ -122,8 +121,6 @@ const renderSolucao = (solucao, container) => {
 }
 
 const renderChamadoNaoEncontrado = (container) => {
-    console.log(container);
-
     // criando elemento 
     const warnBox = document.createElement("div");
     warnBox.innerHTML = "Chamado não encontrado! Você será redirecionado para a lista de chamados";

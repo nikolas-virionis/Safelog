@@ -29,7 +29,7 @@ const renderChamados = chamados => {
 
         // click
         listItem.addEventListener("click", evt => {
-            alert(`mover para chamado de ID: ${chamado.id_chamado}`);
+            window.location.href = `/chamado?idChamado=${chamado.id_chamado}`;
         });
 
         // append

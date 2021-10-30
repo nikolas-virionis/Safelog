@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chamado</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/chamados.css">
+
+</head>
+
+<body>
+    <section class="home-section">
+        <!-- HEADER -->
+        <div class="navbar-dashboard">
+            <div class="barra-pesquisa">
+                <input type="search" name="" value="" placeholder="Buscar" searchBarChamados>
+                <button type="submit" class="btn-nav-dash" btnSearchChamados><i class="fas fa-search"></i></button>
+            </div>
+
+        </div>
+
+        <!-- CONTAINER -->
+        <div class="container-site">
+
+            <div class="box-chamado">
+                <div class="status-chamado fechado"> Fechado </div>
+                <div class="titulo">alta temperatura de cpu</div>
+                <div class="prioridade">Prioridade: <span id="prioridade">Alta</span></div>
+                <div class="descricao">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos minima porro incidunt ullam fugiat facilis nobis ipsa suscipit nesciunt numquam laudantium, assumenda necessitatibus inventore. Obcaecati eos veniam quis nulla doloribus.</div>
+
+                <div class="chamado-footer">
+                    Responsável:
+                    <div class="responsavel-nome">Lucas Mesquita</div>
+                    <div class="responsavel-email">lucas.msouza@bandtec.com.br</div>
+                    <span class="data-abertura">30/10/2021 17:42</span>
+                </div>
+            </div>
+            
+            <div class="container-solucoes">
+                <div class="box-solucao">solucao 1</div>
+            </div>
+
+        </div>
+    </section>
+    <div id="alerta"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/chamado.js"></script>
+    <!-- <script src="./assets/js/relatorio.js"></script> -->
+</body>
+
+</html>

@@ -64,3 +64,67 @@
 /* .qtd-usuarios-chamado {
     
 } */
+
+/* chamado (individual) */
+
+.box-chamado {
+    border: 1px solid black;
+    padding: 10px 50px 10px 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.titulo {
+    display: inline-block;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.descricao {
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.prioridade {
+    display: inline-block;
+    margin: 20px;
+}
+
+.chamado-footer {
+    font-size: 0.8em;
+    color: rgb(102, 102, 102);
+    font-weight: bold;
+}
+
+.responsavel-nome, .responsavel-email {
+    display: inline-block;
+    margin-top: 30px;
+    margin-left: 30px;
+    font-weight: normal;
+    /* border: 1px black solid; */
+}
+
+.data-abertura {
+    /* margin-left: 30px; */
+    text-align: right;
+    display: inline-block;
+    /* border: 1px solid black; */
+    /* min-width: 20%; */
+    width: 30%;
+}
+
+/* solucoes */
+
+.container-solucoes {
+    border: 1px solid black;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.box-solucao {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 3px;
+}

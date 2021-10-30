@@ -177,10 +177,10 @@ router.post("/lista", async (req, res) => {
                                         });
                                 }
                                 // select id_chamado from chamado as c left join solucao on id_chamado = fk_chamado;
-                                let sqlChamados = `SELECT * FROM v_chamados`;
+                                let sqlChamados = `SELECT * FROM v_chamados ORDER BY status, prioridade, data_abertura`;
 
                                 if (search) {
-                                    sqlChamados = `SELECT * FROM v_chamados WHERE titulo LIKE '%${search}%' OR status LIKE '%${search}%' OR prioridade LIKE '%${search}%'`;
+                                    sqlChamados = `SELECT * FROM v_chamados WHERE titulo LIKE '%${search}%' OR status LIKE '%${search}%' OR prioridade LIKE '%${search}%' ORDER BY status, prioridade, solucoes DESC, data_abertura`;
                                 }
 
                                 await sequelize

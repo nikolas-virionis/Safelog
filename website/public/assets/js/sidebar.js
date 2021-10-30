@@ -6,7 +6,7 @@ if(sessionStorage.getItem("usuario")){
 }else if(sessionStorage.getItem("staff")){
     cargo = JSON.parse(sessionStorage.getItem("staff")).cargo;
 }
-console.log(cargo)
+// console.log(cargo)
 // -----------------------------------------------------------------------------------------------
 //  Criação da Sidebar
 // -----------------------------------------------------------------------------------------------

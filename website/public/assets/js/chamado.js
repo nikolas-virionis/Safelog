@@ -5,23 +5,23 @@ axios.post("/chamado/dados", { idChamado })
 .then(({data: {status, msg}}) => {
 
     // limpando conteúdo atual do conteiner
-    // const container = document.querySelector(".container-site");
-    // container.innerHTML = "";
+    const container = document.querySelector(".container-site");
+    container.innerHTML = "";
 
-    // if (status === "ok") {
-    //     // renderizando chamado
-    //     renderChamado(msg, container);
+    if (status === "ok") {
+        // renderizando chamado
+        renderChamado(msg, container);
 
-    //     if(msg.solucoes.length > 0) {
-    //         // renderizando solução
-    //         renderSolucao(msg.solucoes[0], container);
-    //     } else {
-    //         // 
-    //     }
-    // } else {
-    //     console.warn(msg)
-    //     renderChamadoNaoEncontrado(container);
-    // }
+        if(msg.solucoes.length > 0) {
+            // renderizando solução
+            renderSolucao(msg.solucoes[0], container);
+        } else {
+            // 
+        }
+    } else {
+        console.warn(msg)
+        renderChamadoNaoEncontrado(container);
+    }
 })
 
 // renderiza chamado

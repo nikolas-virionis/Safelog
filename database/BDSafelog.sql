@@ -139,16 +139,7 @@ CREATE VIEW v_chamados AS (
         c.titulo,
         data_abertura,
         status_chamado AS 'status',
-        prioridade,
-        (
-            SELECT
-                count(id_solucao)
-            FROM
-                chamado
-                LEFT JOIN solucao ON eficacia <> 'nula'
-                AND fk_chamado = id_chamado
-                AND c.id_chamado = fk_chamado
-        ) AS 'solucoes'
+        prioridade
     FROM
         chamado AS c
         LEFT JOIN solucao ON id_chamado = fk_chamado

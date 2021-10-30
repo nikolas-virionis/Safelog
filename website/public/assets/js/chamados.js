@@ -16,19 +16,16 @@ const renderChamados = chamados => {
             // list items
             const status = document.createElement("span");
             const nomeChamado = document.createElement("span");
-            const qtdUsuarios = document.createElement("span");
 
             // innerHTML
             status.innerHTML = chamado.status;
             nomeChamado.innerHTML = chamado.titulo;
-            qtdUsuarios.innerHTML = chamado.solucoes + " Soluções";
 
             // add class
             listItem.classList.add("chamado-item-list");
             status.classList.add("status-chamado");
             status.classList.add(chamado.status);
             nomeChamado.classList.add("nome-chamado");
-            qtdUsuarios.classList.add("qtd-usuarios-chamado");
 
             // click
             listItem.addEventListener("click", evt => {
@@ -38,7 +35,6 @@ const renderChamados = chamados => {
             // append
             listItem.appendChild(status);
             listItem.appendChild(nomeChamado);
-            listItem.appendChild(qtdUsuarios);
 
             // final append
             container.appendChild(listItem);

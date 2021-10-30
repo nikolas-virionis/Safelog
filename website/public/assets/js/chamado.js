@@ -15,7 +15,7 @@ axios.post("/chamado/dados", { idChamado })
 
         if(msg.solucoes.length > 0) {
             // renderizando solução
-            renderSolucao(msg.solucoes[0]);
+            renderSolucao(msg.solucoes[0], container);
         } else {
             console.log("nenhuma solução foi encontrada");
         }
@@ -82,6 +82,39 @@ const renderChamado = (msg, container) => {
     container.appendChild(divBoxChamado);
 }
 
-const renderSolucao = solucao => {
-    console.log(solucao);
+const renderSolucao = (solucao, container) => {
+    // criando divs 
+    const divBox = document.createElement("div");
+    const divHeader = document.createElement("div");
+    const divTitulo = document.createElement("div");
+    const divEficacia = document.createElement("div");
+    const divDescricao = document.createElement("div");
+    const divData = document.createElement("div");
+
+    // adicionando corpo das divs
+    divTitulo.innerHTML = solucao.titulo;
+    divEficacia.innerHTML = solucao.eficacia;
+    divDescricao.innerHTML = solucao.descricao;
+    const data = new Date(solucao.data_solucao);
+    divData.innerHTML = data.toLocaleString("pt-BR");
+
+    // adicionando classes
+    divBox.classList.add("box-solucao");
+    divHeader.classList.add("solucao-header");
+    divTitulo.classList.add("solucao-titulo");
+    divEficacia.classList.add("solucao-eficacia");
+    divEficacia.classList.add(`eficacia-${solucao.eficacia}`);
+    divDescricao.classList.add("solucao-descricao");
+    divData.classList.add("solucao-data");
+
+    // aninhando divs
+    divHeader.appendChild(divTitulo);
+    divHeader.innerHTML += "Eficácia: ";
+    divHeader.appendChild(divEficacia);
+    divBox.appendChild(divHeader);
+    divBox.appendChild(divDescricao);
+    divBox.appendChild(divData);
+
+    // adicionando solucao ao container 
+    container.appendChild(divBox);
 }

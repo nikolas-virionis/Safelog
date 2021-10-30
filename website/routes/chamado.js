@@ -217,7 +217,7 @@ router.post("/dados", async (req, res) => {
     }
 
     const sqlChamado = `SELECT titulo, descricao, data_abertura, status_chamado as 'status', prioridade, usuario.nome, usuario.email, fk_categoria_medicao FROM chamado JOIN usuario on fk_usuario = id_usuario WHERE id_chamado = ${idChamado}`;
-    const sqlSolucoes = `SELECT titulo, descricao, data_solucao, eficacia, usuario.nome, usuario.email FROM solucao JOIN usuario on fk_usuario = id_usuario AND fk_chamado = ${idChamado}`;
+    const sqlSolucoes = `SELECT titulo, descricao, data_solucao, eficacia, usuario.nome, usuario.email FROM solucao JOIN usuario on fk_usuario = id_usuario AND fk_chamado = ${idChamado} ORDER BY eficacia DESC`;
 
     await sequelize
         .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})

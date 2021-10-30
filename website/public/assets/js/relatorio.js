@@ -65,11 +65,14 @@ axios
                             chamadoBtn.appendChild(chamadoBtnLbl);
                             chamadoBtn.addEventListener("click", () => {
                                 // abrir modal de criar chamado
-                                // modal deve, além dos campos paara preencher,
-                                // ter os dados da medição em questão
+                                // modal deve, além dos campos para preencher,
+                                // ter os dados da medição em questão:
                                 // tlvz usar uma função que abra o modal e pegue
                                 // os dados da medição como parametro e renderize eles
                                 // no modal
+                                // ao enviar o modal ele não desaparece obrigatoriamente
+                                // é necessário obter uma resposta positiva da criação do
+                                // chamado, mas cancelar é permitido
                             });
 
                             tbNome.innerHTML = nome;

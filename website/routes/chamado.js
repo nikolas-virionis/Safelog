@@ -271,16 +271,20 @@ router.post("/dados", async (req, res) => {
     await sequelize
         .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
         .then(async ([chamado]) => {
-            await sequelize
+            console.log(chamado);
+            if (chamado) {
+                await sequelize
                 .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
                 .then(solucoes => {
-                    if(solucoes.length > 0) {
-                        res.json({status: "ok", msg: {...chamado, solucoes}});
-                    } else {
-                        res.json({status: "erro", msg: "chamado não encontrado"})
-                    }
+                    res.json({status: "ok", msg: {...chamado, solucoes}});
                 })
                 .catch(err => res.json({status: "erro", msg: err}));
+            } else {
+                res.json({
+                    status: "erro", 
+                    msg: "chamado não encontrado"
+                })
+            }
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

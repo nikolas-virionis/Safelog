@@ -211,22 +211,21 @@ router.post("/lista", async (req, res) => {
                                             }
                                         });
                                 }
-
-                                const sqlChamados = `SELECT id_chamado, chamado.titulo, data_abertura, status_chamado as 'status', prioridade, (SELECT count(id_solucao) FROM solucao WHERE eficacia <> 'nula' AND fk_chamado in (SELECT id_chamado FROM chamado WHERE ${getCategorias(
-                                    idCategorias
-                                )})) as solucoes FROM chamado JOIN solucao ON id_chamado = fk_chamado WHERE ${getCategorias(
-                                    idCategorias
-                                )} ORDER BY status, data_abertura, prioridade`;
+                                // select id_chamado from chamado as c left join solucao on id_chamado = fk_chamado;
+                                const sqlChamados = `SELECT id_chamado, c.titulo, data_abertura, status_chamado AS 'status', prioridade, (SELECT count(id_solucao) FROM chamado LEFT JOIN solucao ON eficacia <> 'nula' AND fk_chamado = id_chamado AND c.id_chamado = fk_chamado) as 'solucoes' FROM chamado as c LEFT JOIN solucao ON id_chamado = fk_chamado ORDER BY status, data_abertura, prioridade`;
                                 await sequelize
                                     .query(sqlChamados, {
                                         type: sequelize.QueryTypes.SELECT
                                     })
-                                    .then(async chamados => {
-                                        res.json({status: "ok", msg: chamados});
-                                    })
-                                    .catch(err => {
-                                        res.json({status: "erro", msg: err});
-                                    });
+                                    .then(async chamados =>
+                                        res.json({
+                                            status: "ok",
+                                            msg: chamados
+                                        })
+                                    )
+                                    .catch(err =>
+                                        res.json({status: "erro", msg: err})
+                                    );
                             } else {
                                 res.json({status: "erro", msg});
                             }

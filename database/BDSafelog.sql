@@ -133,6 +133,8 @@ CREATE TABLE solucao (
     FOREIGN KEY (fk_chamado) REFERENCES chamado(id_chamado)
 );
 
+CREATE VIEW v_chamados AS (SELECT id_chamado, c.titulo, data_abertura, status_chamado AS 'status', prioridade, (SELECT count(id_solucao) FROM chamado LEFT JOIN solucao ON eficacia <> 'nula' AND fk_chamado = id_chamado AND c.id_chamado = fk_chamado) as 'solucoes' FROM chamado as c LEFT JOIN solucao ON id_chamado = fk_chamado ORDER BY status, data_abertura, prioridade);
+
 INSERT INTO
     tipo_medicao(tipo, unidade)
 VALUES

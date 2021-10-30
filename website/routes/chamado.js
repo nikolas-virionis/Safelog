@@ -169,7 +169,7 @@ router.post("/fechar", async (req, res) => {
 });
 
 router.post("/lista", async (req, res) => {
-    let {idUsuario} = req.body;
+    let {idUsuario, search} = req.body;
     if (!req.body) {
         return res.json({
             status: "erro",
@@ -211,7 +211,12 @@ router.post("/lista", async (req, res) => {
                                         });
                                 }
                                 // select id_chamado from chamado as c left join solucao on id_chamado = fk_chamado;
-                                const sqlChamados = `SELECT id_chamado, c.titulo, data_abertura, status_chamado AS 'status', prioridade, (SELECT count(id_solucao) FROM chamado LEFT JOIN solucao ON eficacia <> 'nula' AND fk_chamado = id_chamado AND c.id_chamado = fk_chamado) as 'solucoes' FROM chamado as c LEFT JOIN solucao ON id_chamado = fk_chamado ORDER BY status, data_abertura, prioridade`;
+                                let sqlChamados = `SELECT id_chamado, c.titulo, c.descricao, data_abertura, status_chamado AS 'status', prioridade, (SELECT count(id_solucao) FROM chamado LEFT JOIN solucao ON eficacia <> 'nula' AND fk_chamado = id_chamado AND c.id_chamado = fk_chamado) as 'solucoes' FROM chamado as c LEFT JOIN solucao ON id_chamado = fk_chamado ORDER BY status, data_abertura, prioridade`;
+
+                                if (!!search) {
+                                    sqlChamados = `SELECT * FROM v_chamados WHERE TITULO LIKE '%${search}%' OR descricao LIKE '%${search}%'`;
+                                }
+                                
                                 await sequelize
                                     .query(sqlChamados, {
                                         type: sequelize.QueryTypes.SELECT

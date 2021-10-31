@@ -216,7 +216,7 @@ router.post("/dados", async (req, res) => {
         });
     }
 
-    const sqlChamado = `SELECT titulo, descricao, data_abertura, status_chamado as 'status', prioridade, usuario.nome, usuario.email, fk_categoria_medicao FROM chamado JOIN usuario on fk_usuario = id_usuario WHERE id_chamado = ${idChamado}`;
+    const sqlChamado = `SELECT titulo, descricao, data_abertura, status_chamado as 'status', prioridade, usuario.nome, usuario.email, fk_categoria_medicao, maquina.nome as maquina FROM chamado JOIN usuario on fk_usuario = id_usuario JOIN categoria_medicao ON fk_categoria_medicao = id_categoria_medicao JOIN maquina ON fk_maquina = pk_maquina WHERE id_chamado = ${idChamado}`;
     const sqlSolucoes = `SELECT titulo, descricao, data_solucao, eficacia, usuario.nome, usuario.email FROM solucao JOIN usuario on fk_usuario = id_usuario AND fk_chamado = ${idChamado} ORDER BY eficacia DESC`;
     const getUsuarios = `SELECT count(fk_usuario) as usuarios FROM usuario_maquina WHERE fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))`;
     await sequelize

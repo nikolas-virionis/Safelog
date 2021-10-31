@@ -18,6 +18,7 @@ def df_to_csv(tb, emp, name):
     print(df)
     df.to_csv(
         f"{directory}/csv/{emp}/amostra{name.capitalize()}.csv", index=False)
+    db_connection.close()
 
 
 if len(sys.argv) == 1:

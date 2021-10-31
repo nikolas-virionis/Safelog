@@ -17,7 +17,6 @@ axios
                         let tbEstado = document.createElement("td");
                         if (cargo == "analista") {
                             medicao.style.display = "";
-                            operacao.style.display = "";
                             let {
                                 id_medicao,
                                 tipo_categoria: tipoMedicao,
@@ -25,7 +24,8 @@ axios
                                 valor,
                                 unidade,
                                 data_medicao: dataMedicao,
-                                estado
+                                estado,
+                                fk_categoria_medicao: categoria
                             } = incidente;
                             let date = new Date(dataMedicao);
                             let [componente, tipo] = tipoMedicao.split("_");
@@ -57,6 +57,23 @@ axios
                                         }
                                     });
                             });
+                            let chamadoBtnLbl = document.createElement("i");
+                            let chamadoBtn = document.createElement("button");
+                            chamadoBtnLbl.classList = "fas fa-exclamation";
+                            chamadoBtn.classList = "btn-nav-dash-red";
+                            chamadoBtn.title = "Abrir Chamado";
+                            chamadoBtn.appendChild(chamadoBtnLbl);
+                            chamadoBtn.addEventListener("click", () => {
+                                // abrir modal de criar chamado
+                                // modal deve, além dos campos para preencher,
+                                // ter os dados da medição em questão:
+                                // tlvz usar uma função que abra o modal e pegue
+                                // os dados da medição como parametro e renderize eles
+                                // no modal
+                                // ao enviar o modal ele não desaparece obrigatoriamente
+                                // é necessário obter uma resposta positiva da criação do
+                                // chamado, mas cancelar é permitido
+                            });
 
                             tbNome.innerHTML = nome;
                             tbData.innerHTML = data;
@@ -67,17 +84,13 @@ axios
                                 valor
                             )}${unidade.replace("┬░C", "°C")}`;
                             tbOperacao.appendChild(alertarBtn);
+                            tbOperacao.appendChild(chamadoBtn);
                             tbEstado.innerHTML =
                                 estado.charAt(0).toUpperCase() +
                                 estado.slice(1);
                             if (estado.toLowerCase() == "critico") {
                                 tr.style.color = "red";
                             }
-                            // x * 0.6 + 38 => %
-                            // 0.65x + 28.5 => °C
-                            // 0.409x + 0.08 => ram livre
-                            // 0.26x + 21 => disco livre
-                            // 0.8x + 33.5 => cpu Mhz (%)
                             tr.appendChild(tbData);
                             tr.appendChild(tbNome);
                             tr.appendChild(tbComponente);
@@ -92,7 +105,8 @@ axios
                                 resp,
                                 nome,
                                 data_medicao: dataMedicao,
-                                estado
+                                estado,
+                                fk_categoria_medicao: categoria
                             } = incidente;
                             let date = new Date(dataMedicao);
                             let [componente, tipo] = tipoMedicao.split("_");
@@ -100,6 +114,7 @@ axios
                             ${date.toTimeString().slice(0, 8)}`;
                             if (estado.toLowerCase() == "critico") {
                                 let tbResp = document.createElement("td");
+                                let tbOperacao = document.createElement("td");
                                 tbNome.innerHTML = nome;
                                 tbData.innerHTML = data;
                                 tbComponente.innerHTML =
@@ -111,12 +126,33 @@ axios
                                 tbEstado.innerHTML =
                                     estado.charAt(0).toUpperCase() +
                                     estado.slice(1);
+                                let chamadoBtnLbl = document.createElement("i");
+                                let chamadoBtn =
+                                    document.createElement("button");
+                                chamadoBtnLbl.classList = "fas fa-exclamation";
+                                chamadoBtn.classList = "btn-nav-dash-red";
+                                chamadoBtn.title = "Abrir Chamado";
+                                chamadoBtn.appendChild(chamadoBtnLbl);
+                                chamadoBtn.addEventListener("click", () => {
+                                    // abrir modal de criar chamado
+                                    // modal deve, além dos campos para preencher,
+                                    // ter os dados da medição em questão:
+                                    // tlvz usar uma função que abra o modal e pegue
+                                    // os dados da medição como parametro e renderize eles
+                                    // no modal
+                                    // ao enviar o modal ele não desaparece obrigatoriamente
+                                    // é necessário obter uma resposta positiva da criação do
+                                    // chamado, mas cancelar é permitido
+                                });
+
+                                tbOperacao.appendChild(chamadoBtn);
                                 tr.appendChild(tbData);
                                 tr.appendChild(tbResp);
                                 tr.appendChild(tbNome);
                                 tr.appendChild(tbComponente);
                                 tr.appendChild(tbTipo);
                                 tr.appendChild(tbEstado);
+                                tr.appendChild(tbOperacao);
                             }
                         }
                         tabelaIncidentes.appendChild(tr);

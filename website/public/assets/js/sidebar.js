@@ -3,7 +3,7 @@ if(sessionStorage.getItem("usuario")){
 }else if(sessionStorage.getItem("staff")){
     cargo = JSON.parse(sessionStorage.getItem("staff")).cargo;
 }
-console.log(cargo)
+// console.log(cargo)
 // -----------------------------------------------------------------------------------------------
 //  Criação da Sidebar
 // -----------------------------------------------------------------------------------------------
@@ -251,6 +251,66 @@ sideBarDiv.classList = "sidebar close";
             let liItem5 = document.createElement("li");
             liItem5.classList = "seta";
                 //<div class="iocn-link">
+                let divIconLink1 = document.createElement("div");
+                divIconLink1.classList = "iocn-link";
+                    //<a href="#">
+                    let linkDropChamado = document.createElement("a");
+                    linkDropChamado.setAttribute("href", "#");
+                        //<i class="fab fa-java"></i>
+                        let iconToChamado = document.createElement("i");
+                        iconToChamado.classList = "fas fa-exclamation";
+                        //<span class="link_name">Client Chamado</span>
+                        let spanHoverChamado = document.createElement("span");
+                        spanHoverChamado.classList = "link_name";
+                        spanHoverChamado.innerHTML = "Chamados";
+                    //</a>
+                    linkDropChamado.appendChild(iconToChamado);
+                    linkDropChamado.appendChild(spanHoverChamado);
+                    //<i class="bx bxs-chevron-down arrow"></i>
+                    let iconSetaChamado = document.createElement("i");
+                    iconSetaChamado.classList = "bx bxs-chevron-down arrow";
+                //</div>
+                divIconLink1.appendChild(linkDropChamado);
+                divIconLink1.appendChild(iconSetaChamado);
+                //<ul class="sub-menu">
+                let ulSubMenuChamado = document.createElement("ul");
+                ulSubMenuChamado.classList = "sub-menu";
+                    //<li>
+                    // let liChamado1 = document.createElement("li");
+                    //     //<a class="link_name" href="#">Client Chamado</a>
+                    //     let linkToChamado1Mini = document.createElement("a");
+                    //     linkToChamado1Mini.setAttribute("href", "#");
+                    //     linkToChamado1Mini.innerHTML = "Client Chamado";
+                    //</li>
+                    // liChamado1.appendChild(linkToChamado1Mini);
+                    //<li>
+                    let liChamado2 = document.createElement("li");
+                        //<a href="#">Download</a>
+                        let linkNovoChamado = document.createElement("a");
+                        linkNovoChamado.setAttribute("href", "#");
+                        linkNovoChamado.innerHTML = "Abrir Chamado";
+                    //</li>
+                    liChamado2.appendChild(linkNovoChamado);
+                    //<li>
+                    let liChamado3 = document.createElement("li");
+                        //<a href="#">Baixar JRE</a>
+                        let linkListaChamado = document.createElement("a");
+                        linkListaChamado.setAttribute("href", "chamados");
+                        linkListaChamado.innerHTML = "Lista de chamados";
+                    //</li>
+                    liChamado3.appendChild(linkListaChamado);
+                //</ul>
+                // ulSubMenuChamado.appendChild(liChamado1);
+                ulSubMenuChamado.appendChild(liChamado2);
+                ulSubMenuChamado.appendChild(liChamado3);
+            //</li>
+            liItem5.appendChild(divIconLink1);
+            liItem5.appendChild(ulSubMenuChamado);
+
+            //<li class="seta">
+            let liItem6 = document.createElement("li");
+            liItem6.classList = "seta";
+                //<div class="iocn-link">
                 let divIconLink = document.createElement("div");
                 divIconLink.classList = "iocn-link";
                     //<a href="#">
@@ -304,8 +364,8 @@ sideBarDiv.classList = "sidebar close";
                 ulSubMenuJava.appendChild(liJava2);
                 ulSubMenuJava.appendChild(liJava3);
             //</li>
-            liItem5.appendChild(divIconLink);
-            liItem5.appendChild(ulSubMenuJava);
+            liItem6.appendChild(divIconLink);
+            liItem6.appendChild(ulSubMenuJava);
     
     
             //<li>
@@ -315,6 +375,7 @@ sideBarDiv.classList = "sidebar close";
             ulNavLinks.appendChild(liItem3);
             ulNavLinks.appendChild(liItem4);
             ulNavLinks.appendChild(liItem5);
+            ulNavLinks.appendChild(liItem6);
             
         }
        

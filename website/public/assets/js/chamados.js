@@ -66,7 +66,7 @@ inputSearch.addEventListener("keyup", e => {
     axios
         .post("/chamado/lista", {
             idUsuario: userId,
-            search: inputSearch.value
+            search: inputSearch.value.trim()
         })
         .then(({data: {status, msg}}) => {
             if (status == "ok") {

@@ -3,7 +3,7 @@ let router = express.Router();
 let sequelize = require("../models").sequelize;
 const axios = require("axios").default;
 const {abrirChamado} = require("../util/chamado/abertura");
-const {verificarAcesso} = require("../util/chamado/acesso");
+const {verificarAcesso, usuariosComAcesso} = require("../util/chamado/acesso");
 
 router.post("/criar", async (req, res) => {
     let {
@@ -34,7 +34,7 @@ router.post("/criar", async (req, res) => {
 
             if (await verificarAcesso({idUsuario, idCategoriaMedicao})) {
                 if (eficaciaSolucoes) {
-                    const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado')`;
+                    const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado' ORDER BY data_abertura DESC LIMIT 1)`;
 
                     await sequelize
                         .query(updateEficaciaSolucoes, {
@@ -216,36 +216,33 @@ router.post("/dados", async (req, res) => {
         });
     }
 
-    const sqlChamado = `SELECT titulo, descricao, data_abertura, status_chamado as 'status', prioridade, usuario.nome, usuario.email, fk_categoria_medicao, maquina.nome as maquina FROM chamado JOIN usuario on fk_usuario = id_usuario JOIN categoria_medicao ON fk_categoria_medicao = id_categoria_medicao JOIN maquina ON fk_maquina = pk_maquina WHERE id_chamado = ${idChamado}`;
+    const sqlChamado = `SELECT * FROM chamado WHERE id_chamado = ${idChamado}`;
     const sqlSolucoes = `SELECT titulo, descricao, data_solucao, eficacia, usuario.nome, usuario.email FROM solucao JOIN usuario on fk_usuario = id_usuario AND fk_chamado = ${idChamado} ORDER BY eficacia DESC`;
-    const getUsuarios = `SELECT count(fk_usuario) as usuarios FROM usuario_maquina WHERE fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))`;
     await sequelize
         .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
         .then(async ([chamado]) => {
             console.log(chamado);
             if (chamado) {
                 await sequelize
-                .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
-                .then(async solucoes => {
-                    await sequelize
-                        .query(getUsuarios, {type: sequelize.QueryTypes.SELECT})
-                        .then(([{usuarios}]) => {
-                            res.json({
-                                status: "ok",
-                                msg: {
-                                    ...chamado,
-                                    solucoes,
-                                    qtdUsuarios: usuarios
-                                }
-                            });
+                    .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
+                    .then(async solucoes => {
+                        res.json({
+                            status: "ok",
+                            msg: {
+                                ...chamado,
+                                solucoes,
+                                qtdUsuarios: (
+                                    await usuariosComAcesso(idChamado)
+                                ).length
+                            }
                         });
-                })
-                .catch(err => res.json({status: "erro", msg: err}));
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
             } else {
                 res.json({
-                    status: "erro", 
+                    status: "erro",
                     msg: "chamado não encontrado"
-                })
+                });
             }
         })
         .catch(err => res.json({status: "erro", msg: err}));

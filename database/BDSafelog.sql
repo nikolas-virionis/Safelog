@@ -137,11 +137,14 @@ CREATE VIEW v_chamados AS (
     SELECT
         id_chamado,
         c.titulo,
+        c.descricao,
         data_abertura,
         status_chamado AS 'status',
         prioridade,
-        maquina.nome as maquina,
-        usuario.nome as usuario
+        maquina.nome AS maquina,
+        usuario.nome AS usuario,
+        usuario.email,
+        c.fk_categoria_medicao
     FROM
         chamado AS c
         JOIN usuario ON usuario.id_usuario = c.fk_usuario

@@ -269,7 +269,7 @@ router.post("/dados", async (req, res) => {
                                 ...chamado,
                                 solucao,
                                 qtdUsuarios: (
-                                    await usuariosComAcesso(idChamado)
+                                    await usuariosComAcesso({idChamado})
                                 ).length
                             }
                         });

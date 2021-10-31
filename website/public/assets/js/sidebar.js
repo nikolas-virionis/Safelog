@@ -1,6 +1,3 @@
-// let aa = JSON.parse(sessionStorage.getItem("usuario")).cargo;
-// let bb = JSON.parse(sessionStorage.getItem("staff")).cargo;
-// let cargo;
 if(sessionStorage.getItem("usuario")){
     cargo = JSON.parse(sessionStorage.getItem("usuario")).cargo
 }else if(sessionStorage.getItem("staff")){

@@ -1,3 +1,13 @@
+if(sessionStorage.getItem("usuario")){
+    cargo = JSON.parse(sessionStorage.getItem("usuario")).cargo
+}else if(sessionStorage.getItem("staff")){
+    cargo = JSON.parse(sessionStorage.getItem("staff")).cargo;
+}
+
+if(cargo != "staff"){
+    window.location.href = "dashboard";
+}
+
 const nome = document.querySelector("#inp-nome-empresa");
 const pais = document.querySelector("#inp-pais");
 const cidade = document.querySelector("#inp-cidade");

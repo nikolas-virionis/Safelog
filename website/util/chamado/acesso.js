@@ -22,9 +22,29 @@ const verificarAcesso = async ({idUsuario, idCategoriaMedicao, idChamado}) => {
                     })
                     .then(([{usuarios}]) => {
                         return !!usuarios;
+                    })
+                    .catch(err => {
+                        return {
+                            status: "erro",
+                            msg: err
+                        };
                     });
             }
         });
 };
 
-module.exports = {verificarAcesso};
+const usuariosComAcesso = async idChamado => {
+    const getUsuarios = `SELECT id_usuario, usuario.nome, email FROM usuario JOIN  usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))`;
+
+    return await sequelize
+        .query(getUsuarios, {type: sequelize.QueryTypes.SELECT})
+        .then(usuarios => usuarios)
+        .catch(err => {
+            return {
+                status: "erro",
+                msg: err
+            };
+        });
+};
+
+module.exports = {verificarAcesso, usuariosComAcesso};

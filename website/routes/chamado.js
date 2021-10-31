@@ -134,6 +134,43 @@ router.post("/fechar", async (req, res) => {
         });
 });
 
+router.post("/atualizar", async (req, res) => {
+    let {idChamado, titulo, descricao, prioridade, eficaciaSolucoes} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+    const updateChamado = `UPDATE chamado SET titulo = '${titulo}', descricao = '${descricao}', prioridade = '${prioridade}' WHERE id_chamado = ${idChamado}`;
+    const updateSolucao = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE fk_chamado = ${idChamado}`;
+
+    await sequelize
+        .query(updateChamado, {type: sequelize.QueryTypes.UPDATE})
+        .then(async () => {
+            await sequelize
+                .query(updateSolucao, {type: sequelize.QueryTypes.UPDATE})
+                .then(() => {
+                    res.json({
+                        status: "ok",
+                        msg: "Chamado atualizado com sucesso"
+                    });
+                })
+                .catch(err => {
+                    return res.json({
+                        status: "erro3",
+                        msg: err
+                    });
+                });
+        })
+        .catch(err => {
+            return res.json({
+                status: "erro3",
+                msg: err
+            });
+        });
+});
+
 router.post("/lista", async (req, res) => {
     let {idUsuario, search} = req.body;
     if (!req.body) {
@@ -225,12 +262,12 @@ router.post("/dados", async (req, res) => {
             if (chamado) {
                 await sequelize
                     .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
-                    .then(async solucoes => {
+                    .then(async ([solucao]) => {
                         res.json({
                             status: "ok",
                             msg: {
                                 ...chamado,
-                                solucoes,
+                                solucao,
                                 qtdUsuarios: (
                                     await usuariosComAcesso(idChamado)
                                 ).length

@@ -11,10 +11,10 @@ axios.post("/chamado/dados", { idChamado })
     if (status === "ok") {
         // renderizando chamado
         renderChamado(msg, container);
-
-        if(msg.solucoes.length > 0) {
+        console.log(msg)
+        if(msg.solucao) {
             // renderizando solução
-            renderSolucao(msg.solucoes[0], container);
+            renderSolucao(msg.solucao, container);
         } else {
             // 
         }

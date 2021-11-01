@@ -194,15 +194,18 @@ h6 {
 
 .form-item input[type="text"],
 .form-item input[type="password"],
-.form-item input[type="email"] {
+.form-item select,
+.form-item input[type="email"],
+.form-item textarea {
   width: 100%;
   border: none;
   border-radius: 20px;
-  height: 40px;
+  min-height: 40px;
   padding: 10px 15px;
   outline: none;
   margin: 5px 0;
   box-shadow: 1px 1px 3px #666;
+  resize: none;
 }
 
 .form-item input[type="range"] {

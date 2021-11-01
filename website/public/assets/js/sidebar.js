@@ -287,7 +287,7 @@ sideBarDiv.classList = "sidebar close";
                     let liChamado2 = document.createElement("li");
                         //<a href="#">Download</a>
                         let linkNovoChamado = document.createElement("a");
-                        linkNovoChamado.setAttribute("href", "#");
+                        linkNovoChamado.setAttribute("href", "novo-chamado");
                         linkNovoChamado.innerHTML = "Abrir Chamado";
                     //</li>
                     liChamado2.appendChild(linkNovoChamado);

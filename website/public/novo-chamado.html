@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo chamado</title>
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="container-site">
+            <div class="container-card">
+                <div class="card">
+                    <div class="row form-item">
+                        <h2>Abertura de chamados</h2>
+                    </div>
+                    <div class="row form-item">
+                        <label>Título</label>
+                        <input type="Text">
+                    </div>
+                    <div class="row form-item">
+                        <label>Descrição:</label>
+                        <textarea rows="6"></textarea>
+                    </div>
+                    <div class="row form-item">
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Prioridade:</label>
+                            <select name="" id="">
+                                <option value="">Baixa</option>
+                                <option value="">Média</option>
+                                <option value="">Alta</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Eficacia das soluções:</label>
+                            <select name="" id="">
+                                <option value="">Total</option>
+                                <option value="">Parcial</option>
+                                <option value="">Nula</option>
+                            </select>
+                        </div>
+                    </div>                   
+                    
+                    <div class="row form-item">
+                        <button class="btn-geral">
+                            Abrir chamado
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div id="alerta"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>

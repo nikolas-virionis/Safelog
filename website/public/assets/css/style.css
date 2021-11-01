@@ -104,6 +104,7 @@ body::-webkit-scrollbar-thumb:hover {
     font-weight: bold;
     border-radius: 15px;
     box-shadow: 3px 3px 3px #666;
+    transition: all .4s;
 }
 
 .btn-geral:hover {
@@ -321,6 +322,7 @@ a.btn-nav-dash {
     padding: 10px 15px;
     margin: 0 5px;
     border-radius: 20px;
+    transition: all .4s;
 }
 
 ul li.btn-nav a:hover {
@@ -399,7 +401,7 @@ ul li.btn-nav a:hover {
     width: 200px;
     height: 200px;
     border-radius: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .sobre .row .centraliza {
@@ -523,6 +525,7 @@ ul li.btn-nav a:hover {
 .form-contato button {
     background-color: #025396;
     box-shadow: 4px 4px 3px #666;
+    transition: all .4s;
 }
 
 /* FOOTER */
@@ -576,7 +579,7 @@ ul li.btn-nav a:hover {
 
 .card-login {
     background-color: #e0e0e0;
-    box-shadow: 2px 2px 2px #666;
+    box-shadow: 2px 2px 2px #0071ce;
     border-radius: 20px;
     width: 60%;
     padding: 30px 20px;
@@ -609,6 +612,39 @@ ul li.btn-nav a:hover {
 
 .card-login form input:focus {
     border-bottom: #0071ce 2px solid;
+}
+h1.text-center {
+    text-shadow: 1.5px 1px 2px #666;
+}
+button#btn-ver-senha {
+    font-size: 0;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: var(--cor-princial);
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: 123px;
+    transition: all .4s;
+}
+button#btn-ver-senha:hover{
+    background-color: var(--cor-hover);
+}
+
+button#btn-ver-senha::before {
+    font-size: 19px;
+}
+
+form#form_login {
+    position: relative;
+}
+
+.card-login form input {
+    height: 40px;
+   
 }
 
 /* ----------------------------------------------------------------------------------------------------------- */

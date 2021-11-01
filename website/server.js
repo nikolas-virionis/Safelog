@@ -11,6 +11,7 @@ let logger = require("morgan");
 let indexRouter = require("./routes/index");
 let authRouter = require("./routes/auth");
 let usuarioRouter = require("./routes/usuario");
+let staffRouter = require("./routes/staff");
 let empresaRouter = require("./routes/empresa");
 let maquinaRouter = require("./routes/maquina");
 let medicaoRouter = require("./routes/medicao");
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // iniciando rotas
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/staff", staffRouter);
 app.use("/usuario", usuarioRouter);
 app.use("/empresa", empresaRouter);
 app.use("/maquina", maquinaRouter);

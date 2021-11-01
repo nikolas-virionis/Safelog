@@ -25,7 +25,7 @@ router.post("/criar", async (req, res) => {
         .query(chamadoJaAberto, {type: sequelize.QueryTypes.SELECT})
         .then(async ([status]) => {
             if (status) {
-                res.json({
+                return res.json({
                     status: "alerta",
                     msg: "Chamado já aberto para essa métrica"
                 });
@@ -46,6 +46,22 @@ router.post("/criar", async (req, res) => {
                                 msg: err
                             });
                         });
+                } else {
+                    const primeiroChamado = `SELECT count(id_chamado) AS chamados FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
+
+                    let erro = await sequelize
+                        .query(primeiroChamado, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .then(([{chamados}]) => {
+                            return !!chamados;
+                        });
+                    if (erro) {
+                        return res.json({
+                            status: "alerta",
+                            msg: "Chamado de mesma métrica recentemente fechado. Ateste a eficácia da solução previamente proposta"
+                        });
+                    }
                 }
                 abrirChamado(
                     titulo,

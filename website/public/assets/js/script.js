@@ -3,7 +3,6 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-
 const pages = [
     "/login",
     "/index",
@@ -84,10 +83,11 @@ function esconderSenha(){
     btnVerSenha.classList.add('fa-eye');
     btnVerSenha.previousElementSibling.type = 'password';
 }
-btnVerSenha.onclick = function(){
-    if (btnVerSenha.previousElementSibling.type == 'text') {
-        esconderSenha();
-    }else{
-        mostrarSenha();
-    }
-}
+if (btnVerSenha)
+    btnVerSenha.addEventListener(() => {
+        if (btnVerSenha.previousElementSibling.type == "text") {
+            esconderSenha();
+        } else {
+            mostrarSenha();
+        }
+    });

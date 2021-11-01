@@ -69,3 +69,25 @@ let imgs = document.querySelectorAll("img.profilePic");
 for (let img of imgs) {
     img.src = imagemAleatoria;
 }
+
+
+
+
+var btnVerSenha = document.getElementById("btn-ver-senha");
+function mostrarSenha(){
+    btnVerSenha.classList.remove('fa-eye');
+    btnVerSenha.classList.add('fa-eye-slash');
+    btnVerSenha.previousElementSibling.type = 'text';
+}
+function esconderSenha(){
+    btnVerSenha.classList.remove('fa-eye-slash');
+    btnVerSenha.classList.add('fa-eye');
+    btnVerSenha.previousElementSibling.type = 'password';
+}
+btnVerSenha.onclick = function(){
+    if (btnVerSenha.previousElementSibling.type == 'text') {
+        esconderSenha();
+    }else{
+        mostrarSenha();
+    }
+}

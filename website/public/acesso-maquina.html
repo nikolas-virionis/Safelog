@@ -92,6 +92,32 @@
         </div>
     </div>
 
+    <div class="modal-screen" id="modal-log-del-acesso">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você realmente deseja tirar o acesso de <span id="nome-usuario-acesso"></span>?</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-deletar-acesso">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-deletar-acesso">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-screen" id="modal-log-tornar-responsavel">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você realmente deseja tornar <span id="nome-usuario-responsavel"></span> o responsável pela máquina?<br>Você se tornará um usuário comum dela!</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-tornar-responsavel">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-tornar-responsavel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="alerta"></div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

@@ -60,73 +60,104 @@ axios
                     tbUsuarios.appendChild(tr);
 
                     btnDelete.addEventListener("click", e => {
-                        let confirmar = confirm(
-                            `Você realmente deseja tirar o acesso de ${nome}`
-                        );
-                        if (confirmar) {
-                            axios
-                                .post("/usuario/remocao-acesso", {
-                                    id: id_usuario,
-                                    maquina: pkMaquina
-                                })
-                                .then(({data: {status, msg}}) => {
-                                    if (status === "ok") {
-                                        mostrarAlerta(msg, "success");
-                                        setTimeout(() => {
-                                            window.location.reload();
-                                        }, 2000);
-                                    } else {
-                                        console.error(msg);
-                                    }
-                                });
-                        }
+                        document.getElementById("nome-usuario-acesso").innerHTML = nome;
+                        document.getElementById("btn-deletar-acesso").setAttribute("id_usuario", id_usuario); 
+                        document.getElementById("btn-deletar-acesso").setAttribute("maquina", pkMaquina); 
+                        
+                           
+                        import("./modal.js").then(({abrirModal}) =>
+                            abrirModal("modal-log-del-acesso")
+                        ); 
+                        
                     });
 
                     btnResp.addEventListener("click", e => {
-                        let confirmar = confirm(
-                            `Você realmente deseja tornar ${nome} o responsável pela máquina? 
-                        Você se tornará um usuário comum dela`
-                        );
-                        if (confirmar) {
-                            axios
-                                .post("/usuario/dados", {
-                                    id: id_usuario
-                                })
-                                .then(({data: {status, msg}}) => {
-                                    if (status === "ok") {
-                                        axios
-                                            .post(
-                                                "/usuario/transferencia-responsavel",
-                                                {
-                                                    email: msg.email,
-                                                    maquina: pkMaquina,
-                                                    del: false
-                                                }
-                                            )
-                                            .then(({data: {status, msg}}) => {
-                                                if (status === "ok") {
-                                                    mostrarAlerta(
-                                                        msg,
-                                                        "success"
-                                                    );
-                                                    setTimeout(() => {
-                                                        window.location.href =
-                                                            "dependentes";
-                                                    }, 2000);
-                                                } else {
-                                                    mostrarAlerta(
-                                                        msg,
-                                                        "danger"
-                                                    );
-                                                }
-                                            });
-                                    } else {
-                                        console.error(msg);
-                                    }
-                                });
-                        }
+                        document.getElementById("nome-usuario-responsavel").innerHTML = nome;
+                        document.getElementById("btn-tornar-responsavel").setAttribute("id_usuario", id_usuario); 
+                        document.getElementById("btn-tornar-responsavel").setAttribute("maquina", pkMaquina); 
+                       
+                        import("./modal.js").then(({abrirModal}) =>
+                            abrirModal("modal-log-tornar-responsavel")
+                        ); 
+                        
+
                     });
                 });
+
+                document.getElementById("btn-cancelar-deletar-acesso").addEventListener("click", e => {
+                    import("./modal.js").then(({fecharModal}) =>
+                        fecharModal("modal-log-del-acesso")
+                    )
+                })
+
+                
+                document.getElementById("btn-deletar-acesso").addEventListener("click", e => {
+
+                    axios
+                    .post("/usuario/remocao-acesso", {
+                        id: document.getElementById("btn-deletar-acesso").getAttribute("id_usuario"),
+                        maquina: document.getElementById("btn-deletar-acesso").getAttribute("maquina")
+                    })
+                    .then(({data: {status, msg}}) => {
+                        if (status === "ok") {
+                            mostrarAlerta(msg, "success");
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            console.error(msg);
+                        }
+                    });
+                        
+                })
+
+                document.getElementById("btn-cancelar-tornar-responsavel").addEventListener("click", e => {
+                    import("./modal.js").then(({fecharModal}) =>
+                        fecharModal("modal-log-tornar-responsavel")
+                    )
+                })
+
+                document.getElementById("btn-tornar-responsavel").addEventListener("click", e => {
+                    axios
+                    .post("/usuario/dados", {
+                        id: document.getElementById("btn-tornar-responsavel").getAttribute("id_usuario")
+                    })
+                    .then(({data: {status, msg}}) => {
+                        if (status === "ok") {
+                            axios
+                                .post(
+                                    "/usuario/transferencia-responsavel",
+                                    {
+                                        email: msg.email,
+                                        maquina: document.getElementById("btn-tornar-responsavel").getAttribute("maquina"),
+                                        del: false
+                                    }
+                                )
+                                .then(({data: {status, msg}}) => {
+                                    if (status === "ok") {
+                                        mostrarAlerta(
+                                            msg,
+                                            "success"
+                                        );
+                                        setTimeout(() => {
+                                            window.location.href =
+                                                "dependentes";
+                                        }, 2000);
+                                    } else {
+                                        mostrarAlerta(
+                                            msg,
+                                            "danger"
+                                        );
+                                    }
+                                });
+                        } else {
+                            console.error(msg);
+                        }
+                    });
+                        
+                })
+
+
             } else {
                 mostrarAlerta(
                     "Máquina não possui usuários\nOs adicione no icone +",

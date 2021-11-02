@@ -263,16 +263,7 @@ h6 {
   color: #e01e5a;
 }
 
-#modal-send-email {
-  display: none;
-}
-#modal-log-cad-maq {
-  display: none;
-}
-#modal-alterar-senha {
-  display: none;
-}
-#modal-invite-user{
+#modal-send-email, #modal-log-cad-maq, #modal-alterar-senha, #modal-invite-user, #modal-log-del-maquina, #modal-log-del-usuario, #modal-log-del-acesso, #modal-log-tornar-responsavel{
   display: none;
 }
 

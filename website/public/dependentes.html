@@ -83,6 +83,35 @@
             </div>
         </div>
     </div>
+
+
+    <!-- modais de confirmação de cancelamento -->
+    <div class="modal-screen" id="modal-log-del-maquina">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você tem certeza de que quer deletar a máquina <span id="nome-maquina"></span>?</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-deletar-maquina">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-deletar-maquina">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-screen" id="modal-log-del-usuario">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você tem certeza que deseja deletar o usuário <span id="nome-usuario"></span>?</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-deletar-usuario">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-deletar-usuario">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="alerta"></div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

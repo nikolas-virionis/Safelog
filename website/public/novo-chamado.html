@@ -64,6 +64,31 @@
 
         </div>
     </section>
+    <div class="modal-screen" id="modal-reabrir-chamado">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Eficácia da solução anterior</h2>
+                <span>
+                    <p>Um chamado, dessa mesma métrica, foi recentemente fechado</p>
+                    <p>Ateste a eficácia da solução proposta para continuar a abertura de seu chamado</p>
+                </span>
+            </div>
+            <div class="modal-body">
+                <div class="form-item">
+                    <label>Eficácia:</label>
+                    <select id="eficacia">
+                        <option value="">Escolha uma</option>
+                        <option value="nula">Eficácia nula</option>
+                        <option value="parcial">Eficácia parcial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Abrir chamado</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
     <div id="alerta"></div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

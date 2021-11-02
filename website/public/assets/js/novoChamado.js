@@ -100,13 +100,82 @@ btn.addEventListener("click", e => {
             .then(({data: {status, msg, continuar}}) => {
                 if (status === "ok") {
                     mostrarAlerta("Chamado criado com sucesso", "success");
-                    setTimeout(() => (window.location.href = "chamados"), 4000);
+                    setTimeout(() => (window.location.href = "chamados"), 3000);
                 } else if (status === "alerta") {
                     mostrarAlerta(msg, "info");
                     if (continuar) {
-                        // mostrar modal
-                        // modal deve conter um select de eficacia da solução para o
-                        // ultimo chamado aberto para aquela metrica
+                        setTimeout(() => {
+                            document.getElementById(
+                                "modal-reabrir-chamado"
+                            ).style.display = "flex";
+                            const btnCriar = document.getElementById(
+                                "btn-prosseguir-modal"
+                            );
+                            const btnCancelar =
+                                document.querySelector(".cancelar");
+                            const eficacia =
+                                document.querySelector("#eficacia");
+                            eficacia.addEventListener("change", () => {
+                                if (eficacia.value) {
+                                    btnCriar.classList.remove("cancelar");
+                                    btnCriar.disabled = false;
+                                } else {
+                                    btnCriar.classList.add("cancelar");
+                                    btnCriar.disabled = true;
+                                }
+                            });
+
+                            btnCancelar.addEventListener("click", e => {
+                                e.preventDefault();
+                                import("./modal.js").then(({fecharModal}) =>
+                                    fecharModal("modal-verify-token")
+                                );
+                            });
+
+                            btnCriar.addEventListener("click", e => {
+                                e.preventDefault();
+                                if (!eficacia.value)
+                                    return mostrarAlerta(
+                                        "Especifique a eficacia da solução interior",
+                                        "info"
+                                    );
+                                axios
+                                    .post("/chamado/criar", {
+                                        titulo: titulo.value,
+                                        desc: descricao.value,
+                                        prioridade: prioridade.value,
+                                        idCategoriaMedicao: Number(
+                                            metricas.value
+                                        ),
+                                        idUsuario: id,
+                                        eficaciaSolucoes: eficacia.value
+                                    })
+                                    .then(
+                                        ({data: {status, msg, continuar}}) => {
+                                            if (status === "ok") {
+                                                mostrarAlerta(
+                                                    "Chamado criado com sucesso",
+                                                    "success"
+                                                );
+                                                setTimeout(
+                                                    () =>
+                                                        (window.location.href =
+                                                            "chamados"),
+                                                    3000
+                                                );
+                                            } else if (status === "alerta") {
+                                                if (continuar) {
+                                                    console.error(msg);
+                                                } else {
+                                                    mostrarAlerta(msg, "info");
+                                                }
+                                            } else {
+                                                console.error(msg);
+                                            }
+                                        }
+                                    );
+                            });
+                        });
                     }
                 } else {
                     console.error(msg);

@@ -69,22 +69,19 @@ for (let img of imgs) {
     img.src = imagemAleatoria;
 }
 
-
-
-
 var btnVerSenha = document.getElementById("btn-ver-senha");
-function mostrarSenha(){
-    btnVerSenha.classList.remove('fa-eye');
-    btnVerSenha.classList.add('fa-eye-slash');
-    btnVerSenha.previousElementSibling.type = 'text';
+function mostrarSenha() {
+    btnVerSenha.classList.remove("fa-eye");
+    btnVerSenha.classList.add("fa-eye-slash");
+    btnVerSenha.previousElementSibling.type = "text";
 }
-function esconderSenha(){
-    btnVerSenha.classList.remove('fa-eye-slash');
-    btnVerSenha.classList.add('fa-eye');
-    btnVerSenha.previousElementSibling.type = 'password';
+function esconderSenha() {
+    btnVerSenha.classList.remove("fa-eye-slash");
+    btnVerSenha.classList.add("fa-eye");
+    btnVerSenha.previousElementSibling.type = "password";
 }
 if (btnVerSenha)
-    btnVerSenha.addEventListener(() => {
+    btnVerSenha.addEventListener("click", () => {
         if (btnVerSenha.previousElementSibling.type == "text") {
             esconderSenha();
         } else {

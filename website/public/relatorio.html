@@ -33,18 +33,88 @@
                 <table>
                     <tr>
                         <th>Data</th>
-                        <th style="display: none;" id="responsavel">Responsável</th>
+                        <th style="display: none;" class="responsavel">Responsável</th>
                         <th>Máquina</th>
                         <th>Componente</th>
                         <th>Métrica</th>
                         <th>Estado</th>
-                        <th style="display: none;" id="medicao">Medição</th>
+                        <th style="display: none;" class="medicao">Medição</th>
                         <th>Operação</th>
                     </tr>
                 </table>
             </div>
         </div>
     </section>
+    <div class="modal-screen" id="modal-abrir-chamado">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Abrir chamado</h2>
+                <h4>Preencha os campos abaixo para abrir um chamado relacionado ao incidente:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="tabela-listrada">
+                    <table>
+                        <tr>
+                            <th>Data</th>
+                            <th style="display: none;" class="responsavel">Responsável</th>
+                            <th>Máquina</th>
+                            <th>Componente</th>
+                            <th>Métrica</th>
+                            <th>Estado</th>
+                            <th style="display: none;" class="medicao">Medição</th>
+                        </tr>
+                    </table>
+                </div><br>
+                <div class="row form-item">
+                    <label>Título</label>
+                    <input id="titulo" type="Text">
+                </div>
+                <div class="row form-item">
+                    <label>Descrição:</label>
+                    <textarea id="descricao" rows="6"></textarea>
+                </div>
+                <div class="col-md-6 com-sm-12 form-item">
+                    <label>Prioridade:</label>
+                    <select name="" id="prioridade">
+                        <option value="">Escolha a prioridade</option>
+                        <option value="baixa">Baixa</option>
+                        <option value="media">Média</option>
+                        <option value="alta">Alta</option>
+                        <option value="emergencia">Emergência</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Abrir chamado</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-screen" id="modal-reabrir-chamado">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Eficácia da solução anterior</h2>
+                <span>
+                    <p>Um chamado, dessa mesma métrica, foi recentemente fechado</p>
+                    <p>Ateste a eficácia da solução proposta para continuar a abertura de seu chamado</p>
+                </span>
+            </div>
+            <div class="modal-body">
+                <div class="form-item">
+                    <label>Eficácia:</label>
+                    <select id="eficacia">
+                        <option value="">Escolha uma</option>
+                        <option value="nula">Eficácia nula</option>
+                        <option value="parcial">Eficácia parcial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-reabrir-chamado">Abrir chamado</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-reabertura">Cancelar</button>
+            </div>
+        </div>
+    </div>
     <div id="alerta"></div>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

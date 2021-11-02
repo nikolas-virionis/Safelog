@@ -16,7 +16,11 @@ axios
                         let tbTipo = document.createElement("td");
                         let tbEstado = document.createElement("td");
                         if (cargo == "analista") {
-                            medicao.style.display = "";
+                            document
+                                .querySelectorAll(".medicao")
+                                .forEach(
+                                    element => (element.style.display = "")
+                                );
                             let {
                                 id_medicao,
                                 tipo_categoria: tipoMedicao,
@@ -63,17 +67,6 @@ axios
                             chamadoBtn.classList = "btn-nav-dash-red";
                             chamadoBtn.title = "Abrir Chamado";
                             chamadoBtn.appendChild(chamadoBtnLbl);
-                            chamadoBtn.addEventListener("click", () => {
-                                // abrir modal de criar chamado
-                                // modal deve, além dos campos para preencher,
-                                // ter os dados da medição em questão:
-                                // tlvz usar uma função que abra o modal e pegue
-                                // os dados da medição como parametro e renderize eles
-                                // no modal
-                                // ao enviar o modal ele não desaparece obrigatoriamente
-                                // é necessário obter uma resposta positiva da criação do
-                                // chamado, mas cancelar é permitido
-                            });
 
                             tbNome.innerHTML = nome;
                             tbData.innerHTML = data;
@@ -98,8 +91,217 @@ axios
                             tr.appendChild(tbEstado);
                             tr.appendChild(tbMedicao);
                             tr.appendChild(tbOperacao);
+                            chamadoBtn.addEventListener("click", () => {
+                                let trModal = tr;
+                                trModal.removeChild(tbOperacao);
+                                document.getElementById(
+                                    "modal-abrir-chamado"
+                                ).style.display = "flex";
+                                const tabela = document.querySelector(
+                                    ".modal-body .tabela-listrada table"
+                                );
+                                tabela.appendChild(trModal);
+
+                                const btn =
+                                    document.querySelector(".btn-geral");
+                                const btnCancelar =
+                                    document.querySelector(".cancelar");
+
+                                btnCancelar.addEventListener("click", () =>
+                                    window.location.reload()
+                                );
+
+                                btn.addEventListener("click", e => {
+                                    e.preventDefault();
+                                    if (
+                                        titulo.value &&
+                                        descricao.value &&
+                                        prioridade.value
+                                    ) {
+                                        axios
+                                            .post("/chamado/criar", {
+                                                titulo: titulo.value,
+                                                desc: descricao.value,
+                                                prioridade: prioridade.value,
+                                                idCategoriaMedicao:
+                                                    Number(categoria),
+                                                idUsuario: id
+                                            })
+                                            .then(
+                                                ({
+                                                    data: {
+                                                        status,
+                                                        msg,
+                                                        continuar
+                                                    }
+                                                }) => {
+                                                    if (status === "ok") {
+                                                        mostrarAlerta(
+                                                            "Chamado criado com sucesso",
+                                                            "success"
+                                                        );
+                                                        setTimeout(
+                                                            () =>
+                                                                (window.location.href =
+                                                                    "chamados"),
+                                                            3000
+                                                        );
+                                                    } else if (
+                                                        status === "alerta"
+                                                    ) {
+                                                        mostrarAlerta(
+                                                            msg,
+                                                            "info"
+                                                        );
+                                                        if (continuar) {
+                                                            setTimeout(() => {
+                                                                document.getElementById(
+                                                                    "modal-reabrir-chamado"
+                                                                ).style.display =
+                                                                    "flex";
+                                                                const btnCriar =
+                                                                    document.getElementById(
+                                                                        "btn-reabrir-chamado"
+                                                                    );
+                                                                const btnCancelar =
+                                                                    document.querySelector(
+                                                                        "#btn-cancelar-reabertura"
+                                                                    );
+                                                                const eficacia =
+                                                                    document.querySelector(
+                                                                        "#eficacia"
+                                                                    );
+                                                                eficacia.addEventListener(
+                                                                    "change",
+                                                                    () => {
+                                                                        if (
+                                                                            eficacia.value
+                                                                        ) {
+                                                                            btnCriar.classList.remove(
+                                                                                "cancelar"
+                                                                            );
+                                                                            btnCriar.disabled = false;
+                                                                        } else {
+                                                                            btnCriar.classList.add(
+                                                                                "cancelar"
+                                                                            );
+                                                                            btnCriar.disabled = true;
+                                                                        }
+                                                                    }
+                                                                );
+
+                                                                btnCancelar.addEventListener(
+                                                                    "click",
+                                                                    () =>
+                                                                        window.location.reload()
+                                                                );
+
+                                                                btnCriar.addEventListener(
+                                                                    "click",
+                                                                    e => {
+                                                                        e.preventDefault();
+                                                                        if (
+                                                                            !eficacia.value
+                                                                        )
+                                                                            return mostrarAlerta(
+                                                                                "Especifique a eficacia da solução interior",
+                                                                                "info"
+                                                                            );
+                                                                        axios
+                                                                            .post(
+                                                                                "/chamado/criar",
+                                                                                {
+                                                                                    titulo: titulo.value,
+                                                                                    desc: descricao.value,
+                                                                                    prioridade:
+                                                                                        prioridade.value,
+                                                                                    idCategoriaMedicao:
+                                                                                        Number(
+                                                                                            categoria
+                                                                                        ),
+                                                                                    idUsuario:
+                                                                                        id,
+                                                                                    eficaciaSolucoes:
+                                                                                        eficacia.value
+                                                                                }
+                                                                            )
+                                                                            .then(
+                                                                                ({
+                                                                                    data: {
+                                                                                        status,
+                                                                                        msg,
+                                                                                        continuar
+                                                                                    }
+                                                                                }) => {
+                                                                                    if (
+                                                                                        status ===
+                                                                                        "ok"
+                                                                                    ) {
+                                                                                        mostrarAlerta(
+                                                                                            "Chamado criado com sucesso",
+                                                                                            "success"
+                                                                                        );
+                                                                                        setTimeout(
+                                                                                            () =>
+                                                                                                (window.location.href =
+                                                                                                    "chamados"),
+                                                                                            3000
+                                                                                        );
+                                                                                    } else if (
+                                                                                        status ===
+                                                                                        "alerta"
+                                                                                    ) {
+                                                                                        if (
+                                                                                            continuar
+                                                                                        ) {
+                                                                                            console.error(
+                                                                                                msg
+                                                                                            );
+                                                                                        } else {
+                                                                                            mostrarAlerta(
+                                                                                                msg,
+                                                                                                "info"
+                                                                                            );
+                                                                                        }
+                                                                                    } else {
+                                                                                        console.error(
+                                                                                            msg
+                                                                                        );
+                                                                                    }
+                                                                                }
+                                                                            );
+                                                                    }
+                                                                );
+                                                            });
+                                                        }
+                                                    } else {
+                                                        console.error(msg);
+                                                    }
+                                                }
+                                            );
+                                    } else {
+                                        mostrarAlerta(
+                                            "Preencha todos os campos para continuar",
+                                            "info"
+                                        );
+                                    }
+                                });
+                                // abrir modal de criar chamado
+                                // modal deve, além dos campos para preencher,
+                                // ter os dados da medição em questão:
+                                // tlvz usar uma função que abra o modal e pegue
+                                // os dados da medição como parametro e renderize eles
+                                // no modal
+                                // ao enviar o modal ele não desaparece obrigatoriamente
+                                // é necessário obter uma resposta positiva da criação do
+                                // chamado, mas cancelar é permitido
+                            });
                         } else {
-                            responsavel.style.display = "";
+                            document
+                                .querySelectorAll(".responsavel")
+                                .forEach(
+                                    element => (element.style.display = "")
+                                );
                             let {
                                 tipo_categoria: tipoMedicao,
                                 resp,
@@ -133,7 +335,213 @@ axios
                                 chamadoBtn.classList = "btn-nav-dash-red";
                                 chamadoBtn.title = "Abrir Chamado";
                                 chamadoBtn.appendChild(chamadoBtnLbl);
+
+                                tbOperacao.appendChild(chamadoBtn);
+                                tr.appendChild(tbData);
+                                tr.appendChild(tbResp);
+                                tr.appendChild(tbNome);
+                                tr.appendChild(tbComponente);
+                                tr.appendChild(tbTipo);
+                                tr.appendChild(tbEstado);
+                                tr.appendChild(tbOperacao);
                                 chamadoBtn.addEventListener("click", () => {
+                                    let trModal = tr;
+                                    trModal.removeChild(tbOperacao);
+                                    document.getElementById(
+                                        "modal-abrir-chamado"
+                                    ).style.display = "flex";
+                                    const tabela = document.querySelector(
+                                        ".modal-body .tabela-listrada table"
+                                    );
+                                    tabela.appendChild(trModal);
+
+                                    const btn =
+                                        document.querySelector(".btn-geral");
+                                    const btnCancelar =
+                                        document.querySelector(".cancelar");
+
+                                    btnCancelar.addEventListener("click", () =>
+                                        window.location.reload()
+                                    );
+
+                                    btn.addEventListener("click", e => {
+                                        e.preventDefault();
+                                        if (
+                                            titulo.value &&
+                                            descricao.value &&
+                                            prioridade.value
+                                        ) {
+                                            axios
+                                                .post("/chamado/criar", {
+                                                    titulo: titulo.value,
+                                                    desc: descricao.value,
+                                                    prioridade:
+                                                        prioridade.value,
+                                                    idCategoriaMedicao:
+                                                        Number(categoria),
+                                                    idUsuario: id
+                                                })
+                                                .then(
+                                                    ({
+                                                        data: {
+                                                            status,
+                                                            msg,
+                                                            continuar
+                                                        }
+                                                    }) => {
+                                                        if (status === "ok") {
+                                                            mostrarAlerta(
+                                                                "Chamado criado com sucesso",
+                                                                "success"
+                                                            );
+                                                            setTimeout(
+                                                                () =>
+                                                                    (window.location.href =
+                                                                        "chamados"),
+                                                                3000
+                                                            );
+                                                        } else if (
+                                                            status === "alerta"
+                                                        ) {
+                                                            mostrarAlerta(
+                                                                msg,
+                                                                "info"
+                                                            );
+                                                            if (continuar) {
+                                                                setTimeout(
+                                                                    () => {
+                                                                        document.getElementById(
+                                                                            "modal-reabrir-chamado"
+                                                                        ).style.display =
+                                                                            "flex";
+                                                                        const btnCriar =
+                                                                            document.getElementById(
+                                                                                "btn-reabrir-chamado"
+                                                                            );
+                                                                        const btnCancelar =
+                                                                            document.querySelector(
+                                                                                "#btn-cancelar-reabertura"
+                                                                            );
+                                                                        const eficacia =
+                                                                            document.querySelector(
+                                                                                "#eficacia"
+                                                                            );
+                                                                        eficacia.addEventListener(
+                                                                            "change",
+                                                                            () => {
+                                                                                if (
+                                                                                    eficacia.value
+                                                                                ) {
+                                                                                    btnCriar.classList.remove(
+                                                                                        "cancelar"
+                                                                                    );
+                                                                                    btnCriar.disabled = false;
+                                                                                } else {
+                                                                                    btnCriar.classList.add(
+                                                                                        "cancelar"
+                                                                                    );
+                                                                                    btnCriar.disabled = true;
+                                                                                }
+                                                                            }
+                                                                        );
+
+                                                                        btnCancelar.addEventListener(
+                                                                            "click",
+                                                                            () =>
+                                                                                window.location.reload()
+                                                                        );
+
+                                                                        btnCriar.addEventListener(
+                                                                            "click",
+                                                                            e => {
+                                                                                e.preventDefault();
+                                                                                if (
+                                                                                    !eficacia.value
+                                                                                )
+                                                                                    return mostrarAlerta(
+                                                                                        "Especifique a eficacia da solução interior",
+                                                                                        "info"
+                                                                                    );
+                                                                                axios
+                                                                                    .post(
+                                                                                        "/chamado/criar",
+                                                                                        {
+                                                                                            titulo: titulo.value,
+                                                                                            desc: descricao.value,
+                                                                                            prioridade:
+                                                                                                prioridade.value,
+                                                                                            idCategoriaMedicao:
+                                                                                                Number(
+                                                                                                    categoria
+                                                                                                ),
+                                                                                            idUsuario:
+                                                                                                id,
+                                                                                            eficaciaSolucoes:
+                                                                                                eficacia.value
+                                                                                        }
+                                                                                    )
+                                                                                    .then(
+                                                                                        ({
+                                                                                            data: {
+                                                                                                status,
+                                                                                                msg,
+                                                                                                continuar
+                                                                                            }
+                                                                                        }) => {
+                                                                                            if (
+                                                                                                status ===
+                                                                                                "ok"
+                                                                                            ) {
+                                                                                                mostrarAlerta(
+                                                                                                    "Chamado criado com sucesso",
+                                                                                                    "success"
+                                                                                                );
+                                                                                                setTimeout(
+                                                                                                    () =>
+                                                                                                        (window.location.href =
+                                                                                                            "chamados"),
+                                                                                                    3000
+                                                                                                );
+                                                                                            } else if (
+                                                                                                status ===
+                                                                                                "alerta"
+                                                                                            ) {
+                                                                                                if (
+                                                                                                    continuar
+                                                                                                ) {
+                                                                                                    console.error(
+                                                                                                        msg
+                                                                                                    );
+                                                                                                } else {
+                                                                                                    mostrarAlerta(
+                                                                                                        msg,
+                                                                                                        "info"
+                                                                                                    );
+                                                                                                }
+                                                                                            } else {
+                                                                                                console.error(
+                                                                                                    msg
+                                                                                                );
+                                                                                            }
+                                                                                        }
+                                                                                    );
+                                                                            }
+                                                                        );
+                                                                    }
+                                                                );
+                                                            }
+                                                        } else {
+                                                            console.error(msg);
+                                                        }
+                                                    }
+                                                );
+                                        } else {
+                                            mostrarAlerta(
+                                                "Preencha todos os campos para continuar",
+                                                "info"
+                                            );
+                                        }
+                                    });
                                     // abrir modal de criar chamado
                                     // modal deve, além dos campos para preencher,
                                     // ter os dados da medição em questão:
@@ -144,15 +552,6 @@ axios
                                     // é necessário obter uma resposta positiva da criação do
                                     // chamado, mas cancelar é permitido
                                 });
-
-                                tbOperacao.appendChild(chamadoBtn);
-                                tr.appendChild(tbData);
-                                tr.appendChild(tbResp);
-                                tr.appendChild(tbNome);
-                                tr.appendChild(tbComponente);
-                                tr.appendChild(tbTipo);
-                                tr.appendChild(tbEstado);
-                                tr.appendChild(tbOperacao);
                             }
                         }
                         tabelaIncidentes.appendChild(tr);

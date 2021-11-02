@@ -680,7 +680,8 @@ button.modal {
     left: 0;
 }
 
-#modal-reabrir-chamado {
+#modal-reabrir-chamado,
+#modal-abrir-chamado {
     display: none;
 }
 

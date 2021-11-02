@@ -128,7 +128,7 @@ btn.addEventListener("click", e => {
                             btnCancelar.addEventListener("click", e => {
                                 e.preventDefault();
                                 import("./modal.js").then(({fecharModal}) =>
-                                    fecharModal("modal-verify-token")
+                                    fecharModal("modal-reabrir-chamado")
                                 );
                             });
 

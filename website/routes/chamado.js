@@ -59,7 +59,8 @@ router.post("/criar", async (req, res) => {
                     if (erro) {
                         return res.json({
                             status: "alerta",
-                            msg: "Chamado de mesma métrica recentemente fechado. Ateste a eficácia da solução previamente proposta"
+                            msg: "Chamado de mesma métrica recentemente fechado. Ateste a eficácia da solução previamente proposta",
+                            continuar: true
                         });
                     }
                 }

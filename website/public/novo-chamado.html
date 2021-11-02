@@ -25,31 +25,35 @@
                     </div>
                     <div class="row form-item">
                         <label>Título</label>
-                        <input type="Text">
+                        <input id="titulo" type="Text">
                     </div>
                     <div class="row form-item">
                         <label>Descrição:</label>
-                        <textarea rows="6"></textarea>
+                        <textarea id="descricao" rows="6"></textarea>
                     </div>
                     <div class="row form-item">
                         <div class="col-md-6 com-sm-12 form-item">
-                            <label>Prioridade:</label>
-                            <select name="" id="">
-                                <option value="">Baixa</option>
-                                <option value="">Média</option>
-                                <option value="">Alta</option>
+                            <label>Máquina:</label>
+                            <select name="" id="maquinas">
                             </select>
                         </div>
                         <div class="col-md-6 com-sm-12 form-item">
-                            <label>Eficacia das soluções:</label>
-                            <select name="" id="">
-                                <option value="">Total</option>
-                                <option value="">Parcial</option>
-                                <option value="">Nula</option>
+                            <label>Métrica relacionada:</label>
+                            <select name="" id="metricas" disabled>
                             </select>
                         </div>
-                    </div>                   
-                    
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Prioridade:</label>
+                            <select name="" id="prioridade" disabled>
+                                <option value="">Escolha a prioridade</option>
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="emergencia">Emergência</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="row form-item">
                         <button class="btn-geral">
                             Abrir chamado
@@ -65,6 +69,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/novoChamado.js"></script>
 </body>
 
 </html>

@@ -40,7 +40,7 @@ const renderChamado = (msg, container) => {
     const spanDataAbertura = document.createElement("span");
 
     // adicionando corpo das divs
-    divStatus.innerHTML = msg.status;
+    divStatus.innerHTML = msg.status_chamado;
     divTitulo.innerHTML = msg.titulo;
     divPrioridade.innerHTML = "Prioridade: ";
     divDescricao.innerHTML = msg.descricao;
@@ -56,7 +56,7 @@ const renderChamado = (msg, container) => {
     // adicionando classe às divs/spans
     divBoxChamado.classList.add("box-chamado");
     divStatus.classList.add("status-chamado");
-    divStatus.classList.add(msg.status);
+    divStatus.classList.add(msg.status_chamado);
     divTitulo.classList.add("titulo");
     divPrioridade.classList.add("prioridade");
     divDescricao.classList.add("descricao");

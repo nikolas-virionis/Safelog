@@ -115,6 +115,7 @@ CREATE TABLE chamado (
     data_abertura DATETIME NOT NULL,
     status_chamado ENUM('aberto', 'fechado') NOT NULL,
     prioridade ENUM('baixa', 'media', 'alta', 'emergencia') NOT NULL,
+    automatico ENUM('s', 'n') NOT NULL,
     fk_categoria_medicao INT NOT NULL,
     fk_usuario INT NOT NULL,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
@@ -1058,9 +1059,9 @@ INSERT INTO
     categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao)
 VALUES
     (50.0, 7, 1),
-    (60.0, 7, 2),
+    (105.0, 7, 2),
     (80.0, 7, 3),
-    (105.0, 7, 4),
+    (60.0, 7, 4),
     (0.5, 7, 5),
     (60.0, 7, 6),
     (100.0, 7, 7);

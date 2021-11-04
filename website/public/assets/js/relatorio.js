@@ -125,7 +125,8 @@ axios
                                                 prioridade: prioridade.value,
                                                 idCategoriaMedicao:
                                                     Number(categoria),
-                                                idUsuario: id
+                                                idUsuario: id,
+                                                automatico: "n"
                                             })
                                             .then(
                                                 ({
@@ -221,6 +222,8 @@ axios
                                                                                         ),
                                                                                     idUsuario:
                                                                                         id,
+                                                                                    automatico:
+                                                                                        "n",
                                                                                     eficaciaSolucoes:
                                                                                         eficacia.value
                                                                                 }
@@ -379,7 +382,8 @@ axios
                                                         prioridade.value,
                                                     idCategoriaMedicao:
                                                         Number(categoria),
-                                                    idUsuario: id
+                                                    idUsuario: id,
+                                                    automatico: "n"
                                                 })
                                                 .then(
                                                     ({
@@ -476,6 +480,8 @@ axios
                                                                                                 ),
                                                                                             idUsuario:
                                                                                                 id,
+                                                                                            automatico:
+                                                                                                "n",
                                                                                             eficaciaSolucoes:
                                                                                                 eficacia.value
                                                                                         }

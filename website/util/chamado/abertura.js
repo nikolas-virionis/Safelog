@@ -4,9 +4,10 @@ const abrirChamado = async (
     desc,
     idUsuario,
     idCategoriaMedicao,
-    prioridade
+    prioridade,
+    automatico
 ) => {
-    let sqlCriaChamado = `INSERT INTO chamado(titulo, descricao, data_abertura, status_chamado, prioridade, fk_categoria_medicao, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'aberto', '${prioridade}', ${idCategoriaMedicao}, ${idUsuario})`;
+    let sqlCriaChamado = `INSERT INTO chamado(titulo, descricao, data_abertura, status_chamado, prioridade, automatico, fk_categoria_medicao, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'aberto', '${prioridade}', '${automatico}', ${idCategoriaMedicao}, ${idUsuario})`;
 
     return sequelize
         .query(sqlCriaChamado, {

@@ -12,6 +12,7 @@ router.post("/criar", async (req, res) => {
         prioridade,
         idCategoriaMedicao,
         idUsuario,
+        automatico,
         eficaciaSolucoes
     } = req.body;
     if (!req.body) {
@@ -69,7 +70,8 @@ router.post("/criar", async (req, res) => {
                     desc,
                     idUsuario,
                     idCategoriaMedicao,
-                    prioridade
+                    prioridade,
+                    automatico
                 )
                     .then(resposta => {
                         res.json(resposta);

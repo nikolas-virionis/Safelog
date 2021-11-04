@@ -95,7 +95,8 @@ btn.addEventListener("click", e => {
                 desc: descricao.value,
                 prioridade: prioridade.value,
                 idCategoriaMedicao: Number(metricas.value),
-                idUsuario: id
+                idUsuario: id,
+                automatico: "n"
             })
             .then(({data: {status, msg, continuar}}) => {
                 if (status === "ok") {
@@ -148,6 +149,7 @@ btn.addEventListener("click", e => {
                                             metricas.value
                                         ),
                                         idUsuario: id,
+                                        automatico: "n",
                                         eficaciaSolucoes: eficacia.value
                                     })
                                     .then(

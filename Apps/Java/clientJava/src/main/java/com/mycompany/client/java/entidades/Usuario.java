@@ -12,6 +12,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String cargo;
+    private String foto;
     private String token;
     private String fkEmpresa;
     private Integer fkSupervisor;
@@ -19,6 +20,14 @@ public class Usuario {
     public Integer getIdUsuario() {
         return idUsuario;
 
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public void setIdUsuario(Integer idUsuario) {
@@ -78,7 +87,8 @@ public class Usuario {
     }
 
     // public Usuario(Integer idUsuario, String nome, String email, String senha,
-    // String cargo, String token, String fkEmpresa, Integer fkSupervisor) {
+    // String cargo, String token, String fkEmpresa, Integer fkSupervisor, String
+    // foto) {
     // this.idUsuario = idUsuario;
     // this.nome = nome;
     // this.email = email;
@@ -87,6 +97,7 @@ public class Usuario {
     // this.token = token;
     // this.fkEmpresa = fkEmpresa;
     // this.fkSupervisor = fkSupervisor;
+    // this.foto = foto;
     // }
     public void setFkSupervisor(Integer fkSupervisor) {
         this.fkSupervisor = fkSupervisor;

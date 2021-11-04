@@ -10,14 +10,24 @@ public class Empresa {
     private String nome;
     private String pais;
     private String cidade;
+    private String foto;
     private Integer fkStaff;
 
-    public Empresa(String idEmpresa, String nome, String pais, String cidade, Integer fkStaff) {
+    public Empresa(String idEmpresa, String nome, String pais, String cidade, String foto, Integer fkStaff) {
         this.idEmpresa = idEmpresa;
         this.nome = nome;
         this.pais = pais;
         this.cidade = cidade;
         this.fkStaff = fkStaff;
+        this.foto = foto;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public Empresa() {

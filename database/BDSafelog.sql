@@ -142,6 +142,7 @@ CREATE VIEW v_chamados AS (
         data_abertura,
         status_chamado AS 'status',
         prioridade,
+        automatico,
         maquina.nome AS maquina,
         usuario.nome AS usuario,
         usuario.email,

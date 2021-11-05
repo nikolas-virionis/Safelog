@@ -240,8 +240,13 @@ h6 {
 
 .centralizar {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
+}
+.alinhar{
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
 }
 
 .coluna{

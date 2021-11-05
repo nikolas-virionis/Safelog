@@ -34,7 +34,7 @@
 
 .status-chamado {
     display: inline-block;
-    width: 15%;
+    width: 100%;
     padding: 10px;
     border-radius: 100px;
     text-align: center;
@@ -75,37 +75,38 @@
     border-radius: 10px;
     box-shadow: 0px 0px 3px 1px rgb(77, 79, 112);
     width: 50%;
-    min-width: 800px;
-    margin-left: auto;
     margin-right: auto;
 }
 
 .titulo {
     display: inline-block;
     font-weight: bold;
-    margin-left: 20px;
+    /* margin-left: 20px; */
 }
 
 .descricao {
     text-align: justify;
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 .prioridade {
     display: inline-block;
-    margin: 20px;
+    
 }
 
 .chamado-footer {
     font-size: 0.8em;
     color: rgb(102, 102, 102);
     font-weight: bold;
+    word-wrap: break-word;
+    white-space: nowrap;
+    padding: 30px 0 0 0;
 }
 
 .responsavel-nome, .responsavel-email {
-    display: inline-block;
-    margin-top: 30px;
-    margin-left: 30px;
+    /* display: inline-block; */
+    /* margin-top: 30px; */
+    /* margin-left: 30px; */
     font-weight: normal;
     /* border: 1px black solid; */
 }
@@ -113,10 +114,22 @@
 .data-abertura {
     /* margin-left: 30px; */
     text-align: right;
-    display: inline-block;
+    /* display: inline-block; */
     /* border: 1px solid black; */
     /* min-width: 20%; */
-    width: 30%;
+    /* width: 30%; */
+}
+
+.card.chamado{
+    min-width: 60vw;
+}
+
+.header{
+    display:flex;
+    align-items: center;
+    word-wrap: break-word;
+    white-space: nowrap;
+    margin: 0 0 20px 0;
 }
 
 /* solucoes */
@@ -148,7 +161,7 @@
 
 .solucao-eficacia {
     /* border: 1px solid black; */
-    display: inline-block;
+    /* display: inline-block; */
     margin-left: 10px;
     padding: 5px 20px;
     border-radius: 100px;
@@ -184,4 +197,20 @@
     margin-right: auto;
     margin-top: 30px;
     box-shadow: 0px 0px 10px 1px rgb(63, 63, 63);
+}
+
+.card.solucao{
+    min-width: 40vw;
+}
+
+.card.solucao.total{
+    border-left:rgb(40, 145, 40) 5px solid;
+}
+
+.card.solucao.parcial{
+    border-left:rgb(86, 115, 209) 5px solid;
+}
+
+.card.solucao.nula{
+    border-left:rgb(209, 86, 86) 5px solid;
 }

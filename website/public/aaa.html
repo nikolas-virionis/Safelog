@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chamado</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/chamados.css">
+
+</head>
+
+<body>
+    <section class="home-section">
+        <!-- HEADER -->
+        <div class="navbar-dashboard">
+            <div class="barra-pesquisa">
+                <input type="search" name="" value="" placeholder="Buscar" searchBarChamados>
+                <button type="submit" class="btn-nav-dash" btnSearchChamados><i class="fas fa-search"></i></button>
+            </div>
+
+        </div>
+
+        <!-- CONTAINER -->
+        <div class="container-site">
+            <div class="row justify-content-center">
+                <span class="caminho-span mg-top">
+                    <a href="chamados">Lista de chamados</a>
+                    > 
+                    <span class="pagina-atual-caminho">Chamado</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="container-site">
+            <div class="centralizar">
+                <div class="card chamado">
+                    <div class="row justify-content-center header">
+                        <div class="col-md-3 col-sm-12">
+                            <div class="status-chamado fechado"> Fechado </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="titulo">alta temperatura de cpu</div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="prioridade">Prioridade: <span>Alta</span></div>
+                        </div>
+                    </div>
+                    <div class="descricao">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos minima porro incidunt ullam fugiat facilis nobis ipsa suscipit nesciunt numquam laudantium, assumenda necessitatibus inventore. Obcaecati eos veniam quis nulla doloribus.</div>
+    
+
+                    <div class="chamado-footer row justify-content-center">
+                        <div class="col-md-2 col-sm-12">
+                            Responsável:
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="responsavel-nome">Lucas Mesquita</div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <div class="responsavel-email">lucas.msouza@bandtec.com.br</div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <span class="data-abertura">30/10/2021 17:42</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="centralizar">
+                <div class="card solucao parcial"> <!--a terceira classe pode ser "parcial", "total" ou "nula"-->
+                    <div class="solucao-header">
+                        <div class="row alinhar">
+                            <!-- <div class="solucao-titulo"> Limite de ram estourando </div>         -->
+                            <b>Eficacia:</b>  
+                            <div class="solucao-eficacia eficacia-parcial"> Parcial </div>
+                        </div>
+    
+                    </div>
+                    <div class="row">
+                        <div class="solucao-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias architecto doloribus placeat nesciunt ipsum numquam rem dolore aperiam molestias! Atque a corrupti eos distinctio ipsum quibusdam quos perferendis. Libero, placeat.</div>
+                    </div>
+                        <div class="solucao-data">30/10/2021 18:10</div>
+                    
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div id="alerta"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <!-- <script src="./assets/js/chamado.js"></script> -->
+    <!-- <script src="./assets/js/relatorio.js"></script> -->
+</body>
+
+</html>

@@ -3,25 +3,25 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 
-const pages = [
-    "/login",
-    "/index",
-    "/cadastro-pessoa",
-    "/redefinir-senha",
-    "/responsavel-gestor",
-    "/convidar-responsavel",
-    "/delete-maquina",
-    "/permissao-acesso",
-    "/"
-];
+// const pages = [
+//     "/login",
+//     "/index",
+//     "/cadastro-pessoa",
+//     "/redefinir-senha",
+//     "/responsavel-gestor",
+//     "/convidar-responsavel",
+//     "/delete-maquina",
+//     "/permissao-acesso",
+//     "/"
+// ];
 
-if (
-    !pages.includes(window.location.pathname.replace(".html", "")) &&
-    !sessionStorage.usuario &&
-    !sessionStorage.staff
-) {
-    window.location.href = "login";
-}
+// if (
+//     !pages.includes(window.location.pathname.replace(".html", "")) &&
+//     !sessionStorage.usuario &&
+//     !sessionStorage.staff
+// ) {
+//     window.location.href = "login";
+// }
 
 function mostrarAlerta(msg, type) {
     var alerta = document.createElement("div");

@@ -1,25 +1,51 @@
-function enviarSlack(channelId, text) {
-  const { WebClient } = require("@slack/web-api");
+require("dotenv").config();
+const axios = require("axios");
+const qs = require("querystring");
 
-  // An access token (from your Slack app or custom integration - xoxp, xoxb)
-  const token = process.env.SLACK_TOKEN;
+const token = process.env.SLACK_TOKEN;
 
-  const web = new WebClient(token);
-
-  // This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-  const conversationId = channelId;
-  // enviarMsg(web, conversationId, text)
+// request config
+const config = {
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
 }
 
-const enviarMsg = async (web, channel, text) => {
-  // See: https://api.slack.com/methods/chat.postMessage
-  const res = await web.chat.postMessage({
-    channel,
-    text,
-  });
+// get userid by email
+const getUserIdByEmail = async(email) => {
+  const body = {
+    token,
+    email
+  }
 
-  // `res` contains information about the posted message
-  console.log(res, "\nMessage sent: ", res.ts);
-};
-// enviarSlack();
-module.exports = { enviarSlack };
+  // request
+  const res = await axios.post("https://slack.com/api/users.lookupByEmail", qs.stringify(body), config)
+
+  return res.data.user.id;
+}
+
+// send msg to private channel
+const sendMessage = async (userId, msg) => {
+  const body = {
+    token,
+    channel: userId,
+    text: msg
+  }
+
+  // request
+  const res = await axios.post("https://slack.com/api/chat.postMessage", qs.stringify(body), config)
+
+  if (res.data.ok) {
+    return {
+      status: "ok",
+      msg: "mensagem enviada com sucesso"
+    }
+  } else {
+    return {
+      status: "erro",
+      msg: res.data.error
+    }
+  }
+}
+
+module.exports = { getUserIdByEmail, sendMessage }

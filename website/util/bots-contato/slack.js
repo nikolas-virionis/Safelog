@@ -4,7 +4,8 @@ const qs = require("querystring");
 
 const token = process.env.SLACK_TOKEN 
 
-const getUserIdByEmail = email => {
+const getUserIdByEmail = async(email) => {
+  // request config
   const config = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -15,13 +16,10 @@ const getUserIdByEmail = email => {
     token,
     email
   }
-  
-  axios.post("https://slack.com/api/users.lookupByEmail", qs.stringify(body), config)
-  .then(res => {
-    console.log(res.data.user.id)
-  });
-}
 
-// getUserIdByEmail("lucas.msouza@bandtec.com.br")
+  const res = await axios.post("https://slack.com/api/users.lookupByEmail", qs.stringify(body), config)
+
+  return res;
+}
 
 module.exports = {getUserIdByEmail}

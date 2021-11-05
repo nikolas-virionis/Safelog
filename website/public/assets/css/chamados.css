@@ -201,6 +201,7 @@
 
 .card.solucao{
     min-width: 40vw;
+    display: none;
 }
 
 .card.solucao.total{

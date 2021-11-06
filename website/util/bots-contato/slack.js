@@ -2,7 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const qs = require("querystring");
 
-const token = process.env.SLACK_TOKEN;
+const token = process.env.SLACK_TOKEN_BOT;
 
 // request config
 const config = {
@@ -47,5 +47,14 @@ const sendMessage = async (userId, msg) => {
     }
   }
 }
+
+// testing
+// getUserIdByEmail("lucas.msouza@bandtec.com.br")
+// .then(id => {
+//   sendMessage(id, "realmente funfou")
+//   .then(res => {
+//     console.log(res);
+//   })
+// })
 
 module.exports = { getUserIdByEmail, sendMessage }

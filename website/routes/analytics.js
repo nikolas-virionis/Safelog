@@ -14,7 +14,6 @@ router.post("/trend", async (req, res) => {
         });
     }
 
-    let medicoes;
     await getMedicoes(idCategoriaMedicao)
         .then(medicoes => {
             let deg = getTrendDeg(medicoes);

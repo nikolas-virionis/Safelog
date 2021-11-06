@@ -5,7 +5,8 @@ const renderChamados = chamados => {
     container.innerHTML = "";
     if (!chamados.length) {
         // melhorar aviso
-        container.innerHTML = "Chamado não encontrado";
+        container.classList.add("nenhum-encontrado");
+        container.innerHTML = "Nenhum chamado encontrado<br>:(";
     } else {
         chamados.forEach(chamado => {
             // console.log(chamado);
@@ -16,16 +17,24 @@ const renderChamados = chamados => {
             // list items
             const status = document.createElement("span");
             const nomeChamado = document.createElement("span");
+            const datachamado = document.createElement("span");
+            const prioridade = document.createElement("span");
 
             // innerHTML
             status.innerHTML = chamado.status;
             nomeChamado.innerHTML = chamado.titulo;
+            datachamado.innerHTML = new Date(chamado.data_abertura).toLocaleString("pt-BR");
+            prioridade.innerHTML = chamado.prioridade;
+            console.log(chamado)
 
             // add class
             listItem.classList.add("chamado-item-list");
             status.classList.add("status-chamado");
             status.classList.add(chamado.status);
             nomeChamado.classList.add("nome-chamado");
+            datachamado.classList.add("data-chamado");
+            prioridade.classList.add("prioridade");
+            prioridade.classList.add(chamado.prioridade);
 
             // click
             listItem.addEventListener("click", evt => {
@@ -35,6 +44,8 @@ const renderChamados = chamados => {
             // append
             listItem.appendChild(status);
             listItem.appendChild(nomeChamado);
+            listItem.appendChild(datachamado);
+            listItem.appendChild(prioridade);
 
             // final append
             container.appendChild(listItem);

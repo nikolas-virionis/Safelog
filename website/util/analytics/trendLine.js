@@ -2,6 +2,9 @@ const getTrendDeg = medicoes => {
     const radsToDegs = rad => (rad * 180) / Math.PI;
 
     let n = medicoes.length;
+    if (!n) {
+        return 0;
+    }
     let y = [...medicoes];
     let x = [...Array(n).keys()];
     x.push(x[x.length - 1] + 1);

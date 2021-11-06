@@ -8,6 +8,7 @@ const renderChamados = chamados => {
         container.classList.add("nenhum-encontrado");
         container.innerHTML = "Nenhum chamado encontrado<br>:(";
     } else {
+        container.classList.remove("nenhum-encontrado");
         chamados.forEach(chamado => {
             // console.log(chamado);
 
@@ -23,9 +24,11 @@ const renderChamados = chamados => {
             // innerHTML
             status.innerHTML = chamado.status;
             nomeChamado.innerHTML = chamado.titulo;
-            datachamado.innerHTML = new Date(chamado.data_abertura).toLocaleString("pt-BR");
+            datachamado.innerHTML = new Date(
+                chamado.data_abertura
+            ).toLocaleString("pt-BR");
             prioridade.innerHTML = chamado.prioridade;
-            console.log(chamado)
+            console.log(chamado);
 
             // add class
             listItem.classList.add("chamado-item-list");

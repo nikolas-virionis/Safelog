@@ -1,5 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
+const { send } = require("process");
 const qs = require("querystring");
 
 const token = process.env.SLACK_TOKEN_BOT;
@@ -25,7 +26,7 @@ const getUserIdByEmail = async(email) => {
 }
 
 // send msg to private channel
-const sendMessage = async (userId, msg) => {
+const sendDirectMessageById = async (userId, msg) => {
   const body = {
     token,
     channel: userId,
@@ -48,13 +49,19 @@ const sendMessage = async (userId, msg) => {
   }
 }
 
-// testing
-// getUserIdByEmail("lucas.msouza@bandtec.com.br")
-// .then(id => {
-//   sendMessage(id, "realmente funfou")
-//   .then(res => {
-//     console.log(res);
-//   })
-// })
+const sendDirectMessageByEmail = async(email, msg) => {
+  getUserIdByEmail(email)
+  .then(id => {
+    sendDirectMessageById(id, msg)
+    .then(res => {
+      console.log(res);
+      return res
+    })
+  })
+}
 
-module.exports = { getUserIdByEmail, sendMessage }
+module.exports = { 
+  sendDirectMessageByEmail,
+  sendDirectMessageById,
+  getUserIdByEmail
+}

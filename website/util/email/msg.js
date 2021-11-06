@@ -135,8 +135,6 @@ const msgEmail = (tipo, nome, rest, email) => {
                                         `,
             "Acesso a maquina - SafeLog"
         ];
-    throw new Error(
-        "tipo de email não especificado ou escrito de forma errada"
-    );
+    throw "tipo de email não especificado ou escrito de forma errada";
 };
 module.exports = {msgEmail};

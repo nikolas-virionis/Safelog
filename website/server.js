@@ -16,6 +16,7 @@ let empresaRouter = require("./routes/empresa");
 let maquinaRouter = require("./routes/maquina");
 let medicaoRouter = require("./routes/medicao");
 let chamadoRouter = require("./routes/chamado");
+let analyticsRouter = require("./routes/analytics");
 
 let app = express();
 
@@ -35,6 +36,7 @@ app.use("/empresa", empresaRouter);
 app.use("/maquina", maquinaRouter);
 app.use("/medicao", medicaoRouter);
 app.use("/chamado", chamadoRouter);
+app.use("/analytics", analyticsRouter);
 
 app.get("/:page", (req, res) => {
     let pagePath = path.resolve(__dirname, "public", `${req.params.page}.html`);

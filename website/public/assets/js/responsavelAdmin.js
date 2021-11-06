@@ -55,67 +55,93 @@ axios
                 tbUsuarios.appendChild(tr);
 
                 btnDelete.addEventListener("click", e => {
-                    let confirmar = confirm(
-                        `Você realmente deseja tirar o acesso de ${nome}`
-                    );
-                    if (confirmar) {
+                    document.getElementById("nome-usuario-acesso").innerHTML = nome;
+                    document.getElementById("btn-tirar-acesso").setAttribute("id_usuario", id_usuario); 
+                    document.getElementById("btn-tirar-acesso").setAttribute("maquina", pkMaquina);
+
+                    import("./modal.js").then(({abrirModal}) =>
+                            abrirModal("modal-log-tirar-acesso")
+                        ); 
+                });
+
+                btnResp.addEventListener("click", e => {
+                    document.getElementById("nome-usuario-dar-acesso").innerHTML = nome;
+                    document.getElementById("btn-dar-acesso").setAttribute("id_usuario", id_usuario); 
+                    document.getElementById("btn-dar-acesso").setAttribute("maquina", pkMaquina);
+
+                    
+                });
+            });
+
+            document.getElementById("btn-cancelar-tirar-acesso").addEventListener("click", e => {
+                import("./modal.js").then(({fecharModal}) =>
+                    fecharModal("modal-log-tirar-acesso")
+                )
+            })
+
+            document.getElementById("btn-tirar-acesso").addEventListener("click", e => {
+
+                axios
+                .post("/usuario/remocao-acesso", {
+                    id: document.getElementById("btn-tirar-acesso").getAttribute("id_usuario"),
+                    maquina: document.getElementById("btn-tirar-acesso").getAttribute("maquina")
+                })
+                .then(({data: {status, msg}}) => {
+                    if (status === "ok") {
+                        mostrarAlerta(msg, "success");
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        console.error(msg);
+                    }
+                });
+                    
+            })
+
+            document.getElementById("btn-cancelar-dar-acesso").addEventListener("click", e => {
+                import("./modal.js").then(({fecharModal}) =>
+                    fecharModal("modal-log-dar-acesso")
+                )
+            })
+
+            document.getElementById("btn-dar-acesso").addEventListener("click", e => {
+
+                axios
+                .post("/usuario/dados", {
+                    id: document.getElementById("btn-dar-acesso").getAttribute("id_usuario")
+                })
+                .then(({data: {status, msg}}) => {
+                    if (status === "ok") {
                         axios
-                            .post("/usuario/remocao-acesso", {
-                                id: id_usuario,
-                                maquina: pkMaquina
-                            })
+                            .post(
+                                "/usuario/transferencia-responsavel",
+                                {
+                                    email: msg.email,
+                                    maquina: document.getElementById("btn-dar-acesso").getAttribute("maquina"),
+                                    del: false
+                                }
+                            )
                             .then(({data: {status, msg}}) => {
                                 if (status === "ok") {
                                     mostrarAlerta(msg, "success");
                                     setTimeout(() => {
-                                        window.location.reload();
+                                        window.location.href =
+                                            "dashboard";
                                     }, 2000);
                                 } else {
                                     console.error(msg);
                                 }
                             });
+                    } else {
+                        console.error(msg);
                     }
                 });
+                    
+            })
 
-                btnResp.addEventListener("click", e => {
-                    let confirmar = confirm(
-                        `Você realmente deseja tornar ${nome} o responsável pela máquina? 
-                        Você se tornará um usuário comum dela`
-                    );
-                    if (confirmar) {
-                        axios
-                            .post("/usuario/dados", {
-                                id: id_usuario
-                            })
-                            .then(({data: {status, msg}}) => {
-                                if (status === "ok") {
-                                    axios
-                                        .post(
-                                            "/usuario/transferencia-responsavel",
-                                            {
-                                                email: msg.email,
-                                                maquina: pkMaquina,
-                                                del: false
-                                            }
-                                        )
-                                        .then(({data: {status, msg}}) => {
-                                            if (status === "ok") {
-                                                mostrarAlerta(msg, "success");
-                                                setTimeout(() => {
-                                                    window.location.href =
-                                                        "dashboard";
-                                                }, 2000);
-                                            } else {
-                                                console.error(msg);
-                                            }
-                                        });
-                                } else {
-                                    console.error(msg);
-                                }
-                            });
-                    }
-                });
-            });
+
+
         } else {
             mostrarAlerta("Erro no gerenciamento de usuario", "danger");
         }

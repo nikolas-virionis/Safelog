@@ -303,4 +303,44 @@ router.post("/dados", async (req, res) => {
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
+
+router.post("/stats", async (req, res) => {
+    let {idCategoriaMedicao} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+
+    const chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
+    const solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total') as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial') as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao})`;
+
+    await sequelize
+        .query(chamados, {type: sequelize.QueryTypes.SELECT})
+        .then(async ([{chamadosTotais, chamadosAbertos}]) => {
+            let chamadosFechados = chamadosTotais - chamadosAbertos;
+            await sequelize
+                .query(solucoes, {
+                    type: sequelize.QueryTypes.SELECT
+                })
+                .then(
+                    ([
+                        {solucoesTotais, solucoesEficazes, solucoesParciais}
+                    ]) => {
+                        res.json({
+                            chamadosTotais,
+                            chamadosAbertos,
+                            chamadosFechados,
+                            solucoesTotais,
+                            solucoesEficazes,
+                            solucoesParciais
+                        });
+                    }
+                )
+                .catch(err => res.json({status: "erro", msg: err}));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
+
 module.exports = router;

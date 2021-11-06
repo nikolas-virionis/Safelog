@@ -14,13 +14,16 @@ router.post("/trend", async (req, res) => {
         });
     }
 
-    let medicoes = await getMedicoes(idCategoriaMedicao);
+    let medicoes;
+    await getMedicoes(idCategoriaMedicao)
+        .then(medicoes => {
+            let deg = getTrendDeg(medicoes);
 
-    let deg = getTrendDeg(medicoes);
+            let {orientacao, comportamento} = getTrendBehavior(deg);
 
-    let {orientacao, comportamento} = getTrendBehavior(deg);
-
-    res.json({stauts: "ok", msg: {orientacao, comportamento}});
+            res.json({stauts: "ok", msg: {orientacao, comportamento}});
+        })
+        .catch(err => res.json({status: "alerta", err}));
 });
 
 module.exports = router;

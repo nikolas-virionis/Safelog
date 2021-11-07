@@ -1,5 +1,6 @@
 package com.mycompany.client.java.telas;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,6 +10,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.mycompany.client.java.*;
+import com.mycompany.client.java.entidades.Medicao;
+import com.mycompany.client.java.requisicoes.Alert;
 
 public class Main extends javax.swing.JFrame {
 
@@ -50,9 +53,19 @@ public class Main extends javax.swing.JFrame {
     }
 
     private void insertBanco() {
+        List<TiposMedicao> tiposMedicao = MonitoringTypes.getTiposMedicao();
+        Alert[] incidentes = new Alert[tiposMedicao.size()];
+        int j = 0;
+        for (TiposMedicao tipoMedicao : tiposMedicao) {
+            incidentes[j] = new Alert(tipoMedicao.getFkCategoriaMedicao());
+            j++;
+        }
+
         do {
             String data = Monitoring.getDatetime();
-            for (TiposMedicao tipo : MonitoringTypes.getTiposMedicao()) {
+            Medicao[] medicoes = new Medicao[tiposMedicao.size()];
+            int i = 0;
+            for (TiposMedicao tipo : tiposMedicao) {
                 Double medicao;
                 Monitoring m = new Monitoring();
                 if (tipo.getTipo().equals("cpu_porcentagem")) {
@@ -70,9 +83,7 @@ public class Main extends javax.swing.JFrame {
                     medicao = m.getTemp();
                     System.out.println("cpu temperatura: ");
                     System.out.println(medicao);
-
                     lblTemp.setText(medicao.toString());
-
                 } else if (tipo.getTipo().equals("ram_porcentagem")) {
                     medicao = m.getUsoRAM();
                     System.out.println("ram uso");
@@ -98,8 +109,16 @@ public class Main extends javax.swing.JFrame {
                 } else {
                     throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");
                 }
-                InsertDado.formatInsert(tipo, medicao, data);
+                medicoes[i] = InsertDado.formatInsert(tipo, medicao, data);
+                // InsertDado.formatInsert(tipo, medicao, data);
+                if (medicoes[i].getTipo() == "normal") {
+                    incidentes[i].normal();
+                } else {
+                    incidentes[i].incidente(medicoes[i], tipo);
+                }
+                i++;
             }
+            InsertDado.insert(medicoes);
 
             try {
                 TimeUnit.SECONDS.sleep(1);

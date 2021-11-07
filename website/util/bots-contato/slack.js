@@ -1,6 +1,5 @@
 require("dotenv").config();
 const axios = require("axios");
-const { send } = require("process");
 const qs = require("querystring");
 
 const token = process.env.SLACK_TOKEN_BOT;

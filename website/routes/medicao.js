@@ -148,4 +148,29 @@ router.post("/dados", async (req, res, next) => {
     return res.json({status: "ok", msg: medicoes});
 });
 
+router.post("/stats", async (req, res) => {
+    let {idCategoriaMedicao} = req.body;
+    if (!req.body)
+        return res.json({
+            status: "alerta",
+            msg: "Body não fornecido na requisição"
+        });
+
+    const sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND tipo = 'critico') as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND tipo = 'risco') as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
+
+    await sequelize
+        .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
+        .then(([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
+            let medicoesNormais =
+                medicoesTotais - (medicoesCriticas + medicoesDeRisco);
+            res.json({
+                medicoesTotais,
+                medicoesCriticas,
+                medicoesDeRisco,
+                medicoesNormais
+            });
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
+});
+
 module.exports = router;

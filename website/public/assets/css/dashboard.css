@@ -268,7 +268,7 @@ h6 {
   color: #e01e5a;
 }
 
-#modal-send-email, #modal-log-cad-maq, #modal-alterar-senha, #modal-invite-user, #modal-log-del-maquina, #modal-log-del-usuario, #modal-log-del-acesso, #modal-log-tornar-responsavel{
+#modal-send-email, #modal-log-cad-maq, #modal-alterar-senha, #modal-invite-user, #modal-log-del-maquina, #modal-log-del-usuario, #modal-log-del-acesso, #modal-log-tornar-responsavel, #modal-log-tirar-acesso, #modal-log-dar-acesso, #modal-log-certeza-sair{
   display: none;
 }
 

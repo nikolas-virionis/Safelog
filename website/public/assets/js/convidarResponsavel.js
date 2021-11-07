@@ -93,10 +93,22 @@ btnCancelar.addEventListener("click", e => {
         "danger"
     );
     setTimeout(() => {
-        let conf = confirm("Tem certeza que deseja sair?");
-        if (conf) window.location.href = "dependentes";
+        import("./modal.js").then(({abrirModal}) =>
+            abrirModal("modal-log-certeza-sair")
+        );                 
     }, 3000);
 });
+document.getElementById("btn-cancelar-sair").addEventListener("click", e => {
+    import("./modal.js").then(({fecharModal}) =>
+        fecharModal("modal-log-certeza-sair")
+    )
+});
+
+
+document.getElementById("btn-sair").addEventListener("click", e => {
+    window.location.href = "dependentes";
+});
+
 
 btnConvidar.addEventListener("click", async e => {
     e.preventDefault();

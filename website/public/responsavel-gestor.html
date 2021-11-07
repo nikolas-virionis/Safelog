@@ -98,6 +98,34 @@
 
     <div id="alerta"></div>
 
+    <div class="modal-screen" id="modal-log-tirar-acesso">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você realmente deseja tirar o acesso de <span id="nome-usuario-acesso"></span>?</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-tirar-acesso">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-tirar-acesso">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-screen" id="modal-log-dar-acesso">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você realmente deseja tornar <span id="nome-usuario-dar-acesso"></span> o responsável pela máquina?<br>
+                    Você se tornará um usuário comum dela!</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-dar-acesso">Confirmar</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-dar-acesso">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/responsavelAdmin.js"></script>

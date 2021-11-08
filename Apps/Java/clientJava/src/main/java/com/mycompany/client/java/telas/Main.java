@@ -40,6 +40,7 @@ public class Main extends javax.swing.JFrame {
         }
         initComponents();
         thread = new Thread(() -> {
+            cadastroInformacoesServer();
             insertBanco();
         });
         thread.start();
@@ -50,6 +51,22 @@ public class Main extends javax.swing.JFrame {
 
         this.setEmail(email);
         // System.out.println(email);
+    }
+
+    private void cadastroInformacoesServer() {
+        String sql = String.format(
+                "SELECT count(id_dados_maquina) as dadosMaquina FROM dados_maquina WHERE fk_maquina = %d",
+                Monitoring.getPkMaquina());
+        Integer dadosMaquina = Integer
+                .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("dadosMaquina").toString());
+        if (dadosMaquina == 0) {
+            Sistema sys = new Monitoring().getSistema();
+            String insertDados = String.format(
+                    "INSERT INTO dados_maquina(so, arquitetura, fabricante, fk_maquina) VALUES ('%s', '%s', '%s', %d)",
+                    sys.getSistemaOperacional() + " " + Monitoring.getSystemInfo(), sys.getArquitetura() + "x",
+                    sys.getFabricante(), Monitoring.getPkMaquina());
+            ConfigDB.getJdbc().execute(insertDados);
+        }
     }
 
     private void insertBanco() {

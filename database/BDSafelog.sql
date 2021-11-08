@@ -102,12 +102,6 @@ CREATE TABLE medicao (
     FOREIGN KEY (fk_categoria_medicao) REFERENCES categoria_medicao (id_categoria_medicao)
 );
 
-CREATE TABLE incidente (
-    id_incidente INT AUTO_INCREMENT PRIMARY KEY,
-    fk_medicao INT NOT NULL,
-    FOREIGN KEY (fk_medicao) REFERENCES medicao (id_medicao)
-);
-
 CREATE TABLE chamado (
     id_chamado INT AUTO_INCREMENT PRIMARY KEY,
     titulo varchar(60) NOT NULL,

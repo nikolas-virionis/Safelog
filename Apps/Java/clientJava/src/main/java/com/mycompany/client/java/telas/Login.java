@@ -263,7 +263,7 @@ public final class Login extends javax.swing.JFrame {
             maquina += c;
         }  
 
-        System.out.println(maquina);
+        // System.out.println(maquina);
         if (email.equals("") || senha.equals("") || maquina.equals("")) {
             if (email.equals("")) {
                 erroEmail.setText("Campo obrigatório");

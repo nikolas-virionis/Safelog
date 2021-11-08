@@ -8,22 +8,21 @@ import java.util.Locale;
 public class InsertDado {
 
     // insere medições no banco
-    public static void insert(Medicao medicao) {
-        String sql = String.format(Locale.US, "INSERT INTO medicao values (NULL, %.2f, '%s', '%s', %d)", medicao.getValor(),
-                medicao.getTipo(), medicao.getDataMedicao(), medicao.getFkCategoriaMedicao());
-        ConfigDB.getJdbc().execute(sql);
+    public static void insert(Medicao[] medicoes) {
+        String str = "INSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES ";
+        for (Medicao medicao : medicoes) {
+            String sql = String.format(Locale.US, "(%.2f, '%s', '%s', %d), \n", medicao.getValor(), medicao.getTipo(),
+                    medicao.getDataMedicao(), medicao.getFkCategoriaMedicao());
+            str += sql;
+        }
+        str = str.substring(0, str.length() - 3);
+        // System.out.println(str);
+        ConfigDB.getJdbc().execute(str);
     }
 
     // formata categoria de medição para insert
-    public static void formatInsert(TiposMedicao tipoMedicao, Double medicao, String data) {
-        String sql = String.format(
-                "SELECT id_categoria_medicao FROM categoria_medicao "
-                        + "JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao "
-                        + "WHERE tipo_medicao.tipo = '%s' AND fk_maquina = %d",
-                tipoMedicao.getTipo(), Monitoring.getPkMaquina());
-        Integer fkCategoriaMedicao = Integer
-                .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_categoria_medicao").toString());
-        insert(new Medicao(medicao, getTipo(tipoMedicao, medicao), data, fkCategoriaMedicao));
+    public static Medicao formatInsert(TiposMedicao tipoMedicao, Double medicao, String data) {
+        return new Medicao(medicao, getTipo(tipoMedicao, medicao), data, tipoMedicao.getFkCategoriaMedicao());
     }
 
     // retorna nível de criticidade da medicao

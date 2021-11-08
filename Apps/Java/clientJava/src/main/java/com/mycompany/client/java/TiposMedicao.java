@@ -5,11 +5,21 @@ public class TiposMedicao {
     private String tipo;
     private Double medicaoLimite;
     private String unidade;
+    private Integer fkCategoriaMedicao;
 
-    public TiposMedicao(String tipo, Double medicaoLimite, String unidade) {
+    public TiposMedicao(String tipo, Double medicaoLimite, String unidade, Integer fkCategoriaMedicao) {
         this.tipo = tipo;
         this.medicaoLimite = medicaoLimite;
         this.unidade = unidade;
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
+    }
+
+    public Integer getFkCategoriaMedicao() {
+        return fkCategoriaMedicao;
+    }
+
+    public void setFkCategoriaMedicao(Integer fkCategoriaMedicao) {
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
     }
 
     public String getUnidade() {
@@ -42,8 +52,8 @@ public class TiposMedicao {
 
     @Override
     public String toString() {
-        return String.format("TiposMedicao: %s\n\tMedição Limite: %.2f%s\n",
-                this.tipo, this.medicaoLimite, this.unidade);
+        return String.format("TiposMedicao: %s\n\tMedição Limite: %.2f%s\n", this.tipo, this.medicaoLimite,
+                this.unidade);
     }
 
 }

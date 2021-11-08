@@ -15,6 +15,7 @@ public class Chamado {
     private String dataAbertura;
     private String statusChamado;
     private String prioridade;
+    private String eficaciaSolucoes;
     private Character automatico;
     private Integer fkUsuario;
     private Integer fkCategoriaMedicao;
@@ -30,6 +31,17 @@ public class Chamado {
         this.automatico = automatico;
         this.fkUsuario = fkUsuario;
         this.fkCategoriaMedicao = fkCategoriaMedicao;
+    }
+
+    public Chamado(String titulo, String descricao, String prioridade, Character automatico, Integer fkUsuario,
+            Integer fkCategoriaMedicao, String eficaciaSolucoes) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.prioridade = prioridade;
+        this.automatico = automatico;
+        this.fkUsuario = fkUsuario;
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
+        this.eficaciaSolucoes = eficaciaSolucoes;
     }
 
     public Chamado() {

@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import com.mycompany.client.java.ConfigDB;
+import com.mycompany.client.java.Monitoring;
 import com.mycompany.client.java.TiposMedicao;
 import com.mycompany.client.java.entidades.Medicao;
 
@@ -34,7 +35,6 @@ public class Alert {
         this.incidentes++;
 
         if (this.incidentes >= 4) {
-            System.out.println("ALERTA ALERTA PERIGO PERIGO");
             this.incidentes = 0;
             try {
                 alerta(medicao, tipoMedicao);
@@ -65,11 +65,46 @@ public class Alert {
     }
 
     private void abrirChamado(Medicao medicao, TiposMedicao tipoMedicao) throws IOException, InterruptedException {
+        JSONObject content = new JSONObject();
+
+        String[] metrica = getTipo(tipoMedicao.getTipo()).split(" - ");
+
+        content.put("titulo", String.format(""));
+        content.put("desc",
+                String.format("Uma medição %s de %s do componente %s foi observada", medicao.getTipo(),
+                        metrica[1] == "Livre" ? "espaço disponível"
+                                : metrica[1] == "Porcentagem" ? "porcentagem de uso" : metrica[1],
+                        metrica[0].toLowerCase()));
+        content.put("prioridade", String.format("%s", medicao.getTipo() == "critico" ? "emergencia" : "alta"));
+        content.put("idCategoriaMedicao", tipoMedicao.getFkCategoriaMedicao());
+        content.put("idUsuario", getResponsavel());
+        content.put("automatico", "s");
+        content.put("eficaciaSolucoes", "parcial");
+        HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:3000/chamado/criar"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         enviarAlerta(0);
+        // throw new RuntimeException("tudo corre bem - Usain bolt");
     }
 
     private void enviarAlerta(int idChamado) {
 
+    }
+
+    private int getResponsavel() {
+        String sql = String.format(
+                "SELECT id_usuario FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND responsavel = 's' JOIN maquina ON pk_maquina = fk_maquina AND id_maquina = '%s'",
+                Monitoring.getMacAddress());
+        Integer idUsuario = Integer.valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_usuario").toString());
+        return idUsuario;
+    }
+
+    private String getTipo(String tipo) {
+        String[] metrica = tipo.split("_");
+        return String.format("%s - %s", metrica[0].toUpperCase(),
+                metrica[1].substring(0, 1).toUpperCase() + metrica[1].substring(1));
     }
 
     @Override

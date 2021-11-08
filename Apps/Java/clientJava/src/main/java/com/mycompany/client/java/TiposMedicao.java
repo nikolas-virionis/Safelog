@@ -11,7 +11,7 @@ public class TiposMedicao {
         this.tipo = tipo;
         this.medicaoLimite = medicaoLimite;
         this.unidade = unidade;
-        this.setFkCategoriaMedicao(fkCategoriaMedicao);
+        this.fkCategoriaMedicao = fkCategoriaMedicao;
     }
 
     public Integer getFkCategoriaMedicao() {

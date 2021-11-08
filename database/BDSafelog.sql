@@ -45,6 +45,7 @@ CREATE TABLE contato (
     fk_usuario int,
     id_contato int,
     valor varchar(80),
+    identificador varchar(200),
     fk_forma_contato int,
     FOREIGN KEY (fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY (fk_forma_contato) REFERENCES forma_contato(id_forma_contato),
@@ -335,7 +336,7 @@ VALUES
     );
 
 INSERT INTO
-    contato
+    contato(fk_usuario, id_contato, valor, fk_forma_contato)
 VALUES
     (1, 1, '2568647004', 1),
     (2, 1, '2435716496', 1),

@@ -33,18 +33,34 @@ const verificarAcesso = async ({idUsuario, idCategoriaMedicao, idChamado}) => {
         });
 };
 
-const usuariosComAcesso = async ({idChamado, usuarioResp}) => {
+const usuariosComAcesso = async ({
+    idChamado,
+    usuarioResp,
+    gestor = true
+} = {}) => {
     const getUsuarios = `SELECT id_usuario, usuario.nome, email FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))${
         usuarioResp ? ` WHERE id_usuario <> ${usuarioResp}` : ""
     }`;
+
     return await sequelize
         .query(getUsuarios, {type: sequelize.QueryTypes.SELECT})
         .then(async usuarios => {
+            if (gestor) {
+                const sqlGestores = `SELECT g.id_usuario, g.nome, g.email FROM usuario AS g JOIN usuario AS a ON g.id_usuario = a.fk_supervisor JOIN usuario_maquina ON a.id_usuario = fk_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))${
+                    usuarioResp ? ` WHERE g.id_usuario <> ${usuarioResp}` : ""
+                }`;
+                let gestores = await sequelize.query(sqlGestores, {
+                    type: sequelize.QueryTypes.SELECT
+                });
+                usuarios = [...usuarios, ...new Set(gestores)];
+            }
             usuarios = await Promise.all(
                 usuarios.map(async usuario => {
                     const sqlContatos = `SELECT forma_contato.nome, contato.valor, contato.identificador FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario AND fk_usuario = ${usuario.id_usuario};`;
                     return await sequelize
-                        .query(sqlContatos, {type: sequelize.QueryTypes.SELECT})
+                        .query(sqlContatos, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
                         .then(contatos => {
                             // console.log({...usuario, contatos});
                             return {...usuario, contatos};

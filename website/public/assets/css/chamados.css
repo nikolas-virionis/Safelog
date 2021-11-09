@@ -126,7 +126,7 @@
 
 .header{
     display:flex;
-    align-items: center;
+    /* align-items: center; */
     word-wrap: break-word;
     white-space: nowrap;
     margin: 0 0 20px 0;

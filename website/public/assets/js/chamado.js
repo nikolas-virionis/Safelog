@@ -33,7 +33,7 @@ const renderChamado = msg => {
     // adicionando corpo das divs
     divStatus.innerHTML = msg.status_chamado;
     divTitulo.innerHTML = msg.titulo;
-    divPrioridade.innerHTML = `Prioridade: <span>${msg.prioridade}</span>`;
+    divPrioridade.innerHTML = `Prioridade: <span>${msg.prioridade.toUpperCase()}</span>`;
     divDescricao.innerHTML = msg.descricao;
     const data = new Date(msg.data_abertura).toLocaleString("pt-BR");
     divDataAbertura.innerHTML = data;

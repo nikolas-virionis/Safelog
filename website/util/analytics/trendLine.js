@@ -57,7 +57,7 @@ const getTrendBehavior = deg => {
         if (deg >= 0) {
             orientacao = "crescimento";
         } else {
-            orientacao = "atenuamento"; // "atenuamento"
+            orientacao = "decrescimento"; // "atenuamento"
         }
 
         if (Math.abs(deg) < 10) {

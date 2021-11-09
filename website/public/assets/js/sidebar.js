@@ -255,7 +255,7 @@ sideBarDiv.classList = "sidebar close";
                 divIconLink1.classList = "iocn-link";
                     //<a href="#">
                     let linkDropChamado = document.createElement("a");
-                    linkDropChamado.setAttribute("href", "#");
+                    linkDropChamado.setAttribute("href", "chamados");
                         //<i class="fab fa-java"></i>
                         let iconToChamado = document.createElement("i");
                         iconToChamado.classList = "fas fa-exclamation";

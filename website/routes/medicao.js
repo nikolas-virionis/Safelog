@@ -5,9 +5,12 @@ let sequelize = require("../models").sequelize;
 const {getMachines} = require("../util/get-user-machines/machines");
 const {usuariosComAcesso} = require("../util/chamado/acesso");
 
-// formas de contato 
-const {sendDirectMessageByEmail} = require("../util/bots-contato/slack") 
-const {sendMessageByChatId, sendMessageByUsername} = require("../util/bots-contato/telegram");
+// formas de contato
+const {sendDirectMessageByEmail} = require("../util/bots-contato/slack");
+const {
+    sendMessageByChatId,
+    sendMessageByUsername
+} = require("../util/bots-contato/telegram");
 const {msgEmail} = require("../util/email/msg");
 const {mandarEmail} = require("../util/email/email");
 
@@ -136,7 +139,7 @@ router.post("/dados", async (req, res, next) => {
 
     let medicoes = [];
     for (let {id_categoria_medicao, tipo} of categorias) {
-        console.log(id_categoria_medicao, tipo)
+        console.log(id_categoria_medicao, tipo);
         let sql = `SELECT valor, data_medicao, tipo FROM medicao WHERE fk_categoria_medicao = ${id_categoria_medicao} ORDER BY data_medicao DESC LIMIT ${
             cargo == "analista" ? 20 : 60
         }`;
@@ -180,8 +183,8 @@ router.post("/stats", async (req, res) => {
 });
 
 // envio de alertas
-router.post("/alerta", async(req, res) => {
-    const {id_chamado: idChamado} = req.body;
+router.post("/alerta", async (req, res) => {
+    const {idChamado, metrica, categoria} = req.body;
 
     if (!req.body)
         return res.json({
@@ -196,30 +199,29 @@ router.post("/alerta", async(req, res) => {
 
     // iterando sobre usuários relativos ao chamado
     for (let user of usuarios) {
+        //email..
 
         // irerando sobre contatos que cada usuário possui
         for (let contato of user.contatos) {
-
             // slack
-            if(contato.nome == "slack") {
+            if (contato.nome == "slack") {
                 sendDirectMessageByEmail(contato.valor, text);
             }
 
             // telegram
-            if(contato.nome == "telegram") {
-                if(contato.identificador) {
+            if (contato.nome == "telegram") {
+                if (contato.identificador) {
                     sendMessageByChatId(contato.identificador, text);
                 } else {
                     sendMessageByUsername(contato.valor, text);
                 }
-            } 
+            }
 
             // whatsapp...
-            
         }
     }
 
-    res.json({status: "ok"});
-})
+    res.json({status: "ok", msg: "Alertas enviados"});
+});
 
 module.exports = router;

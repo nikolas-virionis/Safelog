@@ -289,8 +289,7 @@ router.post("/dados", async (req, res) => {
                                 solucao,
                                 qtdUsuarios: (
                                     await usuariosComAcesso({idChamado})
-                                ).length,
-                                usuarios: await usuariosComAcesso({idChamado})
+                                ).length
                             }
                         });
                     })

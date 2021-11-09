@@ -128,7 +128,7 @@ router.post("/edicao-perfil", async (req, res) => {
                             type: sequelize.QueryTypes.SELECT
                         })
                         .then(async response => {
-                            let sql = `INSERT INTO contato VALUES (${id}, ${
+                            let sql = `INSERT INTO contato(fk_usuario, id_contato, valor, fk_forma_contato) VALUES (${id}, ${
                                 response[response.length - 1].id_contato + 1
                             }, '${valor}', ${
                                 nome == "whatsapp"

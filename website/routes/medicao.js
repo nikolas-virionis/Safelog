@@ -190,19 +190,30 @@ router.post("/alerta", async(req, res) => {
 
     const usuarios = await usuariosComAcesso({idChamado});
 
-    for (let user of usuarios) {
-        // if(usuario.slack) {
-        //     sendDirectMessageByEmail(usuario.slack);
-        // }
-        // if(usuario.identificador) {
-        //     sendMessageByChatId(usuario.identificador);
-        // } else if (usuario.telegramUsername) {
-        //     sendMessageByUsername(usuario.telegramUsername);
-        // }
-        console.log(user);
-    }
+    const text = "mensagem 1";
 
-    res.json({usuarios: usuarios.usuarios})
+    for (let user of usuarios) {
+        // console.log(user);
+        for (let contato of user.contatos) {
+            // console.log(contato);
+            if(contato.nome == "slack") {
+                sendDirectMessageByEmail(contato.valor, text)
+                .then(response => {
+                    console.log(response);
+                });
+            }
+            // if(contato.nome == "telegram") {
+            //     if(identificador) {
+            //         sendMessageByChatId(usuario.identificador);
+            //     } else {
+            //         sendMessageByUsername(usuario.valor);
+            //     }
+            // } 
+        }
+    }
+    // res.json({contatos: user.contatos})
+
+    res.json({ok: "ok"});
 })
 
 module.exports = router;

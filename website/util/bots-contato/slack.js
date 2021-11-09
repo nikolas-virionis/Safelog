@@ -49,15 +49,21 @@ const sendDirectMessageById = async (userId, msg) => {
 }
 
 const sendDirectMessageByEmail = async(email, msg) => {
-  getUserIdByEmail(email)
+  return getUserIdByEmail(email)
   .then(id => {
-    sendDirectMessageById(id, msg)
-    .then(res => {
-      console.log(res);
-      return res
+    // console.log("\n\n", id, "\n\n");
+    return sendDirectMessageById(id, msg)
+    .then(async res => {
+      // console.log('\n\n', res, '\n\n');
+      return res;
     })
   })
 }
+
+// sendDirectMessageByEmail("lucas.msouza@bandtec.com.br", "ueeeepa 4")
+// .then(response => {
+//   console.log(response);
+// });
 
 module.exports = { 
   sendDirectMessageByEmail,

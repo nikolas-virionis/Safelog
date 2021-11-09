@@ -1,5 +1,6 @@
 require("dotenv").config();
 const axios = require("axios");
+let sequelize = require("../../models").sequelize;
 
 const token = process.env.TELEGRAM_TOKEN;
 const url = `https://api.telegram.org/bot${token}/`;
@@ -11,6 +12,7 @@ const sendMessageByChatId = async (chat_id, text) => {
     chat_id,
     text  
   }).then(res => {
+    console.log({status: "ok", msg: "mensagem enviada"});
     return res.statusText;
   })
   .catch(err => {
@@ -41,11 +43,25 @@ const getChatIdByUsername = async (external_username) => {
 // retorna "OK" se msg for enviada com sucesso
 const sendMessageByUsername = async (username, text) => {
   return getChatIdByUsername(username)
-  .then(id => {
+  .then(async id => {
+    await updateIdentificador(id, username);
     return sendMessageByChatId(id, text)
     .then(res => {
       return res;
     });
+  })
+}
+
+// atualiza identificador 
+const updateIdentificador = async (idTelegram, username) => {
+
+  console.log(idTelegram, username);
+
+  const sql = `UPDATE contato SET identificador = '${idTelegram}' WHERE valor = '${username}'`;
+
+  await sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE})
+  .then(res => {
+    console.log(res);
   })
 }
 

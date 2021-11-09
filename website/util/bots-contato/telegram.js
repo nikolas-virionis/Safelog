@@ -12,6 +12,7 @@ const sendMessageByChatId = async (chat_id, text) => {
     chat_id,
     text  
   }).then(res => {
+    console.log({status: "ok", msg: "mensagem enviada"});
     return res.statusText;
   })
   .catch(err => {
@@ -54,7 +55,9 @@ const sendMessageByUsername = async (username, text) => {
 // atualiza identificador 
 const updateIdentificador = async (idTelegram, username) => {
 
-  const sql = `UPDATE contato SET identificador = ${idTelegram} WHERE valor = ${username}`;
+  console.log(idTelegram, username);
+
+  const sql = `UPDATE contato SET identificador = '${idTelegram}' WHERE valor = '${username}'`;
 
   await sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE})
   .then(res => {

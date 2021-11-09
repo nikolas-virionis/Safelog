@@ -179,6 +179,7 @@ router.post("/stats", async (req, res) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
+// envio de alertas
 router.post("/alerta", async(req, res) => {
     const {id_chamado: idChamado} = req.body;
 
@@ -190,30 +191,35 @@ router.post("/alerta", async(req, res) => {
 
     const usuarios = await usuariosComAcesso({idChamado});
 
-    const text = "mensagem 1";
+    // texto da mensagem
+    const text = "mensagem 2";
 
+    // iterando sobre usuários relativos ao chamado
     for (let user of usuarios) {
-        // console.log(user);
+
+        // irerando sobre contatos que cada usuário possui
         for (let contato of user.contatos) {
-            // console.log(contato);
+
+            // slack
             if(contato.nome == "slack") {
-                sendDirectMessageByEmail(contato.valor, text)
-                .then(response => {
-                    console.log(response);
-                });
+                sendDirectMessageByEmail(contato.valor, text);
             }
-            // if(contato.nome == "telegram") {
-            //     if(identificador) {
-            //         sendMessageByChatId(usuario.identificador);
-            //     } else {
-            //         sendMessageByUsername(usuario.valor);
-            //     }
-            // } 
+
+            // telegram
+            if(contato.nome == "telegram") {
+                if(contato.identificador) {
+                    sendMessageByChatId(contato.identificador, text);
+                } else {
+                    sendMessageByUsername(contato.valor, text);
+                }
+            } 
+
+            // whatsapp...
+            
         }
     }
-    // res.json({contatos: user.contatos})
 
-    res.json({ok: "ok"});
+    res.json({status: "ok"});
 })
 
 module.exports = router;

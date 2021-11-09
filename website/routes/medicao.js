@@ -3,6 +3,12 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {getMachines} = require("../util/get-user-machines/machines");
+const {usuariosComAcesso} = require("../util/chamado/acesso");
+
+// formas de contato 
+const {sendDirectMessageByEmail} = require("../util/bots-contato/slack") 
+const {sendMessageByChatId, sendMessageByUsername} = require("../util/bots-contato/telegram");
+const {msgEmail} = require("../util/email/msg");
 const {mandarEmail} = require("../util/email/email");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
@@ -172,5 +178,31 @@ router.post("/stats", async (req, res) => {
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
+
+router.post("/alerta", async(req, res) => {
+    const {id_chamado: idChamado} = req.body;
+
+    if (!req.body)
+        return res.json({
+            status: "alerta",
+            msg: "Body não fornecido na requisição"
+        });
+
+    const usuarios = await usuariosComAcesso({idChamado});
+
+    for (let user of usuarios) {
+        // if(usuario.slack) {
+        //     sendDirectMessageByEmail(usuario.slack);
+        // }
+        // if(usuario.identificador) {
+        //     sendMessageByChatId(usuario.identificador);
+        // } else if (usuario.telegramUsername) {
+        //     sendMessageByUsername(usuario.telegramUsername);
+        // }
+        console.log(user);
+    }
+
+    res.json({usuarios: usuarios.usuarios})
+})
 
 module.exports = router;

@@ -81,12 +81,29 @@
 .titulo {
     display: inline-block;
     font-weight: bold;
+    font-size: 2rem;
     /* margin-left: 20px; */
 }
 
 .descricao {
+    margin: 15px 0 0 0;
+    font-size: 1.1rem;
     text-align: justify;
     /* margin-top: 10px; */
+}
+
+.info-chamado{
+    min-width: 60vw;
+    padding: 0 0 0 20px;
+}
+
+.status{
+    
+    margin: 0 10px 0 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    /* background-color: #000; */
 }
 
 .prioridade {
@@ -95,6 +112,7 @@
 }
 
 .chamado-footer {
+    width: 100%;
     font-size: 0.8em;
     color: rgb(102, 102, 102);
     font-weight: bold;
@@ -111,17 +129,24 @@
     /* border: 1px black solid; */
 }
 
-.data-abertura {
-    /* margin-left: 30px; */
-    text-align: right;
-    /* display: inline-block; */
-    /* border: 1px solid black; */
-    /* min-width: 20%; */
-    /* width: 30%; */
+.data-chamado {
+    height: 100%;
+    text-align: right !important; 
+    display: flex;
+    align-items: center;
+    justify-content:flex-end;
 }
 
 .card.chamado{
+    margin-bottom: 0;
+    padding: 30px 30px;
     min-width: 60vw;
+}
+
+.span-email-chamado{
+    text-align: right;
+    display: flex;
+    justify-content:flex-end;
 }
 
 .header{
@@ -129,20 +154,27 @@
     /* align-items: center; */
     word-wrap: break-word;
     white-space: nowrap;
-    margin: 0 0 20px 0;
+    /* margin: 0 0 20px 0; */
 }
 
 /* solucoes */
 
-.box-solucao {
+/* .box-solucao {
     width: 40%;
     min-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    /* border: 1px solid black; */
     padding: 20px 50px 10px 50px;
     border-radius: 10px;
     box-shadow: 0px 0px 3px 1px rgb(77, 79, 112);
+} */
+
+.card-solucao{
+    /* word-wrap: break-word; */
+    /* white-space: nowrap; */
+    width: 40vw;
+    padding: 30px;
+    border-left: 5px solid #0071ce;
 }
 
 .solucao-header {
@@ -216,6 +248,10 @@
     border-left:rgb(209, 86, 86) 5px solid;
 }
 
+.maq-medicao{
+    font-size: .8rem;
+    font-weight: bold;
+}
 
 
 
@@ -256,19 +292,19 @@
     border-radius: 100px;
 }
 
-#lista-chamados .chamado-item-list .prioridade.baixa {
+.baixa {
     background-color: #ffc107;
 }
 
-#lista-chamados .chamado-item-list .prioridade.media {
+.media {
     background-color: #ff9800;
 }
 
-#lista-chamados .chamado-item-list .prioridade.alta {
+.alta {
     background-color: #ff5722;
 }
 
-#lista-chamados .chamado-item-list .prioridade.emergencia {
+.emergencia {
     background-color: #df3f33;
 }
 

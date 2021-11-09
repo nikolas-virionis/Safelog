@@ -106,16 +106,15 @@ public class Alert {
     private void enviarAlerta(int idChamado, Medicao medicao, TiposMedicao tipoMedicao)
             throws IOException, InterruptedException {
         JSONObject content = new JSONObject();
-        System.out.println("ANtes");
         content.put("idChamado", idChamado);
-        content.put("metrica", getTipo(tipoMedicao.getTipo()));
+        content.put("metrica", tipoMedicao.getTipo());
         content.put("categoria", tipoMedicao.getFkCategoriaMedicao());
+        content.put("estado", medicao.getTipo());
         HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:3000/medicao/alerta"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response);
     }
 
     private int getResponsavel() {

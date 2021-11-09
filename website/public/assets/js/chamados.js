@@ -26,7 +26,7 @@ const renderChamados = chamados => {
             nomeChamado.innerHTML = chamado.titulo;
             datachamado.innerHTML = new Date(
                 chamado.data_abertura
-            ).toLocaleString("pt-BR");
+            ).toLocaleDateString("pt-BR");
             prioridade.innerHTML = chamado.prioridade;
             console.log(chamado);
 
@@ -35,6 +35,7 @@ const renderChamados = chamados => {
             status.classList.add("status-chamado");
             status.classList.add(chamado.status);
             nomeChamado.classList.add("nome-chamado");
+            nomeChamado.title = chamado.titulo;
             datachamado.classList.add("data-chamado");
             prioridade.classList.add("prioridade");
             prioridade.classList.add(chamado.prioridade);

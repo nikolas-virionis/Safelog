@@ -3,6 +3,7 @@ let maq1,
     myChart,
     nMaq = 0;
 
+
 let canvasChart1 = document.getElementById(`idChart1`);
 
 let colors = [
@@ -88,6 +89,8 @@ const gerarCardMaquina = maq => {
     document.querySelector("#listaMaq").appendChild(labelMaq);
 
     labelMaq.addEventListener("click", async e => {
+        maq1 = maq.id_maquina;
+        console.log(maq.id_maquina);
         sessionStorage.setItem("maquina", labelMaq.maq);
         if (window.interval) {
             clearInterval(window.interval);
@@ -155,6 +158,7 @@ const gerarCardMaquina = maq => {
     });
 
     inputMaq.addEventListener("change", e => {
+
         document.querySelector("#graficosDash").innerHTML = "";
         // apagarGraficos();
     });
@@ -179,7 +183,7 @@ const changeMachine = types => {
     reqData(types);
     window.interval = setInterval(() => {
         reqData(types);
-    }, 1000);
+    }, 3000);
 };
 
 const reqData = types => {
@@ -231,7 +235,7 @@ const secondaryTypes = dados => {
     } else {
         dadosOrdenados = [...dados];
     }
-    console.log(dadosOrdenados);
+    // console.log(dadosOrdenados);
     secondaryCharts(dadosOrdenados);
 };
 
@@ -292,7 +296,7 @@ const changeMachineSec = (types, chart, num) => {
     reqDataSec(types, chart);
     window[`intervalSec${num}`] = setInterval(
         () => reqDataSec(types, chart),
-        1000
+        3000
     );
 };
 
@@ -306,12 +310,21 @@ const reqDataSec = (types, chart) => {
             if (status == "ok") {
                 // for (let dados of msg) {
                 updateChart(chart, msg[0].medicoes);
+                console.log(msg[0].medicoes[0]);
+                if(msg[0].medicoes[0].tipo == "risco"){
+                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina warning";
+                }else if(msg[0].medicoes[0].tipo == "critico"){
+                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina danger";
+                }else{
+                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina";
+                }
                 // }
             } else {
-                console.log(msg);
+                console.log(msg.length);
             }
         });
 };
+
 function updateChart(chart, dados, index = 0) {
     const data = [];
     const labels = [];

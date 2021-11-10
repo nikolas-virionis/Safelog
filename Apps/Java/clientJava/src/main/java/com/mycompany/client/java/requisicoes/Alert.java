@@ -108,7 +108,6 @@ public class Alert {
         JSONObject content = new JSONObject();
         content.put("idChamado", idChamado);
         content.put("metrica", tipoMedicao.getTipo());
-        content.put("categoria", tipoMedicao.getFkCategoriaMedicao());
         content.put("estado", medicao.getTipo());
         HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:3000/medicao/alerta"))
                 .header("Content-Type", "application/json")

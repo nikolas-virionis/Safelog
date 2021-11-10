@@ -34,7 +34,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     <p>${
         rest[6] == "manual"
             ? `Esse alerta foi manualmente gerado por ${rest[0]}`
-            : ``
+            : `Alerta gerado automaticamente. Titulo do chamado: ${rest[0]}`
     }</p>
     `,
             "ALERTA - SafeLog"

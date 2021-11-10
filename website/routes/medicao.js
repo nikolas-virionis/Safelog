@@ -4,6 +4,7 @@ let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {getMachines} = require("../util/get-user-machines/machines");
 const {usuariosComAcesso} = require("../util/chamado/acesso");
+const {msgEmail} = require("../util/email/msg");
 
 // formas de contato
 const {sendDirectMessageByEmail} = require("../util/bots-contato/slack");
@@ -11,7 +12,7 @@ const {
     sendMessageByChatId,
     sendMessageByUsername
 } = require("../util/bots-contato/telegram");
-const {msgEmail} = require("../util/email/msg");
+// const {msgEmail} = require("../util/email/msg");
 const {mandarEmail} = require("../util/email/email");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
@@ -184,7 +185,7 @@ router.post("/stats", async (req, res) => {
 
 // envio de alertas
 router.post("/alerta", async (req, res) => {
-    const {idChamado, metrica, categoria} = req.body;
+    const {idChamado, metrica, estado} = req.body;
 
     if (!req.body)
         return res.json({
@@ -193,13 +194,50 @@ router.post("/alerta", async (req, res) => {
         });
 
     const usuarios = await usuariosComAcesso({idChamado});
+    
+    // chamado
+    const sqlChamado = `SELECT chamado.*, maquina.nome FROM chamado INNER JOIN categoria_medicao ON id_categoria_medicao = fk_categoria_medicao INNER JOIN maquina ON pk_maquina = fk_maquina WHERE id_chamado = ${idChamado}`;
+    
+    let [chamado] = await sequelize.query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
+    .then(response => response)
+    .catch(err => console.error(err));
 
-    // texto da mensagem
-    const text = "mensagem 2";
+    // metrica
+    let [componente, medicaoMetrica] = metrica.split("_");
 
     // iterando sobre usuários relativos ao chamado
     for (let user of usuarios) {
         //email..
+        mandarEmail(
+            "alerta", 
+            user.nome,
+            user.email,
+            [
+                chamado.titulo, 
+                medicaoMetrica,
+                componente, 
+                chamado.nome, 
+                new Date(chamado.data_abertura).toLocaleString("pt-BR"), 
+                estado, 
+                "automatico", 
+            ]
+        );
+
+        let [text] = msgEmail(
+            "alerta", 
+            user.nome,
+            [
+                chamado.titulo, 
+                medicaoMetrica,
+                componente, 
+                chamado.nome, 
+                new Date(chamado.data_abertura).toLocaleString("pt-BR"), 
+                estado, 
+                "automatico", 
+            ],
+            user.email
+        );
+        text = text.replace(/(<.?p>|\\n|    )/g, "");
 
         // irerando sobre contatos que cada usuário possui
         for (let contato of user.contatos) {

@@ -36,6 +36,23 @@ CREATE TABLE usuario (
     FOREIGN KEY (fk_supervisor) REFERENCES usuario(id_usuario)
 );
 
+CREATE TABLE notificacao (
+    id_notificacao INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(60),
+    mensagem VARCHAR(300),
+    tipo ENUM('notificacao', 'alerta')
+);
+
+CREATE TABLE usuario_notificacao (
+    id_usuario_notificacao INT PRIMARY KEY AUTO_INCREMENT,
+    fk_usuario INT,
+    fk_notificacao INT,
+    lido ENUM('s', 'n'),
+    data_notificacao DATETIME,
+    FOREIGN KEY(fk_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY(fk_notificacao) REFERENCES notificacao(id_notificacao)
+);
+
 CREATE TABLE forma_contato (
     id_forma_contato int PRIMARY KEY AUTO_INCREMENT,
     nome varchar(45)

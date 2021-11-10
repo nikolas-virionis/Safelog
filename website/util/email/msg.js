@@ -20,7 +20,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     if (tipo.toLowerCase() == "alerta")
         return [
             `
-    <p>Prezado(a) ${nome},</p>
+    <p>Prezado(a),</p>
     <p>Uma medição ${rest[5]} de ${
                 rest[1] == "livre"
                     ? "espaço disponível"

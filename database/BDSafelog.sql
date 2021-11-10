@@ -39,7 +39,7 @@ CREATE TABLE usuario (
 CREATE TABLE notificacao (
     id_notificacao INT PRIMARY KEY AUTO_INCREMENT,
     titulo VARCHAR(60),
-    mensagem VARCHAR(300),
+    mensagem TEXT,
     tipo ENUM('notificacao', 'alerta')
 );
 

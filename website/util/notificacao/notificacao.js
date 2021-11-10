@@ -1,4 +1,5 @@
 const {msgEmail} = require("../email/msg");
+
 const tiposDefault = [
     "alerta",
     "redefinir",

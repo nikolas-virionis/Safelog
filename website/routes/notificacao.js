@@ -37,7 +37,7 @@ router.post("/dados", async (req, res) => {
         });
     }
 
-    const sql = `SELECT notificacao.* FROM notificacao WHERE id_notificacao = ${idNotificacao}`;
+    const sql = `SELECT notificacao.*, data_notificacao FROM notificacao JOIN usuario_notificacao ON id_notificacao = fk_notificacao WHERE id_notificacao = ${idNotificacao}`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})

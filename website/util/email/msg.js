@@ -118,7 +118,7 @@ const msgEmail = (tipo, nome, rest, email) => {
     if (tipo.toLowerCase() == "notificacao edicao maquina")
         return [
             `
-            <p>Prezado(a) ${nome},</p>
+            <p>Prezado(a),</p>
             <p>Uma das máquinas que você possui acesso, teve uma alteração, feita por ${[
                 rest[0]
             ]}</p> 

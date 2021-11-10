@@ -15,6 +15,24 @@
     }
 }
 
+.btn-notify {
+    color: rgba(167, 100, 0, 0.878);
+    position: fixed;
+    bottom: 8vh;
+    right: 5vw;
+    font-size: 2em;
+    pointer-events: none;
+}
+
+.btn-notify:hover {
+    bottom: 8.35vh;
+    color: rgba(206, 158, 0, 0.981);
+    transform: scale(1.14);
+}
+
+.notify {
+    pointer-events: auto;
+}
 .linha {
     display: -ms-flexbox;
     display: flex;
@@ -28,9 +46,9 @@
     align-items: center;
 }
 
-.alinhar-end{
+.alinhar-end {
     display: flex;
-    justify-content:flex-end;
+    justify-content: flex-end;
 }
 
 * {
@@ -706,7 +724,7 @@ button.modal {
     border: none;
 }
 
-.modal-body{
+.modal-body {
     overflow: auto;
 }
 

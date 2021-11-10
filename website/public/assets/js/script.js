@@ -2,26 +2,29 @@ const link = document.createElement("link");
 link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
+let notificacoesAbertas = false;
 
-// const pages = [
-//     "/login",
-//     "/index",
-//     "/cadastro-pessoa",
-//     "/redefinir-senha",
-//     "/responsavel-gestor",
-//     "/convidar-responsavel",
-//     "/delete-maquina",
-//     "/permissao-acesso",
-//     "/"
-// ];
+const pages = [
+    "/login",
+    "/index",
+    "/cadastro-pessoa",
+    "/redefinir-senha",
+    "/responsavel-gestor",
+    "/convidar-responsavel",
+    "/delete-maquina",
+    "/permissao-acesso",
+    "/pag-404",
+    "/"
+];
+const pagesNotNotify = ["/relatorio", "/cadastro-empresa"];
 
-// if (
-//     !pages.includes(window.location.pathname.replace(".html", "")) &&
-//     !sessionStorage.usuario &&
-//     !sessionStorage.staff
-// ) {
-//     window.location.href = "login";
-// }
+if (
+    !pages.includes(window.location.pathname.replace(".html", "")) &&
+    !sessionStorage.usuario &&
+    !sessionStorage.staff
+) {
+    window.location.href = "login";
+}
 
 function mostrarAlerta(msg, type) {
     var alerta = document.createElement("div");
@@ -88,3 +91,51 @@ if (btnVerSenha)
             mostrarSenha();
         }
     });
+
+// const abrirNotificacoes = () => {};
+
+// const checarNaoLidos = i => {
+//     axios
+//         .post("/notificacao/lista", {
+//             idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
+//         })
+//         .then(({data: {status, msg}}) => {
+//             if (status === "ok") {
+//                 if (msg.naoLidos) {
+//                     i.addEventListener("mouseover", e => {
+//                         i.classList = "fas fa-envelope-open-text notify";
+//                     });
+//                 } else {
+//                     i.addEventListener("mouseover", e => {
+//                         i.classList = "fas fa-envelope-open notify";
+//                     });
+//                 }
+//                 i.addEventListener("click", e => {
+//                     abrirNotificacoes();
+//                 });
+//             } else {
+//                 console.error(msg);
+//             }
+//         });
+// };
+
+// if (
+//     !pages.includes(window.location.pathname.replace(".html", "")) &&
+//     !pagesNotNotify.includes(window.location.pathname.replace(".html", "")) &&
+//     !notificacoesAbertas &&
+//     document.getElementById("alerta")
+// ) {
+//     let alerta = document.getElementById("alerta");
+//     let i = document.createElement("i");
+//     let div = document.createElement("div");
+//     div.classList = "btn-notify";
+//     i.classList = "fas fa-envelope notify";
+//     checarNaoLidos(i);
+//     setInterval(checarNaoLidos, 10000, i);
+//     i.addEventListener("mouseout", e => {
+//         i.classList = "fas fa-envelope notify";
+//         i.style.bottom -= 1;
+//     });
+//     div.appendChild(i);
+//     alerta?.parentElement?.appendChild(div);
+// }

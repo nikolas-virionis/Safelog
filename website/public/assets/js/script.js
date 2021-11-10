@@ -118,24 +118,29 @@ if (btnVerSenha)
 //             }
 //         });
 // };
-
-// if (
-//     !pages.includes(window.location.pathname.replace(".html", "")) &&
-//     !pagesNotNotify.includes(window.location.pathname.replace(".html", "")) &&
-//     !notificacoesAbertas &&
-//     document.getElementById("alerta")
-// ) {
-//     let alerta = document.getElementById("alerta");
-//     let i = document.createElement("i");
-//     let div = document.createElement("div");
-//     div.classList = "btn-notify";
-//     i.classList = "fas fa-envelope notify";
-//     checarNaoLidos(i);
-//     setInterval(checarNaoLidos, 10000, i);
-//     i.addEventListener("mouseout", e => {
+// const notificacoes = () => {
+//     if (
+//         !pages.includes(window.location.pathname.replace(".html", "")) &&
+//         !pagesNotNotify.includes(
+//             window.location.pathname.replace(".html", "")
+//         ) &&
+//         !notificacoesAbertas &&
+//         document.getElementById("alerta")
+//     ) {
+//         let alerta = document.getElementById("alerta");
+//         let i = document.createElement("i");
+//         let div = document.createElement("div");
+//         div.classList = "btn-notify";
 //         i.classList = "fas fa-envelope notify";
-//         i.style.bottom -= 1;
-//     });
-//     div.appendChild(i);
-//     alerta?.parentElement?.appendChild(div);
-// }
+//         checarNaoLidos(i);
+//         i.addEventListener("mouseout", e => {
+//             i.classList = "fas fa-envelope notify";
+//             i.style.bottom -= 1;
+//         });
+//         div.appendChild(i);
+//         alerta?.parentElement?.appendChild(div);
+//     }
+// };
+
+// notificacoes();
+// setInterval(notificacoes, 10000);

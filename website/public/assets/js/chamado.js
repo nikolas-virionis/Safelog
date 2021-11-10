@@ -7,10 +7,11 @@ axios.post("/chamado/dados", {idChamado}).then(({data: {status, msg}}) => {
 
     if (status === "ok") {
         // renderizando chamado
+        // console.log(msg);
         renderChamado(msg);
-        console.log(msg);
         if (msg.solucao) {
             // renderizando solução
+            document.querySelector("#responder-btn").style.display = "none"
             renderSolucao(msg.solucao);
         }
     } else {
@@ -22,57 +23,70 @@ axios.post("/chamado/dados", {idChamado}).then(({data: {status, msg}}) => {
 // renderiza chamado
 const renderChamado = msg => {
     // criando box chamado
-    const divStatus = document.querySelector(".status-chamado");
-    const divTitulo = document.querySelector(".titulo");
-    const divPrioridade = document.querySelector(".prioridade");
+    const divTitulo = document.querySelector("#titulo");
+    const divPrioridade = document.querySelector("#prioridade");
+    const nomeMaquina = document.querySelector("#nomeMaquina");
+    const medicao = document.querySelector("#medicao");
+    const dataChamado = document.querySelector("#dataChamado");
+    const statusChamado = document.querySelector("#statusChamado");
+    const nomeResp = document.querySelector("#nomeResp");
+    const emailResp = document.querySelector("#emailResp");
     const divDescricao = document.querySelector(".descricao");
-    const divResponsavelNome = document.querySelector(".responsavel-nome");
-    const divResponsavelEmail = document.querySelector(".responsavel-email");
+    // const divResponsavelNome = document.querySelector(".responsavel-nome");
+    // const divResponsavelEmail = document.querySelector(".responsavel-email");
     const divDataAbertura = document.querySelector(".data-abertura");
 
     // adicionando corpo das divs
-    divStatus.innerHTML = msg.status_chamado;
     divTitulo.innerHTML = msg.titulo;
-    divPrioridade.innerHTML = `Prioridade: <span>${msg.prioridade.toUpperCase()}</span>`;
-    divDescricao.innerHTML = msg.descricao;
-    const data = new Date(msg.data_abertura).toLocaleString("pt-BR");
-    divDataAbertura.innerHTML = data;
-    if (msg.automatico == "n") {
-        divResponsavelNome.innerHTML = msg.nome;
-        divResponsavelEmail.innerHTML = msg.email;
-    } else {
-        divResponsavelNome.innerHTML = "Monitoramento automático";
-        divResponsavelEmail.innerHTML = "";
+    divPrioridade.innerHTML = `${msg.prioridade.toUpperCase()}`;
+    if(msg.prioridade == "baixa"){
+        statusChamado.classList = "status baixa";
+    }else if(msg.prioridade == "media"){
+        statusChamado.classList = "status media";
+    }else if(msg.prioridade == "alta"){
+        statusChamado.classList = "status alta";
+    }else if(msg.prioridade == "emergencia"){
+        statusChamado.classList = "status emergencia";
     }
-    divStatus.classList = `status-chamado ${msg.status_chamado}`;
+    nomeMaquina.innerHTML = msg.maquina;
+    medicao.innerHTML = msg.fk_categoria_medicao; //Alterar para o nome do componente
+    divDescricao.innerHTML = msg.descricao;
+    nomeResp.innerHTML = msg.nome;
+    emailResp.innerHTML = msg.email;
+    dataChamado.innerHTML = (new Date(msg.data_abertura).toLocaleString("pt-BR")).slice(0,-3);
+    const data = new Date(msg.data_abertura).toLocaleString("pt-BR");
+    if (msg.automatico == "n") {
+        nomeResp.innerHTML = msg.nome;
+        emailResp.innerHTML = msg.email;
+    } else {
+        nomeResp.innerHTML = "Monitoramento automático";
+        emailResp.innerHTML = "";
+    }
 };
 
 // renderiza solução
 const renderSolucao = solucao => {
     // criando divs
-    document.querySelector(".card.solucao").style.display = "block";
-    const divTitulo = document.querySelector(".solucao-titulo");
-    const divEficacia = document.querySelector(".solucao-eficacia");
-    const divDescricao = document.querySelector(".solucao-descricao");
-    const divData = document.querySelector(".solucao-data");
-    const divResponsavelNome = document.querySelector(
-        ".solucao-responsavel-nome"
-    );
-    const divResponsavelEmail = document.querySelector(
-        ".solucao-responsavel-email"
-    );
+    document.querySelector(".card-solucao").style.display = "block";
+    const divTitulo = document.querySelector("#solucao-titulo");
+    const divEficacia = document.querySelector("#solucao-eficacia");
+    const statusSolucao = document.querySelector("#statusSolucao");
+    const divDescricao = document.querySelector("#solucao-descricao");
+    const divData = document.querySelector("#solucao-data");
+    const divResponsavelNome = document.querySelector("#solucao-responsavel-nome");
+    const divResponsavelEmail = document.querySelector("#solucao-responsavel-email");
 
     // adicionando corpo das divs
     divTitulo.innerHTML = solucao.titulo;
-    divEficacia.innerHTML = solucao.eficacia;
+    divEficacia.innerHTML = solucao.eficacia.toUpperCase();
     divDescricao.innerHTML = solucao.descricao;
     const data = new Date(solucao.data_solucao);
-    divData.innerHTML = data.toLocaleString("pt-BR");
+    divData.innerHTML = (data.toLocaleString("pt-BR")).slice(0,-3);
     divResponsavelNome.innerHTML = solucao.nome;
     divResponsavelEmail.innerHTML = solucao.email;
 
     // adicionando classes
-    divEficacia.classList = `solucao-eficacia eficacia-${solucao.eficacia}`;
+    statusSolucao.classList = `status eficacia-${solucao.eficacia}`;
 };
 
 const renderChamadoNaoEncontrado = container => {

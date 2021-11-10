@@ -19,18 +19,10 @@
 
 <body>
     <section class="home-section">
-        <!-- HEADER -->
-        <div class="navbar-dashboard">
-            <div class="barra-pesquisa">
-                <input type="search" name="" value="" placeholder="Buscar" searchBarChamados>
-                <button type="submit" class="btn-nav-dash" btnSearchChamados><i class="fas fa-search"></i></button>
-            </div>
 
-        </div>
-
-        <!-- CONTAINER -->
+        <!-- Caminho -->
         <div class="container-site">
-            <div class="row justify-content-center">
+            <div class="row">
                 <span class="caminho-span mg-top">
                     <a href="chamados">Lista de chamados</a>
                     >
@@ -39,6 +31,7 @@
             </div>
         </div>
 
+        <!-- Informações acima -->
         <div class="container-site">
             <div class="centralizar">
                 <div class="info-chamado">
@@ -46,12 +39,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="alinhar">
-                                <div class="status emergencia"></div><span>Emergencia</span>
+                                <div id="statusChamado" class="status"></div><span id="prioridade"></span>
                             </div>
                         </div>
                         <div class="col-md-6">   
                             <div class="data-chamado">
-                                <div>06/11/2021 10:23</div>
+                                <div id="dataChamado"></div>
                             </div>                         
                         </div>
                     </div>
@@ -59,92 +52,80 @@
                 </div>
             </div>
             
-            <div class="row">
-                <div class="centralizar">
+            <!-- Card Chamado -->
+            <div class="centralizar">
+                <div class="row">
 
                     <div class="card chamado">
                         <div class="row header">
                             <div class="col-md-12">
-                                <h1 class="titulo">Título do chamado</h1>
+                                <h1 id="titulo"></h1>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="maq-medicao">
-                                    <span id="nomeMaquina">LENOVO DESKTOP1</span>: 
+                                    <span id="nomeMaquina"></span>: 
                                     <span id="medicao">CPU-Porcentagem</span>
                                 </div>
                             </div>
                         </div>
                         <div class="descricao">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. In itaque doloribus culpa. Libero, quidem! Consequuntur dolores odit perspiciatis ad nemo, adipisci id molestiae nulla, distinctio rerum quo optio? Quia, officiis.
                         </div>
     
                         <div class="row chamado-footer alinhar">
                             <div class="col-md-6 col-sm-12">
-                                <span>Nikolas Virionis</span>
+                                <span id="nomeResp"></span>
                             </div>
                             <div class="col-md-6 col-sm-12 span-email-chamado">
-                                <span>nikolas.virionis@gmial.com</span>
+                                <span id="emailResp"></span>
                             </div>
                         </div>
     
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+
+
+            <!-- Solução -->
+            <div id="solucaoCard" class="row justify-content-center">
                 <div class="card-solucao">
                     <div class="row">
                         <div class="col-md-6">
-                            <h1>Título da solução</h1>
+                            <h1 id="solucao-titulo"></h1>
                         </div>
                         <div class="col-md-6 alinhar-end">
                             <div class="alinhar">
-                                <div class="status eficacia-total"></div><span>Total</span>
+                                <div id="statusSolucao" class="status"></div><span id="solucao-eficacia"></span>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="descricao">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. In itaque doloribus culpa. Libero, quidem! Consequuntur dolores odit perspiciatis ad nemo, adipisci id molestiae nulla, distinctio rerum quo optio? Quia, officiis.
+                            <div id="solucao-descricao" class="descricao">
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="centralizar">
-                <div class="card solucao parcial">
-                    <!--a terceira classe pode ser "parcial", "total" ou "nula"-->
-                    <div class="solucao-header">
-                        <div class="row alinhar">
-                            <b>Eficacia:</b>
-                            <div class="solucao-eficacia eficacia-parcial"></div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="solucao-titulo"></div>
-                            </div>
+                    <div class="row chamado-footer alinhar">
+                        <div class="col-3">
+                            <span id="solucao-responsavel-nome">Lucas Mesquita</span>
                         </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="solucao-descricao"></div>
-                    </div>
-                    <div class="chamado-footer row justify-content-center">
-                        <div class="col-md-2 col-sm-12">
+                        <div class="col-5">
+                            <span id="solucao-responsavel-email">lmesquita466@gmail.com</span>
                             
                         </div>
-                        <div class="col-md-3 col-sm-12">
-                            <div class="solucao-responsavel-nome"></div>
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <div class="solucao-responsavel-email"></div>
-                        </div>
-                        <div class="col-md-3 col-sm-12">
-                            <span class="solucao-data"></span>
+                        <div class="col-4 alinhar-end">
+                            <span id="solucao-data"></span>
+
                         </div>
                     </div>
-
                 </div>
+            </divi>
+           
+
+            <!-- Responder chamado -->
+            <div class="row justify-content-center" id="responder-btn">
+                <button class="btn-geral">Responder a este chamado</button>
             </div>
 
         </div>
@@ -154,7 +135,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/script.js"></script>
-    <!-- <script src="./assets/js/chamado.js"></script> -->
+    <script src="./assets/js/chamado.js"></script>
 </body>
 
 </html>

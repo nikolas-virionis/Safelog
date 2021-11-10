@@ -12,7 +12,7 @@ router.post("/lista", async (req, res) => {
         });
     }
 
-    const sql = `SELECT notificacao.*, usuario_notificacao.* FROM notificacao JOIN usuario_notificacao ON fk_notificacao = id_notificacao AND fk_usuario = ${idUsuario}`;
+    const sql = `SELECT notificacao.*, usuario_notificacao.* FROM notificacao JOIN usuario_notificacao ON fk_notificacao = id_notificacao AND fk_usuario = ${idUsuario} ORDER BY data_notificacao DESC`;
     const sqlNaoLidos = `SELECT count(id_usuario_notificacao) as naoLidos FROM usuario_notificacao WHERE  fk_usuario = ${idUsuario} AND lido = 'n'`;
 
     await sequelize

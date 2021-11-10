@@ -11,7 +11,7 @@ axios.post("/chamado/dados", {idChamado}).then(({data: {status, msg}}) => {
         renderChamado(msg);
         if (msg.solucao) {
             // renderizando solução
-            document.querySelector("#responder-btn").style.display = "none"
+            document.querySelector("#responder-btn").style.display = "none";
             renderSolucao(msg.solucao);
         }
     } else {
@@ -20,6 +20,13 @@ axios.post("/chamado/dados", {idChamado}).then(({data: {status, msg}}) => {
     }
 });
 
+const getTipo = tipo => {
+    let metrica = tipo.split("_");
+    metrica = `${metrica[0].toUpperCase()} - ${
+        metrica[1].charAt(0).toUpperCase() + metrica[1].slice(1)
+    }`;
+    return metrica;
+};
 // renderiza chamado
 const renderChamado = msg => {
     // criando box chamado
@@ -32,28 +39,28 @@ const renderChamado = msg => {
     const nomeResp = document.querySelector("#nomeResp");
     const emailResp = document.querySelector("#emailResp");
     const divDescricao = document.querySelector(".descricao");
-    // const divResponsavelNome = document.querySelector(".responsavel-nome");
-    // const divResponsavelEmail = document.querySelector(".responsavel-email");
     const divDataAbertura = document.querySelector(".data-abertura");
 
     // adicionando corpo das divs
     divTitulo.innerHTML = msg.titulo;
     divPrioridade.innerHTML = `${msg.prioridade.toUpperCase()}`;
-    if(msg.prioridade == "baixa"){
+    if (msg.prioridade == "baixa") {
         statusChamado.classList = "status baixa";
-    }else if(msg.prioridade == "media"){
+    } else if (msg.prioridade == "media") {
         statusChamado.classList = "status media";
-    }else if(msg.prioridade == "alta"){
+    } else if (msg.prioridade == "alta") {
         statusChamado.classList = "status alta";
-    }else if(msg.prioridade == "emergencia"){
+    } else if (msg.prioridade == "emergencia") {
         statusChamado.classList = "status emergencia";
     }
     nomeMaquina.innerHTML = msg.maquina;
-    medicao.innerHTML = msg.fk_categoria_medicao; //Alterar para o nome do componente
+    medicao.innerHTML = getTipo(msg.tipo); //Alterar para o nome do componente
     divDescricao.innerHTML = msg.descricao;
     nomeResp.innerHTML = msg.nome;
     emailResp.innerHTML = msg.email;
-    dataChamado.innerHTML = (new Date(msg.data_abertura).toLocaleString("pt-BR")).slice(0,-3);
+    dataChamado.innerHTML = new Date(msg.data_abertura)
+        .toLocaleString("pt-BR")
+        .slice(0, -3);
     const data = new Date(msg.data_abertura).toLocaleString("pt-BR");
     if (msg.automatico == "n") {
         nomeResp.innerHTML = msg.nome;
@@ -73,15 +80,19 @@ const renderSolucao = solucao => {
     const statusSolucao = document.querySelector("#statusSolucao");
     const divDescricao = document.querySelector("#solucao-descricao");
     const divData = document.querySelector("#solucao-data");
-    const divResponsavelNome = document.querySelector("#solucao-responsavel-nome");
-    const divResponsavelEmail = document.querySelector("#solucao-responsavel-email");
+    const divResponsavelNome = document.querySelector(
+        "#solucao-responsavel-nome"
+    );
+    const divResponsavelEmail = document.querySelector(
+        "#solucao-responsavel-email"
+    );
 
     // adicionando corpo das divs
     divTitulo.innerHTML = solucao.titulo;
     divEficacia.innerHTML = solucao.eficacia.toUpperCase();
     divDescricao.innerHTML = solucao.descricao;
     const data = new Date(solucao.data_solucao);
-    divData.innerHTML = (data.toLocaleString("pt-BR")).slice(0,-3);
+    divData.innerHTML = data.toLocaleString("pt-BR").slice(0, -3);
     divResponsavelNome.innerHTML = solucao.nome;
     divResponsavelEmail.innerHTML = solucao.email;
 

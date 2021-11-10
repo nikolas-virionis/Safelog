@@ -45,10 +45,10 @@ CREATE TABLE notificacao (
 
 CREATE TABLE usuario_notificacao (
     id_usuario_notificacao INT PRIMARY KEY AUTO_INCREMENT,
-    fk_usuario INT,
-    fk_notificacao INT,
     lido ENUM('s', 'n'),
     data_notificacao DATETIME,
+    fk_usuario INT,
+    fk_notificacao INT,
     FOREIGN KEY(fk_usuario) REFERENCES usuario(id_usuario),
     FOREIGN KEY(fk_notificacao) REFERENCES notificacao(id_notificacao)
 );

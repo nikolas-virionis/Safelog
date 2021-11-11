@@ -521,7 +521,7 @@ router.post("/update", async (req, res, next) => {
                 )
                     .then(async resp => {
                         if (resp.status == "ok") {
-                            let sql = `SELECT usuario.nome, email, responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND id_maquina = '${novoId}' ORDER BY responsavel ASC`;
+                            let sql = `SELECT id_usuario, usuario.nome, email, responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND id_maquina = '${novoId}' ORDER BY responsavel ASC`;
 
                             await sequelize
                                 .query(sql, selectType)
@@ -537,7 +537,7 @@ router.post("/update", async (req, res, next) => {
                                             })
                                             .catch(err => {
                                                 res.json({
-                                                    status: "erro",
+                                                    status: "erro1",
                                                     msg: err
                                                 });
                                             });
@@ -549,10 +549,10 @@ router.post("/update", async (req, res, next) => {
                                     }
                                 })
                                 .catch(err =>
-                                    res.json({status: "erro", msg: err})
+                                    res.json({status: "erro2", msg: err})
                                 );
                         } else {
-                            return res.json({status: "erro", msg: resp.msg});
+                            return res.json({status: "erro3", msg: resp.msg});
                         }
                     })
                     .catch(err => {
@@ -566,7 +566,7 @@ router.post("/update", async (req, res, next) => {
                 });
             }
         })
-        .catch(err => res.json({status: "erro", msg: err}));
+        .catch(err => res.json({status: "erro4", msg: err}));
 });
 
 router.post("/dados", async (req, res) => {

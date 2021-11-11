@@ -1,5 +1,7 @@
 let sequelize = require("../../models").sequelize;
 const {mandarEmail} = require("../email/email");
+const {msg} = require("../notificacao/notificacao");
+const {enviarNotificacao} = require("../notificacao/notificar");
 const edicaoMaquina = async (
     idAtual,
     novoId,
@@ -83,6 +85,13 @@ const emailUsuarios = async usuarios => {
             resp.nome
         ]);
     }
+    console.log(resp);
+    usuarios.shift();
+    console.log(usuarios);
+    await enviarNotificacao(usuarios, {
+        tipo: "notificacao edicao maquina",
+        msg: msg("notificacao edicao maquina", undefined, [resp.nome])
+    });
 };
 
 module.exports = {edicaoMaquina, emailUsuarios};

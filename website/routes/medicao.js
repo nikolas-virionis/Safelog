@@ -194,13 +194,14 @@ router.post("/alerta", async (req, res) => {
         });
 
     const usuarios = await usuariosComAcesso({idChamado});
-    
+
     // chamado
     const sqlChamado = `SELECT chamado.*, maquina.nome FROM chamado INNER JOIN categoria_medicao ON id_categoria_medicao = fk_categoria_medicao INNER JOIN maquina ON pk_maquina = fk_maquina WHERE id_chamado = ${idChamado}`;
-    
-    let [chamado] = await sequelize.query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
-    .then(response => response)
-    .catch(err => console.error(err));
+
+    let [chamado] = await sequelize
+        .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
+        .then(response => response)
+        .catch(err => console.error(err));
 
     // metrica
     let [componente, medicaoMetrica] = metrica.split("_");
@@ -208,32 +209,27 @@ router.post("/alerta", async (req, res) => {
     // iterando sobre usuários relativos ao chamado
     for (let user of usuarios) {
         //email..
-        mandarEmail(
-            "alerta", 
-            user.nome,
-            user.email,
-            [
-                chamado.titulo, 
-                medicaoMetrica,
-                componente, 
-                chamado.nome, 
-                new Date(chamado.data_abertura).toLocaleString("pt-BR"), 
-                estado, 
-                "automatico", 
-            ]
-        );
+        mandarEmail("alerta", user.nome, user.email, [
+            chamado.titulo,
+            medicaoMetrica,
+            componente,
+            chamado.nome,
+            new Date(chamado.data_abertura).toLocaleString("pt-BR"),
+            estado,
+            "automatico"
+        ]);
 
         let [text] = msgEmail(
-            "alerta", 
+            "alerta",
             user.nome,
             [
-                chamado.titulo, 
+                chamado.titulo,
                 medicaoMetrica,
-                componente, 
-                chamado.nome, 
-                new Date(chamado.data_abertura).toLocaleString("pt-BR"), 
-                estado, 
-                "automatico", 
+                componente,
+                chamado.nome,
+                new Date(chamado.data_abertura).toLocaleString("pt-BR"),
+                estado,
+                "automatico"
             ],
             user.email
         );

@@ -158,6 +158,8 @@ form.addEventListener("submit", async e => {
                             window.location.href = "perfil";
                         }
                     });
+            } else {
+                console.error(response.data?.msg);
             }
         });
 });

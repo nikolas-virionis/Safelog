@@ -18,6 +18,8 @@ const {
     redirecionamentoAcessos
 } = require("../util/acesso-maquina/escolhaAcesso");
 const {deleteAcesso} = require("../util/acesso-maquina/deleteAcesso");
+const {msg} = require("../util/notificacao/notificacao");
+const {enviarNotificacao} = require("../util/notificacao/notificar");
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -45,7 +47,33 @@ router.post("/cadastro-final", async (req, res, next) => {
         });
 
     await updateDadosUsuario(id, nome, email, senha)
-        .then(response => console.log(response))
+        .then(async () => {
+            criarFormasContato(id, contatos)
+                .then(() => {
+                    enviarNotificacao([id], {
+                        tipo: "boas vindas",
+                        msg: msg("boas vindas", nome)
+                    })
+                        .then(() =>
+                            res.json({
+                                status: "ok"
+                            })
+                        )
+                        .catch(err => {
+                            res.json({
+                                status: "erro",
+                                msg: err
+                            });
+                        });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.json({
+                        status: "erro",
+                        msg: err
+                    });
+                });
+        })
         .catch(err => {
             console.log(err);
             res.json({
@@ -53,18 +81,6 @@ router.post("/cadastro-final", async (req, res, next) => {
                 msg: err
             });
         });
-    await criarFormasContato(id, contatos)
-        .then(response => console.log(response))
-        .catch(err => {
-            console.log(err);
-            res.json({
-                status: "erro",
-                msg: err
-            });
-        });
-    return res.json({
-        status: "ok"
-    });
 });
 
 router.post("/pessoas-dependentes", async (req, res) => {

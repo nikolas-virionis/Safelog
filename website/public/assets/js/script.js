@@ -3,6 +3,9 @@ link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
 let notificacoesAbertas = false;
+let alerta = document.getElementById("alerta");
+let i = document.createElement("i");
+let div = document.createElement("div");
 
 const pages = [
     "/login",
@@ -127,9 +130,6 @@ if (btnVerSenha)
 //         !notificacoesAbertas &&
 //         document.getElementById("alerta")
 //     ) {
-//         let alerta = document.getElementById("alerta");
-//         let i = document.createElement("i");
-//         let div = document.createElement("div");
 //         div.classList = "btn-notify";
 //         i.classList = "fas fa-envelope notify";
 //         checarNaoLidos(i);

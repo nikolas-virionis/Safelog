@@ -335,53 +335,76 @@ router.post("/acesso-maquina", async (req, res) => {
                     .query(dadosUsuario, {type: sequelize.QueryTypes.SELECT})
                     .then(async ([analista]) => {
                         let {nome: nomeUsuario} = analista;
-                        let dados = `SELECT maquina.pk_maquina as pkMaq, maquina.nome as nomeMaquina, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
+                        let dados = `SELECT maquina.pk_maquina as pkMaq, maquina.nome as nomeMaquina, id_usuario, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
 
                         await sequelize
                             .query(dados, {type: sequelize.QueryTypes.SELECT})
-                            .then(async ([resposta]) => {
-                                let {
-                                    nomeResp,
-                                    nomeMaquina,
-                                    email: emailResp,
-                                    pkMaq
-                                } = resposta;
-                                let token = generateToken();
-                                let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${emailResp}'`;
-                                await sequelize
-                                    .query(updateToken, {
-                                        type: sequelize.QueryTypes.UPDATE
-                                    })
-                                    .then(update => {
-                                        mandarEmail(
-                                            "acesso",
-                                            nomeResp,
-                                            emailResp,
-                                            [
-                                                token,
-                                                nomeUsuario,
-                                                nomeMaquina,
-                                                id,
-                                                pkMaq
-                                            ]
-                                        )
-                                            .then(() => {
-                                                res.json({
-                                                    status: "ok",
-                                                    msg: "Email de permissão de acesso enviado"
+                            .then(
+                                async ([
+                                    {
+                                        id_usuario,
+                                        nomeResp,
+                                        nomeMaquina,
+                                        email: emailResp,
+                                        pkMaq
+                                    }
+                                ]) => {
+                                    let token = generateToken();
+                                    let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${emailResp}'`;
+                                    await sequelize
+                                        .query(updateToken, {
+                                            type: sequelize.QueryTypes.UPDATE
+                                        })
+                                        .then(() => {
+                                            mandarEmail(
+                                                "acesso",
+                                                nomeResp,
+                                                emailResp,
+                                                [
+                                                    token,
+                                                    nomeUsuario,
+                                                    nomeMaquina,
+                                                    id,
+                                                    pkMaq
+                                                ]
+                                            )
+                                                .then(async () => {
+                                                    enviarNotificacao(
+                                                        [{id_usuario}],
+                                                        {
+                                                            tipo: "acesso",
+                                                            msg: msg(
+                                                                "acesso",
+                                                                nomeResp,
+                                                                [
+                                                                    token,
+                                                                    nomeUsuario,
+                                                                    nomeMaquina,
+                                                                    id,
+                                                                    pkMaq
+                                                                ],
+                                                                emailResp
+                                                            )
+                                                        }
+                                                    ).then(() => {
+                                                        res.json({
+                                                            status: "ok",
+                                                            msg: "Email de permissão de acesso enviado"
+                                                        });
+                                                    });
+                                                })
+                                                .catch(err => {
+                                                    res.json({
+                                                        status: "erro",
+                                                        msg: err
+                                                    });
                                                 });
-                                            })
-                                            .catch(err => {
-                                                res.json({
-                                                    status: "erro",
-                                                    msg: err
-                                                });
-                                            });
-                                    })
-                                    .catch(err =>
-                                        res.json({status: "erro", msg: err})
-                                    );
-                            })
+                                        })
+                                        .catch(err =>
+                                            res.json({status: "erro", msg: err})
+                                        );
+                                }
+                            )
                             .catch(err => res.json({status: "erro", msg: err}));
                     })
                     .catch(err => res.json({status: "erro", msg: err}));

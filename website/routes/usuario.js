@@ -596,7 +596,7 @@ router.post("/transferencia-responsavel", async (req, res) => {
 
     let usuarioResponsavel = `SELECT email as emailResp FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' AND fk_maquina = ${maquina}`;
     let usuarioExisteEmStaff = `SELECT * from staff WHERE email = '${email}'`;
-    let usuarioExisteEmUsuario = `SELECT cargo from usuario WHERE email = '${email}'`;
+    let usuarioExisteEmUsuario = `SELECT cargo, id_usuario from usuario WHERE email = '${email}'`;
     await sequelize
         .query(usuarioExisteEmStaff, {
             type: sequelize.QueryTypes.SELECT
@@ -737,6 +737,11 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                             [maq]
                                                         )
                                                             .then(() => {
+                                                                // notify
+                                                                enviarNotificacao([usuario.id], {
+                                                                    tipo: "convite responsavel",
+                                                                    msg: msg("convite responsavel", nome, [maq])
+                                                                })
                                                                 res.json({
                                                                     status: "ok",
                                                                     msg: "Permissão de usuário transferida com sucesso"

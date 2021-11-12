@@ -8,7 +8,7 @@ const tiposDefault = [
     "atribuir responsavel",
     "convidar responsavel", // feito
     "notificacao remocao acesso",
-    "convite responsavel",
+    "convite responsavel", // feito (precisa aprovar)
     "notificacao edicao maquina", // refactor// feito
     "notificacao acesso"
 ];

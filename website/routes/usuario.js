@@ -833,11 +833,11 @@ router.post("/remocao-proprio-acesso", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let selectUsuario = `SELECT * FROM usuario_maquina WHERE fk_maquina = ${maquina} AND fk_usuario = ${id} AND responsavel = 's'`;
+    let selectUsuario = `SELECT count(fk_usuario) as resp FROM usuario_maquina WHERE fk_maquina = ${maquina} AND fk_usuario = ${id} AND responsavel = 's'`;
     await sequelize
         .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})
-        .then(async ([responsavel]) => {
-            if (responsavel) {
+        .then(async ([{resp}]) => {
+            if (resp) {
                 let acessosMaquina = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = ${maquina} AND responsavel = 'n'`;
                 await sequelize
                     .query(acessosMaquina, {type: sequelize.QueryTypes.SELECT})
@@ -847,31 +847,32 @@ router.post("/remocao-proprio-acesso", async (req, res) => {
                             maquina,
                             resposta,
                             "convidar responsavel"
-                        )
-                            .then(del => {
-                                if (del) {
-                                    deleteAcesso(id, maquina)
-                                        .then(response => res.json(response))
-                                        .catch(err =>
-                                            res.json({status: "erro", msg: err})
-                                        );
-                                } else {
-                                    res.json({
-                                        status: "alerta",
-                                        msg: "Acesso à máquina poderá ser removido a partir da transferencia de responsabilidade"
-                                    });
-                                }
-                            })
-                            .catch(err => res.json({status: "erro", msg: err}));
+                        ).then(del => {
+                            if (del) {
+                                deleteAcesso(id, maquina)
+                                    .then(response => res.json(response))
+                                    .catch(err =>
+                                        res.json({
+                                            status: "erro4",
+                                            msg: err
+                                        })
+                                    );
+                            } else {
+                                res.json({
+                                    status: "alerta",
+                                    msg: "Acesso à máquina poderá ser removido a partir da transferencia de responsabilidade"
+                                });
+                            }
+                        });
                     });
             } else {
                 deleteAcesso(id, maquina)
                     .then(response => res.json(response))
-                    .catch(err => res.json({status: "erro", msg: err}));
+                    .catch(err => res.json({status: "erro2", msg: err}));
             }
         })
         .catch(err => {
-            res.json({status: "erro", msg: err});
+            res.json({status: "erro1", msg: err});
         });
 });
 

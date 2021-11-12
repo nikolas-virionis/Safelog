@@ -1,29 +1,43 @@
 let sequelize = require("../../models").sequelize;
 let {mandarEmail} = require("../email/email");
 const {generateToken} = require("../token-user/token");
+const {msg} = require("../notificacao/notificacao");
+const {enviarNotificacao} = require("../notificacao/notificar");
 
 const escolhaResp = async (id, maquina) => {
-    let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = id_maquina AND id_maquina = '${maquina}'`;
+    let sql = `SELECT g.id_usuario as id, g.nome as nomeGestor, g.email, a.nome, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
     return await sequelize
         .query(sql, {
             type: sequelize.QueryTypes.SELECT
         })
-        .then(([{nome, nomeMaquina, nomeGestor, email}]) => {
+        .then(([{id, nome, nomeMaquina, nomeGestor, email}]) => {
+            console.log("\n\n", id);
             mandarEmail("redefinir responsavel", nomeGestor, email, [
                 nome,
                 nomeMaquina
-            ]).catch(err => {
-                return {
-                    status: "erro",
-                    msg: err
-                };
-            });
-        })
-        .catch(err => {
-            return {
-                status: "erro",
-                msg: err
-            };
+            ])
+                .then(() => {
+                    enviarNotificacao([{id_usuario: id}], {
+                        tipo: "redefinir responsavel",
+                        msg: msg(
+                            "redefinir responsavel",
+                            nomeGestor,
+                            [nome, nomeMaquina],
+                            email
+                        )
+                    }).catch(err => {
+                        return {
+                            status: "erro",
+                            msg: err
+                        };
+                    });
+                })
+                .catch(err => {
+                    return {
+                        status: "erro",
+                        msg: err
+                    };
+                });
         });
 };
 
@@ -43,39 +57,55 @@ const escolhaAuto = async maquina => {
 };
 
 const conviteResp = async (id, maquina, tipo) => {
-    let sql = `SELECT g.nome as nomeGestor, g.email, a.nome, pk_maquina, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = pk_maquina WHERE id_maquina = '${maquina}' OR pk_maquina = ${maquina}`;
+    let sql = `SELECT g.id_usuario, g.nome as nomeGestor, g.email, a.nome, pk_maquina, maquina.nome as nomeMaquina FROM usuario as a JOIN usuario as g ON a.fk_supervisor = g.id_usuario JOIN usuario_maquina ON a.id_usuario = fk_usuario AND a.id_usuario = ${id} JOIN maquina ON fk_maquina = pk_maquina WHERE id_maquina = '${maquina}' OR pk_maquina = ${maquina}`;
     await sequelize
         .query(sql, {
             type: sequelize.QueryTypes.SELECT
         })
-        .then(async ([{nome, nomeMaquina, nomeGestor, email, pk_maquina}]) => {
-            console.log("ca");
-            let token = generateToken();
-            let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
-            return await sequelize
-                .query(updateToken, {
-                    type: sequelize.QueryTypes.UPDATE
-                })
-                .then(() => {
-                    mandarEmail(tipo, nomeGestor, email, [
-                        nome,
-                        nomeMaquina,
-                        pk_maquina,
-                        token
-                    ]).catch(err => {
+        .then(
+            async ([
+                {id_usuario, nome, nomeMaquina, nomeGestor, email, pk_maquina}
+            ]) => {
+                let token = generateToken();
+                let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
+                return await sequelize
+                    .query(updateToken, {
+                        type: sequelize.QueryTypes.UPDATE
+                    })
+                    .then(() => {
+                        mandarEmail(tipo, nomeGestor, email, [
+                            nome,
+                            nomeMaquina,
+                            pk_maquina,
+                            token
+                        ])
+                            .then(() => {
+                                console.log("ca");
+                                enviarNotificacao([{id_usuario}], {
+                                    tipo,
+                                    msg: msg(
+                                        tipo,
+                                        nomeGestor,
+                                        [nome, nomeMaquina, pk_maquina, token],
+                                        email
+                                    )
+                                });
+                            })
+                            .catch(err => {
+                                return {
+                                    status: "erro",
+                                    msg: err
+                                };
+                            });
+                    })
+                    .catch(err => {
                         return {
                             status: "erro",
                             msg: err
                         };
                     });
-                })
-                .catch(err => {
-                    return {
-                        status: "erro",
-                        msg: err
-                    };
-                });
-        })
+            }
+        )
         .catch(err => {
             return {
                 status: "erro",
@@ -87,7 +117,7 @@ const conviteResp = async (id, maquina, tipo) => {
 const redirecionamentoAcessos = async (id, maquina, resposta, tipo) => {
     let del = true;
     resposta = resposta.map(el => el?.fk_usuario);
-    if (resposta.length == 0) {
+    if (!resposta.length) {
         //reatribuição de responsavel
         del = false;
         conviteResp(id, maquina, tipo);
@@ -95,9 +125,10 @@ const redirecionamentoAcessos = async (id, maquina, resposta, tipo) => {
         escolhaAuto(maquina);
         //redefinição automática de responsavel
     } else {
+        del = false;
         //redefinição de responsavel
         // retorno de erro da função
-        escolhaResp(id, maquina);
+        await escolhaResp(id, maquina);
     }
     return del;
 };

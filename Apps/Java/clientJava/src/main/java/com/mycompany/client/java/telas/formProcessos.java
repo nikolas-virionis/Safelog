@@ -195,6 +195,7 @@ public class formProcessos extends javax.swing.JFrame {
             if (proc.getPid() == pid) {
                 name = proc.getNome();
             }
+            
         };
         return name;
     }
@@ -213,9 +214,22 @@ public class formProcessos extends javax.swing.JFrame {
 
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
         // TODO add your handling code here:
+
         Integer pid = Integer.valueOf(jTextField1.getText());
         jTextField1.setText("");
+        String pai = String.format("wmic process where (processid=%d) get parentprocessid", pid);
+        System.out.println(pai);
 
+          try {  
+            Runtime.getRuntime().exec(pai);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }  
+          
+          
+          
+          
+        //wmic process where (processid=PROCID_HERE) get parentprocessid
         String cmd = String.format("taskkill /F /PID %d", pid);
         System.out.println(cmd);
         try {  

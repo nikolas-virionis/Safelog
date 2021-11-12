@@ -1,4 +1,38 @@
-#{
+.button1{
 
+    color:#e0e0e0;
+    box-shadow: 3px 3px 6px #666;
+    border-radius: 10px;
+    padding:1vh;
+    width:30vh;
+}
+.color4{
+    color: black;
+}
+.container-retangulo-404{
     
+    margin-top:7%;
+    float:left;
+    font-size:3vh;
+}
+
+
+.img-e4{
+
+    height:50px;
+  
+    
+}
+
+.img-robo{
+
+    height:300px;
+  
+    
+}
+
+.error{
+
+    width:70%;
+    margin: auto;
 }

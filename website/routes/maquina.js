@@ -10,6 +10,9 @@ const {
 const {
     maquinasDependentes
 } = require("../util/acesso-maquina/maquinasDependentes");
+const {msg} = require("../util/notificacao/notificacao");
+const {enviarNotificacao} = require("../util/notificacao/notificar");
+
 router.post("/cadastro", async (req, res, next) => {
     let {id, id_maquina, nome, senha, empresa} = req.body;
     if (!req.body)
@@ -383,106 +386,113 @@ router.post("/convite", async (req, res) => {
             type: sequelize.QueryTypes.SELECT
         })
         .then(async response => {
-            if (response.length == 0) {
-                await sequelize
-                    .query(usuarioExiste, {
-                        type: sequelize.QueryTypes.SELECT
-                    })
-                    .then(async resposta => {
-                        if (resposta.length > 0) {
-                            let {id_usuario: id, nome, cargo} = resposta[0];
-                            if (cargo != "analista") {
-                                return res.json({
-                                    status: "alerta",
-                                    msg: "Usuario cadastrado como gestor"
-                                });
-                            }
-                            await sequelize
-                                .query(usuarioMaquinaExiste, {
-                                    type: sequelize.QueryTypes.SELECT
-                                })
-                                .then(async result => {
-                                    if (result.length == 0) {
-                                        let insertUsuarioMaquina = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, ${maquina})`;
-                                        await sequelize
-                                            .query(insertUsuarioMaquina, {
-                                                type: sequelize.QueryTypes
-                                                    .INSERT
-                                            })
-                                            .then(async () => {
-                                                let sql = `SELECT usuario.nome as resp, maquina.nome as nomeMaquina from usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
-
-                                                await sequelize
-                                                    .query(sql, {
-                                                        type: sequelize
-                                                            .QueryTypes.SELECT
-                                                    })
-                                                    .then(
-                                                        ([
-                                                            {resp, nomeMaquina}
-                                                        ]) => {
-                                                            mandarEmail(
-                                                                "convite de acesso",
-                                                                nome,
-                                                                email,
-                                                                [
-                                                                    nomeMaquina,
-                                                                    resp
-                                                                ]
-                                                            )
-                                                                .then(() => {
-                                                                    res.json({
-                                                                        status: "ok",
-                                                                        msg: "Acesso garantido à maquina"
-                                                                    });
-                                                                })
-                                                                .catch(err => {
-                                                                    res.json({
-                                                                        status: "erro",
-                                                                        msg: err
-                                                                    });
-                                                                });
-                                                        }
-                                                    )
-                                                    .catch(err => {
-                                                        res.json({
-                                                            status: "erro",
-                                                            msg: err
-                                                        });
-                                                    });
-                                            })
-                                            .catch(err => {
-                                                res.json({
-                                                    status: "erro",
-                                                    msg: err
-                                                });
-                                            });
-                                    } else {
-                                        return res.json({
-                                            status: "alerta",
-                                            msg: "Usuario já possui acesso à maquina"
-                                        });
-                                    }
-                                })
-                                .catch(err => {
-                                    return res.json({status: "erro", msg: err});
-                                });
-                        } else {
-                            return res.json({
-                                status: "alerta",
-                                msg: "Usuario não cadastrado"
-                            });
-                        }
-                    })
-                    .catch(err => {
-                        return res.json({status: "erro", msg: err});
-                    });
-            } else {
+            if (response.length)
                 return res.json({
                     status: "alerta",
                     msg: "Usuario cadastrado como staff"
                 });
-            }
+
+            await sequelize
+                .query(usuarioExiste, {
+                    type: sequelize.QueryTypes.SELECT
+                })
+                .then(async resposta => {
+                    if (!resposta.length)
+                        return res.json({
+                            status: "alerta",
+                            msg: "Usuario cadastrado como staff"
+                        });
+
+                    let {id_usuario: id, nome, cargo} = resposta[0];
+                    if (cargo != "analista") {
+                        return res.json({
+                            status: "alerta",
+                            msg: "Usuario cadastrado como gestor"
+                        });
+                    }
+                    await sequelize
+                        .query(usuarioMaquinaExiste, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .then(async result => {
+                            if (result.length)
+                                return res.json({
+                                    status: "alerta",
+                                    msg: "Usuario já possui acesso à maquina"
+                                });
+                            let insertUsuarioMaquina = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, ${maquina})`;
+                            await sequelize
+                                .query(insertUsuarioMaquina, {
+                                    type: sequelize.QueryTypes.INSERT
+                                })
+                                .then(async () => {
+                                    let sql = `SELECT usuario.nome as resp, maquina.nome as nomeMaquina from usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
+
+                                    await sequelize
+                                        .query(sql, {
+                                            type: sequelize.QueryTypes.SELECT
+                                        })
+                                        .then(([{resp, nomeMaquina}]) => {
+                                            mandarEmail(
+                                                "convite de acesso",
+                                                nome,
+                                                email,
+                                                [nomeMaquina, resp]
+                                            )
+                                                .then(() => {
+                                                    enviarNotificacao(
+                                                        [
+                                                            {
+                                                                id_usuario: id
+                                                            }
+                                                        ],
+                                                        {
+                                                            tipo: "convite de acesso",
+                                                            msg: msg(
+                                                                "convite de acesso",
+                                                                nome,
+                                                                [
+                                                                    nomeMaquina,
+                                                                    resp
+                                                                ],
+                                                                email
+                                                            )
+                                                        }
+                                                    ).then(() => {
+                                                        res.json({
+                                                            status: "ok",
+                                                            msg: "Acesso garantido à maquina"
+                                                        });
+                                                    });
+                                                })
+                                                .catch(err => {
+                                                    res.json({
+                                                        status: "erro",
+                                                        msg: err
+                                                    });
+                                                });
+                                        })
+                                        .catch(err => {
+                                            res.json({
+                                                status: "erro",
+                                                msg: err
+                                            });
+                                        });
+                                })
+                                .catch(err => {
+                                    res.json({
+                                        status: "erro",
+                                        msg: err
+                                    });
+                                });
+                        })
+                        .catch(err => {
+                            return res.json({status: "erro", msg: err});
+                        });
+                })
+                .catch(err => {
+                    return res.json({status: "erro", msg: err});
+                });
         })
         .catch(err => {
             return res.json({status: "erro", msg: err});
@@ -521,7 +531,7 @@ router.post("/update", async (req, res, next) => {
                 )
                     .then(async resp => {
                         if (resp.status == "ok") {
-                            let sql = `SELECT usuario.nome, email, responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND id_maquina = '${novoId}' ORDER BY responsavel ASC`;
+                            let sql = `SELECT id_usuario, usuario.nome, email, responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND id_maquina = '${novoId}' ORDER BY responsavel ASC`;
 
                             await sequelize
                                 .query(sql, selectType)
@@ -537,7 +547,7 @@ router.post("/update", async (req, res, next) => {
                                             })
                                             .catch(err => {
                                                 res.json({
-                                                    status: "erro",
+                                                    status: "erro1",
                                                     msg: err
                                                 });
                                             });
@@ -549,10 +559,10 @@ router.post("/update", async (req, res, next) => {
                                     }
                                 })
                                 .catch(err =>
-                                    res.json({status: "erro", msg: err})
+                                    res.json({status: "erro2", msg: err})
                                 );
                         } else {
-                            return res.json({status: "erro", msg: resp.msg});
+                            return res.json({status: "erro3", msg: resp.msg});
                         }
                     })
                     .catch(err => {
@@ -566,7 +576,7 @@ router.post("/update", async (req, res, next) => {
                 });
             }
         })
-        .catch(err => res.json({status: "erro", msg: err}));
+        .catch(err => res.json({status: "erro4", msg: err}));
 });
 
 router.post("/dados", async (req, res) => {

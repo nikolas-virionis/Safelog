@@ -2,7 +2,6 @@ const {msgEmail} = require("../email/msg");
 
 const tiposDefault = [
     "alerta", // refactor
-    "redefinir",
     "acesso",
     "convite de acesso",
     "redefinir responsavel",

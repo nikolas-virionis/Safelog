@@ -93,12 +93,12 @@ btnEditar.addEventListener("click", e => {
     if (inpNovaSenha.value != inpConfSenha.value)
         return mostrarAlerta("Senhas diferentes", "danger");
     editarMaquina()
-        .then(res => {
-            console.log(res);
-            if (res) {
+        .then(({status, msg}) => {
+            console.log(msg, status);
+            if (status == "ok") {
                 window.location.href = "dependentes";
             } else {
-                console.log(res);
+                console.error(msg);
             }
         })
         .catch(err => console.error(err));
@@ -138,9 +138,9 @@ const editarMaquina = async () => {
         .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 mostrarAlerta(msg, "success");
-            } else if (status == "alerta"){
-                mostrarAlerta(msg, "danger")
+            } else if (status == "alerta") {
+                mostrarAlerta(msg, "danger");
             }
-            return status;
+            return {status, msg};
         });
 };

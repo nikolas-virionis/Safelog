@@ -46,43 +46,50 @@
                             // evento click para deletar usuário.
                             excluirBtn.addEventListener("click", function () {
                                 // solicitando confirmação do delete
-                                
-                                document.getElementById("nome-usuario").innerHTML = dependente.nome;
-                                document.getElementById("btn-deletar-usuario").setAttribute("id_usuario", dependente.id_usuario); 
-                                   
+
+                                document.getElementById(
+                                    "nome-usuario"
+                                ).innerHTML = dependente.nome;
+                                document
+                                    .getElementById("btn-deletar-usuario")
+                                    .setAttribute(
+                                        "id_usuario",
+                                        dependente.id_usuario
+                                    );
+
                                 import("./modal.js").then(({abrirModal}) =>
                                     abrirModal("modal-log-del-usuario")
-                                );  
+                                );
                             });
-
-                            
-
-
                         });
 
-                        
-                        document.getElementById("btn-cancelar-deletar-usuario").addEventListener("click", e => {
-                            import("./modal.js").then(({fecharModal}) =>
-                                fecharModal("modal-log-del-usuario")
-                            )
-                        })
+                        document
+                            .getElementById("btn-cancelar-deletar-usuario")
+                            .addEventListener("click", e => {
+                                import("./modal.js").then(({fecharModal}) =>
+                                    fecharModal("modal-log-del-usuario")
+                                );
+                            });
 
-
-                        document.getElementById("btn-deletar-usuario").addEventListener("click", e => {
-
-                            axios
-                                .post("/usuario/delete", {
-                                    id: document.getElementById("btn-deletar-usuario").getAttribute("id_usuario")
-                                })
-                                .then(result => {
-                                    if (result.data.status == "ok") {
-                                        window.location.reload();
-                                    }
-                                });
-                                
-                        })
-
-
+                        document
+                            .getElementById("btn-deletar-usuario")
+                            .addEventListener("click", e => {
+                                axios
+                                    .post("/usuario/delete", {
+                                        id: document
+                                            .getElementById(
+                                                "btn-deletar-usuario"
+                                            )
+                                            .getAttribute("id_usuario")
+                                    })
+                                    .then(result => {
+                                        if (result.data.status == "ok") {
+                                            window.location.reload();
+                                        } else {
+                                            console.error(result.data);
+                                        }
+                                    });
+                            });
                     } else {
                         mostrarAlerta(
                             "Nenhum dependente cadastrado, adicione um apertando no + acima",
@@ -113,7 +120,7 @@
                 id: JSON.parse(sessionStorage.getItem("usuario"))?.id
             })
             .then(({data: {status, msg: dependentes}}) => {
-                if (status == "ok") {                   
+                if (status == "ok") {
                     if (dependentes.length > 0) {
                         dependentes.forEach(dependente => {
                             let tr = document.createElement("tr");
@@ -126,19 +133,27 @@
                             let acessoBtn = document.createElement("button");
                             let acessoBtnLbl = document.createElement("i");
                             excluirBtnLbl.classList = "fas fa-trash-alt";
-                            excluirBtn.classList = "btn-nav-dash-red excluir-btn";
+                            excluirBtn.classList =
+                                "btn-nav-dash-red excluir-btn";
                             excluirBtn.appendChild(excluirBtnLbl);
                             excluirBtn.title = "Remover acesso à máquina";
 
-                            // evento click para deletar máquina 
+                            // evento click para deletar máquina
                             excluirBtn.addEventListener("click", e => {
-                                document.getElementById("nome-maquina").innerHTML = dependente.maquina;
-                                document.getElementById("btn-deletar-maquina").setAttribute("pk_maquina", dependente.pk_maquina); 
-                                   
+                                document.getElementById(
+                                    "nome-maquina"
+                                ).innerHTML = dependente.maquina;
+                                document
+                                    .getElementById("btn-deletar-maquina")
+                                    .setAttribute(
+                                        "pk_maquina",
+                                        dependente.pk_maquina
+                                    );
+
                                 import("./modal.js").then(({abrirModal}) =>
                                     abrirModal("modal-log-del-maquina")
-                                );  
-                            })
+                                );
+                            });
 
                             if (
                                 nomeUsuario.innerText == dependente.responsavel
@@ -176,48 +191,48 @@
                             tabelaDependentes.appendChild(tr);
                         });
 
+                        document
+                            .getElementById("btn-cancelar-deletar-maquina")
+                            .addEventListener("click", e => {
+                                import("./modal.js").then(({fecharModal}) =>
+                                    fecharModal("modal-log-del-maquina")
+                                );
+                            });
 
-                        
-                        document.getElementById("btn-cancelar-deletar-maquina").addEventListener("click", e => {
-                            import("./modal.js").then(({fecharModal}) =>
-                                fecharModal("modal-log-del-maquina")
-                            )
-                        })
-                        
                         // realizando requisição do delete
-                        document.getElementById("btn-deletar-maquina").addEventListener("click", e => {
-
-                            axios
-                                .post(
-                                    "/usuario/remocao-proprio-acesso",
-                                    {
+                        document
+                            .getElementById("btn-deletar-maquina")
+                            .addEventListener("click", e => {
+                                axios
+                                    .post("/usuario/remocao-proprio-acesso", {
                                         id: JSON.parse(
-                                            sessionStorage.getItem(
-                                                "usuario"
-                                            )
+                                            sessionStorage.getItem("usuario")
                                         )?.id,
-                                        maquina: document.getElementById("btn-deletar-maquina").getAttribute("pk_maquina")
-                                    }
-                                )
-                                .then(({data: {status, msg}}) => {                                        
-                                    import("./modal.js").then(({fecharModal}) =>
-                                        fecharModal("modal-log-del")
-                                    )
-
-                                    if (status == "ok") {
-                                        mostrarAlerta(msg, "success");
-                                        setTimeout(
-                                            () =>
-                                                window.location.reload(),
-                                            3000
+                                        maquina: document
+                                            .getElementById(
+                                                "btn-deletar-maquina"
+                                            )
+                                            .getAttribute("pk_maquina")
+                                    })
+                                    .then(({data: {status, msg}}) => {
+                                        import("./modal.js").then(
+                                            ({fecharModal}) =>
+                                                fecharModal("modal-log-del")
                                         );
-                                    } else if (status == "alerta") {
-                                        mostrarAlerta(msg, "danger");
-                                    } else {
-                                        console.error(msg);
-                                    }
-                                });   
-                        })
+
+                                        if (status == "ok") {
+                                            mostrarAlerta(msg, "success");
+                                            setTimeout(
+                                                () => window.location.reload(),
+                                                3000
+                                            );
+                                        } else if (status == "alerta") {
+                                            mostrarAlerta(msg, "danger");
+                                        } else {
+                                            console.error(msg);
+                                        }
+                                    });
+                            });
                     } else {
                         mostrarAlerta(
                             "Nenhum dependente cadastrado, adicione um apertando no + acima",

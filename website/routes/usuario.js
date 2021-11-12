@@ -471,66 +471,48 @@ router.post("/delete", async (req, res, next) => {
             type: sequelize.QueryTypes.SELECT
         })
         .then(async usuarioResponsavel => {
-            if (usuarioResponsavel.length > 0) {
-                usuarioResponsavel = usuarioResponsavel.map(
-                    el => el?.fk_maquina
-                );
-                for (let maq of usuarioResponsavel) {
-                    let sql = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = ${maq} AND responsavel = 'n'`;
-                    await sequelize
-                        .query(sql, {
-                            type: sequelize.QueryTypes.SELECT
-                        })
-                        .then(async resposta => {
-                            redirecionamentoAcessos(
-                                id,
-                                maquina,
-                                resposta,
-                                "atribuir responsavel"
-                            )
-                                .then(del => {
-                                    deletar = del;
-                                })
-                                .catch(err =>
-                                    res.json({status: "erro", msg: err})
-                                );
-                        })
-                        .catch(err => {
-                            res.json({
-                                status: "erro",
-                                msg: err
-                            });
-                        });
-                }
-                if (deletar) {
-                    deleteUsuario(id)
-                        .then(response => {
-                            res.json(response);
-                        })
-                        .catch(err => {
-                            res.json({
-                                status: "erro",
-                                msg: err
-                            });
-                        });
-                } else {
-                    res.json({
-                        status: "ok",
-                        msg: "Usuario é o único responsavel de uma maquina"
-                    });
-                }
-            } else {
+            console.log(usuarioResponsavel);
+            if (!usuarioResponsavel.length) {
+                return deleteUsuario(id).then(response => {
+                    res.json(response);
+                });
+            }
+
+            usuarioResponsavel = usuarioResponsavel.map(el => el?.fk_maquina);
+            console.log(usuarioResponsavel);
+            for (let maq of usuarioResponsavel) {
+                let sql = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = ${maq} AND responsavel = 'n'`;
+                await sequelize
+                    .query(sql, {
+                        type: sequelize.QueryTypes.SELECT
+                    })
+                    .then(async resposta => {
+                        redirecionamentoAcessos(
+                            id,
+                            maq,
+                            resposta,
+                            "atribuir responsavel"
+                        )
+                            .then(del => {
+                                deletar = del;
+                            })
+                            .catch(err => res.json({status: "erro", msg: err}));
+                    })
+                    .catch(err => res.json({status: "erro", msg: err}));
+            }
+            if (deletar) {
                 deleteUsuario(id)
                     .then(response => {
+                        console.log(response);
                         res.json(response);
                     })
-                    .catch(err => {
-                        res.json({status: "erro", msg: err});
-                    });
+                    .catch(err => res.json({status: "erro", msg: err}));
+            } else {
+                res.json({
+                    status: "ok",
+                    msg: "Usuario é o único responsavel de uma maquina"
+                });
             }
-        })
-        .catch(err => {
-            res.json({status: "erro", msg: err});
         });
 });
 
@@ -728,17 +710,14 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                             )
                                                 .then(() => {
                                                     // notify
-                                                    enviarNotificacao(
-                                                        [id],
-                                                        {
-                                                            tipo: "convite responsavel",
-                                                            msg: msg(
-                                                                "convite responsavel",
-                                                                nome,
-                                                                [maq]
-                                                            )
-                                                        }
-                                                    ).then(() => {
+                                                    enviarNotificacao([id], {
+                                                        tipo: "convite responsavel",
+                                                        msg: msg(
+                                                            "convite responsavel",
+                                                            nome,
+                                                            [maq]
+                                                        )
+                                                    }).then(() => {
                                                         res.json({
                                                             status: "ok",
                                                             msg: "Permissão de usuário transferida com sucesso"

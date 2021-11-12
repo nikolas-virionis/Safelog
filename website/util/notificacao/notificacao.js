@@ -5,7 +5,7 @@ const tiposDefault = [
     "acesso", // feito
     "convite de acesso", // feito
     "redefinir responsavel", // feito
-    "atribuir responsavel",
+    "atribuir responsavel", // feito
     "convidar responsavel", // feito
     "notificacao remocao acesso",
     "convite responsavel", // feito (aprovado)

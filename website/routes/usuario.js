@@ -797,12 +797,22 @@ router.post("/permissao-acesso", async (req, res) => {
                                 nomeMaquina,
                                 responsavel
                             ])
-                                .then(() =>
-                                    res.json({
-                                        status: "ok",
-                                        msg: "Email de notificação enviado com sucesso"
-                                    })
-                                )
+                                .then(() => {
+                                    enviarNotificacao([{id_usuario: id}], {
+                                        tipo: "notificacao acesso",
+                                        msg: msg(
+                                            "notificacao acesso",
+                                            nome,
+                                            [nomeMaquina, responsavel],
+                                            email
+                                        )
+                                    }).then(() => {
+                                        res.json({
+                                            status: "ok",
+                                            msg: "Email de notificação enviado com sucesso"
+                                        });
+                                    });
+                                })
                                 .catch(err =>
                                     res.json({status: "erro", msg: err})
                                 );

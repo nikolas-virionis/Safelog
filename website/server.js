@@ -46,7 +46,7 @@ app.get("/:page", (req, res) => {
     if (fs.existsSync(pagePath)) {
         res.sendFile(pagePath);
     } else {
-        res.status(404).sendFile("public/index.html", {root: __dirname});
+        res.status(404).sendFile("public/pag-404.html", {root: __dirname});
     }
 });
 

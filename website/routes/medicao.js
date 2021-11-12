@@ -12,6 +12,7 @@ const {
     sendMessageByChatId,
     sendMessageByUsername
 } = require("../util/bots-contato/telegram");
+const {mandarWhatsapp} = require("../util/bots-contato/whatsapp");
 // const {msgEmail} = require("../util/email/msg");
 const {mandarEmail} = require("../util/email/email");
 
@@ -239,7 +240,8 @@ router.post("/alerta", async (req, res) => {
         for (let contato of user.contatos) {
             // slack
             if (contato.nome == "slack") {
-                sendDirectMessageByEmail(contato.valor, text);
+                sendDirectMessageByEmail(contato.valor, text)
+                .then(response => console.log(response.msg));
             }
 
             // telegram
@@ -252,6 +254,9 @@ router.post("/alerta", async (req, res) => {
             }
 
             // whatsapp...
+            if (contato.nome == "whatsapp") {
+                mandarWhatsapp(contato.valor, text);
+            }
         }
     }
 

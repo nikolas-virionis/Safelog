@@ -602,174 +602,169 @@ router.post("/transferencia-responsavel", async (req, res) => {
             type: sequelize.QueryTypes.SELECT
         })
         .then(async ([response]) => {
-            if (response) {
+            if (response)
                 return res.json({
                     status: "alerta",
                     msg: "Usuario cadastrado como staff"
                 });
-            } else {
-                await sequelize
-                    .query(usuarioExisteEmUsuario, {
-                        type: sequelize.QueryTypes.SELECT
-                    })
-                    .then(async ([usuario]) => {
-                        if (!usuario) {
-                            return res.json({
-                                status: "alerta",
-                                msg: "Usuario não cadastrado"
-                            });
-                        } else if (usuario.cargo == "gestor") {
-                            return res.json({
-                                status: "alerta",
-                                msg: "Usuario cadastrado como gestor"
-                            });
-                        } else {
+            await sequelize
+                .query(usuarioExisteEmUsuario, {
+                    type: sequelize.QueryTypes.SELECT
+                })
+                .then(async ([usuario]) => {
+                    if (!usuario)
+                        return res.json({
+                            status: "alerta",
+                            msg: "Usuario não cadastrado"
+                        });
+                    if (usuario.cargo == "gestor")
+                        return res.json({
+                            status: "alerta",
+                            msg: "Usuario cadastrado como gestor"
+                        });
+
+                    await sequelize
+                        .query(usuarioResponsavel, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .then(async ([{emailResp}]) => {
+                            if (email == emailResp)
+                                res.json({
+                                    status: "alerta",
+                                    msg: "Usuario já é o responsável pela máquina"
+                                });
+
+                            if (del) {
+                                let sql = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = ${maquina} AND responsavel = 's'`;
+                                await sequelize
+                                    .query(sql, {
+                                        type: sequelize.QueryTypes.SELECT
+                                    })
+                                    .then(([{id}]) => {
+                                        deleteUsuario(id).catch(err => {
+                                            res.json({
+                                                status: "erro1",
+                                                msg: err
+                                            });
+                                        });
+                                    })
+                                    .catch(err => {
+                                        res.json({
+                                            status: "erro2",
+                                            msg: err
+                                        });
+                                    });
+                            } else {
+                                if (delType) {
+                                    let sql = `DELETE FROM usuario_maquina WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
+                                    await sequelize
+                                        .query(sql, {
+                                            type: sequelize.QueryTypes.DELETE
+                                        })
+                                        .catch(err => {
+                                            res.json({
+                                                status: "erro13",
+                                                msg: err
+                                            });
+                                        });
+                                } else {
+                                    let sql = `UPDATE usuario_maquina SET responsavel = 'n' WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
+                                    await sequelize
+                                        .query(sql, {
+                                            type: sequelize.QueryTypes.UPDATE
+                                        })
+                                        .catch(err => {
+                                            res.json({
+                                                status: "erro3",
+                                                msg: err
+                                            });
+                                        });
+                                }
+                            }
+                            let selectUsuario = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = ${maquina} AND id_usuario = (SELECT id_usuario FROM usuario WHERE email = '${email}')`;
                             await sequelize
-                                .query(usuarioResponsavel, {
+                                .query(selectUsuario, {
                                     type: sequelize.QueryTypes.SELECT
                                 })
-                                .then(async ([{emailResp}]) => {
-                                    if (email == emailResp) {
-                                        res.json({
-                                            status: "alerta",
-                                            msg: "Usuario já é o responsável pela máquina"
-                                        });
-                                    } else {
-                                        if (del) {
-                                            let sql = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = ${maquina} AND responsavel = 's'`;
-                                            await sequelize
-                                                .query(sql, {
-                                                    type: sequelize.QueryTypes
-                                                        .SELECT
-                                                })
-                                                .then(([{id}]) => {
-                                                    deleteUsuario(id).catch(
-                                                        err => {
-                                                            res.json({
-                                                                status: "erro1",
-                                                                msg: err
-                                                            });
-                                                        }
-                                                    );
-                                                })
-                                                .catch(err => {
-                                                    res.json({
-                                                        status: "erro2",
-                                                        msg: err
-                                                    });
-                                                });
-                                        } else {
-                                            if (delType) {
-                                                let sql = `DELETE FROM usuario_maquina WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
-                                                await sequelize
-                                                    .query(sql, {
-                                                        type: sequelize
-                                                            .QueryTypes.DELETE
-                                                    })
-                                                    .catch(err => {
-                                                        res.json({
-                                                            status: "erro13",
-                                                            msg: err
-                                                        });
-                                                    });
-                                            } else {
-                                                let sql = `UPDATE usuario_maquina SET responsavel = 'n' WHERE fk_maquina = ${maquina} AND responsavel = 's'`;
-                                                await sequelize
-                                                    .query(sql, {
-                                                        type: sequelize
-                                                            .QueryTypes.UPDATE
-                                                    })
-                                                    .catch(err => {
-                                                        res.json({
-                                                            status: "erro3",
-                                                            msg: err
-                                                        });
-                                                    });
-                                            }
-                                        }
-                                        let selectUsuario = `SELECT id_usuario as id FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = ${maquina} AND id_usuario = (SELECT id_usuario FROM usuario WHERE email = '${email}')`;
+                                .then(async ([response]) => {
+                                    if (response) {
+                                        let updateResp = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = ${maquina} AND fk_usuario = ${response.id}`;
                                         await sequelize
-                                            .query(selectUsuario, {
+                                            .query(updateResp, {
                                                 type: sequelize.QueryTypes
-                                                    .SELECT
-                                            })
-                                            .then(async ([response]) => {
-                                                if (response) {
-                                                    let updateResp = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = ${maquina} AND fk_usuario = ${response.id}`;
-                                                    await sequelize
-                                                        .query(updateResp, {
-                                                            type: sequelize
-                                                                .QueryTypes
-                                                                .UPDATE
-                                                        })
-                                                        .catch(err => {
-                                                            res.json({
-                                                                status: "erro4",
-                                                                msg: err
-                                                            });
-                                                        });
-                                                } else {
-                                                    let insertResp = `INSERT INTO usuario_maquina VALUES (NULL, 's', (SELECT id_usuario FROM usuario WHERE email = '${email}'), ${maquina})`;
-                                                    await sequelize
-                                                        .query(insertResp, {
-                                                            type: sequelize
-                                                                .QueryTypes
-                                                                .INSERT
-                                                        })
-                                                        .catch(err => {
-                                                            res.json({
-                                                                status: "erro5",
-                                                                msg: err
-                                                            });
-                                                        });
-                                                }
-                                                let selectResp = `SELECT usuario.nome as nome, maquina.nome as maq FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND fk_maquina = ${maquina} WHERE email = '${email}'`;
-                                                await sequelize
-                                                    .query(selectResp, {
-                                                        type: sequelize
-                                                            .QueryTypes.SELECT
-                                                    })
-                                                    .then(([{nome, maq}]) => {
-                                                        mandarEmail(
-                                                            "convite responsavel",
-                                                            nome,
-                                                            email,
-                                                            [maq]
-                                                        )
-                                                            .then(() => {
-                                                                // notify
-                                                                enviarNotificacao([usuario.id], {
-                                                                    tipo: "convite responsavel",
-                                                                    msg: msg("convite responsavel", nome, [maq])
-                                                                })
-                                                                res.json({
-                                                                    status: "ok",
-                                                                    msg: "Permissão de usuário transferida com sucesso"
-                                                                });
-                                                            })
-                                                            .catch(err => {
-                                                                res.json({
-                                                                    status: "erro6",
-                                                                    msg: err
-                                                                });
-                                                            });
-                                                    });
+                                                    .UPDATE
                                             })
                                             .catch(err => {
                                                 res.json({
-                                                    status: "erro7",
+                                                    status: "erro4",
+                                                    msg: err
+                                                });
+                                            });
+                                    } else {
+                                        let insertResp = `INSERT INTO usuario_maquina VALUES (NULL, 's', (SELECT id_usuario FROM usuario WHERE email = '${email}'), ${maquina})`;
+                                        await sequelize
+                                            .query(insertResp, {
+                                                type: sequelize.QueryTypes
+                                                    .INSERT
+                                            })
+                                            .catch(err => {
+                                                res.json({
+                                                    status: "erro5",
                                                     msg: err
                                                 });
                                             });
                                     }
+                                    let selectResp = `SELECT id_usuario as id, usuario.nome as nome, maquina.nome as maq FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON fk_maquina = pk_maquina AND fk_maquina = ${maquina} WHERE email = '${email}'`;
+                                    await sequelize
+                                        .query(selectResp, {
+                                            type: sequelize.QueryTypes.SELECT
+                                        })
+                                        .then(([{id, nome, maq}]) => {
+                                            mandarEmail(
+                                                "convite responsavel",
+                                                nome,
+                                                email,
+                                                [maq]
+                                            )
+                                                .then(() => {
+                                                    // notify
+                                                    enviarNotificacao(
+                                                        [id],
+                                                        {
+                                                            tipo: "convite responsavel",
+                                                            msg: msg(
+                                                                "convite responsavel",
+                                                                nome,
+                                                                [maq]
+                                                            )
+                                                        }
+                                                    ).then(() => {
+                                                        res.json({
+                                                            status: "ok",
+                                                            msg: "Permissão de usuário transferida com sucesso"
+                                                        });
+                                                    });
+                                                })
+                                                .catch(err => {
+                                                    res.json({
+                                                        status: "erro6",
+                                                        msg: err
+                                                    });
+                                                });
+                                        });
                                 })
                                 .catch(err => {
-                                    res.json({status: "erro8", msg: err});
+                                    res.json({
+                                        status: "erro7",
+                                        msg: err
+                                    });
                                 });
-                        }
-                    })
-                    .catch(err => res.json({status: "erro", msg: err}));
-            }
+                        })
+                        .catch(err => {
+                            res.json({status: "erro8", msg: err});
+                        });
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

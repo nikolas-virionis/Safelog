@@ -1,6 +1,7 @@
 package com.mycompany.client.java;
 
 import java.util.List;
+import com.mycompany.client.java.util.ConfigDB;
 import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 

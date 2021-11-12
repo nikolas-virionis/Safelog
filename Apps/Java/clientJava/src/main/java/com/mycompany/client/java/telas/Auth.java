@@ -1,7 +1,7 @@
 package com.mycompany.client.java.telas;
 
-import com.mycompany.client.java.ConfigDB;
 import com.mycompany.client.java.Monitoring;
+import com.mycompany.client.java.util.ConfigDB;
 import java.util.List;
 import java.util.Map;
 

@@ -1,9 +1,7 @@
 package com.mycompany.client.java.entidades;
 
 import java.util.List;
-
-import com.mycompany.client.java.ConfigDB;
-
+import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -33,6 +31,14 @@ public class Chamado {
         this.fkCategoriaMedicao = fkCategoriaMedicao;
     }
 
+    public String getEficaciaSolucoes() {
+        return eficaciaSolucoes;
+    }
+
+    public void setEficaciaSolucoes(String eficaciaSolucoes) {
+        this.eficaciaSolucoes = eficaciaSolucoes;
+    }
+
     public Chamado(String titulo, String descricao, String prioridade, Character automatico, Integer fkUsuario,
             Integer fkCategoriaMedicao, String eficaciaSolucoes) {
         this.titulo = titulo;
@@ -41,7 +47,7 @@ public class Chamado {
         this.automatico = automatico;
         this.fkUsuario = fkUsuario;
         this.fkCategoriaMedicao = fkCategoriaMedicao;
-        this.eficaciaSolucoes = eficaciaSolucoes;
+        this.setEficaciaSolucoes(eficaciaSolucoes);
     }
 
     public Chamado() {

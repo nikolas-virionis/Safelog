@@ -1,8 +1,7 @@
 package com.mycompany.client.java;
 
-// import java.time.LocalDateTime;
-// import java.time.format.DateTimeFormatter;
 import com.mycompany.client.java.entidades.Medicao;
+import com.mycompany.client.java.util.ConfigDB;
 import java.util.Locale;
 
 public class InsertDado {

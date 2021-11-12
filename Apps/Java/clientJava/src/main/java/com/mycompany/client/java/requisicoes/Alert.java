@@ -5,12 +5,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
-import com.mycompany.client.java.ConfigDB;
 import com.mycompany.client.java.Monitoring;
 import com.mycompany.client.java.TiposMedicao;
 import com.mycompany.client.java.entidades.Chamado;
 import com.mycompany.client.java.entidades.Medicao;
+import com.mycompany.client.java.util.ConfigDB;
 
 import org.json.JSONObject;
 

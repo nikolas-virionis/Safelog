@@ -7,11 +7,11 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.mycompany.client.java.*;
 import com.mycompany.client.java.entidades.Medicao;
 import com.mycompany.client.java.requisicoes.Alert;
+import com.mycompany.client.java.util.ConfigDB;
 
 public class Main extends javax.swing.JFrame {
 

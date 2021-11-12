@@ -1,7 +1,7 @@
 package com.mycompany.client.java.entidades;
 
-import com.mycompany.client.java.ConfigDB;
 import java.util.List;
+import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -11,7 +11,8 @@ public class CategoriaMedicao {
     private Integer fkMaquina;
     private Integer fkTipoMedicao;
 
-    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, Integer fkMaquina, Integer fkTipoMedicao) {
+    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, Integer fkMaquina,
+            Integer fkTipoMedicao) {
         this.idCategoriaMedicao = idCategoriaMedicao;
         this.medicaoLimite = medicaoLimite;
         this.fkMaquina = fkMaquina;
@@ -55,6 +56,7 @@ public class CategoriaMedicao {
 
     public static List<CategoriaMedicao> selectAll() {
         JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM categoria_medicao", new BeanPropertyRowMapper<>(CategoriaMedicao.class));
+        return jdbcTemplate.query("SELECT * FROM categoria_medicao",
+                new BeanPropertyRowMapper<>(CategoriaMedicao.class));
     }
 }

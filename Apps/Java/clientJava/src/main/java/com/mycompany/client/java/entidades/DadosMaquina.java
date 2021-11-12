@@ -1,9 +1,7 @@
 package com.mycompany.client.java.entidades;
 
 import java.util.List;
-
-import com.mycompany.client.java.ConfigDB;
-
+import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 

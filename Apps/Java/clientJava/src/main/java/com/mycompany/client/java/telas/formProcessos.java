@@ -11,9 +11,7 @@ import com.mycompany.client.java.Monitoring;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.stream.Stream;
-
 import javax.swing.JTextField;
-
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

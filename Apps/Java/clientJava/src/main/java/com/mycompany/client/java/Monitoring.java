@@ -2,6 +2,7 @@ package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.client.java.entidades.Maquina;
+import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

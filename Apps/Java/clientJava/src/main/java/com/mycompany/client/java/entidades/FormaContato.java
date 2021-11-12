@@ -1,7 +1,7 @@
 package com.mycompany.client.java.entidades;
 
 import java.util.List;
-import org.apache.commons.dbcp2.BasicDataSource;
+import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -33,8 +33,8 @@ public class FormaContato {
         this.nome = nome;
     }
 
-    public static List<FormaContato> selectAll(BasicDataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    public static List<FormaContato> selectAll() {
+        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
         return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(FormaContato.class));
     }
 }

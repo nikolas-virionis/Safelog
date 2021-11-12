@@ -539,16 +539,26 @@ router.post("/remocao-acesso", async (req, res) => {
                             type: sequelize.QueryTypes.DELETE
                         })
                         .then(async () => {
-                            await mandarEmail(
+                            mandarEmail(
                                 "notificacao remocao acesso",
                                 nome,
                                 email,
                                 [nomeMaquina, responsavel]
                             )
                                 .then(() => {
-                                    res.json({
-                                        status: "ok",
-                                        msg: "Acesso do usuario removido com sucesso"
+                                    enviarNotificacao([{id_usuario: id}], {
+                                        tipo: "notificacao remocao acesso",
+                                        msg: msg(
+                                            "notificacao remocao acesso",
+                                            nome,
+                                            [nomeMaquina, responsavel],
+                                            email
+                                        )
+                                    }).then(() => {
+                                        res.json({
+                                            status: "ok",
+                                            msg: "Acesso do usuario removido com sucesso"
+                                        });
                                     });
                                 })
                                 .catch(err => {

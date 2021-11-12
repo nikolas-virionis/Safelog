@@ -48,6 +48,22 @@ const escolhaAuto = async maquina => {
         .query(updateResponsavel, {
             type: sequelize.QueryTypes.UPDATE
         })
+        .then(async () => {
+            const sql = `SELECT id_usuario as id, usuario.nome as nome, email, maquina.nome as maq FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
+            await sequelize
+                .query(sql, {type: sequelize.QueryTypes.SELECT})
+                .then(([{id, nome, email, maq}]) => {
+                    mandarEmail("convite responsavel", nome, email, [maq]).then(
+                        () => {
+                            // notify
+                            enviarNotificacao([id], {
+                                tipo: "convite responsavel",
+                                msg: msg("convite responsavel", nome, [maq])
+                            });
+                        }
+                    );
+                });
+        })
         .catch(err => {
             return {
                 status: "erro",
@@ -120,9 +136,9 @@ const redirecionamentoAcessos = async (id, maquina, resposta, tipo) => {
     if (!resposta.length) {
         //reatribuição de responsavel
         del = false;
-        conviteResp(id, maquina, tipo);
+        await conviteResp(id, maquina, tipo);
     } else if (resposta.length == 1) {
-        escolhaAuto(maquina);
+        await escolhaAuto(maquina);
         //redefinição automática de responsavel
     } else {
         del = false;

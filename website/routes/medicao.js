@@ -5,6 +5,8 @@ let sequelize = require("../models").sequelize;
 const {getMachines} = require("../util/get-user-machines/machines");
 const {usuariosComAcesso} = require("../util/chamado/acesso");
 const {msgEmail} = require("../util/email/msg");
+const {msg} = require("../util/notificacao/notificacao");
+const {enviarNotificacao} = require("../util/notificacao/notificar");
 
 // formas de contato
 const {sendDirectMessageByEmail} = require("../util/bots-contato/slack");
@@ -194,7 +196,10 @@ router.post("/alerta", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    const usuarios = await usuariosComAcesso({idChamado});
+    const usuarios = await usuariosComAcesso({
+        idChamado,
+        gestor: estado == "critico"
+    });
 
     // chamado
     const sqlChamado = `SELECT chamado.*, maquina.nome FROM chamado INNER JOIN categoria_medicao ON id_categoria_medicao = fk_categoria_medicao INNER JOIN maquina ON pk_maquina = fk_maquina WHERE id_chamado = ${idChamado}`;
@@ -208,9 +213,10 @@ router.post("/alerta", async (req, res) => {
     let [componente, medicaoMetrica] = metrica.split("_");
 
     // iterando sobre usuários relativos ao chamado
-    for (let user of usuarios) {
-        //email..
-        mandarEmail("alerta", user.nome, user.email, [
+
+    await enviarNotificacao(usuarios, {
+        tipo: "alerta",
+        msg: msg("alerta", undefined, [
             chamado.titulo,
             medicaoMetrica,
             componente,
@@ -218,7 +224,19 @@ router.post("/alerta", async (req, res) => {
             new Date(chamado.data_abertura).toLocaleString("pt-BR"),
             estado,
             "automatico"
-        ]);
+        ])
+    });
+    for (let user of usuarios) {
+        //email..
+        await mandarEmail("alerta", user.nome, user.email, [
+            chamado.titulo,
+            medicaoMetrica,
+            componente,
+            chamado.nome,
+            new Date(chamado.data_abertura).toLocaleString("pt-BR"),
+            estado,
+            "automatico"
+        ]);''
 
         let [text] = msgEmail(
             "alerta",
@@ -240,8 +258,9 @@ router.post("/alerta", async (req, res) => {
         for (let contato of user.contatos) {
             // slack
             if (contato.nome == "slack") {
-                sendDirectMessageByEmail(contato.valor, text)
-                .then(response => console.log(response.msg));
+                sendDirectMessageByEmail(contato.valor, text).then(response =>
+                    console.log(response.msg)
+                );
             }
 
             // telegram

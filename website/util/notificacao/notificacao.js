@@ -1,7 +1,7 @@
 const {msgEmail} = require("../email/msg");
 
 const tiposDefault = [
-    "alerta", // refactor
+    "alerta", // feito 
     "acesso", // feito
     "convite de acesso", // feito
     "redefinir responsavel", // feito
@@ -9,7 +9,7 @@ const tiposDefault = [
     "convidar responsavel", // feito
     "notificacao remocao acesso",
     "convite responsavel", // feito (aprovado)
-    "notificacao edicao maquina", // refactor// feito
+    "notificacao edicao maquina", // feito
     "notificacao acesso"
 ];
 const msg = (tipo, nome, rest, email) => {

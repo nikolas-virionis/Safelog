@@ -12,7 +12,7 @@ const sendMessageByChatId = async (chat_id, text) => {
     chat_id,
     text  
   }).then(res => {
-    console.log({status: "ok", msg: "mensagem enviada"});
+    console.log(`ALERTA - telegram enviado para: ${chat_id}`);
     return res.statusText;
   })
   .catch(err => {

@@ -38,7 +38,7 @@ const sendDirectMessageById = async (userId, msg) => {
   if (res.data.ok) {
     return {
       status: "ok",
-      msg: "mensagem enviada com sucesso"
+      msg: `ALERTA - slack enviado para: ${userId}`
     }
   } else {
     return {
@@ -51,19 +51,12 @@ const sendDirectMessageById = async (userId, msg) => {
 const sendDirectMessageByEmail = async(email, msg) => {
   return getUserIdByEmail(email)
   .then(id => {
-    // console.log("\n\n", id, "\n\n");
     return sendDirectMessageById(id, msg)
     .then(async res => {
-      // console.log('\n\n', res, '\n\n');
       return res;
     })
   })
 }
-
-// sendDirectMessageByEmail("lucas.msouza@bandtec.com.br", "ueeeepa 4")
-// .then(response => {
-//   console.log(response);
-// });
 
 module.exports = { 
   sendDirectMessageByEmail,

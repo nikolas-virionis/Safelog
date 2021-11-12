@@ -17,7 +17,7 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
         subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
         html: msgEmail(tipo, nome, rest, destinatario)[0], // plain text body
     };
-    transporter.sendMail(mailOptions, (err, info) => console.log(err || info));
+    transporter.sendMail(mailOptions, (err, info) => console.log(err || `ALERTA - email enviado para ${info.accepted[0]}`));
 };
 
 module.exports = { mandarEmail };

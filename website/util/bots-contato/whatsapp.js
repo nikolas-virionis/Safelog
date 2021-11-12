@@ -15,7 +15,7 @@ function mandarWhatsapp(to, body) {
       to: `whatsapp:+55${to}`,
       body
     })
-    .then((message) => console.log(message, message.sid));
+    .then((message) => console.log(`ALERTA - whatsapp enviado para: +55${to} `));
 }
 
 // mandarWhatsapp();

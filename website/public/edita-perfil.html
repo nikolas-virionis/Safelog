@@ -74,8 +74,8 @@
 
                      <!-- img upload -->
                     <form action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="profileImg" id="inputFileProfile">
-                        <input type="hidden" value="6" name="userId">
+                        <input type="file" name="profileImg" id="inputFileProfile" accept="image/*">
+                        <input type="hidden" name="userId" id="idUserId">
                         <input type="submit" name="send">
                     </form>
                 </div>

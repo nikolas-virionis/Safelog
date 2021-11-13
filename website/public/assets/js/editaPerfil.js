@@ -11,6 +11,9 @@ const inpEmail = document.querySelector("#inp-email");
 inpNome.value = nome;
 inpEmail.value = email;
 
+// set hidden input (idUser) value
+document.querySelector("#idUserId").value = id;
+
 for (let rede of redes) {
     document.getElementById(`contato-${rede}`).addEventListener("change", a => {
         if (document.getElementById(`contato-${rede}`).checked) {

@@ -87,3 +87,8 @@ redirect
 *.idea
 
 SensitiveData.java
+
+# image upload
+user-profile/*
+
+!user-profile/default10.png

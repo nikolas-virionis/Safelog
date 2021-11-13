@@ -89,6 +89,5 @@ redirect
 SensitiveData.java
 
 # image upload
-user-profile/*
-
-!user-profile/default10.png
+/user-profile/*
+# !user-profile/default10.png

@@ -1,7 +1,13 @@
-(() => {
-    const tabelaDependentes = document.querySelector(".tabela-listrada table");
-    const nomeUsuario = document.querySelector(".sub-chefe h3");
-    nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
+const tabelaDependentes = document.querySelector(".tabela-listrada table");
+const nomeUsuario = document.querySelector(".sub-chefe h3");
+let searchBar = document.querySelector(".barra-pesquisa input");
+nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
+renderDependentes();
+searchBar.addEventListener("keyup", e => {
+    renderDependentes(searchBar.value.trim());
+});
+function renderDependentes(search) {
+    tabelaDependentes.innerHTML = "";
     if (JSON.parse(sessionStorage.getItem("usuario"))?.cargo != "analista") {
         let tbody = document.createElement("tbody");
         let tr = document.createElement("tr");
@@ -16,88 +22,83 @@
         tr.appendChild(operacoes);
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
-        axios
-            .post("/usuario/pessoas-dependentes", {
-                id: JSON.parse(sessionStorage.getItem("usuario"))?.id
-            })
-            .then(response => {
-                // console.log(response.data);
-                let {status, res: dependentes} = response.data;
-                if (status == "ok") {
-                    if (dependentes.length > 0) {
-                        dependentes.forEach(dependente => {
-                            let tr = document.createElement("tr");
-                            let tbNome = document.createElement("td");
-                            let tbEmail = document.createElement("td");
-                            let tbBtn = document.createElement("td");
-                            let excluirBtnLbl = document.createElement("i");
-                            let excluirBtn = document.createElement("button");
-                            excluirBtnLbl.classList = "fas fa-trash-alt";
-                            excluirBtn.classList = "btn-nav-dash-red";
-                            excluirBtn.appendChild(excluirBtnLbl);
-                            tbBtn.appendChild(excluirBtn);
-                            tbNome.innerHTML = `${dependente.nome}`;
-                            tbEmail.innerHTML = `${dependente.email}`;
-                            tr.appendChild(tbNome);
-                            tr.appendChild(tbEmail);
-                            tr.appendChild(tbBtn);
-                            tabelaDependentes.appendChild(tr);
+        let bodyObj = {id: JSON.parse(sessionStorage.getItem("usuario"))?.id};
+        if (search) bodyObj.search = search;
+        axios.post("/usuario/pessoas-dependentes", bodyObj).then(response => {
+            // console.log(response.data);
+            let {status, res: dependentes} = response.data;
+            if (status == "ok") {
+                if (dependentes.length > 0) {
+                    dependentes.forEach(dependente => {
+                        let tr = document.createElement("tr");
+                        let tbNome = document.createElement("td");
+                        let tbEmail = document.createElement("td");
+                        let tbBtn = document.createElement("td");
+                        let excluirBtnLbl = document.createElement("i");
+                        let excluirBtn = document.createElement("button");
+                        excluirBtnLbl.classList = "fas fa-trash-alt";
+                        excluirBtn.classList = "btn-nav-dash-red";
+                        excluirBtn.appendChild(excluirBtnLbl);
+                        tbBtn.appendChild(excluirBtn);
+                        tbNome.innerHTML = `${dependente.nome}`;
+                        tbEmail.innerHTML = `${dependente.email}`;
+                        tr.appendChild(tbNome);
+                        tr.appendChild(tbEmail);
+                        tr.appendChild(tbBtn);
+                        tabelaDependentes.appendChild(tr);
 
-                            // evento click para deletar usuário.
-                            excluirBtn.addEventListener("click", function () {
-                                // solicitando confirmação do delete
+                        // evento click para deletar usuário.
+                        excluirBtn.addEventListener("click", function () {
+                            // solicitando confirmação do delete
 
-                                document.getElementById(
-                                    "nome-usuario"
-                                ).innerHTML = dependente.nome;
-                                document
-                                    .getElementById("btn-deletar-usuario")
-                                    .setAttribute(
-                                        "id_usuario",
-                                        dependente.id_usuario
-                                    );
-
-                                import("./modal.js").then(({abrirModal}) =>
-                                    abrirModal("modal-log-del-usuario")
+                            document.getElementById("nome-usuario").innerHTML =
+                                dependente.nome;
+                            document
+                                .getElementById("btn-deletar-usuario")
+                                .setAttribute(
+                                    "id_usuario",
+                                    dependente.id_usuario
                                 );
-                            });
+
+                            import("./modal.js").then(({abrirModal}) =>
+                                abrirModal("modal-log-del-usuario")
+                            );
+                        });
+                    });
+
+                    document
+                        .getElementById("btn-cancelar-deletar-usuario")
+                        .addEventListener("click", e => {
+                            import("./modal.js").then(({fecharModal}) =>
+                                fecharModal("modal-log-del-usuario")
+                            );
                         });
 
-                        document
-                            .getElementById("btn-cancelar-deletar-usuario")
-                            .addEventListener("click", e => {
-                                import("./modal.js").then(({fecharModal}) =>
-                                    fecharModal("modal-log-del-usuario")
-                                );
-                            });
-
-                        document
-                            .getElementById("btn-deletar-usuario")
-                            .addEventListener("click", e => {
-                                axios
-                                    .post("/usuario/delete", {
-                                        id: document
-                                            .getElementById(
-                                                "btn-deletar-usuario"
-                                            )
-                                            .getAttribute("id_usuario")
-                                    })
-                                    .then(result => {
-                                        if (result.data.status == "ok") {
-                                            window.location.reload();
-                                        } else {
-                                            console.error(result.data);
-                                        }
-                                    });
-                            });
-                    } else {
-                        mostrarAlerta(
-                            "Nenhum dependente cadastrado, adicione um apertando no + acima",
-                            "info"
-                        );
-                    }
+                    document
+                        .getElementById("btn-deletar-usuario")
+                        .addEventListener("click", e => {
+                            axios
+                                .post("/usuario/delete", {
+                                    id: document
+                                        .getElementById("btn-deletar-usuario")
+                                        .getAttribute("id_usuario")
+                                })
+                                .then(result => {
+                                    if (result.data.status == "ok") {
+                                        window.location.reload();
+                                    } else {
+                                        console.error(result.data);
+                                    }
+                                });
+                        });
+                } else {
+                    mostrarAlerta(
+                        "Nenhum dependente cadastrado, adicione um apertando no + acima",
+                        "info"
+                    );
                 }
-            });
+            }
+        });
     } else {
         let tbody = document.createElement("tbody");
         let tr = document.createElement("tr");
@@ -115,10 +116,10 @@
         tr.appendChild(operacoes);
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
+        let bodyObj = {id: JSON.parse(sessionStorage.getItem("usuario"))?.id};
+        if (search) bodyObj.search = search;
         axios
-            .post("/maquina/lista-dependentes/analista", {
-                id: JSON.parse(sessionStorage.getItem("usuario"))?.id
-            })
+            .post("/maquina/lista-dependentes/analista", bodyObj)
             .then(({data: {status, msg: dependentes}}) => {
                 if (status == "ok") {
                     if (dependentes.length > 0) {
@@ -242,7 +243,7 @@
                 }
             });
     }
-})();
+}
 
 const email = document.querySelector("#email-convite");
 const btnConfirmar = document.querySelector("#btn-prosseguir-modal");

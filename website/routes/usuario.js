@@ -2,7 +2,7 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
-const multer = require('multer');
+const multer = require("multer");
 express.json();
 
 const {
@@ -87,13 +87,17 @@ router.post("/cadastro-final", async (req, res, next) => {
 });
 
 router.post("/pessoas-dependentes", async (req, res) => {
-    let {id} = req.body;
+    let {id, search} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let dependentes = `SELECT id_usuario, nome, email FROM usuario WHERE fk_supervisor = ${id}`;
+    let dependentes = `SELECT id_usuario, nome, email FROM usuario WHERE fk_supervisor = ${id} ${
+        search
+            ? ` AND email LIKE '%${search}%' OR fk_supervisor = ${id} AND nome LIKE '%${search}%'`
+            : ""
+    }`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .then(response => res.json({status: "ok", res: response}))
@@ -126,29 +130,34 @@ router.post("/perfil", async (req, res, next) => {
 
 // multer config
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, "./public/upload/user-profile/")
+    destination: function (req, file, cb) {
+        cb(null, "./public/upload/user-profile/");
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname);
     }
-})
+});
 
 const upload = multer({storage});
 
 // upload de img
-router.post("/edita-foto", upload.single("profileImg"), async(req, res, next) => {
-    let {userId} = req.body;
-    let filename = req.file.filename;
+router.post(
+    "/edita-foto",
+    upload.single("profileImg"),
+    async (req, res, next) => {
+        let {userId} = req.body;
+        let filename = req.file.filename;
 
-    const sql = `UPDATE usuario SET foto = '${filename}' WHERE id_usuario = ${userId}`;
+        const sql = `UPDATE usuario SET foto = '${filename}' WHERE id_usuario = ${userId}`;
 
-    sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE})
-    .then(response => {
-        res.redirect(`/edita-perfil?update-pic=true&pic=${filename}`);
-    })
-    .catch(err => res.json({status: "erro", msg: err}));
-})
+        sequelize
+            .query(sql, {type: sequelize.QueryTypes.UPDATE})
+            .then(response => {
+                res.redirect(`/edita-perfil?update-pic=true&pic=${filename}`);
+            })
+            .catch(err => res.json({status: "erro", msg: err}));
+    }
+);
 
 // edicao perfil
 router.post("/edicao-perfil", async (req, res) => {

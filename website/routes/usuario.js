@@ -145,7 +145,7 @@ router.post("/edita-foto", upload.single("profileImg"), async(req, res, next) =>
 
     sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE})
     .then(response => {
-        res.redirect("/edita-perfil");
+        res.redirect(`/edita-perfil?update-pic=true&pic=${filename}`);
     })
     .catch(err => res.json({status: "erro", msg: err}));
 })

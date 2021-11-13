@@ -1,3 +1,16 @@
+// atualiza a página caso exista upload de imagem de perfil
+let queryString = window.location.search; 
+let urlParams = new URLSearchParams(queryString);
+let update = urlParams.get('update-pic');
+
+if (update) {
+    let picture = urlParams.get('pic');
+    let user = JSON.parse(sessionStorage.usuario);
+    user.foto = picture;
+    sessionStorage.usuario = JSON.stringify(user);
+    window.location.href = "edita-perfil"
+}
+
 let {id, nome, email, cargo, id_empresa, id_supervisor} = JSON.parse(
     sessionStorage.getItem("usuario")
 );

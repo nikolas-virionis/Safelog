@@ -72,13 +72,13 @@ router.post("/cadastro", async (req, res, next) => {
 });
 
 router.post("/lista-dependentes/analista", async (req, res) => {
-    let {id} = req.body;
+    let {id, search} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    maquinasDependentes(id).then(maquinas => {
+    maquinasDependentes(id, search).then(maquinas => {
         if (!maquinas.status) {
             res.json({status: "ok", msg: maquinas});
         } else {
@@ -351,14 +351,18 @@ router.post("/permissao-acesso", async (req, res) => {
 });
 
 router.post("/lista-usuarios", async (req, res) => {
-    let {id} = req.body;
+    let {id, search} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT id_usuario, nome, email FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND fk_maquina = ${id} AND responsavel = 'n'`;
+    let sql = `SELECT id_usuario, nome, email FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND fk_maquina = ${id} AND responsavel = 'n' ${
+        search
+            ? ` WHERE email LIKE '%${search}%' OR nome LIKE '%${search}%'`
+            : ""
+    }`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})

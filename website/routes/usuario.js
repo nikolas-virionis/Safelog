@@ -2,6 +2,9 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
+const multer = require('multer');
+express.json();
+
 const {
     enviarConvite: sendInvite,
     checarEmStaff,
@@ -121,15 +124,33 @@ router.post("/perfil", async (req, res, next) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
-// upload de img
-router.post("/edita-foto", async(req, res) => {
-    console.log("=".repeat(50));
-    console.log(req);
-    console.log(req.body);
-
-    res.json({nothing: "nothing"})
+// multer config
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, "./public/upload/user-profile/")
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    }
 })
 
+const upload = multer({storage});
+
+// upload de img
+router.post("/edita-foto", upload.single("profileImg"), async(req, res, next) => {
+    let {userId} = req.body;
+    let filename = req.file.filename;
+
+    const sql = `UPDATE usuario SET foto = '${filename}' WHERE id_usuario = ${userId}`;
+
+    sequelize.query(sql, { type: sequelize.QueryTypes.UPDATE})
+    .then(response => {
+        res.json({status: "ok", msg: `nova imagem de perfil: ${filename}`});
+    })
+    .catch(err => res.json({status: "erro", msg: err}));
+})
+
+// edicao perfil
 router.post("/edicao-perfil", async (req, res) => {
     let {id, nome, email, contatos} = req.body;
     if (!req.body)

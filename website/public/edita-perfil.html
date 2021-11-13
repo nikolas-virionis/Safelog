@@ -72,13 +72,12 @@
                         </div>
                     </form>
 
-                    <!-- img upload -->
-                    <form method="POST" enctype="multipart/form-data">
+                     <!-- img upload -->
+                    <form action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
                         <input type="file" name="profileImg" id="inputFileProfile">
-                        <input type="hidden" value="as" name="LUQUINHAS">
-                        <button formaction="/usuario/edita-foto" name="send">send</button>
+                        <input type="hidden" value="6" name="userId">
+                        <input type="submit" name="send">
                     </form>
-                    
                 </div>
             </div>
         </div>

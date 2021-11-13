@@ -121,6 +121,15 @@ router.post("/perfil", async (req, res, next) => {
         .catch(err => res.json({status: "erro", msg: err}));
 });
 
+// upload de img
+router.post("/edita-foto", async(req, res) => {
+    console.log("=".repeat(50));
+    console.log(req);
+    console.log(req.body);
+
+    res.json({nothing: "nothing"})
+})
+
 router.post("/edicao-perfil", async (req, res) => {
     let {id, nome, email, contatos} = req.body;
     if (!req.body)

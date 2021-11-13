@@ -7,6 +7,7 @@ const {usuariosComAcesso} = require("../util/chamado/acesso");
 const {msgEmail} = require("../util/email/msg");
 const {msg} = require("../util/notificacao/notificacao");
 const {enviarNotificacao} = require("../util/notificacao/notificar");
+const {getStatsMedicao} = require("../util/analytics/dados");
 
 // formas de contato
 const {sendDirectMessageByEmail} = require("../util/bots-contato/slack");
@@ -162,26 +163,21 @@ router.post("/dados", async (req, res, next) => {
 });
 
 router.post("/stats", async (req, res) => {
-    let {idCategoriaMedicao} = req.body;
-    if (!req.body)
+    let {idCategoriaMedicao, maquina, type, qtd} = req.body;
+    if (!req.body) {
         return res.json({
-            status: "alerta",
+            status: "erro",
             msg: "Body não fornecido na requisição"
         });
+    }
 
-    const sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND tipo = 'critico') as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND tipo = 'risco') as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
-
-    await sequelize
-        .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
-        .then(([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
-            let medicoesNormais =
-                medicoesTotais - (medicoesCriticas + medicoesDeRisco);
-            res.json({
-                medicoesTotais,
-                medicoesCriticas,
-                medicoesDeRisco,
-                medicoesNormais
-            });
+    getStatsMedicao(req.body)
+        .then(response => {
+            if (response.status == "erro") {
+                res.json(response);
+            } else {
+                res.json({status: "ok", msg: response});
+            }
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -236,7 +232,8 @@ router.post("/alerta", async (req, res) => {
             new Date(chamado.data_abertura).toLocaleString("pt-BR"),
             estado,
             "automatico"
-        ]);''
+        ]);
+        ("");
 
         let [text] = msgEmail(
             "alerta",

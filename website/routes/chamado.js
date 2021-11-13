@@ -4,6 +4,7 @@ let sequelize = require("../models").sequelize;
 const axios = require("axios").default;
 const {abrirChamado} = require("../util/chamado/abertura");
 const {verificarAcesso, usuariosComAcesso} = require("../util/chamado/acesso");
+const {getStatsChamado} = require("../util/analytics/dados");
 
 router.post("/criar", async (req, res) => {
     let {
@@ -305,7 +306,7 @@ router.post("/dados", async (req, res) => {
 });
 
 router.post("/stats", async (req, res) => {
-    let {idCategoriaMedicao} = req.body;
+    let {idCategoriaMedicao, maquina, type, qtd} = req.body;
     if (!req.body) {
         return res.json({
             status: "erro",
@@ -313,32 +314,13 @@ router.post("/stats", async (req, res) => {
         });
     }
 
-    const chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
-    const solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total') as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial') as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao})`;
-
-    await sequelize
-        .query(chamados, {type: sequelize.QueryTypes.SELECT})
-        .then(async ([{chamadosTotais, chamadosAbertos}]) => {
-            let chamadosFechados = chamadosTotais - chamadosAbertos;
-            await sequelize
-                .query(solucoes, {
-                    type: sequelize.QueryTypes.SELECT
-                })
-                .then(
-                    ([
-                        {solucoesTotais, solucoesEficazes, solucoesParciais}
-                    ]) => {
-                        res.json({
-                            chamadosTotais,
-                            chamadosAbertos,
-                            chamadosFechados,
-                            solucoesTotais,
-                            solucoesEficazes,
-                            solucoesParciais
-                        });
-                    }
-                )
-                .catch(err => res.json({status: "erro", msg: err}));
+    getStatsChamado(req.body)
+        .then(response => {
+            if (response.status == "erro") {
+                res.json(response);
+            } else {
+                res.json({status: "ok", msg: response});
+            }
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

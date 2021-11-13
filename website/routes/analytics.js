@@ -3,10 +3,10 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const {getTrendDeg, getTrendBehavior} = require("../util/analytics/trendLine");
-const {getMedicoes} = require("../util/analytics/dados");
+const {getMedicoesTrend} = require("../util/analytics/dados");
 
 router.post("/trend", async (req, res) => {
-    let {idCategoriaMedicao} = req.body;
+    let {idCategoriaMedicao, type, qtd} = req.body;
     if (!req.body) {
         return res.json({
             status: "erro",
@@ -14,7 +14,7 @@ router.post("/trend", async (req, res) => {
         });
     }
 
-    await getMedicoes(idCategoriaMedicao)
+    await getMedicoesTrend(req.body)
         .then(medicoes => {
             let deg = getTrendDeg(medicoes);
 

@@ -316,7 +316,6 @@ router.post("/stats", async (req, res) => {
 
     getStatsChamado(req.body)
         .then(response => {
-            console.log(response);
             if (response.status == "erro") {
                 res.json(response);
             } else {

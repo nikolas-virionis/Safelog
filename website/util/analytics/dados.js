@@ -109,4 +109,48 @@ const getStatsChamado = async ({
         .catch(err => ({status: "erro", msg: err}));
 };
 
-module.exports = {getMedicoesTrend, getStatsChamado};
+const getStatsMedicao = async ({
+    idCategoriaMedicao,
+    maquina,
+    type = "all",
+    qtd
+} = {}) => {
+    let sqlMedicoes;
+    if (!idCategoriaMedicao && !maquina)
+        throw "É necessário a identificação da métrica ou maquina para continuar";
+
+    let strDate = ` AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} ${type.toUpperCase()}) AND NOW()`;
+    let strId = `${
+        idCategoriaMedicao
+            ? `= ${idCategoriaMedicao}`
+            : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
+    }`;
+
+    if (type == "all") {
+        sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strId} AND tipo = 'critico') as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strId} AND tipo = 'risco') as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId}`;
+    } else if (type == "day" || type == "week" || type == "month") {
+        sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'critico' AND fk_categoria_medicao ${strId} ${strDate}) as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'risco'  AND fk_categoria_medicao ${strId} ${strDate}) as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId} ${strDate}`;
+        // } else if (type == "week") {
+        // } else if (type == "month") {
+    } else if (type == "qtd") {
+        sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'critico' AND fk_categoria_medicao ${strId} LIMIT ${qtd}) as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'risco' AND fk_categoria_medicao ${strId} LIMIT ${qtd}) as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId} LIMIT ${qtd}`;
+    } else {
+        throw "erro na definição do tipo de metrica de data";
+    }
+
+    return await sequelize
+        .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
+        .then(([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
+            let medicoesNormais =
+                medicoesTotais - (medicoesCriticas + medicoesDeRisco);
+            return {
+                medicoesTotais,
+                medicoesCriticas,
+                medicoesDeRisco,
+                medicoesNormais
+            };
+        })
+        .catch(err => ({status: "erro", msg: err}));
+};
+
+module.exports = {getMedicoesTrend, getStatsChamado, getStatsMedicao};

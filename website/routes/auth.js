@@ -65,6 +65,7 @@ router.post("/usuario", (req, res, next) => {
                     nome,
                     email,
                     cargo,
+                    foto,
                     fk_empresa: id_empresa,
                     fk_supervisor: id_supervisor
                 } = result;
@@ -75,6 +76,7 @@ router.post("/usuario", (req, res, next) => {
                     id,
                     nome,
                     email,
+                    foto,
                     id_empresa,
                     id_supervisor,
                     msg: "Usuario logado com sucesso"

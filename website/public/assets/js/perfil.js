@@ -1,6 +1,11 @@
 let {id, nome, email, cargo} =
     JSON.parse(sessionStorage.getItem("usuario")) ??
     JSON.parse(sessionStorage.getItem("staff"));
+
+let profilePicName = JSON.parse(sessionStorage.getItem("usuario")).foto || "./assets/img/profile-pic/default10.png";
+
+console.log(profilePicName)
+
 if (cargo != "staff") {
     axios
         .post("/usuario/perfil", {

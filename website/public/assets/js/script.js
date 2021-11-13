@@ -66,13 +66,19 @@ function esconderAlerta() {
     document.querySelector("#alerta").style.right = "-500px";
 }
 
+// índice que compoe o título da imagem aleatória
 let num =
     JSON.parse(localStorage.getItem("img")) ?? Math.floor(Math.random() * 11);
-let imagemAleatoria = `./assets/img/profile-pic/default${num}.png`;
+
+// imagem de perfil do usuário vinda do banco
+let dbimg = JSON.parse(sessionStorage.getItem("usuario")).foto;
+
+let imagem = dbimg != null ? `./upload/user-profile/${dbimg}` : `./assets/img/profile-pic/default${num}.png`;
+
 localStorage.setItem("img", num);
 let imgs = document.querySelectorAll("img.profilePic");
 for (let img of imgs) {
-    img.src = imagemAleatoria;
+    img.src = imagem;
 }
 
 var btnVerSenha = document.getElementById("btn-ver-senha");

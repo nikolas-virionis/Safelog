@@ -1,10 +1,16 @@
 let {id, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
 const tabelaIncidentes = document.querySelector(".tabela-listrada table");
 const searchBar = document.querySelector(".barra-pesquisa input");
+let main = "",
+    order = "";
 gerarRelatorioIncidentes();
 searchBar.addEventListener("keyup", e => {
-    gerarRelatorioIncidentes(searchBar.value.trim());
-    console.log(searchBar.value.trim());
+    if (
+        !(e.key == "Backspace" && !searchBar.value.trim()) &&
+        !(e.keyCode == 32 && !searchBar.value.trim())
+    ) {
+        gerarRelatorioIncidentes(searchBar.value.trim());
+    }
 });
 
 function gerarRelatorioIncidentes(search) {
@@ -12,13 +18,19 @@ function gerarRelatorioIncidentes(search) {
     let tbody = document.createElement("tbody");
     let tr = document.createElement("tr");
     let data = document.createElement("th");
-    let responsavel = document.createElement("th");
     let operacoes = document.createElement("th");
     let componente = document.createElement("th");
     let metrica = document.createElement("th");
     let maquina = document.createElement("th");
     let estado = document.createElement("th");
+    let responsavel = document.createElement("th");
     let medicao = document.createElement("th");
+    let columns = ["data", "maquina", "componente"];
+    let dataOrder = document.createElement("span");
+    let maquinaOrder = document.createElement("span");
+    let componenteOrder = document.createElement("span");
+    let estadoOrder = document.createElement("span");
+    let responsavelOrder = document.createElement("span");
     data.innerHTML = "Data";
     maquina.innerHTML = "Máquina";
     componente.innerHTML = "Componente";
@@ -27,6 +39,7 @@ function gerarRelatorioIncidentes(search) {
     operacoes.innerHTML = "Operações";
     tr.appendChild(data);
     if (cargo != "analista") {
+        columns.splice(1, 0, "responsavel");
         responsavel.innerHTML = "Responsavel";
         tr.appendChild(responsavel);
     }
@@ -35,13 +48,65 @@ function gerarRelatorioIncidentes(search) {
     tr.appendChild(metrica);
     tr.appendChild(estado);
     if (cargo == "analista") {
+        columns.push("estado");
         medicao.innerHTML = "Medição";
         tr.appendChild(medicao);
     }
     tr.appendChild(operacoes);
+    columns.forEach(th => {
+        if (main) {
+            eval(`${main}Order.style.display = "block"`);
+            eval(
+                `${main}Order.classList = \`fas fa-angle-${
+                    order == "asc" ? "up" : "down"
+                }\``
+            );
+        }
+        eval(th).addEventListener(
+            "mouseover",
+            () => (eval(th).style.backgroundColor = "#BFEEF7")
+        );
+        eval(th).addEventListener(
+            "mouseout",
+            () => (eval(th).style.backgroundColor = "")
+        );
+        eval(th).style.position = "relative";
+        eval(th).style.cursor = "pointer";
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(`${th}Order`).style.position = "absolute";
+        eval(`${th}Order`).style.top = "2%";
+        eval(`${th}Order`).style.right = "2%";
+        eval(`${th}Order`).style.color = "black";
+
+        eval(th).addEventListener("click", e => {
+            if (main == th) {
+                if (order == "desc") {
+                    eval(`${th}Order`).classList = "fas fa-angle-up";
+                    eval(`${th}Order`).style.display = "block";
+                    order = "asc";
+                } else {
+                    eval(`${th}Order`).classList = "fas fa-angle-down";
+                    eval(`${th}Order`).style.display = "none";
+                    order = "";
+                    main = "";
+                }
+            } else {
+                columns.forEach(
+                    btn => (eval(`${btn}Order`).style.display = "none")
+                );
+                eval(`${th}Order`).classList = "fas fa-angle-down";
+                eval(`${th}Order`).style.display = "block";
+                main = th;
+                order = "desc";
+            }
+            gerarRelatorioIncidentes(search);
+        });
+    });
     tbody.appendChild(tr);
     tabelaIncidentes.appendChild(tbody);
-    const bodyObj = {id};
+    const bodyObj = {id, main, order};
     if (search) bodyObj.search = search;
     axios
         .post(`/medicao/relatorio-incidentes/${cargo}`, bodyObj)

@@ -351,7 +351,7 @@ router.post("/permissao-acesso", async (req, res) => {
 });
 
 router.post("/lista-usuarios", async (req, res) => {
-    let {id, search} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -362,7 +362,7 @@ router.post("/lista-usuarios", async (req, res) => {
         search
             ? ` WHERE email LIKE '%${search}%' OR nome LIKE '%${search}%'`
             : ""
-    }`;
+    } ${main ? ` ORDER BY ${main} ${order}` : ""}`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})

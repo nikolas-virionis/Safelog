@@ -5,7 +5,9 @@ const btnConvidar = document.querySelector("#btn-prosseguir-modal");
 const emailConvite = document.querySelector("#email-convite");
 const searchBar = document.querySelector(".barra-pesquisa input");
 const tbUsuarios = document.querySelector("#tblAcessoMaq");
-let reload = false;
+let reload = false,
+    main = "",
+    order = "";
 
 axios
     .post("/maquina/dados", {
@@ -29,15 +31,70 @@ function getUsuarios(search) {
     let nome = document.createElement("th");
     let email = document.createElement("th");
     let operacoes = document.createElement("th");
+    let columns = ["nome", "email"];
+    let nomeOrder = document.createElement("span");
+    let emailOrder = document.createElement("span");
     nome.innerHTML = "Nome";
     email.innerHTML = "Email";
     operacoes.innerHTML = "Operações";
     tr.appendChild(nome);
     tr.appendChild(email);
     tr.appendChild(operacoes);
+    columns.forEach(th => {
+        if (main) {
+            eval(`${main}Order.style.display = "block"`);
+            eval(
+                `${main}Order.classList = \`fas fa-angle-${
+                    order == "asc" ? "up" : "down"
+                }\``
+            );
+        }
+        eval(th).addEventListener(
+            "mouseover",
+            () => (eval(th).style.backgroundColor = "#BFEEF7")
+        );
+        eval(th).addEventListener(
+            "mouseout",
+            () => (eval(th).style.backgroundColor = "")
+        );
+        eval(th).style.position = "relative";
+        eval(th).style.cursor = "pointer";
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(th).appendChild(eval(`${th}Order`));
+        eval(`${th}Order`).style.position = "absolute";
+        eval(`${th}Order`).style.top = "2%";
+        eval(`${th}Order`).style.right = "2%";
+        eval(`${th}Order`).style.color = "black";
+
+        eval(th).addEventListener("click", e => {
+            if (main == th) {
+                if (order == "desc") {
+                    eval(`${th}Order`).classList = "fas fa-angle-up";
+                    eval(`${th}Order`).style.display = "block";
+                    order = "asc";
+                } else {
+                    eval(`${th}Order`).classList = "fas fa-angle-down";
+                    eval(`${th}Order`).style.display = "none";
+                    order = "";
+                    main = "";
+                }
+            } else {
+                columns.forEach(btn => {
+                    eval(`${btn}Order`).style.display = "none";
+                    console.log({btn: eval(`${th}Order`)});
+                });
+                eval(`${th}Order`).classList = "fas fa-angle-down";
+                eval(`${th}Order`).style.display = "block";
+                main = th;
+                order = "desc";
+            }
+            getUsuarios(search);
+        });
+    });
     tbody.appendChild(tr);
     tbUsuarios.appendChild(tbody);
-    const obj = {id: pkMaquina};
+    const obj = {id: pkMaquina, main, order};
     if (search) obj.search = search;
     axios.post("/maquina/lista-usuarios", obj).then(({data: {status, msg}}) => {
         if (status === "ok") {

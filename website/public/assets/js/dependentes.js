@@ -1,6 +1,8 @@
 const tabelaDependentes = document.querySelector(".tabela-listrada table");
 const nomeUsuario = document.querySelector(".sub-chefe h3");
 let searchBar = document.querySelector(".barra-pesquisa input");
+let main = "",
+    order = "";
 nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
 renderDependentes();
 searchBar.addEventListener("keyup", e => {
@@ -14,15 +16,73 @@ function renderDependentes(search) {
         let nome = document.createElement("th");
         let email = document.createElement("th");
         let operacoes = document.createElement("th");
+        let columns = ["nome", "email"];
+        let nomeOrder = document.createElement("span");
+        let emailOrder = document.createElement("span");
         nome.innerHTML = "Nome";
         email.innerHTML = "Email";
         operacoes.innerHTML = "Operações";
         tr.appendChild(nome);
         tr.appendChild(email);
         tr.appendChild(operacoes);
+        columns.forEach(th => {
+            if (main) {
+                eval(`${main}Order.style.display = "block"`);
+                eval(
+                    `${main}Order.classList = \`fas fa-angle-${
+                        order == "asc" ? "up" : "down"
+                    }\``
+                );
+            }
+            eval(th).addEventListener(
+                "mouseover",
+                () => (eval(th).style.backgroundColor = "#BFEEF7")
+            );
+            eval(th).addEventListener(
+                "mouseout",
+                () => (eval(th).style.backgroundColor = "")
+            );
+            eval(th).style.position = "relative";
+            eval(th).style.cursor = "pointer";
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(`${th}Order`).style.position = "absolute";
+            eval(`${th}Order`).style.top = "2%";
+            eval(`${th}Order`).style.right = "2%";
+            eval(`${th}Order`).style.color = "black";
+
+            eval(th).addEventListener("click", e => {
+                if (main == th) {
+                    if (order == "desc") {
+                        eval(`${th}Order`).classList = "fas fa-angle-up";
+                        eval(`${th}Order`).style.display = "block";
+                        order = "asc";
+                    } else {
+                        eval(`${th}Order`).classList = "fas fa-angle-down";
+                        eval(`${th}Order`).style.display = "none";
+                        order = "";
+                        main = "";
+                    }
+                } else {
+                    columns.forEach(
+                        btn => (eval(`${btn}Order`).style.display = "none")
+                    );
+                    eval(`${th}Order`).classList = "fas fa-angle-down";
+                    eval(`${th}Order`).style.display = "block";
+                    main = th;
+                    order = "desc";
+                }
+                renderDependentes(search);
+            });
+        });
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
-        let bodyObj = {id: JSON.parse(sessionStorage.getItem("usuario"))?.id};
+        let bodyObj = {
+            id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+            main,
+            order
+        };
         if (search) bodyObj.search = search;
         axios.post("/usuario/pessoas-dependentes", bodyObj).then(response => {
             // console.log(response.data);
@@ -106,6 +166,10 @@ function renderDependentes(search) {
         let nome = document.createElement("th");
         let resp = document.createElement("th");
         let operacoes = document.createElement("th");
+        let columns = ["id", "nome", "resp"];
+        let idOrder = document.createElement("span");
+        let nomeOrder = document.createElement("span");
+        let respOrder = document.createElement("span");
         id.innerHTML = "Identificação";
         nome.innerHTML = "Nome";
         resp.innerHTML = "Responsável";
@@ -114,9 +178,64 @@ function renderDependentes(search) {
         tr.appendChild(nome);
         tr.appendChild(resp);
         tr.appendChild(operacoes);
+        columns.forEach(th => {
+            if (main) {
+                eval(`${main}Order.style.display = "block"`);
+                eval(
+                    `${main}Order.classList = \`fas fa-angle-${
+                        order == "asc" ? "up" : "down"
+                    }\``
+                );
+            }
+            eval(th).addEventListener(
+                "mouseover",
+                () => (eval(th).style.backgroundColor = "#BFEEF7")
+            );
+            eval(th).addEventListener(
+                "mouseout",
+                () => (eval(th).style.backgroundColor = "")
+            );
+            eval(th).style.position = "relative";
+            eval(th).style.cursor = "pointer";
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(th).appendChild(eval(`${th}Order`));
+            eval(`${th}Order`).style.position = "absolute";
+            eval(`${th}Order`).style.top = "2%";
+            eval(`${th}Order`).style.right = "2%";
+            eval(`${th}Order`).style.color = "black";
+
+            eval(th).addEventListener("click", e => {
+                if (main == th) {
+                    if (order == "desc") {
+                        eval(`${th}Order`).classList = "fas fa-angle-up";
+                        eval(`${th}Order`).style.display = "block";
+                        order = "asc";
+                    } else {
+                        eval(`${th}Order`).classList = "fas fa-angle-down";
+                        eval(`${th}Order`).style.display = "none";
+                        order = "";
+                        main = "";
+                    }
+                } else {
+                    columns.forEach(
+                        btn => (eval(`${btn}Order`).style.display = "none")
+                    );
+                    eval(`${th}Order`).classList = "fas fa-angle-down";
+                    eval(`${th}Order`).style.display = "block";
+                    main = th;
+                    order = "desc";
+                }
+                renderDependentes(search);
+            });
+        });
         tbody.appendChild(tr);
         tabelaDependentes.appendChild(tbody);
-        let bodyObj = {id: JSON.parse(sessionStorage.getItem("usuario"))?.id};
+        let bodyObj = {
+            id: JSON.parse(sessionStorage.getItem("usuario"))?.id,
+            main,
+            order
+        };
         if (search) bodyObj.search = search;
         axios
             .post("/maquina/lista-dependentes/analista", bodyObj)

@@ -8,17 +8,18 @@
 }
 .button1:hover{
     transform: scale(1.1);
-    transition: 1s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 .color4{
     color: black;
 }
 .container-retangulo-404{
     
-    margin-top:7%;
+    margin:0;
+    margin-top:13vh;
     float:left;
     font-size:3vh;
-    margin-left: 6%;
+    
 }
 
 
@@ -38,6 +39,7 @@
 
 .error{
 
-    width:70%;
+    width:47%;
     margin: auto;
+   
 }

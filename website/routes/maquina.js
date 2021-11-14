@@ -72,13 +72,13 @@ router.post("/cadastro", async (req, res, next) => {
 });
 
 router.post("/lista-dependentes/analista", async (req, res) => {
-    let {id, search} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    maquinasDependentes(id, search).then(maquinas => {
+    maquinasDependentes(id, search, main, order).then(maquinas => {
         if (!maquinas.status) {
             res.json({status: "ok", msg: maquinas});
         } else {

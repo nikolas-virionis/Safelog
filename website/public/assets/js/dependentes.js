@@ -6,7 +6,12 @@ let main = "",
 nomeUsuario.innerText = JSON.parse(sessionStorage.getItem("usuario")).nome;
 renderDependentes();
 searchBar.addEventListener("keyup", e => {
-    renderDependentes(searchBar.value.trim());
+    if (
+        !(e.key == "Backspace" && !searchBar.value.trim()) &&
+        !(e.keyCode == 32 && !searchBar.value.trim())
+    ) {
+        renderDependentes(searchBar.value.trim());
+    }
 });
 function renderDependentes(search) {
     tabelaDependentes.innerHTML = "";

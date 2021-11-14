@@ -5,8 +5,12 @@ let main = "",
     order = "";
 gerarRelatorioIncidentes();
 searchBar.addEventListener("keyup", e => {
-    gerarRelatorioIncidentes(searchBar.value.trim());
-    console.log(searchBar.value.trim());
+    if (
+        !(e.key == "Backspace" && !searchBar.value.trim()) &&
+        !(e.keyCode == 32 && !searchBar.value.trim())
+    ) {
+        gerarRelatorioIncidentes(searchBar.value.trim());
+    }
 });
 
 function gerarRelatorioIncidentes(search) {

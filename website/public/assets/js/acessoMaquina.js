@@ -22,7 +22,14 @@ axios
     });
 
 getUsuarios();
-searchBar.addEventListener("keyup", e => getUsuarios(searchBar.value.trim()));
+searchBar.addEventListener("keyup", e => {
+    if (
+        !(e.key == "Backspace" && !searchBar.value.trim()) &&
+        !(e.keyCode == 32 && !searchBar.value.trim())
+    ) {
+        getUsuarios(searchBar.value.trim());
+    }
+});
 
 function getUsuarios(search) {
     tbUsuarios.innerHTML = "";

@@ -67,11 +67,14 @@ function esconderAlerta() {
 }
 
 // índice que compoe o título da imagem aleatória
-let num = JSON.parse(localStorage.getItem("img")) ?? Math.floor(Math.random() * 11);
+let num =
+    JSON.parse(localStorage.getItem("img")) ?? Math.floor(Math.random() * 11);
 localStorage.setItem("img", num);
 
 // imagem de perfil do usuário vinda do banco
-let dbimg = JSON.parse(sessionStorage.getItem("usuario")).foto;
+let {foto: dbimg} =
+    JSON.parse(sessionStorage.getItem("usuario")) ??
+    JSON.parse(sessionStorage.getItem("staff"));
 let imagem = `./upload/user-profile/${dbimg}`;
 let defaultImg = `./assets/img/profile-pic/default${num}.png`;
 
@@ -80,9 +83,9 @@ let imgs = document.querySelectorAll("img.profilePic");
 
 for (let img of imgs) {
     // caso imagem não seja encontrada, renderiza img padrão
-    img.onerror = function() {
+    img.onerror = function () {
         img.src = defaultImg;
-    }
+    };
     img.src = imagem || defaultImg;
 }
 

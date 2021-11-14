@@ -20,7 +20,7 @@ const {mandarWhatsapp} = require("../util/bots-contato/whatsapp");
 const {mandarEmail} = require("../util/email/email");
 
 router.post("/relatorio-incidentes/analista", async (req, res, next) => {
-    let {id, search} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -38,7 +38,19 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                 search
                     ? ` AND (tipo_medicao.tipo LIKE '%${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%')`
                     : ""
-            } GROUP BY valor, tipo_medicao.tipo ORDER BY data_medicao DESC;`;
+            } GROUP BY valor, tipo_medicao.tipo  ${
+                main
+                    ? ` ORDER BY ${
+                          main == "data"
+                              ? "data_medicao"
+                              : main == "componente"
+                              ? "tipo_medicao.tipo"
+                              : main == "maquina"
+                              ? "maquina.nome"
+                              : "medicao.tipo"
+                      } ${order}`
+                    : "ORDER BY data_medicao DESC"
+            };`;
             await sequelize
                 .query(incidente, {
                     type: sequelize.QueryTypes.SELECT
@@ -109,7 +121,7 @@ router.post("/alertar-gestor", async (req, res) => {
 });
 
 router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
-    let {id, search} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -127,7 +139,21 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
                 search
                     ? ` AND (tipo_medicao.tipo LIKE '${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%' OR usuario.nome LIKE '%${search}%')`
                     : ""
-            } GROUP BY valor, tipo_medicao.tipo ORDER BY data_medicao DESC;`;
+            } GROUP BY valor, tipo_medicao.tipo  ${
+                main
+                    ? ` ORDER BY ${
+                          main == "data"
+                              ? "data_medicao"
+                              : main == "componente"
+                              ? "tipo_medicao.tipo"
+                              : main == "maquina"
+                              ? "maquina.nome"
+                              : main == "responsavel"
+                              ? "usuario.nome"
+                              : "medicao.tipo"
+                      } ${order}`
+                    : "ORDER BY data_medicao DESC"
+            } ;`;
             // res.json(incidente);
             await sequelize
                 .query(incidente, {

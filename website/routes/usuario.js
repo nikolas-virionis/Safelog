@@ -87,7 +87,7 @@ router.post("/cadastro-final", async (req, res, next) => {
 });
 
 router.post("/pessoas-dependentes", async (req, res) => {
-    let {id, search} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
@@ -97,7 +97,7 @@ router.post("/pessoas-dependentes", async (req, res) => {
         search
             ? ` AND email LIKE '%${search}%' OR fk_supervisor = ${id} AND nome LIKE '%${search}%'`
             : ""
-    }`;
+    } ${main ? ` ORDER BY ${main} ${order}` : ""}`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .then(response => res.json({status: "ok", res: response}))

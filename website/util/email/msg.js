@@ -135,6 +135,18 @@ const msgEmail = (tipo, nome, rest, email) => {
                                         `,
             "Acesso a maquina - SafeLog"
         ];
+    if (tipo.toLowerCase() == "chamado aberto")
+        return [
+            `
+                <p>Prezado(a),</p>
+                <p>Um chamado foi aberto, ${
+                    rest[0] == "s" ? `automaticamente,` : `por ${rest[1]}`
+                } para a métrica de ${rest[2]} da máquina ${rest[3]}</p> 
+                <p>O titulo do chamado é ${rest[4]}</p>
+                <p>Para utilizar e visualizar seus recursos, acesse sua dashboard em nosso site</p>
+                                                `,
+            "Chamado aberto - SafeLog"
+        ];
     throw "tipo de email não especificado ou escrito de forma errada";
 };
 module.exports = {msgEmail};

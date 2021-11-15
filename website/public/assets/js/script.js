@@ -72,9 +72,11 @@ let num =
 localStorage.setItem("img", num);
 
 // imagem de perfil do usuário vinda do banco
-let {foto: dbimg} =
-    JSON.parse(sessionStorage.getItem("usuario")) ??
-    JSON.parse(sessionStorage.getItem("staff"));
+let {foto: dbimg} = JSON.parse(sessionStorage.getItem("usuario")) ??
+    JSON.parse(sessionStorage.getItem("staff")) ?? {
+        foto: `./assets/img/profile-pic/default${num}.png`
+    };
+
 let imagem = `./upload/user-profile/${dbimg}`;
 let defaultImg = `./assets/img/profile-pic/default${num}.png`;
 

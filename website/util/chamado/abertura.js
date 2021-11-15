@@ -70,4 +70,4 @@ const getTipo = tipo => {
     return metrica;
 };
 
-module.exports = {abrirChamado};
+module.exports = {abrirChamado, getTipo};

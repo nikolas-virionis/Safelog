@@ -11,7 +11,8 @@ const tiposDefault = [
     "convite responsavel",
     "notificacao edicao maquina",
     "notificacao acesso",
-    "chamado aberto"
+    "chamado aberto",
+    "chamado fechado"
 ];
 const msg = (tipo, nome, rest, email) => {
     // criacao da notificacao

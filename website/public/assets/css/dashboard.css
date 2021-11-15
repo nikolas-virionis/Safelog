@@ -304,6 +304,7 @@ span {
   width: 200px;
   height: 200px;
   border-radius: 100%;
+  margin:0;
 }
 
 .limites {

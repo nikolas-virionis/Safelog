@@ -831,3 +831,11 @@ button.modal {
     flex-direction: column;
     padding: 5%;
 }
+
+.img-edit-perfil{
+
+    width:1.5%;
+    padding-top:0.7vh;
+    margin: 0;
+
+}

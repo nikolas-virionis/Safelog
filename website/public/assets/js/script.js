@@ -88,7 +88,7 @@ for (let img of imgs) {
     img.onerror = function () {
         img.src = defaultImg;
     };
-    img.src = imagem || defaultImg;
+    img.src = dbimg ? imagem : defaultImg;
 }
 
 var btnVerSenha = document.getElementById("btn-ver-senha");

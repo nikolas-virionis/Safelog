@@ -35,24 +35,35 @@ const verificarAcesso = async ({idUsuario, idCategoriaMedicao, idChamado}) => {
 
 const usuariosComAcesso = async ({
     idChamado,
+    idCategoriaMedicao,
     usuarioResp,
     gestor = true
 } = {}) => {
-    const getUsuarios = `SELECT id_usuario, usuario.nome, email FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))${
-        usuarioResp ? ` WHERE id_usuario <> ${usuarioResp}` : ""
-    }`;
+    const getUsuarios = `SELECT id_usuario, usuario.nome, email FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${
+        idCategoriaMedicao ??
+        `(SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})`
+    })${usuarioResp ? ` WHERE id_usuario <> ${usuarioResp}` : ""}`;
 
     return await sequelize
         .query(getUsuarios, {type: sequelize.QueryTypes.SELECT})
         .then(async usuarios => {
             if (gestor) {
-                const sqlGestores = `SELECT g.id_usuario, g.nome, g.email FROM usuario AS g JOIN usuario AS a ON g.id_usuario = a.fk_supervisor JOIN usuario_maquina ON a.id_usuario = fk_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado}))${
+                const sqlGestores = `SELECT g.id_usuario, g.nome, g.email FROM usuario AS g JOIN usuario AS a ON g.id_usuario = a.fk_supervisor JOIN usuario_maquina ON a.id_usuario = fk_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${
+                    idCategoriaMedicao ??
+                    `(SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})`
+                })${
                     usuarioResp ? ` WHERE g.id_usuario <> ${usuarioResp}` : ""
                 }`;
                 let gestores = await sequelize.query(sqlGestores, {
                     type: sequelize.QueryTypes.SELECT
                 });
-                usuarios = [...usuarios, ...new Set(gestores)];
+
+                const ids = gestores.map(o => o.id_usuario);
+                gestores = gestores.filter(
+                    ({id_usuario}, index) =>
+                        !ids.includes(id_usuario, index + 1)
+                );
+                usuarios = [...usuarios, ...gestores];
             }
             usuarios = await Promise.all(
                 usuarios.map(async usuario => {

@@ -2,9 +2,12 @@ let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
 const axios = require("axios").default;
-const {abrirChamado} = require("../util/chamado/abertura");
+const {abrirChamado, getTipo} = require("../util/chamado/abertura");
 const {verificarAcesso, usuariosComAcesso} = require("../util/chamado/acesso");
 const {getStatsChamado} = require("../util/analytics/dados");
+const {mandarEmail} = require("../util/email/email");
+const {msg} = require("../util/notificacao/notificacao");
+const {enviarNotificacao} = require("../util/notificacao/notificar");
 
 router.post("/criar", async (req, res) => {
     let {
@@ -101,50 +104,82 @@ router.post("/fechar", async (req, res) => {
         });
     }
     // verificando se chamado está aberto
-    const sqlChamadoAberto = `SELECT status_chamado FROM chamado WHERE id_chamado = ${idChamado}`;
+    const sqlChamadoAberto = `SELECT titulo AS tituloChamado, status_chamado FROM chamado WHERE id_chamado = ${idChamado}`;
 
     await sequelize
         .query(sqlChamadoAberto, {type: sequelize.QueryTypes.SELECT})
-        .then(async ([{status_chamado}]) => {
-            if (status_chamado == "aberto") {
-                // chamado aberto
-                const updateStatusChamado = `UPDATE chamado SET status_chamado = 'fechado' WHERE id_chamado = ${idChamado}`;
-                await sequelize
-                    .query(updateStatusChamado, {
-                        type: sequelize.QueryTypes.UPDATE
-                    })
-                    .then(async () => {
-                        const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'total', ${idChamado}, ${idUsuario})`;
-
-                        await sequelize
-                            .query(criarSolucao, {
-                                type: sequelize.QueryTypes.INSERT
-                            })
-                            .then(async () => {
-                                res.json({
-                                    status: "ok",
-                                    msg: "Solução inserida e chamado fechado com sucesso"
-                                });
-                            })
-                            .catch(err =>
-                                res.json({
-                                    status: "erro3",
-                                    msg: err
-                                })
-                            );
-                    })
-                    .catch(err =>
-                        res.json({
-                            status: "erro3",
-                            msg: err
-                        })
-                    );
-            } else {
-                res.json({
+        .then(async ([{tituloChamado, status_chamado}]) => {
+            if (status_chamado != "aberto")
+                return res.json({
                     status: "alerta",
                     msg: "Chamado já fechado/resolvido"
                 });
-            }
+            // chamado aberto
+            const updateStatusChamado = `UPDATE chamado SET status_chamado = 'fechado' WHERE id_chamado = ${idChamado}`;
+            await sequelize
+                .query(updateStatusChamado, {
+                    type: sequelize.QueryTypes.UPDATE
+                })
+                .then(async () => {
+                    const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'total', ${idChamado}, ${idUsuario})`;
+
+                    await sequelize
+                        .query(criarSolucao, {
+                            type: sequelize.QueryTypes.INSERT
+                        })
+                        .then(async () => {
+                            const usuarios = await usuariosComAcesso({
+                                idChamado,
+                                usuarioResp: idUsuario
+                            });
+                            const sql = `SELECT usuario.nome AS resp, (SELECT tipo_medicao.tipo FROM tipo_medicao JOIN categoria_medicao ON id_tipo_medicao = fk_tipo_medicao AND id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})) AS metrica, (SELECT maquina.nome FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina AND id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})) AS maquina FROM usuario WHERE id_usuario = ${idUsuario}`;
+                            await sequelize
+                                .query(sql, {type: sequelize.QueryTypes.SELECT})
+                                .then(async ([{resp, maquina, metrica}]) => {
+                                    enviarNotificacao(usuarios, {
+                                        tipo: "chamado fechado",
+                                        msg: msg("chamado fechado", undefined, [
+                                            tituloChamado,
+                                            getTipo(metrica),
+                                            maquina,
+                                            resp,
+                                            titulo
+                                        ])
+                                    }).then(() => {
+                                        for (let {nome, email} of usuarios) {
+                                            mandarEmail(
+                                                "chamado fechado",
+                                                nome,
+                                                email,
+                                                [
+                                                    tituloChamado,
+                                                    getTipo(metrica),
+                                                    maquina,
+                                                    resp,
+                                                    titulo
+                                                ]
+                                            );
+                                        }
+                                        return res.json({
+                                            status: "ok",
+                                            msg: "Solução inserida e chamado fechado com sucesso"
+                                        });
+                                    });
+                                });
+                        })
+                        .catch(err => {
+                            return res.json({
+                                status: "erro3",
+                                msg: err
+                            });
+                        });
+                })
+                .catch(err => {
+                    return res.json({
+                        status: "erro3",
+                        msg: err
+                    });
+                });
         })
         .catch(err => {
             return res.json({

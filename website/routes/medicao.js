@@ -38,7 +38,7 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                 search
                     ? ` AND (tipo_medicao.tipo LIKE '%${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%')`
                     : ""
-            } GROUP BY valor, tipo_medicao.tipo  ${
+            } ${
                 main
                     ? ` ORDER BY ${
                           main == "data"
@@ -50,7 +50,7 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                               : "medicao.tipo"
                       } ${order}`
                     : "ORDER BY data_medicao DESC"
-            };`;
+            } LIMIT 100;`;
             await sequelize
                 .query(incidente, {
                     type: sequelize.QueryTypes.SELECT
@@ -59,7 +59,10 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
                     incidentes.push(result);
                 })
                 .catch(err => res.json({status: "erro", msg: err}));
-            return res.json({status: "ok", response: incidentes});
+            return res.json({
+                status: "ok",
+                response: incidentes
+            });
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -139,7 +142,7 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
                 search
                     ? ` AND (tipo_medicao.tipo LIKE '${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%' OR usuario.nome LIKE '%${search}%')`
                     : ""
-            } GROUP BY valor, tipo_medicao.tipo  ${
+            } ${
                 main
                     ? ` ORDER BY ${
                           main == "data"
@@ -153,7 +156,7 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
                               : "medicao.tipo"
                       } ${order}`
                     : "ORDER BY data_medicao DESC"
-            } ;`;
+            } LIMIT 100;`;
             // res.json(incidente);
             await sequelize
                 .query(incidente, {

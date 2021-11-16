@@ -2,10 +2,7 @@ const link = document.createElement("link");
 link.rel = "shortcut icon";
 link.href = "assets/img/logo/logo-icon-branco.png";
 document.getElementsByTagName("head")[0].appendChild(link);
-let notificacoesAbertas = false;
-let alerta = document.getElementById("alerta");
-let i = document.createElement("i");
-let div = document.createElement("div");
+
 
 const pages = [
     "/login",
@@ -72,10 +69,10 @@ let num =
 localStorage.setItem("img", num);
 
 // imagem de perfil do usuário vinda do banco
-let {foto: dbimg} = JSON.parse(sessionStorage.getItem("usuario")) ??
+let { foto: dbimg } = JSON.parse(sessionStorage.getItem("usuario")) ??
     JSON.parse(sessionStorage.getItem("staff")) ?? {
-        foto: `./assets/img/profile-pic/default${num}.png`
-    };
+    foto: `./assets/img/profile-pic/default${num}.png`
+};
 
 let imagem = `./upload/user-profile/${dbimg}`;
 let defaultImg = `./assets/img/profile-pic/default${num}.png`;
@@ -111,52 +108,148 @@ if (btnVerSenha)
         }
     });
 
-// const abrirNotificacoes = () => {};
 
-// const checarNaoLidos = i => {
-//     axios
-//         .post("/notificacao/lista", {
-//             idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
-//         })
-//         .then(({data: {status, msg}}) => {
-//             if (status === "ok") {
-//                 if (msg.naoLidos) {
-//                     i.addEventListener("mouseover", e => {
-//                         i.classList = "fas fa-envelope-open-text notify";
-//                     });
-//                 } else {
-//                     i.addEventListener("mouseover", e => {
-//                         i.classList = "fas fa-envelope-open notify";
-//                     });
-//                 }
-//                 i.addEventListener("click", e => {
-//                     abrirNotificacoes();
-//                 });
-//             } else {
-//                 console.error(msg);
-//             }
-//         });
-// };
-// const notificacoes = () => {
-//     if (
-//         !pages.includes(window.location.pathname.replace(".html", "")) &&
-//         !pagesNotNotify.includes(
-//             window.location.pathname.replace(".html", "")
-//         ) &&
-//         !notificacoesAbertas &&
-//         document.getElementById("alerta")
-//     ) {
-//         div.classList = "btn-notify";
-//         i.classList = "fas fa-envelope notify";
-//         checarNaoLidos(i);
-//         i.addEventListener("mouseout", e => {
-//             i.classList = "fas fa-envelope notify";
-//             i.style.bottom -= 1;
-//         });
-//         div.appendChild(i);
-//         alerta?.parentElement?.appendChild(div);
-//     }
-// };
 
-// notificacoes();
-// setInterval(notificacoes, 10000);
+
+
+let notificacoesAbertas = false;
+// let alerta = document.getElementById("alerta");
+// let i = document.createElement("i");
+// let div = document.createElement("div");
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------
+// -------------------------------         Notificações          -------------------------------
+// ---------------------------------------------------------------------------------------------
+
+
+if (
+    !pages.includes(window.location.pathname.replace(".html", "")) &&
+    !pagesNotNotify.includes(
+        window.location.pathname.replace(".html", "")
+    )
+) {
+
+    // <div id="notificacoes" class="notificacoes">
+    let notificacoes = document.createElement("div");
+    notificacoes.classList = "notificacoes";
+    notificacoes.setAttribute("id", "notificacoes");
+    //     <div class="btn-notificacao centralizar alinhar" id="btnNotificacoes">
+    let btnNotificacao = document.createElement("div");
+    btnNotificacao.classList = "btn-notificacao centralizar alinhar";
+    btnNotificacao.setAttribute("id", "btnNotificacoes");
+    //         <i class="fas fa-bell"></i>
+    let iconBell = document.createElement("i");
+    iconBell.classList = "fas fa-bell";
+    //     </div>
+    btnNotificacao.appendChild(iconBell);
+    //     <div class="nova-notificacao display-hidden" id="novaNotificacao"></div>
+    let alertNotificacao = document.createElement("div");
+    alertNotificacao.setAttribute("id", "novaNotificacao");
+    alertNotificacao.classList = "nova-notificacao display-hidden";
+    //     <div class="lista-notificacoes escondida" id="listaNotificacoes">
+    let listaNotificacoes = document.createElement("div");
+    listaNotificacoes.setAttribute("id", "listaNotificacoes");
+    listaNotificacoes.classList = "lista-notificacoes escondida";
+    //         <ul>
+    let ulNotificacoes = document.createElement("ul");
+    ulNotificacoes.setAttribute("id", "ulNotificacoes");
+
+
+    //             <li>
+    let liNot = document.createElement("li");
+    //                 <span class="nao-lido">Lorem.....</span>
+    let spanNot = document.createElement("span");
+    //             </li>
+    liNot.appendChild(spanNot);
+    //         </ul>
+    ulNotificacoes.appendChild(liNot);
+    //     </div>
+    listaNotificacoes.appendChild(ulNotificacoes);
+    // </div>
+    notificacoes.appendChild(btnNotificacao);
+    notificacoes.appendChild(alertNotificacao);
+    notificacoes.appendChild(listaNotificacoes);
+    document.querySelector("body").appendChild(notificacoes);
+
+
+
+    document.querySelector("#btnNotificacoes").addEventListener("click", () => {
+        document.querySelector("#listaNotificacoes").classList.toggle("escondida");
+        if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
+            iconBell.classList = "fas fa-bell";
+            notificacoesAbertas = false;
+        } else {
+            iconBell.classList = "fas fa-times";
+            notificacoesAbertas = true;
+        }
+    });
+}
+
+
+
+const checarNaoLidos = i => {
+    axios
+        .post("/notificacao/lista", {
+            idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
+        })
+        .then(({ data: { status, msg } }) => {
+            console.log(msg)
+            if (status === "ok") {
+                if (msg.naoLidos) {
+                    document.querySelector("#novaNotificacao").classList.remove("display-hidden");
+                }
+                document.querySelector("#ulNotificacoes").innerHTML = "";
+                msg.notificacoes.forEach((mens) => {
+                    //<li>
+                    let liNot = document.createElement("li");
+                    // <span class="nao-lido">Lorem.....</span>
+                    let spanNot = document.createElement("span");
+                    spanNot.innerHTML = mens.titulo;
+                    if (mens.lido == "n") {
+                        spanNot.classList.add("nao-lido");
+                    }
+                    //</li>
+                    liNot.appendChild(spanNot);
+                    //</ul>
+                    document.querySelector("#ulNotificacoes").appendChild(liNot);
+                    // document.querySelector("#ulNotificacoes").innerHTML += ulNotificacoes;
+                });
+            } else {
+                console.error(msg);
+            }
+        });
+};
+
+const receberNotificacoes = () => {
+    if (
+        !pages.includes(window.location.pathname.replace(".html", "")) &&
+        !pagesNotNotify.includes(
+            window.location.pathname.replace(".html", "")
+        )
+    ) {
+
+        checarNaoLidos();
+    }
+};
+
+
+receberNotificacoes();
+setInterval(receberNotificacoes, 10000);
+
+
+
+
+document.querySelector(".home-section").addEventListener("click", () => {
+    document.querySelector("#listaNotificacoes").classList.add("escondida");
+    if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
+        iconBell.classList = "fas fa-bell";
+        notificacoesAbertas = false;
+    } else {
+        iconBell.classList = "fas fa-times";
+        notificacoesAbertas = true;
+    }
+});

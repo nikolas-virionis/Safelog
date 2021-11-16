@@ -90,7 +90,7 @@ const gerarCardMaquina = maq => {
 
     labelMaq.addEventListener("click", async e => {
         maq1 = maq.id_maquina;
-        console.log(maq.id_maquina);
+        // console.log(maq.id_maquina);
         sessionStorage.setItem("maquina", labelMaq.maq);
         if (window.interval) {
             clearInterval(window.interval);
@@ -206,7 +206,7 @@ const reqData = types => {
                     }
                 }
             } else {
-                console.log(msg);
+                // console.log(msg);
             }
         });
 };
@@ -310,7 +310,7 @@ const reqDataSec = (types, chart) => {
             if (status == "ok") {
                 // for (let dados of msg) {
                 updateChart(chart, msg[0].medicoes);
-                console.log(msg[0].medicoes[0]);
+                // console.log(msg[0].medicoes[0]);
                 if(msg[0].medicoes[0].tipo == "risco"){
                     document.querySelector(`[for="${maq1}"]`).classList = "card-maquina warning";
                 }else if(msg[0].medicoes[0].tipo == "critico"){
@@ -320,7 +320,7 @@ const reqDataSec = (types, chart) => {
                 }
                 // }
             } else {
-                console.log(msg.length);
+                // console.log(msg.length);
             }
         });
 };

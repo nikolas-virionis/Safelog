@@ -51,12 +51,16 @@
     justify-content: flex-end;
 }
 
+.display-hidden{
+    visibility: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-    --cor-princial: #0071ce;
+    --cor-principal: #0071ce;
     --cor-hover: #025396;
 }
 
@@ -625,7 +629,7 @@ ul li.btn-nav a:hover {
 }
 
 .esqueceu-senha {
-    color: var(--cor-princial);
+    color: var(--cor-principal);
     cursor: pointer;
 }
 .esqueceu-senha:hover {
@@ -645,7 +649,7 @@ button#btn-ver-senha {
     width: 30px;
     height: 30px;
     border: none;
-    background-color: var(--cor-princial);
+    background-color: var(--cor-principal);
     color: #fff;
     cursor: pointer;
     position: absolute;

@@ -9,12 +9,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import oshi.SystemInfo;
 import oshi.hardware.NetworkIF;
+import oshi.software.os.OSProcess;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
 
 // Essa Classe tem como herança a Classe Looca, o comando "extends" pega os valores atributos
 // da classe Looca para serem utilizados de forma simples na classe "Monitoring"
 public class Monitoring extends Looca {
+
+    public static List<OSProcess> getProcessos() {
+        SystemInfo sys = new SystemInfo();
+        return sys.getOperatingSystem().getProcesses();
+    }
 
     public static String getSystemInfo() {
         SystemInfo sys = new SystemInfo();

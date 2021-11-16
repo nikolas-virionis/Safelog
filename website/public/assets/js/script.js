@@ -187,6 +187,18 @@ if (
             notificacoesAbertas = true;
         }
     });
+
+    document.querySelector(".home-section").addEventListener("click", () => {
+        document.querySelector("#listaNotificacoes").classList.add("escondida");
+        if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
+            iconBell.classList = "fas fa-bell";
+            notificacoesAbertas = false;
+        } else {
+            iconBell.classList = "fas fa-times";
+            clearInterval(timer);
+            notificacoesAbertas = true;
+        }
+    });
 }
 
 
@@ -197,12 +209,20 @@ const checarNaoLidos = i => {
             idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
         })
         .then(({ data: { status, msg } }) => {
-            console.log(msg)
+            // console.log(msg)
             if (status === "ok") {
                 if (msg.naoLidos) {
                     document.querySelector("#novaNotificacao").classList.remove("display-hidden");
                 }
                 document.querySelector("#ulNotificacoes").innerHTML = "";
+                if(msg.notificacoes.length == 0) {
+                    // <h3>Lorem.....</h3>
+                    let h3Not = document.createElement("h3");
+                    h3Not.innerHTML = "Você ainda não tem notificações";
+                    h3Not.classList = "centralizar alinhar";
+                    //</ul>
+                    document.querySelector("#ulNotificacoes").appendChild(h3Not);
+                }
                 msg.notificacoes.forEach((mens) => {
                     //<li>
                     let liNot = document.createElement("li");
@@ -217,6 +237,13 @@ const checarNaoLidos = i => {
                     //</ul>
                     document.querySelector("#ulNotificacoes").appendChild(liNot);
                     // document.querySelector("#ulNotificacoes").innerHTML += ulNotificacoes;
+
+                    liNot.addEventListener("click", () => {
+                        document.querySelector("#ulNotificacoes").innerHTML = `
+                            <div class="header-notificacao">${mens.titulo}awdad awda wawd awda dw awdaw</div>
+                            <div class="msg-notificacao">${mens.mensagem}</div>
+                        `;
+                    });
                 });
             } else {
                 console.error(msg);
@@ -226,10 +253,12 @@ const checarNaoLidos = i => {
 
 const receberNotificacoes = () => {
     if (
+        !notificacoesAbertas &&
         !pages.includes(window.location.pathname.replace(".html", "")) &&
         !pagesNotNotify.includes(
             window.location.pathname.replace(".html", "")
         )
+        
     ) {
 
         checarNaoLidos();
@@ -238,18 +267,4 @@ const receberNotificacoes = () => {
 
 
 receberNotificacoes();
-setInterval(receberNotificacoes, 10000);
-
-
-
-
-document.querySelector(".home-section").addEventListener("click", () => {
-    document.querySelector("#listaNotificacoes").classList.add("escondida");
-    if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
-        iconBell.classList = "fas fa-bell";
-        notificacoesAbertas = false;
-    } else {
-        iconBell.classList = "fas fa-times";
-        notificacoesAbertas = true;
-    }
-});
+let timer = setInterval(receberNotificacoes, 5000);

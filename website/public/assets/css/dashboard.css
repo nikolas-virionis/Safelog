@@ -655,3 +655,15 @@ label {
 .lista-notificacoes ul li span.nao-lido{
   font-weight: bold;
 }
+
+.header-notificacao{
+  background-color: var(--cor-principal);
+  padding: 15px 15px 15px 15px;
+  margin: 0 0 5px 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+.msg-notificacao{
+  padding: 15px 15px 15px 15px;
+}

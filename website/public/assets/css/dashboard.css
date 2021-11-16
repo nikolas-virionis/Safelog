@@ -655,3 +655,7 @@ label {
 .lista-notificacoes ul li span.nao-lido{
   font-weight: bold;
 }
+.editar{
+
+    margin: 0;
+}

@@ -154,6 +154,8 @@ if (
     let listaNotificacoes = document.createElement("div");
     listaNotificacoes.setAttribute("id", "listaNotificacoes");
     listaNotificacoes.classList = "lista-notificacoes escondida";
+
+   
     //         <ul>
     let ulNotificacoes = document.createElement("ul");
     ulNotificacoes.setAttribute("id", "ulNotificacoes");
@@ -201,6 +203,18 @@ if (
     });
 }
 
+const verificarLidos = () => {
+    axios.post("/notificacao/lista", {
+            idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
+        })
+        .then(({ data: { status, msg } }) => {
+            if(msg.naoLidos > 0) {
+                document.querySelector("#novaNotificacao").classList = "nova-notificacao";
+            }else{
+                document.querySelector("#novaNotificacao").classList = "nova-notificacao display-hidden";
+            }
+        });
+}
 
 
 const checarNaoLidos = i => {
@@ -211,10 +225,16 @@ const checarNaoLidos = i => {
         .then(({ data: { status, msg } }) => {
             // console.log(msg)
             if (status === "ok") {
-                if (msg.naoLidos) {
-                    document.querySelector("#novaNotificacao").classList.remove("display-hidden");
+                if (msg.naoLidos > 0) {
+                    document.querySelector("#novaNotificacao").classList ="nova-notificacao";
+                }else{
+                    document.querySelector("#novaNotificacao").classList ="nova-notificacao display-hidden";
                 }
                 document.querySelector("#ulNotificacoes").innerHTML = "";
+                let headerNot = document.createElement("div");
+                headerNot.classList = "header-notificacao";
+                headerNot.innerHTML = "Notificações"
+                document.querySelector("#ulNotificacoes").appendChild(headerNot);
                 if(msg.notificacoes.length == 0) {
                     // <h3>Lorem.....</h3>
                     let h3Not = document.createElement("h3");
@@ -224,6 +244,7 @@ const checarNaoLidos = i => {
                     document.querySelector("#ulNotificacoes").appendChild(h3Not);
                 }
                 msg.notificacoes.forEach((mens) => {
+                    // console.log(mens)
                     //<li>
                     let liNot = document.createElement("li");
                     // <span class="nao-lido">Lorem.....</span>
@@ -239,10 +260,22 @@ const checarNaoLidos = i => {
                     // document.querySelector("#ulNotificacoes").innerHTML += ulNotificacoes;
 
                     liNot.addEventListener("click", () => {
-                        document.querySelector("#ulNotificacoes").innerHTML = `
-                            <div class="header-notificacao">${mens.titulo}</div>
-                            <div class="msg-notificacao">${mens.mensagem}</div>
-                        `;
+                        
+                        axios.post("/notificacao/ler", {
+                            idNotificacao: mens.id_notificacao,
+                            idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
+                        }).then(({ data: { status, msg } }) => {
+                            document.querySelector("#ulNotificacoes").innerHTML = `
+                                <div class="header-notificacao alinhar"><span class="voltar-notificacao centralizar" id="btnVoltarNot"><</span>${mens.titulo}</div>
+                                <div class="msg-notificacao">${mens.mensagem}</div>
+                            `;
+                            document.querySelector("#btnVoltarNot").addEventListener("click", () => {
+                                document.querySelector("#ulNotificacoes").innerHTML = "";
+                                verificarLidos();
+                                checarNaoLidos();
+                            });
+                        })
+
                     });
                 });
             } else {

@@ -41,7 +41,7 @@ h6 {
   width: 40px;
   height: 40px;
   border: none;
-  background-color: var(--cor-princial);
+  background-color: var(--cor-principal);
   color: #fff;
   cursor: pointer;
   margin: 0 10px 0 0;
@@ -317,7 +317,7 @@ span {
 .dashboard-maquinas input[type="radio"]:checked + label {
   cursor: pointer;
   -webkit-transition: 0.2s;
-  border-left: 10px solid var(--cor-princial);
+  border-left: 10px solid var(--cor-principal);
 }
 .dashboard-maquinas {
   display: flex;
@@ -347,11 +347,11 @@ span {
   -webkit-transition: 0.2s;
   white-space: nowrap;
   height: 10vh;
-  border-left: 3px solid var(--cor-princial);
+  border-left: 3px solid var(--cor-principal);
 }
 .card-maquina:hover {
   -webkit-transition: 0.1s;
-  border-left: 10px solid var(--cor-princial);
+  border-left: 10px solid var(--cor-principal);
 }
 .card-maquina div {
   font-size: 17px;
@@ -580,6 +580,95 @@ label {
 }
 
 .caminho-span .pagina-atual-caminho{
-  color: var(--cor-princial);
+  color: var(--cor-principal);
   text-decoration: underline;
+}
+
+
+.btn-notificacao{
+  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background-color: var(--cor-principal);
+  margin: 0 10px 10px 0;
+  border-radius: 100%;
+  color: #fff;
+  font-size:1.5rem;
+  z-index: 2;
+}
+
+.btn-notificacao:hover{
+  background-color: var(--cor-hover);
+  transform: scale(1.05);
+}
+
+.nova-notificacao{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  background-color: #eb4034;
+  border-radius: 100%;
+  margin: 0 12px 12px 0;
+  z-index: 3;
+}
+
+.lista-notificacoes{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  min-height: 10vh;
+  max-height: 60vh;
+  box-shadow: 0px 0px 4px #666;
+  border-radius: 10px;
+  background-color: #fff;
+  margin: 0 40px 50px 0;
+  /* padding: 10px 10px; */
+  overflow: auto;
+  -webkit-transition: .3s;
+  /* animation: animate-div 1s; */
+}
+
+.lista-notificacoes.escondida{
+  bottom: -300px;
+}
+
+.lista-notificacoes ul li{
+  cursor: pointer;
+  padding: 10px;
+  list-style: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  border-bottom: .5px solid #bbb;
+}
+
+
+.lista-notificacoes ul li:hover{
+  background-color: #ddd;
+}
+.lista-notificacoes ul li span.nao-lido{
+  font-weight: bold;
+}
+
+.header-notificacao{
+  background-color: var(--cor-principal);
+  padding: 15px 15px 15px 15px;
+  margin: 0 0 5px 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+.msg-notificacao{
+  padding: 15px 15px 15px 15px;
+}
+
+.editar{
+
+    margin: 0;
 }

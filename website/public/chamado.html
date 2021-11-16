@@ -73,7 +73,7 @@
                         <div class="descricao">
                         </div>
 
-                        <div class="row chamado-footer alinhar">
+                        <div class="row chamado-footer-ch alinhar">
                             <div class="col-md-6 col-sm-12">
                                 <span id="nomeResp"></span>
                             </div>
@@ -81,6 +81,9 @@
                                 <span id="emailResp"></span>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="editar">
 
                     </div>
                 </div>
@@ -126,9 +129,78 @@
                 <!-- Responder chamado -->
                 <div class="row justify-content-center" id="responder-btn">
                     <button class="btn-geral">Responder a este chamado</button>
+                    <button class="btn-geral-edit">Editar chamado</button>
+
+
                 </div>
 
+                </span>
             </div>
+
+            <div class="centralizar-fr">
+
+
+                <div class="form-cadastro">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-id-maquina">Nome do chamado:</label>
+                                <input type="text" name="" id="inp-id-maquina" />
+                            </div>
+                            <div class="col-md-6 col-sm-12 form-item">
+
+                                <label>Prioridade:</label>
+                                <select name="" id="prioridade">
+                                    <option value="">Escolha a prioridade</option>
+                                    <option value="baixa">Baixa</option>
+                                    <option value="media">Média</option>
+                                    <option value="alta">Alta</option>
+                                    <option value="emergencia">Emergência</option>
+                                </select>
+                            </div>
+
+
+
+                        </div>
+                        <div class="row">
+                            <span class="center-t">
+                                <label for="">Descrição</label> <br>
+                                <textarea class="textarea" name="" id="" cols="30" rows="10"></textarea>
+                            </span>
+                        </div>
+                        <div class="row" id="row-alt-senha">
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-senha-atual">Senha atual:</label>
+                                <input type="password" id="inp-senha-atual" />
+                            </div>
+                            <!-- <div>
+                            <input style="visibility:hidden " type="text">
+                        </div> -->
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-nova-senha">Nova senha:</label>
+                                <input type="password" id="inp-nova-senha" />
+                                <button type="button" id="btn-ver-senha" class="fas fa-eye rounded">Ver
+                                    senha</button>
+                            </div>
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-conf-senha">Confirmar senha:</label>
+                                <input type="password" id="inp-conf-senha" />
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <div class="row">
+                                <button class="btn-geral" id="btn-edit-maq">Atualizar</button>
+                                <button href="componentes" class="btn-geral btn-secondary"
+                                    id="btn-edit-comp">Cancelar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
     </section>
     <div id="alerta"></div>
 

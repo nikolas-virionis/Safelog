@@ -16,7 +16,8 @@ public class ConfigDB {
         // dotenv.get("DB_NAME"));
         basicDataSource.setUrl(String.format("jdbc:mysql://localhost:3306/%s", SensitiveData.DB_NAME));
         // exemplo para SQL Server:
-        // basicDataSource.setUrl(String.format("jdbc:sqlserver://%s/%s", SensitiveData.DB_CLOUD_URL, SensitiveData.DB_NAME));
+        // basicDataSource.setUrl(String.format("jdbc:sqlserver://%s/%s",
+        // SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
         // "jdbc:sqlserver://meubanco.database.windows.net/meubanco"
         // basicDataSource.setUsername(dotenv.get("DB_USER"));
         // basicDataSource.setPassword(dotenv.get("DB_PASSWORD"));

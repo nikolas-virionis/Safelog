@@ -630,12 +630,12 @@ label {
   margin: 0 40px 50px 0;
   /* padding: 10px 10px; */
   overflow: auto;
-  -webkit-transition: .3s;
+  -webkit-transition: .6s;
   /* animation: animate-div 1s; */
 }
 
 .lista-notificacoes.escondida{
-  bottom: -300px;
+  bottom: -1200px;
 }
 
 .lista-notificacoes ul li{
@@ -658,7 +658,7 @@ label {
 
 .header-notificacao{
   background-color: var(--cor-principal);
-  padding: 15px 15px 15px 15px;
+  padding: 12px;
   margin: 0 0 5px 0;
   color: #fff;
   font-weight: bold;
@@ -666,6 +666,18 @@ label {
 
 .msg-notificacao{
   padding: 15px 15px 15px 15px;
+}
+
+.voltar-notificacao{
+  margin: 0 10px 0 0;
+  width: 40px;
+  border-radius: 100%;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.voltar-notificacao:hover{
+  background-color: var(--cor-hover);
 }
 
 .editar{

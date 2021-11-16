@@ -2,20 +2,19 @@ let sequelize = require("../../models").sequelize;
 
 const getMedicoesTrend = async ({
     idCategoriaMedicao,
-    type = "week",
-    qtd = 1
+    type = "all",
+    qtd
 } = {}) => {
     if (!idCategoriaMedicao)
         throw "É necessário a identificação da métrica para continuar";
 
     let sqlMedicoes;
 
-    if (type == "day") {
-        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} DAY) AND NOW() ORDER BY data_medicao DESC`;
-    } else if (type == "week") {
-        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} WEEK) AND NOW() ORDER BY data_medicao DESC`;
-    } else if (type == "month") {
-        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} MONTH) AND NOW() ORDER BY data_medicao DESC`;
+    if (type == "all") {
+        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC`;
+    } 
+    else if (type == "day" ||type == "week" || type == "month") {
+        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} ${type}) AND NOW() ORDER BY data_medicao DESC`;
     } else if (type == "qtd") {
         sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC LIMIT ${qtd}`;
     } else {
@@ -50,7 +49,6 @@ const getStatsChamado = async ({
     type = "all",
     qtd
 } = {}) => {
-    console.log(idCategoriaMedicao, maquina, type, qtd);
     let chamados, solucoes;
     if (!idCategoriaMedicao && !maquina)
         throw "É necessário a identificação da métrica ou maquina para continuar";

@@ -240,7 +240,7 @@ const checarNaoLidos = i => {
 
                     liNot.addEventListener("click", () => {
                         document.querySelector("#ulNotificacoes").innerHTML = `
-                            <div class="header-notificacao">${mens.titulo}awdad awda wawd awda dw awdaw</div>
+                            <div class="header-notificacao">${mens.titulo}</div>
                             <div class="msg-notificacao">${mens.mensagem}</div>
                         `;
                     });

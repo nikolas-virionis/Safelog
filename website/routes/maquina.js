@@ -227,6 +227,13 @@ router.post("/componentes", async (req, res) => {
                 let sql = `INSERT INTO categoria_medicao VALUES (NULL, ${limite}, ${id}, (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
                 await sequelize
                     .query(sql, {type: sequelize.QueryTypes.INSERT})
+                    .catch(err => Promise.resolve())
+                    .then(async () => {
+                        await sequelizeAzure.query(sql, {
+                            type: sequelizeAzure.QueryTypes.INSERT
+                        });
+                        return Promise.resolve();
+                    })
                     .then(response => {})
                     .catch(err => {
                         return res.json({status: "erro", msg: err});
@@ -235,6 +242,13 @@ router.post("/componentes", async (req, res) => {
                 let sql = `UPDATE categoria_medicao SET medicao_limite = ${limite} WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
                 await sequelize
                     .query(sql, {type: sequelize.QueryTypes.UPDATE})
+                    .catch(err => Promise.resolve())
+                    .then(async () => {
+                        await sequelizeAzure.query(sql, {
+                            type: sequelizeAzure.QueryTypes.UPDATE
+                        });
+                        return Promise.resolve();
+                    })
                     .then(response => {})
                     .catch(err => {
                         return res.json({status: "erro", msg: err});
@@ -245,10 +259,24 @@ router.post("/componentes", async (req, res) => {
                     .query(deleteSql, {
                         type: sequelize.QueryTypes.DELETE
                     })
+                    .catch(err => Promise.resolve())
+                    .then(async () => {
+                        await sequelizeAzure.query(deleteSql, {
+                            type: sequelizeAzure.QueryTypes.DELETE
+                        });
+                        return Promise.resolve();
+                    })
                     .then(async () => {
                         let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
                         await sequelize
                             .query(sql, {type: sequelize.QueryTypes.DELETE})
+                            .catch(err => Promise.resolve())
+                            .then(async () => {
+                                await sequelizeAzure.query(sql, {
+                                    type: sequelizeAzure.QueryTypes.DELETE
+                                });
+                                return Promise.resolve();
+                            })
                             .then(response => {})
                             .catch(err => {
                                 return res.json({status: "erro2", msg: err});
@@ -277,6 +305,13 @@ router.post("/lista-componentes", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(response => {
             res.json({status: "ok", msg: response});
         })
@@ -306,11 +341,25 @@ router.post("/delete", async (req, res, next) => {
 
     await sequelize
         .query(sqlMaquinaExiste, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sqlMaquinaExiste, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([maquinaExiste]) => {
             if (maquinaExiste) {
                 let sql = `SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${id}`;
                 await sequelize
                     .query(sql, {type: sequelize.QueryTypes.SELECT})
+                    .catch(async err =>
+                        Promise.resolve(
+                            await sequelizeAzure.query(sql, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                        )
+                    )
                     .then(async fkCategorias => {
                         let metricas = fkCategorias.map(
                             item => item.id_categoria_medicao
@@ -323,6 +372,13 @@ router.post("/delete", async (req, res, next) => {
                                 .query(sqlDelMedicao, {
                                     type: sequelize.QueryTypes.DELETE
                                 })
+                                .catch(err => Promise.resolve())
+                                .then(async () => {
+                                    await sequelizeAzure.query(sqlDelMedicao, {
+                                        type: sequelizeAzure.QueryTypes.DELETE
+                                    });
+                                    return Promise.resolve();
+                                })
                                 .then(async resultMedicao => {
                                     console.log(resultMedicao);
 
@@ -332,6 +388,17 @@ router.post("/delete", async (req, res, next) => {
                                     await sequelize
                                         .query(sqlDelCategoria, {
                                             type: sequelize.QueryTypes.DELETE
+                                        })
+                                        .catch(err => Promise.resolve())
+                                        .then(async () => {
+                                            await sequelizeAzure.query(
+                                                sqlDelCategoria,
+                                                {
+                                                    type: sequelizeAzure
+                                                        .QueryTypes.DELETE
+                                                }
+                                            );
+                                            return Promise.resolve();
                                         })
                                         .then(async resultCategoria => {
                                             console.log(resultCategoria);
@@ -358,12 +425,30 @@ router.post("/delete", async (req, res, next) => {
                             .query(sqlDelUsMac, {
                                 type: sequelize.QueryTypes.DELETE
                             })
+                            .catch(err => Promise.resolve())
+                            .then(async () => {
+                                await sequelizeAzure.query(sqlDelUsMac, {
+                                    type: sequelizeAzure.QueryTypes.DELETE
+                                });
+                                return Promise.resolve();
+                            })
                             .then(async resultUsMac => {
                                 let sqlDeleteMac = `DELETE FROM maquina WHERE pk_maquina = ${id};`;
 
                                 await sequelize
                                     .query(sqlDeleteMac, {
                                         type: sequelize.QueryTypes.DELETE
+                                    })
+                                    .catch(err => Promise.resolve())
+                                    .then(async () => {
+                                        await sequelizeAzure.query(
+                                            sqlDeleteMac,
+                                            {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .DELETE
+                                            }
+                                        );
+                                        return Promise.resolve();
                                     })
                                     .then(async resultMac => {
                                         console.log(resultMac);
@@ -399,6 +484,12 @@ router.post("/permissao-acesso", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.INSERT})
+        .catch(async err => Promise.resolve())
+        .then(async () => {
+            await sequelizeAzure.query(sql, {
+                type: sequelizeAzure.QueryTypes.INSERT
+            });
+        })
         .then(response => {
             res.json({status: "ok", msg: "Permissão concedida com sucesso"});
         })
@@ -453,6 +544,13 @@ router.post("/convite", async (req, res) => {
         .query(usuarioExisteEmStaff, {
             type: sequelize.QueryTypes.SELECT
         })
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(usuarioExisteEmStaff, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async response => {
             if (response.length)
                 return res.json({
@@ -464,6 +562,13 @@ router.post("/convite", async (req, res) => {
                 .query(usuarioExiste, {
                     type: sequelize.QueryTypes.SELECT
                 })
+                .catch(async err =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(usuarioExiste, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    )
+                )
                 .then(async resposta => {
                     if (!resposta.length)
                         return res.json({
@@ -482,6 +587,16 @@ router.post("/convite", async (req, res) => {
                         .query(usuarioMaquinaExiste, {
                             type: sequelize.QueryTypes.SELECT
                         })
+                        .catch(async err =>
+                            Promise.resolve(
+                                await sequelizeAzure.query(
+                                    usuarioMaquinaExiste,
+                                    {
+                                        type: sequelizeAzure.QueryTypes.SELECT
+                                    }
+                                )
+                            )
+                        )
                         .then(async result => {
                             if (result.length)
                                 return res.json({
@@ -493,6 +608,16 @@ router.post("/convite", async (req, res) => {
                                 .query(insertUsuarioMaquina, {
                                     type: sequelize.QueryTypes.INSERT
                                 })
+                                .catch(async err => Promise.resolve())
+                                .then(async () => {
+                                    await sequelizeAzure.query(
+                                        insertUsuarioMaquina,
+                                        {
+                                            type: sequelizeAzure.QueryTypes
+                                                .INSERT
+                                        }
+                                    );
+                                })
                                 .then(async () => {
                                     let sql = `SELECT usuario.nome as resp, maquina.nome as nomeMaquina from usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
 
@@ -500,6 +625,17 @@ router.post("/convite", async (req, res) => {
                                         .query(sql, {
                                             type: sequelize.QueryTypes.SELECT
                                         })
+                                        .catch(async err =>
+                                            Promise.resolve(
+                                                await sequelizeAzure.query(
+                                                    sql,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.SELECT
+                                                    }
+                                                )
+                                            )
+                                        )
                                         .then(([{resp, nomeMaquina}]) => {
                                             mandarEmail(
                                                 "convite de acesso",

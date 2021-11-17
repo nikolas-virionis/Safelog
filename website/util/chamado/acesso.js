@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 
 const verificarAcesso = async ({idUsuario, idCategoriaMedicao, idChamado}) => {
     let sqlCategoria = ` AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${idCategoriaMedicao})`;
@@ -30,6 +30,34 @@ const verificarAcesso = async ({idUsuario, idCategoriaMedicao, idChamado}) => {
                         };
                     });
             }
+        })
+        .catch(async err => {
+            return await sequelizeAzure
+                .query(sqlUsuarioTemAcesso, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+                .then(async ([{usuarios}]) => {
+                    if (usuarios) {
+                        return true;
+                    } else {
+                        const sqlGestorTemAcesso = `SELECT count(fk_usuario) as usuarios FROM usuario_maquina JOIN usuario ON fk_usuario = id_usuario AND fk_supervisor = ${idUsuario} ${
+                            idChamado ? sqlChamado : sqlCategoria
+                        }`;
+                        return await sequelizeAzure
+                            .query(sqlGestorTemAcesso, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                            .then(([{usuarios}]) => {
+                                return !!usuarios;
+                            })
+                            .catch(err => {
+                                return {
+                                    status: "erro",
+                                    msg: err
+                                };
+                            });
+                    }
+                });
         });
 };
 
@@ -81,11 +109,52 @@ const usuariosComAcesso = async ({
             );
             return usuarios;
         })
-        .catch(err => {
-            return {
-                status: "erro",
-                msg: err
-            };
+        .catch(async err => {
+            return await sequelizeAzure
+                .query(getUsuarios, {type: sequelizeAzure.QueryTypes.SELECT})
+                .then(async usuarios => {
+                    if (gestor) {
+                        const sqlGestores = `SELECT g.id_usuario, g.nome, g.email FROM usuario AS g JOIN usuario AS a ON g.id_usuario = a.fk_supervisor JOIN usuario_maquina ON a.id_usuario = fk_usuario AND fk_maquina = (SELECT fk_maquina FROM categoria_medicao WHERE id_categoria_medicao = ${
+                            idCategoriaMedicao ??
+                            `(SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})`
+                        })${
+                            usuarioResp
+                                ? ` WHERE g.id_usuario <> ${usuarioResp}`
+                                : ""
+                        }`;
+                        let gestores = await sequelizeAzure.query(sqlGestores, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        });
+
+                        const ids = gestores.map(o => o.id_usuario);
+                        gestores = gestores.filter(
+                            ({id_usuario}, index) =>
+                                !ids.includes(id_usuario, index + 1)
+                        );
+                        usuarios = [...usuarios, ...gestores];
+                    }
+                    usuarios = await Promise.all(
+                        usuarios.map(async usuario => {
+                            const sqlContatos = `SELECT forma_contato.nome, contato.valor, contato.identificador FROM forma_contato JOIN contato ON fk_forma_contato = id_forma_contato JOIN usuario ON fk_usuario = id_usuario AND fk_usuario = ${usuario.id_usuario};`;
+                            return await sequelizeAzure
+                                .query(sqlContatos, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                                .then(contatos => {
+                                    // console.log({...usuario, contatos});
+                                    return {...usuario, contatos};
+                                })
+                                .catch(err => console.error(err));
+                        })
+                    );
+                    return usuarios;
+                })
+                .catch(async err => {
+                    return {
+                        status: "erro",
+                        msg: err
+                    };
+                });
         });
 };
 module.exports = {verificarAcesso, usuariosComAcesso};

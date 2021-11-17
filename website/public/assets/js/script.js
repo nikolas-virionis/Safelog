@@ -300,4 +300,4 @@ const receberNotificacoes = () => {
 
 
 receberNotificacoes();
-let timer = setInterval(receberNotificacoes, 5000);
+let timer = setInterval(receberNotificacoes, 500);

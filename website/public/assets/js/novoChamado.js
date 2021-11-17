@@ -1,4 +1,5 @@
-const {id, nome, email, cargo} = JSON.parse(sessionStorage.getItem("usuario"));
+const {id, nome, email} = JSON.parse(sessionStorage.getItem("usuario"));
+const cargoPessoa = JSON.parse(sessionStorage.getItem("usuario")).cargo;
 const titulo = document.querySelector("#titulo");
 const descricao = document.querySelector("#descricao");
 const maquinas = document.querySelector("#maquinas");
@@ -20,7 +21,7 @@ descricao.addEventListener("keypress", e => {
 });
 
 axios
-    .post(`/maquina/lista-dependentes/${cargo}`, {
+    .post(`/maquina/lista-dependentes/${cargoPessoa}`, {
         id
     })
     .then(({data: {status, msg}}) => {

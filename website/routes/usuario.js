@@ -2,6 +2,7 @@
 let express = require("express");
 let router = express.Router();
 let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 const multer = require("multer");
 express.json();
 

@@ -395,11 +395,14 @@ router.post("/lista", async (req, res) => {
                                         });
                                 }
                                 // select id_chamado from chamado as c left join solucao on id_chamado = fk_chamado;
-                                let sqlChamados = `SELECT * FROM v_chamados ORDER BY status, CASE prioridade WHEN 'emergencia' THEN 1 WHEN 'alta' THEN 2 WHEN 'media' THEN 3 ELSE 4 END, data_abertura DESC`;
+                                let sqlChamados =
+                                    "SELECT id_chamado, c.titulo, c.descricao, data_abertura, status_chamado AS 'status', prioridade, automatico, maquina.nome AS maquina, usuario.nome AS usuario, usuario.email, c.fk_categoria_medicao FROM chamado AS c JOIN usuario ON usuario.id_usuario = c.fk_usuario JOIN categoria_medicao ON id_categoria_medicao = c.fk_categoria_medicao JOIN maquina ON pk_maquina = categoria_medicao.fk_maquina LEFT JOIN solucao ON id_chamado = fk_chamado";
 
                                 if (search) {
-                                    sqlChamados = `SELECT * FROM v_chamados WHERE titulo LIKE '%${search}%' OR status LIKE '%${search}%' OR prioridade LIKE '%${search}%' ORDER BY status, CASE prioridade WHEN 'emergencia' THEN 1 WHEN 'alta' THEN 2 WHEN 'media' THEN 3 ELSE 4 END, data_abertura DESC`;
+                                    sqlChamados += ` WHERE c.titulo LIKE '%${search}%' OR 'status' LIKE '%${search}%' OR prioridade LIKE '%${search}%'`;
                                 }
+                                sqlChamados +=
+                                    " ORDER BY status_chamado, CASE prioridade WHEN 'emergencia' THEN 1 WHEN 'alta' THEN 2 WHEN 'media' THEN 3 ELSE 4 END, data_abertura DESC";
 
                                 await sequelize
                                     .query(sqlChamados, {

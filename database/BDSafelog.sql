@@ -146,31 +146,6 @@ CREATE TABLE solucao (
     FOREIGN KEY (fk_chamado) REFERENCES chamado(id_chamado)
 );
 
-CREATE VIEW v_chamados AS (
-    SELECT
-        id_chamado,
-        c.titulo,
-        c.descricao,
-        data_abertura,
-        status_chamado AS 'status',
-        prioridade,
-        automatico,
-        maquina.nome AS maquina,
-        usuario.nome AS usuario,
-        usuario.email,
-        c.fk_categoria_medicao
-    FROM
-        chamado AS c
-        JOIN usuario ON usuario.id_usuario = c.fk_usuario
-        JOIN categoria_medicao ON id_categoria_medicao = c.fk_categoria_medicao
-        JOIN maquina ON pk_maquina = categoria_medicao.fk_maquina
-        LEFT JOIN solucao ON id_chamado = fk_chamado
-    ORDER BY
-        'status',
-        data_abertura,
-        prioridade
-);
-
 INSERT INTO
     tipo_medicao(tipo, unidade)
 VALUES

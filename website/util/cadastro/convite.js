@@ -1,23 +1,33 @@
-const { generateToken } = require("../token-user/token");
-let sequelize = require("../../models").sequelize;
+const {generateToken} = require("../token-user/token");
+let {sequelize, sequelizeAzure} = require("../../models");
 let send = require("../email/email").mandarEmail;
 
-const checarEmStaff = async (identificacao) => {
+const checarEmStaff = async identificacao => {
     let sqlEmailExistsInStaff;
     if (typeof identificacao == "string")
         sqlEmailExistsInStaff = `SELECT * FROM staff WHERE email = '${identificacao}';`;
     else
-        sqlEmailExistsInStaff = `SELECT * FROM staff WHERE id_staff = '${identificacao}';`;
+        sqlEmailExistsInStaff = `SELECT * FROM staff WHERE id_staff = ${identificacao};`;
     let existe;
     await sequelize
         .query(sqlEmailExistsInStaff, {
-            type: sequelize.QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT
         })
-        .then((resposta) => (existe = resposta.length > 0));
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(sqlEmailExistsInStaff, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
+        .then(resposta => (existe = resposta.length > 0))
+        .catch(err => {
+            return {status: "erro", msg: err};
+        });
     return existe;
 };
 
-const checarEmUsuario = async (identificacao) => {
+const checarEmUsuario = async identificacao => {
     let sqlEmailExistsInUsuario;
     if (typeof identificacao == "string")
         sqlEmailExistsInUsuario = `SELECT * FROM usuario WHERE email = '${identificacao}';`;
@@ -26,9 +36,19 @@ const checarEmUsuario = async (identificacao) => {
     let existe;
     await sequelize
         .query(sqlEmailExistsInUsuario, {
-            type: sequelize.QueryTypes.SELECT,
+            type: sequelize.QueryTypes.SELECT
         })
-        .then((resposta) => (existe = resposta.length > 0));
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(sqlEmailExistsInUsuario, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
+        .then(resposta => (existe = resposta.length > 0))
+        .catch(err => {
+            return {status: "erro", msg: err};
+        });
     return existe;
 };
 
@@ -42,44 +62,52 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
     }
     await sequelize
         .query(insertParcial, {
-            type: sequelize.QueryTypes.INSERT,
+            type: sequelize.QueryTypes.INSERT
         })
-        .catch((err) => console.error(err));
+        .catch(async err => {
+            Promise.resolve();
+        })
+        .then(() => {
+            await sequelizeAzure.query(insertParcial, {
+                type: sequelizeAzure.QueryTypes.INSERT
+            });
+        })
+        .catch(err => console.error(err));
 };
 
 const enviarConvite = async (email, cargo, fk_empresa, fk_supervisor) => {
     if (!email)
         return {
             status: "erro",
-            msg: "Email não fornecido",
+            msg: "Email não fornecido"
         };
     //checar se email existe em staff ou usuario
     let emStaff;
     let emUsuario;
-    await checarEmStaff(email).then((bool) => (emStaff = bool));
+    await checarEmStaff(email).then(bool => (emStaff = bool));
     if (emStaff)
         return {
             status: "erro",
-            msg: "Usuário ja cadastrado como staff",
+            msg: "Usuário ja cadastrado como staff"
         };
-    await checarEmUsuario(email).then((bool) => (emUsuario = bool));
+    await checarEmUsuario(email).then(bool => (emUsuario = bool));
     if (emUsuario)
         return {
             status: "erro",
-            msg: "Usuário já registrado",
+            msg: "Usuário já registrado"
         };
     // geração do id unico
     let hash = generateToken();
     // insert parcial de dados
     await insertParcial(hash, email, cargo, fk_empresa, fk_supervisor).then(
-        (res) => send("cadastro", null, email, [hash])
+        res => send("cadastro", null, email, [hash])
     );
     // email de cadastr enviado para
 
     return {
         status: "ok",
-        msg: "Usuário convidado!",
+        msg: "Usuário convidado!"
     };
 };
 
-module.exports = { enviarConvite, checarEmStaff, checarEmUsuario };
+module.exports = {enviarConvite, checarEmStaff, checarEmUsuario};

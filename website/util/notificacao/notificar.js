@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 const enviarNotificacao = async (usuarios, notificacao) => {
     // usuarios => array de usuarios
     // notificacao => obj com:
@@ -19,17 +19,42 @@ const enviarNotificacao = async (usuarios, notificacao) => {
         .query(sqlInsertNotificacao, {
             type: sequelize.QueryTypes.INSERT
         })
+        .catch(err => Promise.resolve())
+        .then(async () => {
+            await sequelizeAzure.query(sqlInsertNotificacao, {
+                type: sequelizeAzure.QueryTypes.INSERT
+            });
+            Promise.resolve();
+        })
         .then(async () => {
             await sequelize
                 .query(sqlIdNotificacao, {type: sequelize.QueryTypes.SELECT})
+                .catch(async err =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(sqlInsertNotificacao, {
+                            type: sequelizeAzure.QueryTypes.INSERT
+                        })
+                    )
+                )
                 .then(async ([{id_notificacao: idNotificacao}]) => {
                     for (let usuario of usuarios) {
                         const atribuirNotificacao = `INSERT INTO usuario_notificacao(fk_usuario, fk_notificacao, lido, data_notificacao) VALUES (${
                             usuario?.id_usuario ?? usuario
                         }, ${idNotificacao}, 'n', now())`;
-                        await sequelize.query(atribuirNotificacao, {
-                            type: sequelize.QueryTypes.INSERT
-                        });
+                        await sequelize
+                            .query(atribuirNotificacao, {
+                                type: sequelize.QueryTypes.INSERT
+                            })
+                            .catch(err => Promise.resolve())
+                            .then(async () => {
+                                await sequelizeAzure.query(
+                                    atribuirNotificacao,
+                                    {
+                                        type: sequelizeAzure.QueryTypes.INSERT
+                                    }
+                                );
+                                Promise.resolve();
+                            });
                     }
                 });
         });

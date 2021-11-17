@@ -16,6 +16,13 @@ router.post("/cadastro", async (req, res, next) => {
     let empresaExiste;
     await sequelize
         .query(idExists, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(idExists, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(response => (empresaExiste = response.length > 0))
         .catch(err => res.json({status: "erro", msg: err}));
 
@@ -23,7 +30,16 @@ router.post("/cadastro", async (req, res, next) => {
         let insertEmpresa = `INSERT INTO empresa(id_empresa, nome, cidade, pais, fk_staff) VALUES ('${id}', '${nome}', '${cidade}', '${pais}', ${staff})`;
         await sequelize
             .query(insertEmpresa, {type: sequelize.QueryTypes.INSERT})
-            .then(response => {
+            .catch(async err => {
+                Promise.resolve();
+            })
+            .then(() => {
+                await sequelizeAzure.query(insertEmpresa, {
+                    type: sequelizeAzure.QueryTypes.INSERT
+                });
+                Promise.resolve();
+            })
+            .then(() => {
                 sendInvite(email, "admin", id, null)
                     .then(result => {
                         res.json(result);

@@ -1,7 +1,7 @@
 // dependencias
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 const {mandarEmail} = require("../util/email/email");
 const {
     edicaoMaquina,
@@ -26,47 +26,83 @@ router.post("/cadastro", async (req, res, next) => {
 
     await sequelize
         .query(maquinaExiste, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            return Promise.resolve(
+                await sequelizeAzure.query(maquinaExiste, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(async maquinas => {
-            if (maquinas.length == 0) {
-                await sequelize
-                    .query(insertMaquina, {
-                        type: sequelize.QueryTypes.INSERT
-                    })
-                    .then(async response => {
-                        // capturando id da máquina insertada
-                        let sqlPkMac = `SELECT pk_maquina FROM maquina WHERE id_maquina = '${id_maquina}'`;
-                        await sequelize
-                            .query(sqlPkMac, {
-                                type: sequelize.QueryTypes.SELECT
-                            })
-                            .then(async resultPkMac => {
-                                console.log(resultPkMac);
-
-                                let pk_maquina = resultPkMac[0].pk_maquina;
-                                let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, ${pk_maquina});`;
-                                await sequelize
-                                    .query(insertUsuarioMaquina, {
-                                        type: sequelize.QueryTypes.INSERT
-                                    })
-                                    .then(responsta =>
-                                        res.json({
-                                            status: "ok",
-                                            msg: "Maquina registrada com sucesso",
-                                            pk_maquina
-                                        })
-                                    )
-                                    .catch(err =>
-                                        res.json({status: "erro", msg: err})
-                                    );
-                            })
-                            .catch(err => res.json({status: "erro", msg: err}));
-                    })
-                    .catch(err => res.json({status: "erro", msg: err}));
-            } else
+            if (maquinas.length)
                 return res.json({
                     status: "alerta",
                     msg: "Maquina ja cadastrada"
                 });
+            await sequelize
+                .query(insertMaquina, {
+                    type: sequelize.QueryTypes.INSERT
+                })
+                .catch(async err => {
+                    return Promise.resolve();
+                })
+                .then(async () => {
+                    insertMaquina = `INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES ('${id_maquina}', '${nome}', HASHBYTES('md5', '${senha}'), '${empresa}')`;
+                    await sequelizeAzure.query(insertMaquina, {
+                        type: sequelizeAzure.QueryTypes.INSERT
+                    });
+                    return Promise.resolve();
+                })
+                .then(async () => {
+                    // capturando id da máquina insertada
+                    let sqlPkMac = `SELECT pk_maquina FROM maquina WHERE id_maquina = '${id_maquina}'`;
+                    await sequelize
+                        .query(sqlPkMac, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .catch(async err => {
+                            return Promise.resolve(
+                                await sequelizeAzure.query(sqlPkMac, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            );
+                        })
+                        .then(async resultPkMac => {
+                            console.log(resultPkMac);
+
+                            let pk_maquina = resultPkMac[0].pk_maquina;
+                            let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', ${id}, ${pk_maquina});`;
+                            await sequelize
+                                .query(insertUsuarioMaquina, {
+                                    type: sequelize.QueryTypes.INSERT
+                                })
+                                .catch(async err => {
+                                    return Promise.resolve();
+                                })
+                                .then(async () => {
+                                    await sequelizeAzure.query(
+                                        insertUsuarioMaquina,
+                                        {
+                                            type: sequelizeAzure.QueryTypes
+                                                .INSERT
+                                        }
+                                    );
+                                    return Promise.resolve();
+                                })
+                                .then(() =>
+                                    res.json({
+                                        status: "ok",
+                                        msg: "Maquina registrada com sucesso",
+                                        pk_maquina
+                                    })
+                                )
+                                .catch(err =>
+                                    res.json({status: "erro", msg: err})
+                                );
+                        })
+                        .catch(err => res.json({status: "erro", msg: err}));
+                })
+                .catch(err => res.json({status: "erro", msg: err}));
         })
         .catch(err => res.json({status: "erro", msg: err}));
 });

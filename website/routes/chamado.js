@@ -310,9 +310,27 @@ router.post("/atualizar", async (req, res) => {
 
     await sequelize
         .query(updateChamado, {type: sequelize.QueryTypes.UPDATE})
+        .catch(async err => {
+            Promise.resolve();
+        })
+        .then(async () => {
+            await sequelizeAzure.query(updateChamado, {
+                type: sequelizeAzure.QueryTypes.UPDATE
+            });
+            Promise.resolve();
+        })
         .then(async () => {
             await sequelize
                 .query(updateSolucao, {type: sequelize.QueryTypes.UPDATE})
+                .catch(async err => {
+                    Promise.resolve();
+                })
+                .then(async () => {
+                    await sequelizeAzure.query(updateSolucao, {
+                        type: sequelizeAzure.QueryTypes.UPDATE
+                    });
+                    Promise.resolve();
+                })
                 .then(() => {
                     res.json({
                         status: "ok",

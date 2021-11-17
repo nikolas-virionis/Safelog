@@ -13,13 +13,27 @@ router.post("/lista", async (req, res) => {
     }
 
     const sql = `SELECT notificacao.*, usuario_notificacao.* FROM notificacao JOIN usuario_notificacao ON fk_notificacao = id_notificacao AND fk_usuario = ${idUsuario} ORDER BY data_notificacao DESC`;
-    const sqlNaoLidos = `SELECT count(id_usuario_notificacao) as naoLidos FROM usuario_notificacao WHERE  fk_usuario = ${idUsuario} AND lido = 'n'`;
+    const sqlNaoLidos = `SELECT count(id_usuario_notificacao) as naoLidos FROM usuario_notificacao WHERE fk_usuario = ${idUsuario} AND lido = 'n'`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(async notificacoes => {
             await sequelize
                 .query(sqlNaoLidos, {type: sequelize.QueryTypes.SELECT})
+                .catch(async err => {
+                    Promise.resolve(
+                        await sequelizeAzure.query(sqlNaoLidos, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    );
+                })
                 .then(([{naoLidos}]) =>
                     res.json({status: "ok", msg: {notificacoes, naoLidos}})
                 )
@@ -41,6 +55,13 @@ router.post("/dados", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(([notificacao]) => {
             res.json({status: "ok", msg: notificacao});
         })
@@ -60,6 +81,13 @@ router.post("/ler", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.UPDATE})
+        .catch(async err => {
+            Promise.resolve();
+        })
+        .then(async () => {
+            await sequelize.query(sql, {type: sequelize.QueryTypes.UPDATE});
+            Promise.resolve();
+        })
         .then(() => res.json({status: "ok", msg: "Mensagem lida com sucesso"}))
         .catch(err => res.json({status: "erro", msg: err}));
 });

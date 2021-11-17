@@ -183,7 +183,7 @@ router.post("/fechar", async (req, res) => {
     await sequelize
         .query(sqlChamadoAberto, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sqlChamadoAberto, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -202,13 +202,13 @@ router.post("/fechar", async (req, res) => {
                     type: sequelize.QueryTypes.UPDATE
                 })
                 .catch(async err => {
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .then(async () => {
                     await sequelizeAzure.query(updateStatusChamado, {
                         type: sequelizeAzure.QueryTypes.UPDATE
                     });
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .then(async () => {
                     const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'total', ${idChamado}, ${idUsuario})`;
@@ -218,14 +218,14 @@ router.post("/fechar", async (req, res) => {
                             type: sequelize.QueryTypes.INSERT
                         })
                         .catch(async err => {
-                            Promise.resolve();
+                            return Promise.resolve();
                         })
                         .then(async () => {
                             const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', getdate(), 'total', ${idChamado}, ${idUsuario})`;
                             await sequelizeAzure.query(criarSolucao, {
                                 type: sequelizeAzure.QueryTypes.INSERT
                             });
-                            Promise.resolve();
+                            return Promise.resolve();
                         })
                         .then(async () => {
                             const usuarios = await usuariosComAcesso({
@@ -236,7 +236,7 @@ router.post("/fechar", async (req, res) => {
                             await sequelize
                                 .query(sql, {type: sequelize.QueryTypes.SELECT})
                                 .catch(async err => {
-                                    Promise.resolve(
+                                    return Promise.resolve(
                                         await sequelizeAzure.query(sql, {
                                             type: sequelizeAzure.QueryTypes
                                                 .SELECT
@@ -311,25 +311,25 @@ router.post("/atualizar", async (req, res) => {
     await sequelize
         .query(updateChamado, {type: sequelize.QueryTypes.UPDATE})
         .catch(async err => {
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(async () => {
             await sequelizeAzure.query(updateChamado, {
                 type: sequelizeAzure.QueryTypes.UPDATE
             });
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(async () => {
             await sequelize
                 .query(updateSolucao, {type: sequelize.QueryTypes.UPDATE})
                 .catch(async err => {
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .then(async () => {
                     await sequelizeAzure.query(updateSolucao, {
                         type: sequelizeAzure.QueryTypes.UPDATE
                     });
-                    Promise.resolve();
+                    return Promise.resolve();
                 })
                 .then(() => {
                     res.json({
@@ -385,7 +385,7 @@ router.post("/lista", async (req, res) => {
                                             type: sequelize.QueryTypes.SELECT
                                         })
                                         .catch(async err => {
-                                            Promise.resolve(
+                                            return Promise.resolve(
                                                 await sequelizeAzure.query(
                                                     sqlCategorias,
                                                     {
@@ -420,7 +420,7 @@ router.post("/lista", async (req, res) => {
                                         type: sequelize.QueryTypes.SELECT
                                     })
                                     .catch(async err => {
-                                        Promise.resolve(
+                                        return Promise.resolve(
                                             await sequelizeAzure.query(
                                                 sqlChamados,
                                                 {
@@ -464,7 +464,7 @@ router.post("/dados", async (req, res) => {
     await sequelize
         .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sqlChamado, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -476,7 +476,7 @@ router.post("/dados", async (req, res) => {
                 await sequelize
                     .query(sqlSolucoes, {type: sequelize.QueryTypes.SELECT})
                     .catch(async err => {
-                        Promise.resolve(
+                        return Promise.resolve(
                             await sequelizeAzure.query(sqlSolucoes, {
                                 type: sequelizeAzure.QueryTypes.SELECT
                             })

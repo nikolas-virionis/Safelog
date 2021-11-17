@@ -20,7 +20,7 @@ const abrirChamado = async (
             type: sequelize.QueryTypes.INSERT
         })
         .catch(async err => {
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(async () => {
             return await sequelizeAzure
@@ -39,7 +39,7 @@ const abrirChamado = async (
                     return await sequelize
                         .query(sql, {type: sequelize.QueryTypes.SELECT})
                         .catch(async err => {
-                            Promise.resolve(
+                            return Promise.resolve(
                                 await sequelizeAzure.query(sql, {
                                     type: sequelizeAzure.QueryTypes.SELECT
                                 })

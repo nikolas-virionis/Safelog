@@ -1,7 +1,7 @@
 // dependencias
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 const {getMachines} = require("../util/get-user-machines/machines");
 const {usuariosComAcesso} = require("../util/chamado/acesso");
 const {msgEmail} = require("../util/email/msg");

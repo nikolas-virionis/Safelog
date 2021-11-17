@@ -1,7 +1,7 @@
 // dependencias
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 
 router.post("/lista", async (req, res) => {
     let {idUsuario} = req.body;
@@ -18,7 +18,7 @@ router.post("/lista", async (req, res) => {
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sql, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -28,7 +28,7 @@ router.post("/lista", async (req, res) => {
             await sequelize
                 .query(sqlNaoLidos, {type: sequelize.QueryTypes.SELECT})
                 .catch(async err => {
-                    Promise.resolve(
+                    return Promise.resolve(
                         await sequelizeAzure.query(sqlNaoLidos, {
                             type: sequelizeAzure.QueryTypes.SELECT
                         })
@@ -56,7 +56,7 @@ router.post("/dados", async (req, res) => {
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sql, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -82,11 +82,11 @@ router.post("/ler", async (req, res) => {
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.UPDATE})
         .catch(async err => {
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(async () => {
             await sequelize.query(sql, {type: sequelize.QueryTypes.UPDATE});
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(() => res.json({status: "ok", msg: "Mensagem lida com sucesso"}))
         .catch(err => res.json({status: "erro", msg: err}));

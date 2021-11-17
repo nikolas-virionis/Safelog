@@ -1,7 +1,7 @@
 // dependencias
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 let {enviarConvite: sendInvite} = require("../util/cadastro/convite");
 
 router.post("/cadastro", async (req, res, next) => {
@@ -17,7 +17,7 @@ router.post("/cadastro", async (req, res, next) => {
     await sequelize
         .query(idExists, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(idExists, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -31,13 +31,13 @@ router.post("/cadastro", async (req, res, next) => {
         await sequelize
             .query(insertEmpresa, {type: sequelize.QueryTypes.INSERT})
             .catch(async err => {
-                Promise.resolve();
+                return Promise.resolve();
             })
-            .then(() => {
+            .then(async () => {
                 await sequelizeAzure.query(insertEmpresa, {
                     type: sequelizeAzure.QueryTypes.INSERT
                 });
-                Promise.resolve();
+                return Promise.resolve();
             })
             .then(() => {
                 sendInvite(email, "admin", id, null)

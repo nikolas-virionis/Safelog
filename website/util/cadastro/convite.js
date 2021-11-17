@@ -14,7 +14,7 @@ const checarEmStaff = async identificacao => {
             type: sequelize.QueryTypes.SELECT
         })
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sqlEmailExistsInStaff, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -39,7 +39,7 @@ const checarEmUsuario = async identificacao => {
             type: sequelize.QueryTypes.SELECT
         })
         .catch(async err => {
-            Promise.resolve(
+            return Promise.resolve(
                 await sequelizeAzure.query(sqlEmailExistsInUsuario, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
@@ -65,9 +65,9 @@ const insertParcial = async (hash, email, cargo, fk_empresa, fk_supervisor) => {
             type: sequelize.QueryTypes.INSERT
         })
         .catch(async err => {
-            Promise.resolve();
+            return Promise.resolve();
         })
-        .then(() => {
+        .then(async () => {
             await sequelizeAzure.query(insertParcial, {
                 type: sequelizeAzure.QueryTypes.INSERT
             });

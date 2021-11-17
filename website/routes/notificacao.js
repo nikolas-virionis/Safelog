@@ -85,7 +85,9 @@ router.post("/ler", async (req, res) => {
             return Promise.resolve();
         })
         .then(async () => {
-            await sequelize.query(sql, {type: sequelize.QueryTypes.UPDATE});
+            await sequelizeAzure.query(sql, {
+                type: sequelizeAzure.QueryTypes.UPDATE
+            });
             return Promise.resolve();
         })
         .then(() => res.json({status: "ok", msg: "Mensagem lida com sucesso"}))

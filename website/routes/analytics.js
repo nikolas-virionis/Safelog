@@ -1,7 +1,6 @@
 // dependencias
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
 const {getTrendDeg, getTrendBehavior} = require("../util/analytics/trendLine");
 const {getMedicoesTrend} = require("../util/analytics/dados");
 

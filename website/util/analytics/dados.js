@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 
 const getMedicoesTrend = async ({
     idCategoriaMedicao,
@@ -8,15 +8,17 @@ const getMedicoesTrend = async ({
     if (!idCategoriaMedicao)
         throw "É necessário a identificação da métrica para continuar";
 
-    let sqlMedicoes;
+    let sqlMedicoes, sqlMedicoesAzure;
 
     if (type == "all") {
-        sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC`;
-    } 
-    else if (type == "day" ||type == "week" || type == "month") {
+        sqlMedicoes =
+            sqlMedicoesAzure = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC`;
+    } else if (type == "day" || type == "week" || type == "month") {
         sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} ${type}) AND NOW() ORDER BY data_medicao DESC`;
+        sqlMedicoesAzure = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN dateadd(${type}, -${qtd}, getdate()) AND getdate() ORDER BY data_medicao DESC`;
     } else if (type == "qtd") {
         sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC LIMIT ${qtd}`;
+        sqlMedicoes = `SELECT TOP ${qtd} valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC`;
     } else {
         throw "erro na definição do tipo de metrica de data";
     }
@@ -34,12 +36,28 @@ const getMedicoesTrend = async ({
 
     // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 2 WEEK) AND NOW() ORDER BY data_medicao DESC`;
     return await sequelize
-        .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
-        .then(medicoes => {
-            if (!medicoes.length) throw "0 medições no período selecionado";
-            medicoes = medicoes.map(el => Number(el.valor));
-            medicoes = [...medicoes].reverse();
-            return medicoes;
+        .authenticate()
+        .then(() => {
+            return await sequelize
+                .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
+                .then(medicoes => {
+                    if (!medicoes.length)
+                        throw "0 medições no período selecionado";
+                    medicoes = medicoes.map(el => Number(el.valor));
+                    medicoes = [...medicoes].reverse();
+                    return medicoes;
+                });
+        })
+        .catch(err => {
+            return await sequelizeAzure
+                .query(sqlMedicoesAzure, {type: sequelize.QueryTypes.SELECT})
+                .then(medicoes => {
+                    if (!medicoes.length)
+                        throw "0 medições no período selecionado";
+                    medicoes = medicoes.map(el => Number(el.valor));
+                    medicoes = [...medicoes].reverse();
+                    return medicoes;
+                });
         });
 };
 

@@ -133,6 +133,13 @@ router.post("/lista-dependentes/gestor", async (req, res) => {
     let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS usuario FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON pk_maquina = fk_maquina WHERE fk_supervisor = ${id} GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(dependentes, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async maquinas => {
             if (maquinas.length) {
                 res.json({status: "ok", msg: maquinas});
@@ -156,6 +163,13 @@ router.post("/lista-dependentes/admin", async (req, res) => {
     let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, a.nome AS usuario FROM usuario AS g JOIN usuario AS a ON a.fk_supervisor = g.id_usuario AND g.fk_supervisor = ${id} JOIN usuario_maquina ON fk_usuario = a.id_usuario JOIN maquina ON pk_maquina = fk_maquina GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(dependentes, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async maquinas => {
             if (maquinas.length) {
                 res.json({status: "ok", msg: maquinas});
@@ -182,6 +196,13 @@ router.post("/verificar-usuario", async (req, res) => {
         .query(consulta, {
             type: sequelize.QueryTypes.SELECT
         })
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(consulta, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(resposta =>
             res.json({
                 status: "ok",
@@ -402,6 +423,13 @@ router.post("/lista-usuarios", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(response => {
             res.json({status: "ok", msg: response});
         })
@@ -631,9 +659,16 @@ router.post("/dados", async (req, res) => {
     if (typeof maquina == "string")
         sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE id_maquina = '${maquina}'`;
     else
-        sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE  pk_maquina = ${maquina}`;
+        sql = `SELECT pk_maquina, id_maquina, nome, fk_empresa FROM maquina WHERE pk_maquina = ${maquina}`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([msg]) => {
             res.json({status: "ok", msg});
         })

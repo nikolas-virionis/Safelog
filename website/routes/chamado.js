@@ -1,6 +1,6 @@
 let express = require("express");
 let router = express.Router();
-let sequelize = require("../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../models");
 const axios = require("axios").default;
 const {abrirChamado, getTipo} = require("../util/chamado/abertura");
 const {verificarAcesso, usuariosComAcesso} = require("../util/chamado/acesso");
@@ -93,6 +93,80 @@ router.post("/criar", async (req, res) => {
                     msg: "Usuário não tem acesso à máquina"
                 });
             }
+        })
+        .catch(async err => {
+            await sequelizeAzure
+                .query(chamadoJaAberto, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+                .then(async ([status]) => {
+                    if (status) {
+                        return res.json({
+                            status: "alerta",
+                            msg: "Chamado já aberto para essa métrica"
+                        });
+                    }
+                    // verificando se usuario tem acesso à máquina
+
+                    if (
+                        await verificarAcesso({idUsuario, idCategoriaMedicao})
+                    ) {
+                        if (eficaciaSolucoes) {
+                            const updateEficaciaSolucoes = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE eficacia = 'total' AND fk_chamado = (SELECT TOP 1 id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'fechado' ORDER BY data_abertura DESC)`;
+
+                            await sequelizeAzure
+                                .query(updateEficaciaSolucoes, {
+                                    type: sequelizeAzure.QueryTypes.UPDATE
+                                })
+                                .catch(err => {
+                                    res.json({
+                                        status: "erro1",
+                                        msg: err
+                                    });
+                                });
+                        } else {
+                            const primeiroChamado = `SELECT count(id_chamado) AS chamados FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
+
+                            let erro = await sequelizeAzure
+                                .query(primeiroChamado, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                                .then(([{chamados}]) => {
+                                    return !!chamados;
+                                });
+                            if (erro) {
+                                return res.json({
+                                    status: "alerta",
+                                    msg: "Chamado de mesma métrica recentemente fechado. Ateste a eficácia da solução previamente proposta",
+                                    continuar: true
+                                });
+                            }
+                        }
+                        abrirChamado(
+                            titulo,
+                            desc,
+                            idUsuario,
+                            idCategoriaMedicao,
+                            prioridade,
+                            automatico
+                        )
+                            .then(resposta => {
+                                res.json(resposta);
+                            })
+                            .catch(err => {
+                                res.json({
+                                    status2: "erro",
+                                    msg: err
+                                });
+                            });
+                    } else {
+                        // usuario não tem acesso
+                        res.json({
+                            status: "alerta",
+                            msg: "Usuário não tem acesso à máquina"
+                        });
+                    }
+                });
         });
 });
 router.post("/fechar", async (req, res) => {

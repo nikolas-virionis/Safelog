@@ -20,7 +20,7 @@ const abrirChamado = async (
             type: sequelize.QueryTypes.INSERT
         })
         .catch(async err => {
-            resolve();
+            Promise.resolve();
         })
         .then(async () => {
             return await sequelizeAzure
@@ -38,6 +38,13 @@ const abrirChamado = async (
                     const sql = `SELECT usuario.nome AS resp, (SELECT tipo_medicao.tipo FROM tipo_medicao JOIN categoria_medicao ON id_tipo_medicao = fk_tipo_medicao AND id_categoria_medicao = ${idCategoriaMedicao}) AS metrica, (SELECT maquina.nome FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina AND id_categoria_medicao = ${idCategoriaMedicao}) AS maquina FROM usuario WHERE id_usuario = ${idUsuario}`;
                     return await sequelize
                         .query(sql, {type: sequelize.QueryTypes.SELECT})
+                        .catch(async err => {
+                            Promise.resolve(
+                                await sequelizeAzure.query(sql, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            );
+                        })
                         .then(async ([{resp, maquina, metrica}]) => {
                             return await notificarChamado(
                                 usuarios,
@@ -47,22 +54,6 @@ const abrirChamado = async (
                                 automatico,
                                 titulo
                             );
-                        })
-                        .catch(async err => {
-                            return await sequelizeAzure
-                                .query(sql, {
-                                    type: sequelizeAzure.QueryTypes.SELECT
-                                })
-                                .then(async ([{resp, maquina, metrica}]) => {
-                                    return await notificarChamado(
-                                        usuarios,
-                                        resp,
-                                        maquina,
-                                        metrica,
-                                        automatico,
-                                        titulo
-                                    );
-                                });
                         });
                 });
         });

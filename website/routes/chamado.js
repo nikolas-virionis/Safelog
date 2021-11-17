@@ -384,6 +384,17 @@ router.post("/lista", async (req, res) => {
                                         .query(sqlCategorias, {
                                             type: sequelize.QueryTypes.SELECT
                                         })
+                                        .catch(async err => {
+                                            Promise.resolve(
+                                                await sequelizeAzure.query(
+                                                    sqlCategorias,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.SELECT
+                                                    }
+                                                )
+                                            );
+                                        })
                                         .then(categorias => {
                                             for (let {
                                                 id_categoria_medicao
@@ -407,6 +418,17 @@ router.post("/lista", async (req, res) => {
                                 await sequelize
                                     .query(sqlChamados, {
                                         type: sequelize.QueryTypes.SELECT
+                                    })
+                                    .catch(async err => {
+                                        Promise.resolve(
+                                            await sequelizeAzure.query(
+                                                sqlChamados,
+                                                {
+                                                    type: sequelizeAzure
+                                                        .QueryTypes.SELECT
+                                                }
+                                            )
+                                        );
                                     })
                                     .then(async chamados =>
                                         res.json({

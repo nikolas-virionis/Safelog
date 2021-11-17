@@ -182,6 +182,13 @@ router.post("/fechar", async (req, res) => {
 
     await sequelize
         .query(sqlChamadoAberto, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            Promise.resolve(
+                await sequelizeAzure.query(sqlChamadoAberto, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(async ([{tituloChamado, status_chamado}]) => {
             if (status_chamado != "aberto")
                 return res.json({
@@ -194,12 +201,31 @@ router.post("/fechar", async (req, res) => {
                 .query(updateStatusChamado, {
                     type: sequelize.QueryTypes.UPDATE
                 })
+                .catch(async err => {
+                    Promise.resolve();
+                })
+                .then(async () => {
+                    await sequelizeAzure.query(updateStatusChamado, {
+                        type: sequelizeAzure.QueryTypes.UPDATE
+                    });
+                    Promise.resolve();
+                })
                 .then(async () => {
                     const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', NOW(), 'total', ${idChamado}, ${idUsuario})`;
 
                     await sequelize
                         .query(criarSolucao, {
                             type: sequelize.QueryTypes.INSERT
+                        })
+                        .catch(async err => {
+                            Promise.resolve();
+                        })
+                        .then(async () => {
+                            const criarSolucao = `INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES ('${titulo}', '${desc}', getdate(), 'total', ${idChamado}, ${idUsuario})`;
+                            await sequelizeAzure.query(criarSolucao, {
+                                type: sequelizeAzure.QueryTypes.INSERT
+                            });
+                            Promise.resolve();
                         })
                         .then(async () => {
                             const usuarios = await usuariosComAcesso({
@@ -209,6 +235,14 @@ router.post("/fechar", async (req, res) => {
                             const sql = `SELECT usuario.nome AS resp, (SELECT tipo_medicao.tipo FROM tipo_medicao JOIN categoria_medicao ON id_tipo_medicao = fk_tipo_medicao AND id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})) AS metrica, (SELECT maquina.nome FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina AND id_categoria_medicao = (SELECT fk_categoria_medicao FROM chamado WHERE id_chamado = ${idChamado})) AS maquina FROM usuario WHERE id_usuario = ${idUsuario}`;
                             await sequelize
                                 .query(sql, {type: sequelize.QueryTypes.SELECT})
+                                .catch(async err => {
+                                    Promise.resolve(
+                                        await sequelizeAzure.query(sql, {
+                                            type: sequelizeAzure.QueryTypes
+                                                .SELECT
+                                        })
+                                    );
+                                })
                                 .then(async ([{resp, maquina, metrica}]) => {
                                     enviarNotificacao(usuarios, {
                                         tipo: "chamado fechado",

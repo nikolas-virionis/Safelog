@@ -31,8 +31,8 @@ const enviarNotificacao = async (usuarios, notificacao) => {
                 .query(sqlIdNotificacao, {type: sequelize.QueryTypes.SELECT})
                 .catch(async err =>
                     Promise.resolve(
-                        await sequelizeAzure.query(sqlInsertNotificacao, {
-                            type: sequelizeAzure.QueryTypes.INSERT
+                        await sequelizeAzure.query(sqlIdNotificacao, {
+                            type: sequelizeAzure.QueryTypes.SELECT
                         })
                     )
                 )

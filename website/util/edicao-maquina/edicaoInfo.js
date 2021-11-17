@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 const {mandarEmail} = require("../email/email");
 const {msg} = require("../notificacao/notificacao");
 const {enviarNotificacao} = require("../notificacao/notificar");
@@ -20,6 +20,15 @@ const edicaoMaquina = async (
 
         return await sequelize
             .query(sqlAuthPwd, selectType)
+            .catch(async err => {
+                sqlAuthPwd = `SELECT count(id_maquina) AS 'found' FROM maquina 
+            WHERE senha = HASHBYTES('md5', '${senhaAtual}') AND id_maquina = '${idAtual}'`;
+                return Promise.resolve(
+                    await sequelizeAzure.query(sqlAuthPwd, {
+                        type: sequelizeAzure.QueryTypes.SELECT
+                    })
+                );
+            })
             .then(async ([{found}]) => {
                 if (found) {
                     // senha correta
@@ -27,6 +36,14 @@ const edicaoMaquina = async (
 
                     return await sequelize
                         .query(sqlUpdatePwd, updateType)
+                        .catch(err => Promise.resolve())
+                        .then(async () => {
+                            sqlUpdatePwd = `UPDATE maquina SET id_maquina = '${novoId}', nome = '${novoNome}', senha = HASHBYTES('md5', '${novaSenha}') WHERE id_maquina = '${idAtual}'`;
+                            await sequelizeAzure.query(sqlUpdatePwd, {
+                                type: sequelizeAzure.QueryTypes.UPDATE
+                            });
+                            Promise.resolve();
+                        })
                         .then(async resultUpdatePwd => {
                             return {
                                 status: "ok",
@@ -58,6 +75,13 @@ const edicaoMaquina = async (
 
         return await sequelize
             .query(sqlUpdateMac, updateType)
+            .catch(err => Promise.resolve())
+            .then(async () => {
+                await sequelizeAzure.query(sqlUpdateMac, {
+                    type: sequelizeAzure.QueryTypes.UPDATE
+                });
+                Promise.resolve();
+            })
             .then(async resultMac => {
                 return {
                     status: "ok",

@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 let {mandarEmail} = require("../email/email");
 const {generateToken} = require("../token-user/token");
 const {msg} = require("../notificacao/notificacao");
@@ -9,6 +9,13 @@ const escolhaResp = async (id, maquina) => {
     return await sequelize
         .query(sql, {
             type: sequelize.QueryTypes.SELECT
+        })
+        .catch(async err => {
+            return Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
         })
         .then(([{id, nome, nomeMaquina, nomeGestor, email}]) => {
             console.log("\n\n", id);
@@ -48,10 +55,24 @@ const escolhaAuto = async maquina => {
         .query(updateResponsavel, {
             type: sequelize.QueryTypes.UPDATE
         })
+        .catch(err => Promise.resolve())
+        .then(async () => {
+            await sequelizeAzure.query(updateResponsavel, {
+                type: sequelizeAzure.QueryTypes.UPDATE
+            });
+            return Promise.resolve();
+        })
         .then(async () => {
             const sql = `SELECT id_usuario as id, usuario.nome as nome, email, maquina.nome as maq FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;
             await sequelize
                 .query(sql, {type: sequelize.QueryTypes.SELECT})
+                .catch(async err =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(sql, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    )
+                )
                 .then(([{id, nome, email, maq}]) => {
                     mandarEmail("convite responsavel", nome, email, [maq]).then(
                         () => {
@@ -78,6 +99,13 @@ const conviteResp = async (id, maquina, tipo) => {
         .query(sql, {
             type: sequelize.QueryTypes.SELECT
         })
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(
             async ([
                 {id_usuario, nome, nomeMaquina, nomeGestor, email, pk_maquina}
@@ -87,6 +115,13 @@ const conviteResp = async (id, maquina, tipo) => {
                 return await sequelize
                     .query(updateToken, {
                         type: sequelize.QueryTypes.UPDATE
+                    })
+                    .catch(err => Promise.resolve())
+                    .then(async () => {
+                        await sequelizeAzure.query(updateToken, {
+                            type: sequelizeAzure.QueryTypes.UPDATE
+                        });
+                        return Promise.resolve();
                     })
                     .then(() => {
                         mandarEmail(tipo, nomeGestor, email, [

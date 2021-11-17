@@ -1,4 +1,4 @@
-let sequelize = require("../../models").sequelize;
+let {sequelize, sequelizeAzure} = require("../../models");
 
 const maquinasDependentes = async (id, search, main, order) => {
     let responsavel = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS responsavel FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina IN (SELECT pk_maquina FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina AND fk_usuario = ${id}) ${
@@ -18,6 +18,13 @@ const maquinasDependentes = async (id, search, main, order) => {
     };`;
     return await sequelize
         .query(responsavel, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            return Promise.resolve(
+                await sequelizeAzure.query(responsavel, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(response => response)
         .catch(err => ({status: "erro", msg: err}));
 };

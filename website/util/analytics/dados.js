@@ -22,19 +22,7 @@ const getMedicoesTrend = async ({
     } else {
         throw "erro na definição do tipo de metrica de data";
     }
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 1 WEEK) AND NOW() ORDER BY data_medicao DESC`;
 
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC LIMIT 100`;
-
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC LIMIT 200`;
-
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} ORDER BY data_medicao DESC LIMIT 50`;
-
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 1 DAY) AND NOW() ORDER BY data_medicao DESC`;
-
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND NOW() ORDER BY data_medicao DESC`;
-
-    // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 2 WEEK) AND NOW() ORDER BY data_medicao DESC`;
     return await sequelize
         .authenticate()
         .then(async () => {
@@ -69,12 +57,12 @@ const getStatsChamado = async ({
     type = "all",
     qtd
 } = {}) => {
-    let chamados, solucoes;
+    let chamados, solucoes, chamadosAzure, solucoesAzure;
     if (!idCategoriaMedicao && !maquina)
         throw "É necessário a identificação da métrica ou maquina para continuar";
 
     let strDate = ` BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} ${type.toUpperCase()}) AND NOW()`;
-    let AzurestrId = `${
+    let strId = `${
         idCategoriaMedicao
             ? `= ${idCategoriaMedicao}`
             : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
@@ -98,8 +86,6 @@ const getStatsChamado = async ({
 
         solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)) as solucoesEficazes, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)`;
         solucoesAzure = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)) as solucoesEficazes, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)`;
-        // } else if (type == "week") {
-        // } else if (type == "month") {
     } else if (type == "qtd") {
         chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strId} ORDER BY data_abertura DESC LIMIT ${qtd}`;
         chamadosAzure = `SELECT TOP ${qtd} count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strIdAzure} ORDER BY data_abertura DESC`;
@@ -109,9 +95,6 @@ const getStatsChamado = async ({
     } else {
         throw "erro na definição do tipo de metrica de data";
     }
-
-    // let chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao}`;
-    // let solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total') as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial') as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao})`;
 
     return await sequelize
         .authenticate()
@@ -183,7 +166,7 @@ const getStatsMedicao = async ({
     type = "all",
     qtd
 } = {}) => {
-    let sqlMedicoes;
+    let sqlMedicoes, sqlMedicoesAzure;
     if (!idCategoriaMedicao && !maquina)
         throw "É necessário a identificação da métrica ou maquina para continuar";
 
@@ -193,32 +176,62 @@ const getStatsMedicao = async ({
             ? `= ${idCategoriaMedicao}`
             : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
     }`;
+    let strDateAzure = `BETWEEN dateadd(${type}, -${qtd}, getdate()) AND getdate()`;
+    let strIdAzure = `${
+        idCategoriaMedicao
+            ? `= ${idCategoriaMedicao}`
+            : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
+    }`;
 
     if (type == "all") {
         sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strId} AND tipo = 'critico') as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strId} AND tipo = 'risco') as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId}`;
+        sqlMedicoesAzure = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strIdAzure} AND tipo = 'critico') as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE fk_categoria_medicao ${strIdAzure} AND tipo = 'risco') as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strIdAzure}`;
     } else if (type == "day" || type == "week" || type == "month") {
         sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'critico' AND fk_categoria_medicao ${strId} ${strDate}) as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'risco'  AND fk_categoria_medicao ${strId} ${strDate}) as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId} ${strDate}`;
-        // } else if (type == "week") {
-        // } else if (type == "month") {
-    } else if (type == "qtd") {
-        sqlMedicoes = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'critico' AND fk_categoria_medicao ${strId} LIMIT ${qtd}) as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'risco' AND fk_categoria_medicao ${strId} LIMIT ${qtd}) as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strId} LIMIT ${qtd}`;
+        sqlMedicoesAzure = `SELECT count(id_medicao) as medicoesTotais, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'critico' AND fk_categoria_medicao ${strIdAzure} ${strDateAzure}) as medicoesCriticas, (SELECT count(id_medicao) FROM medicao WHERE tipo = 'risco'  AND fk_categoria_medicao ${strIdAzure} ${strDateAzure}) as medicoesDeRisco FROM medicao WHERE fk_categoria_medicao ${strIdAzure} ${strDateAzure}`;
     } else {
         throw "erro na definição do tipo de metrica de data";
     }
-
     return await sequelize
-        .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
-        .then(([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
-            let medicoesNormais =
-                medicoesTotais - (medicoesCriticas + medicoesDeRisco);
-            return {
-                medicoesTotais,
-                medicoesCriticas,
-                medicoesDeRisco,
-                medicoesNormais
-            };
+        .authenticate()
+        .then(async () => {
+            return await sequelize
+                .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
+                .then(
+                    ([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
+                        let medicoesNormais =
+                            medicoesTotais -
+                            (medicoesCriticas + medicoesDeRisco);
+                        return {
+                            medicoesTotais,
+                            medicoesCriticas,
+                            medicoesDeRisco,
+                            medicoesNormais
+                        };
+                    }
+                )
+                .catch(err => ({status: "erro", msg: err}));
         })
-        .catch(err => ({status: "erro", msg: err}));
+        .catch(async err => {
+            return await sequelizeAzure
+                .query(sqlMedicoesAzure, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+                .then(
+                    ([{medicoesTotais, medicoesCriticas, medicoesDeRisco}]) => {
+                        let medicoesNormais =
+                            medicoesTotais -
+                            (medicoesCriticas + medicoesDeRisco);
+                        return {
+                            medicoesTotais,
+                            medicoesCriticas,
+                            medicoesDeRisco,
+                            medicoesNormais
+                        };
+                    }
+                )
+                .catch(err => ({status: "erro", msg: err}));
+        });
 };
 
 module.exports = {getMedicoesTrend, getStatsChamado, getStatsMedicao};

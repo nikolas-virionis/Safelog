@@ -37,7 +37,7 @@ const getMedicoesTrend = async ({
     // let sqlMedicoes = `SELECT valor FROM medicao WHERE fk_categoria_medicao = ${idCategoriaMedicao} AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 2 WEEK) AND NOW() ORDER BY data_medicao DESC`;
     return await sequelize
         .authenticate()
-        .then(() => {
+        .then(async () => {
             return await sequelize
                 .query(sqlMedicoes, {type: sequelize.QueryTypes.SELECT})
                 .then(medicoes => {
@@ -48,9 +48,11 @@ const getMedicoesTrend = async ({
                     return medicoes;
                 });
         })
-        .catch(err => {
+        .catch(async err => {
             return await sequelizeAzure
-                .query(sqlMedicoesAzure, {type: sequelize.QueryTypes.SELECT})
+                .query(sqlMedicoesAzure, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
                 .then(medicoes => {
                     if (!medicoes.length)
                         throw "0 medições no período selecionado";
@@ -72,7 +74,13 @@ const getStatsChamado = async ({
         throw "É necessário a identificação da métrica ou maquina para continuar";
 
     let strDate = ` BETWEEN DATE_SUB(NOW(),INTERVAL ${qtd} ${type.toUpperCase()}) AND NOW()`;
-    let strId = `${
+    let AzurestrId = `${
+        idCategoriaMedicao
+            ? `= ${idCategoriaMedicao}`
+            : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
+    }`;
+    let strDateAzure = `BETWEEN dateadd(${type}, -${qtd}, getdate()) AND getdate()`;
+    let strIdAzure = `${
         idCategoriaMedicao
             ? `= ${idCategoriaMedicao}`
             : ` IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${maquina})`
@@ -80,18 +88,24 @@ const getStatsChamado = async ({
 
     if (type == "all") {
         chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strId}`;
+        chamadosAzure = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strIdAzure}`;
 
         solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId})) as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId})) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId})`;
+        solucoesAzure = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure})) as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure})) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure})`;
     } else if (type == "day" || type == "week" || type == "month") {
         chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strId} AND data_abertura ${strDate} ORDER BY data_abertura DESC`;
+        chamadosAzure = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_abertura ${strDateAzure} ORDER BY data_abertura DESC`;
 
         solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)) as solucoesEficazes, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} AND data_solucao ${strDate} ORDER BY data_solucao DESC)`;
+        solucoesAzure = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)) as solucoesEficazes, (SELECT count(id_solucao) FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} AND data_solucao ${strDateAzure} ORDER BY data_solucao DESC)`;
         // } else if (type == "week") {
         // } else if (type == "month") {
     } else if (type == "qtd") {
         chamados = `SELECT count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strId} ORDER BY data_abertura DESC LIMIT ${qtd}`;
+        chamadosAzure = `SELECT TOP ${qtd} count(id_chamado) as chamadosTotais, (SELECT count(id_chamado) FROM chamado WHERE fk_categoria_medicao AND status_chamado = 'aberto') as chamadosAbertos FROM chamado WHERE fk_categoria_medicao ${strIdAzure} ORDER BY data_abertura DESC`;
 
         solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} ORDER BY data_solucao DESC LIMIT ${qtd})) as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} ORDER BY data_solucao DESC LIMIT ${qtd})) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao ${strId} ORDER BY data_solucao DESC LIMIT ${qtd})`;
+        solucoesAzure = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total' AND fk_chamado IN (SELECT TOP ${qtd} id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} ORDER BY data_solucao DESC)) as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial' AND fk_chamado IN (SELECT TOP ${qtd} id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} ORDER BY data_solucao DESC)) as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT TOP ${qtd} id_chamado FROM chamado WHERE fk_categoria_medicao ${strIdAzure} ORDER BY data_solucao DESC)`;
     } else {
         throw "erro na definição do tipo de metrica de data";
     }
@@ -100,29 +114,67 @@ const getStatsChamado = async ({
     // let solucoes = `SELECT count(id_solucao) as solucoesTotais, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'total') as solucoesEficazes, (SELECT count(id_solucao) as solucoesTotais FROM solucao WHERE eficacia = 'parcial') as solucoesParciais FROM solucao WHERE fk_chamado in (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao = ${idCategoriaMedicao})`;
 
     return await sequelize
-        .query(chamados, {type: sequelize.QueryTypes.SELECT})
-        .then(async ([{chamadosTotais, chamadosAbertos}]) => {
+        .authenticate()
+        .then(async () => {
             return await sequelize
-                .query(solucoes, {
-                    type: sequelize.QueryTypes.SELECT
+                .query(chamados, {type: sequelize.QueryTypes.SELECT})
+                .then(async ([{chamadosTotais, chamadosAbertos}]) => {
+                    return await sequelize
+                        .query(solucoes, {
+                            type: sequelize.QueryTypes.SELECT
+                        })
+                        .then(
+                            ([
+                                {
+                                    solucoesTotais,
+                                    solucoesEficazes,
+                                    solucoesParciais
+                                }
+                            ]) => {
+                                return {
+                                    chamadosTotais,
+                                    chamadosAbertos,
+                                    chamadosFechados: solucoesTotais,
+                                    solucoesTotais,
+                                    solucoesEficazes,
+                                    solucoesParciais
+                                };
+                            }
+                        )
+                        .catch(err => ({status: "erro", msg: err}));
                 })
-                .then(
-                    ([
-                        {solucoesTotais, solucoesEficazes, solucoesParciais}
-                    ]) => {
-                        return {
-                            chamadosTotais,
-                            chamadosAbertos,
-                            chamadosFechados: solucoesTotais,
-                            solucoesTotais,
-                            solucoesEficazes,
-                            solucoesParciais
-                        };
-                    }
-                )
                 .catch(err => ({status: "erro", msg: err}));
         })
-        .catch(err => ({status: "erro", msg: err}));
+        .catch(async err => {
+            return await sequelizeAzure
+                .query(chamadosAzure, {type: sequelizeAzure.QueryTypes.SELECT})
+                .then(async ([{chamadosTotais, chamadosAbertos}]) => {
+                    return await sequelizeAzure
+                        .query(solucoesAzure, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                        .then(
+                            ([
+                                {
+                                    solucoesTotais,
+                                    solucoesEficazes,
+                                    solucoesParciais
+                                }
+                            ]) => {
+                                return {
+                                    chamadosTotais,
+                                    chamadosAbertos,
+                                    chamadosFechados: solucoesTotais,
+                                    solucoesTotais,
+                                    solucoesEficazes,
+                                    solucoesParciais
+                                };
+                            }
+                        )
+                        .catch(err => ({status: "erro", msg: err}));
+                })
+                .catch(err => ({status: "erro", msg: err}));
+        });
 };
 
 const getStatsMedicao = async ({

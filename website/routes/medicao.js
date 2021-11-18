@@ -30,6 +30,13 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async response => {
             let incidentes = [];
             let incidente = `SELECT id_medicao, data_medicao, valor, unidade, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, fk_categoria_medicao FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'risco' OR fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE (${getMachines(
@@ -54,6 +61,32 @@ router.post("/relatorio-incidentes/analista", async (req, res, next) => {
             await sequelize
                 .query(incidente, {
                     type: sequelize.QueryTypes.SELECT
+                })
+                .catch(async err => {
+                    incidente = `SELECT TOP 100 id_medicao, data_medicao, valor, unidade, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, fk_categoria_medicao FROM maquina JOIN categoria_medicao ON pk_maquina = fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'risco' OR fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE (${getMachines(
+                        response
+                    )}) ${
+                        search
+                            ? ` AND (tipo_medicao.tipo LIKE '%${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%')`
+                            : ""
+                    } ${
+                        main
+                            ? ` ORDER BY ${
+                                  main == "data"
+                                      ? "data_medicao"
+                                      : main == "componente"
+                                      ? "tipo_medicao.tipo"
+                                      : main == "maquina"
+                                      ? "maquina.nome"
+                                      : "medicao.tipo"
+                              } ${order}`
+                            : "ORDER BY data_medicao DESC"
+                    };`;
+                    return Promise.resolve(
+                        await sequelizeAzure.query(incidente, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    );
                 })
                 .then(result => {
                     incidentes.push(result);
@@ -81,16 +114,37 @@ router.post("/alertar-gestor", async (req, res) => {
 
     await sequelize
         .query(dadosUsuario, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(dadosUsuario, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([{analista, gestor, email}]) => {
             await sequelize
                 .query(updateEstadoMedicao, {
                     type: sequelize.QueryTypes.UPDATE
+                })
+                .catch(err => Promise.resolve())
+                .then(async () => {
+                    await sequelize.query(updateEstadoMedicao, {
+                        type: sequelize.QueryTypes.UPDATE
+                    });
+                    return Promise.resolve();
                 })
                 .then(async () => {
                     await sequelize
                         .query(dadosMedicao, {
                             type: sequelize.QueryTypes.SELECT
                         })
+                        .catch(async err =>
+                            Promise.resolve(
+                                await sequelizeAzure.query(dadosMedicao, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            )
+                        )
                         .then(([{tipo, maquina, data}]) => {
                             let [componente, metrica] = tipo.split("_");
                             data = new Date(data);
@@ -134,6 +188,13 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async response => {
             let incidentes = [];
             let incidente = `SELECT id_medicao, data_medicao, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, usuario.nome as resp, fk_categoria_medicao FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON usuario_maquina.fk_maquina = pk_maquina JOIN categoria_medicao ON pk_maquina = categoria_medicao.fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE (${getMachines(
@@ -162,6 +223,34 @@ router.post("/relatorio-incidentes/gestor", async (req, res, next) => {
                 .query(incidente, {
                     type: sequelize.QueryTypes.SELECT
                 })
+                .catch(async err => {
+                    incidente = `SELECT TOP 100 id_medicao, data_medicao, tipo_medicao.tipo as tipo_categoria, maquina.nome, medicao.tipo as estado, usuario.nome as resp, fk_categoria_medicao FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON usuario_maquina.fk_maquina = pk_maquina JOIN categoria_medicao ON pk_maquina = categoria_medicao.fk_maquina JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao JOIN medicao ON fk_categoria_medicao = id_categoria_medicao AND medicao.tipo = 'critico' WHERE (${getMachines(
+                        response
+                    )}) ${
+                        search
+                            ? ` AND (tipo_medicao.tipo LIKE '${search}%\_%' OR tipo_medicao.tipo LIKE '%\_${search}%' OR maquina.nome LIKE '%${search}%' OR medicao.tipo LIKE '%${search}%' OR usuario.nome LIKE '%${search}%')`
+                            : ""
+                    } ${
+                        main
+                            ? ` ORDER BY ${
+                                  main == "data"
+                                      ? "data_medicao"
+                                      : main == "componente"
+                                      ? "tipo_medicao.tipo"
+                                      : main == "maquina"
+                                      ? "maquina.nome"
+                                      : main == "responsavel"
+                                      ? "usuario.nome"
+                                      : "medicao.tipo"
+                              } ${order}`
+                            : "ORDER BY data_medicao DESC"
+                    };`;
+                    return Promise.resolve(
+                        await sequelizeAzure.query(incidente, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    );
+                })
                 .then(result => {
                     incidentes.push(result);
                 })
@@ -183,10 +272,17 @@ router.post("/dados", async (req, res, next) => {
     for (let {id_categoria_medicao, tipo} of categorias) {
         console.log(id_categoria_medicao, tipo);
         let sql = `SELECT valor, data_medicao, tipo FROM medicao WHERE fk_categoria_medicao = ${id_categoria_medicao} ORDER BY data_medicao DESC LIMIT ${
-            cargo == "analista" ? 20 : 60
+            cargo == "analista" ? 20 : 100
         }`;
         await sequelize
             .query(sql, {type: sequelize.QueryTypes.SELECT})
+            .catch(async err => {
+                return Promise.resolve(
+                    await sequelizeAzure.query(sql, {
+                        type: sequelizeAzure.QueryTypes.SELECT
+                    })
+                );
+            })
             .then(result => {
                 medicoes.push({
                     nome: tipo,
@@ -239,6 +335,13 @@ router.post("/alerta", async (req, res) => {
 
     let [chamado] = await sequelize
         .query(sqlChamado, {type: sequelize.QueryTypes.SELECT})
+        .catch(async error => {
+            return Promise.resolve(
+                await sequelizeAzure.query(sqlChamado, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(response => response)
         .catch(err => console.error(err));
 

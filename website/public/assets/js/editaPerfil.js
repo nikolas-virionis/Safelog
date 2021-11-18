@@ -1,14 +1,14 @@
 // atualiza a página caso exista upload de imagem de perfil
-let queryString = window.location.search; 
+let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
-let update = urlParams.get('update-pic');
+let update = urlParams.get("update-pic");
 
 if (update) {
-    let picture = urlParams.get('pic');
+    let picture = urlParams.get("pic");
     let user = JSON.parse(sessionStorage.usuario);
     user.foto = picture;
     sessionStorage.usuario = JSON.stringify(user);
-    window.location.href = "edita-perfil"
+    window.location.href = "edita-perfil";
 }
 
 let {id, nome, email, cargo, id_empresa, id_supervisor} = JSON.parse(
@@ -150,7 +150,7 @@ btnAlterar.addEventListener("click", e => {
                 );
                 window.location.href = "perfil";
             } else {
-                mostrarAlerta(response.data?.msg, "danger");
+                console.error(response.data?.msg);
                 // console.log(
                 //     "Erro na edição do perfil do usuario",
                 //     response.data?.msg

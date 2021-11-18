@@ -5,6 +5,8 @@ let {sequelize, sequelizeAzure} = require("../models");
 const multer = require("multer");
 express.json();
 
+const {md5ToHashbytesMd5} = require("../util/azure-migration/encrypt");
+
 const {
     enviarConvite: sendInvite,
     checarEmStaff,
@@ -100,6 +102,7 @@ router.post("/pessoas-dependentes", async (req, res) => {
     } ${main ? ` ORDER BY ${main} ${order}` : ""}`;
     await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
+        .catch(err => Promise.resolve())
         .then(response => res.json({status: "ok", res: response}))
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -117,9 +120,24 @@ router.post("/perfil", async (req, res, next) => {
 
     await sequelize
         .query(sqlEmpresaSup, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sqlEmpresaSup, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(([response]) => {
             sequelize
                 .query(sqlContatos, {type: sequelize.QueryTypes.SELECT})
+                .catch(async err => {
+                    return Promise.resolve(
+                        await sequelizeAzure.query(sqlContatos, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    );
+                })
+
                 .then(result => {
                     res.json({status: "ok", ...response, contatos: result});
                 })
@@ -173,6 +191,13 @@ router.post("/edicao-perfil", async (req, res) => {
         .query(updateDadosUsuario, {
             type: sequelize.QueryTypes.UPDATE
         })
+        .catch(err => Promise.resolve())
+        .then(async () => {
+            await sequelizeAzure.query(updateDadosUsuario, {
+                type: sequelizeAzure.QueryTypes.UPDATE
+            });
+            return Promise.resolve();
+        })
         .then(async response => {
             for (let contato of contatos) {
                 let {acao, valor, nome} = contato;
@@ -182,6 +207,13 @@ router.post("/edicao-perfil", async (req, res) => {
                         .query(sql, {
                             type: sequelize.QueryTypes.SELECT
                         })
+                        .catch(async err =>
+                            Promise.resolve(
+                                await sequelizeAzure.query(sql, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            )
+                        )
                         .then(async response => {
                             let sql = `INSERT INTO contato(fk_usuario, id_contato, valor, fk_forma_contato) VALUES (${id}, ${
                                 response[response.length - 1].id_contato + 1
@@ -195,6 +227,13 @@ router.post("/edicao-perfil", async (req, res) => {
                             await sequelize
                                 .query(sql, {
                                     type: sequelize.QueryTypes.INSERT
+                                })
+                                .catch(err => Promise.resolve())
+                                .then(async () => {
+                                    await sequelizeAzure.query(sql, {
+                                        type: sequelizeAzure.QueryTypes.INSERT
+                                    });
+                                    return Promise.resolve();
                                 })
                                 .then(resposta => {})
                                 .catch(err =>
@@ -212,6 +251,13 @@ router.post("/edicao-perfil", async (req, res) => {
                         .query(sql, {
                             type: sequelize.QueryTypes.UPDATE
                         })
+                        .catch(err => Promise.resolve())
+                        .then(async () => {
+                            await sequelizeAzure.query(sql, {
+                                type: sequelizeAzure.QueryTypes.UPDATE
+                            });
+                            return Promise.resolve();
+                        })
                         .then(resposta => {})
                         .catch(err =>
                             res.json({
@@ -226,6 +272,13 @@ router.post("/edicao-perfil", async (req, res) => {
                     await sequelize
                         .query(sql, {
                             type: sequelize.QueryTypes.DELETE
+                        })
+                        .catch(err => Promise.resolve())
+                        .then(async () => {
+                            await sequelizeAzure.query(sql, {
+                                type: sequelizeAzure.QueryTypes.DELETE
+                            });
+                            return Promise.resolve();
                         })
                         .then(resposta => {})
                         .catch(err =>
@@ -268,11 +321,25 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
         .query(updateToken, {
             type: sequelize.QueryTypes.UPDATE
         })
+        .catch(err => Promise.resolve())
+        .then(async () => {
+            await sequelizeAzure(updateToken, {
+                type: sequelizeAzure.QueryTypes.UPDATE
+            });
+            return Promise.resolve();
+        })
         .then(async resposta => {
             let nomeUsuario = `SELECT nome FROM ${tb} WHERE email = '${email}'`;
             await sequelize
                 .query(nomeUsuario, {
                     type: sequelize.QueryTypes.SELECT
+                })
+                .catch(async err => {
+                    return Promise.resolve(
+                        await sequelizeAzure(nomeUsuario, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    );
                 })
                 .then(([response]) =>
                     mandarEmail("redefinir", response.nome, email, [token])
@@ -305,10 +372,20 @@ router.post("/redefinir-senha", async (req, res) => {
             status: "alerta",
             msg: "Usuario não pertencente à entidade informada"
         });
-    let atualizarSenha = `UPDATE ${tb} SET senha = MD5('${senha}') WHERE id_${tb} = '${id}'`;
+    let atualizarSenha = `UPDATE ${tb} SET senha = HASHBYTES('MD5', '${senha}') WHERE id_${tb} = '${id}'`;
     await sequelize
         .query(atualizarSenha, {
             type: sequelize.QueryTypes.UPDATE
+        })
+        .catch(err => Promise.resolve())
+        .then(async () => {
+            let atualizarSenhaAzure = md5ToHashbytesMd5(atualizarSenha);
+
+            await sequelizeAzure(atualizarSenhaAzure, {
+                type: sequelize.QueryTypes.UPDATE
+            });
+
+            return Promise.resolve();
         })
         .then(response => res.json({status: "ok", msg: "senha atualizada"}))
         .catch(err => res.json({status: "erro", msg: err}));
@@ -323,16 +400,31 @@ router.post("/verificacao-senha-atual", async (req, res) => {
         });
 
     let verificaSenha = `SELECT * FROM usuario WHERE id_usuario = ${id} and senha = MD5('${senha}');`;
+
     await sequelize
         .query(verificaSenha, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err => {
+            return Promise.resolve(
+                await sequelizeAzure(md5ToHashbytesMd5(verificaSenha), {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(async response => {
             if (response.length) {
                 let {email, nome} = response[0];
                 let token = generateToken();
                 let updateToken = `UPDATE usuario SET token = '${token}' WHERE email = '${email}'`;
+
                 await sequelize
                     .query(updateToken, {
                         type: sequelize.QueryTypes.UPDATE
+                    })
+                    .catch(async err => {
+                        await sequelizeAzure.query(updateToken, {
+                            type: sequelizeAzure.QueryTypes.UPDATE
+                        });
+                        return Promise.resolve();
                     })
                     .then(async resposta => {
                         mandarEmail("redefinir", nome, email, [token]);
@@ -362,6 +454,13 @@ router.post("/acesso-maquina", async (req, res) => {
 
     await sequelize
         .query(acessoExiste, {type: sequelize.QueryTypes.SELECT})
+        .catch(err => {
+            Promise.resolve(
+                sequelizeAzure(acessoExiste, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            );
+        })
         .then(async ([response]) => {
             if (response) {
                 res.json({
@@ -372,12 +471,26 @@ router.post("/acesso-maquina", async (req, res) => {
                 let dadosUsuario = `SELECT nome FROM usuario WHERE id_usuario = '${id}'`;
                 await sequelize
                     .query(dadosUsuario, {type: sequelize.QueryTypes.SELECT})
+                    .catch(async err => {
+                        return Promise.resolve(
+                            await sequelizeAzure(dadosUsuario, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                        );
+                    })
                     .then(async ([analista]) => {
                         let {nome: nomeUsuario} = analista;
                         let dados = `SELECT maquina.pk_maquina as pkMaq, maquina.nome as nomeMaquina, id_usuario, usuario.nome as nomeResp, usuario.email FROM maquina JOIN usuario_maquina ON fk_maquina = pk_maquina AND id_maquina = '${maquina}' JOIN usuario ON id_usuario = fk_usuario AND responsavel = 's';`;
 
                         await sequelize
                             .query(dados, {type: sequelize.QueryTypes.SELECT})
+                            .catch(async err => {
+                                return Promise.resolve(
+                                    await sequelizeAzure(dados, {
+                                        type: sequelizeAzure.QueryTypes.SELECT
+                                    })
+                                );
+                            })
                             .then(
                                 async ([
                                     {
@@ -393,6 +506,13 @@ router.post("/acesso-maquina", async (req, res) => {
                                     await sequelize
                                         .query(updateToken, {
                                             type: sequelize.QueryTypes.UPDATE
+                                        })
+                                        .catch(async err => {
+                                            await sequelizeAzure(updateToken, {
+                                                type: sequelize.QueryTypes
+                                                    .UPDATE
+                                            });
+                                            return Promise.resolve();
                                         })
                                         .then(() => {
                                             mandarEmail(
@@ -463,6 +583,13 @@ router.post("/verificacao", async (req, res, next) => {
     let verificarUsuario = `SELECT id_usuario FROM usuario WHERE email = '${email}' and token = '${token}';`;
     await sequelize
         .query(verificarUsuario, {type: sequelize.QueryTypes.SELECT})
+        .catch(async error =>
+            Promise.resolve(
+                await sequelizeAzure.query(verificarUsuario, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([response]) => {
             if (response)
                 res.json({status: "ok", msg: response, user: "usuario"});
@@ -472,6 +599,13 @@ router.post("/verificacao", async (req, res, next) => {
                     .query(verificarStaff, {
                         type: sequelize.QueryTypes.SELECT
                     })
+                    .catch(async error =>
+                        Promise.resolve(
+                            await sequelizeAzure.query(verificarStaff, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                        )
+                    )
                     .then(resposta => {
                         if (resposta?.msg)
                             res.json({
@@ -509,6 +643,13 @@ router.post("/delete", async (req, res, next) => {
         .query(usuarioResponsavel, {
             type: sequelize.QueryTypes.SELECT
         })
+        .catch(async error =>
+            Promise.resolve(
+                await sequelizeAzure.query(usuarioResponsavel, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async usuarioResponsavel => {
             console.log(usuarioResponsavel);
             if (!usuarioResponsavel.length) {
@@ -525,6 +666,13 @@ router.post("/delete", async (req, res, next) => {
                     .query(sql, {
                         type: sequelize.QueryTypes.SELECT
                     })
+                    .catch(async error =>
+                        Promise.resolve(
+                            await sequelizeAzure.query(sql, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                        )
+                    )
                     .then(async resposta => {
                         redirecionamentoAcessos(
                             id,
@@ -569,13 +717,34 @@ router.post("/remocao-acesso", async (req, res) => {
 
     await sequelize
         .query(selectDados, {type: sequelize.QueryTypes.SELECT})
+        .catch(async error =>
+            Promise.resolve(
+                await sequelizeAzure.query(selectDados, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([{responsavel, nomeMaquina}]) => {
             await sequelize
                 .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})
+                .catch(async error =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(selectUsuario, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    )
+                )
                 .then(async ([{nome, email}]) => {
                     await sequelize
                         .query(deleteAcesso, {
                             type: sequelize.QueryTypes.DELETE
+                        })
+                        .catch(err => Promise.resolve())
+                        .then(async error => {
+                            await sequelizeAzure.query(deleteAcesso, {
+                                type: sequelizeAzure.QueryTypes.DELETE
+                            });
+                            Promise.resolve();
                         })
                         .then(async () => {
                             mandarEmail(
@@ -632,6 +801,13 @@ router.post("/transferencia-responsavel", async (req, res) => {
         .query(usuarioExisteEmStaff, {
             type: sequelize.QueryTypes.SELECT
         })
+        .catch(async error =>
+            Promise.resolve(
+                await sequelizeAzure.query(usuarioExisteEmStaff, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([response]) => {
             if (response)
                 return res.json({
@@ -642,6 +818,13 @@ router.post("/transferencia-responsavel", async (req, res) => {
                 .query(usuarioExisteEmUsuario, {
                     type: sequelize.QueryTypes.SELECT
                 })
+                .catch(async error =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(usuarioExisteEmUsuario, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    )
+                )
                 .then(async ([usuario]) => {
                     if (!usuario)
                         return res.json({
@@ -658,6 +841,13 @@ router.post("/transferencia-responsavel", async (req, res) => {
                         .query(usuarioResponsavel, {
                             type: sequelize.QueryTypes.SELECT
                         })
+                        .catch(async error =>
+                            Promise.resolve(
+                                await sequelizeAzure.query(usuarioResponsavel, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            )
+                        )
                         .then(async ([{emailResp}]) => {
                             if (email == emailResp)
                                 res.json({
@@ -671,6 +861,14 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                     .query(sql, {
                                         type: sequelize.QueryTypes.SELECT
                                     })
+                                    .catch(async error =>
+                                        Promise.resolve(
+                                            await sequelizeAzure.query(sql, {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .SELECT
+                                            })
+                                        )
+                                    )
                                     .then(([{id}]) => {
                                         deleteUsuario(id).catch(err => {
                                             res.json({
@@ -692,6 +890,18 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                         .query(sql, {
                                             type: sequelize.QueryTypes.DELETE
                                         })
+                                        .catch(err => Promise.resolve())
+                                        .then(async () =>
+                                            Promise.resolve(
+                                                await sequelizeAzure.query(
+                                                    sql,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.DELETE
+                                                    }
+                                                )
+                                            )
+                                        )
                                         .catch(err => {
                                             res.json({
                                                 status: "erro13",
@@ -704,6 +914,18 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                         .query(sql, {
                                             type: sequelize.QueryTypes.UPDATE
                                         })
+                                        .catch(err => Promise.resolve())
+                                        .then(async () =>
+                                            Promise.resolve(
+                                                await sequelizeAzure.query(
+                                                    sql,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.UPDATE
+                                                    }
+                                                )
+                                            )
+                                        )
                                         .catch(err => {
                                             res.json({
                                                 status: "erro3",
@@ -717,6 +939,17 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                 .query(selectUsuario, {
                                     type: sequelize.QueryTypes.SELECT
                                 })
+                                .catch(async error =>
+                                    Promise.resolve(
+                                        await sequelizeAzure.query(
+                                            selectUsuario,
+                                            {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .SELECT
+                                            }
+                                        )
+                                    )
+                                )
                                 .then(async ([response]) => {
                                     if (response) {
                                         let updateResp = `UPDATE usuario_maquina SET responsavel = 's' WHERE fk_maquina = ${maquina} AND fk_usuario = ${response.id}`;
@@ -725,6 +958,19 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                 type: sequelize.QueryTypes
                                                     .UPDATE
                                             })
+                                            .catch(err => Promise.resolve())
+                                            .then(async () =>
+                                                Promise.resolve(
+                                                    await sequelizeAzure.query(
+                                                        updateResp,
+                                                        {
+                                                            type: sequelizeAzure
+                                                                .QueryTypes
+                                                                .UPDATE
+                                                        }
+                                                    )
+                                                )
+                                            )
                                             .catch(err => {
                                                 res.json({
                                                     status: "erro4",
@@ -738,6 +984,19 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                 type: sequelize.QueryTypes
                                                     .INSERT
                                             })
+                                            .catch(err => Promise.resolve())
+                                            .then(async () =>
+                                                Promise.resolve(
+                                                    await sequelizeAzure.query(
+                                                        insertResp,
+                                                        {
+                                                            type: sequelizeAzure
+                                                                .QueryTypes
+                                                                .INSERT
+                                                        }
+                                                    )
+                                                )
+                                            )
                                             .catch(err => {
                                                 res.json({
                                                     status: "erro5",
@@ -750,6 +1009,17 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                         .query(selectResp, {
                                             type: sequelize.QueryTypes.SELECT
                                         })
+                                        .catch(async error =>
+                                            Promise.resolve(
+                                                await sequelizeAzure.query(
+                                                    selectResp,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.SELECT
+                                                    }
+                                                )
+                                            )
+                                        )
                                         .then(([{id, nome, maq}]) => {
                                             mandarEmail(
                                                 "convite responsavel",
@@ -808,6 +1078,13 @@ router.post("/dados", async (req, res) => {
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(([usuario]) => res.json({status: "ok", msg: usuario}))
         .catch(err => res.json({status: "erro", msg: err}));
 });
@@ -825,12 +1102,34 @@ router.post("/permissao-acesso", async (req, res) => {
     let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${pk_maquina}`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.INSERT})
+        .catch(err => Promise.resolve())
+        .then(async () =>
+            Promise.resolve(
+                await sequelizeAzure.query(sql, {
+                    type: sequelizeAzure.QueryTypes.INSERT
+                })
+            )
+        )
         .then(async () => {
             await sequelize
                 .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})
+                .catch(async err =>
+                    Promise.resolve(
+                        await sequelizeAzure.query(selectUsuario, {
+                            type: sequelizeAzure.QueryTypes.SELECT
+                        })
+                    )
+                )
                 .then(async ([{nome, email}]) => {
                     await sequelize
                         .query(selectDados, {type: sequelize.QueryTypes.SELECT})
+                        .catch(async err =>
+                            Promise.resolve(
+                                await sequelizeAzure.query(selectDados, {
+                                    type: sequelizeAzure.QueryTypes.SELECT
+                                })
+                            )
+                        )
                         .then(([{responsavel, nomeMaquina}]) => {
                             mandarEmail("notificacao acesso", nome, email, [
                                 nomeMaquina,
@@ -874,11 +1173,25 @@ router.post("/remocao-proprio-acesso", async (req, res) => {
     let selectUsuario = `SELECT count(fk_usuario) as resp FROM usuario_maquina WHERE fk_maquina = ${maquina} AND fk_usuario = ${id} AND responsavel = 's'`;
     await sequelize
         .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(selectUsuario, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
         .then(async ([{resp}]) => {
             if (resp) {
                 let acessosMaquina = `SELECT fk_usuario FROM usuario_maquina WHERE fk_maquina = ${maquina} AND responsavel = 'n'`;
                 await sequelize
                     .query(acessosMaquina, {type: sequelize.QueryTypes.SELECT})
+                    .catch(async err =>
+                        Promise.resolve(
+                            await sequelizeAzure.query(selectUsuario, {
+                                type: sequelizeAzure.QueryTypes.SELECT
+                            })
+                        )
+                    )
                     .then(resposta => {
                         redirecionamentoAcessos(
                             id,

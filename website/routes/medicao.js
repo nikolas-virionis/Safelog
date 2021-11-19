@@ -277,6 +277,9 @@ router.post("/dados", async (req, res, next) => {
         await sequelize
             .query(sql, {type: sequelize.QueryTypes.SELECT})
             .catch(async err => {
+                sql = `SELECT TOP ${
+                    cargo == "analista" ? 20 : 100
+                } valor, data_medicao, tipo FROM medicao WHERE fk_categoria_medicao = ${id_categoria_medicao} ORDER BY data_medicao DESC `;
                 return Promise.resolve(
                     await sequelizeAzure.query(sql, {
                         type: sequelizeAzure.QueryTypes.SELECT

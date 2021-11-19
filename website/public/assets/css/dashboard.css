@@ -593,7 +593,7 @@ label {
   width: 60px;
   height: 60px;
   background-color: var(--cor-principal);
-  margin: 0 10px 10px 0;
+  margin: 15px !important;
   border-radius: 100%;
   color: #fff;
   font-size:1.5rem;

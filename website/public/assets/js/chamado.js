@@ -1,3 +1,4 @@
+const userInfo = JSON.parse(sessionStorage.getItem("usuario"));
 const urlParams = new URLSearchParams(window.location.search);
 const idChamado = urlParams.get("idChamado");
 
@@ -41,6 +42,7 @@ const renderChamado = msg => {
     const divDescricao = document.querySelector(".descricao");
     const divDataAbertura = document.querySelector(".data-abertura");
 
+    console.log(msg)
     // adicionando corpo das divs
     divTitulo.innerHTML = msg.titulo;
     divPrioridade.innerHTML = `${msg.prioridade.toUpperCase()}`;
@@ -53,6 +55,21 @@ const renderChamado = msg => {
     } else if (msg.prioridade == "emergencia") {
         statusChamado.classList = "status emergencia";
     }
+
+    if(msg.status_chamado == "aberto"){
+        if(msg.fk_usuario == userInfo.id){
+            document.querySelector("#btnEditar").classList.remove("display-none");
+            document.querySelector("#btnEditar").addEventListener("click", () => {
+                cardAlterarChamado("editar");
+            });
+        }else{
+            document.querySelector("#btnResponder").classList.remove("display-none");
+            document.querySelector("#btnResponder").addEventListener("click", () => {
+                cardAlterarChamado("responder");
+            });
+        }
+    }
+
     nomeMaquina.innerHTML = msg.maquina;
     medicao.innerHTML = getTipo(msg.tipo); //Alterar para o nome do componente
     divDescricao.innerHTML = msg.descricao;
@@ -70,6 +87,19 @@ const renderChamado = msg => {
         emailResp.innerHTML = "";
     }
 };
+
+const cardAlterarChamado = tipo => {
+    switch(tipo){
+        case "editar":
+            
+            break;
+        case "responder":
+
+            break;
+        default:
+            console.log("Parâmetro incorreto");
+    }
+}
 
 // renderiza solução
 const renderSolucao = solucao => {

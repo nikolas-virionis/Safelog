@@ -38,7 +38,7 @@ const enviarNotificacao = async (usuarios, notificacao) => {
                 )
                 .then(async ([{id_notificacao: idNotificacao}]) => {
                     for (let usuario of usuarios) {
-                        const atribuirNotificacao = `INSERT INTO usuario_notificacao(fk_usuario, fk_notificacao, lido, data_notificacao) VALUES (${
+                        let atribuirNotificacao = `INSERT INTO usuario_notificacao(fk_usuario, fk_notificacao, lido, data_notificacao) VALUES (${
                             usuario?.id_usuario ?? usuario
                         }, ${idNotificacao}, 'n', now())`;
                         await sequelize
@@ -47,6 +47,9 @@ const enviarNotificacao = async (usuarios, notificacao) => {
                             })
                             .catch(err => Promise.resolve())
                             .then(async () => {
+                                atribuirNotificacao = `INSERT INTO usuario_notificacao(fk_usuario, fk_notificacao, lido, data_notificacao) VALUES (${
+                                    usuario?.id_usuario ?? usuario
+                                }, ${idNotificacao}, 'n', getdate())`;
                                 await sequelizeAzure.query(
                                     atribuirNotificacao,
                                     {

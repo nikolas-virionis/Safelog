@@ -3,11 +3,11 @@ module.exports = {
     // production
     production: {
         // alterar apenas username, password, database e host
-        username: "username",
-        password: "password",
-        database: "database",
-        host: "host",
-        dialect: "mssql",
+        username: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        host: "172.17.0.1",
+        dialect: "mysql",
         xuse_env_variable: "DATABASE_URL",
         dialectOptions: {
             options: {

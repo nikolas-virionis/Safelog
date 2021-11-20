@@ -1,5 +1,5 @@
 // ambiente (dev/prod)
-process.env.NODE_ENV = "dev";
+process.env.NODE_ENV = "production";
 // dependências
 let fs = require("fs");
 let express = require("express");

@@ -1,3 +1,6 @@
+DROP USER IF EXISTS 'safelog_dev'@'localhost';
+DROP USER IF EXISTS 'safelog_dev'@'%';
+
 CREATE USER 'safelog_dev'@'%' IDENTIFIED BY 'Safe_Log371$';
 GRANT ALL PRIVILEGES ON `safelog`.* TO `safelog_dev`@`%`;
 

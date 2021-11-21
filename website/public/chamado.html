@@ -123,24 +123,9 @@
                         </div>
                     </div>
                 </div>
-                </divi>
-
-
-                <!-- Responder chamado -->
-                <div class="row justify-content-center" id="responder-btn">
-                    <button class="btn-geral display-none" id="btnResponder">Responder a este chamado</button>
-                    <button class="btn-geral display-none" id="btnEditar">Editar chamado</button>
-
-
                 </div>
 
-                </span>
-            </div>
-
-            <div class="centralizar-fr">
-
-
-                <div class="form-cadastro display-none">
+                <div class="form-cadastro  display-none" id="formCad">
                     <form action="">
                         <div class="row">
                             <div class="col-md-6 col-sm-12 form-item">
@@ -161,7 +146,7 @@
 
 
 
-                        </div>
+                        </div> 
                         <div class="row">
                             <span class="center-t">
                                 <label for="">Descrição</label> <br>
@@ -198,6 +183,22 @@
 
                 </div>
             </div>
+
+                <!-- Responder chamado -->
+                <div class="row justify-content-center" id="responder-btn">
+                    <button class="btn-geral display-none" id="btnResponder">Responder a este chamado</button>
+                    <button class="btn-geral display-" id="btnEditar" onclick="editar()">Editar chamado</button>
+
+
+                </div>
+
+                </span>
+            </div>
+
+         
+
+
+             
         </div>
         </div>
     </section>
@@ -209,6 +210,10 @@
     <script src="./assets/js/chamado.js"></script>
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/edit-chamado.js"></script>
+
+    
+ 
 </body>
 
 </html>

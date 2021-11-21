@@ -3,8 +3,8 @@ import pandas as pd
 import sys
 import os
 
-db_connection = sql.connect(host='localhost', database='safelog',
-                            user='safelog_dev', password='Safe_Log371$')
+db_connection = sql.connect(host='172.31.25.218', database='safelog', user='safelog_dev', password='Safe_Log371$')
+
 directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
 
 

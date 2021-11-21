@@ -2,6 +2,7 @@ import mysql.connector
 from credentials import usr, pswd
 from getmac import get_mac_address as mac_addr
 import pandas as pd
+import pyodbc
 
 
 def get_tipo(tipo, medicao, limite):
@@ -18,14 +19,24 @@ def get_tipo(tipo, medicao, limite):
 
 
 def insert_db(value):
+    mydb = ""
     try:
         mydb = mysql.connector.connect(
-            host="localhost",
+            host="172.31.25.218",
             user=usr,
             password=pswd,
             database="safelog"
         )
+    except mysql.connector.Error as e:
+        server = 'tcp:srvsafelog.database.windows.net'
+        database = 'safelog'
+        username = usr
+        password = pswd
+        mydb = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' +
+                              server+';DATABASE='+database+';UID='+username+';PWD=' + password)
+        print("Erro ao conectar com o MySQL", e)
 
+    finally:
         if mydb.is_connected():
             data, *medicoes = value
             mycursor = mydb.cursor()
@@ -44,9 +55,7 @@ def insert_db(value):
             mydb.commit()
 
             print(mycursor.rowcount, "registro inserido")
-    except mysql.connector.Error as e:
-        print("Erro ao conectar com o MySQL", e)
-    finally:
+
         if(mydb.is_connected()):
             mycursor.close()
             mydb.close()

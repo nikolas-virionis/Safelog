@@ -1,3 +1,2 @@
-usr = 'root'
-pswd = 'DigitalSchool1$'
-
+usr = 'safelog_dev'
+pswd = 'Safe_Log371$'

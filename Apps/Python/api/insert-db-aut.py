@@ -5,9 +5,20 @@ from connectdb import insert_db
 from getmac import get_mac_address as mac_addr
 import mysql.connector as sql
 from credentials import usr, pswd
+import pyodbc
 
-db_connection = sql.connect(host='localhost', database='safelog',
+db_connection = ""
+try:
+    db_connection = sql.connect(host='172.31.25.218', database='safelog',
                             user=usr, password=pswd)
+except: 
+    server = 'tcp:srvsafelog.database.windows.net'
+    database = 'safelog'
+    username = usr
+    password = pswd
+    db_connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=' +
+                              server+';DATABASE='+database+';UID='+username+';PWD=' + password)
+                              
 preferences = pd.read_sql(
     f"SELECT tipo_medicao.tipo FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')", con=db_connection)
 db_connection.close()

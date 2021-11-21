@@ -26,7 +26,11 @@
   */
  
  server.listen(port, () => {
-    console.log('running on http://localhost:3000/')
+    if (process.env.NODE_ENV == 'dev') {
+      console.log('running on http://localhost:3000/')
+    } else {
+      console.log(`running on http://${process.env.EC2_DNS}:3000`)
+    }
  });
  server.on('error', onError);
  server.on('listening', onListening);

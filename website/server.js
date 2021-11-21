@@ -1,5 +1,7 @@
 // ambiente (dev/prod)
 process.env.NODE_ENV = "production";
+process.env.EC2_DNS = "ec2-18-209-17-92.compute-1.amazonaws.com";
+
 // dependências
 let fs = require("fs");
 let express = require("express");

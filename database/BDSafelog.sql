@@ -1,4 +1,4 @@
-DROP DATABASE safelog;
+DROP DATABASE IF EXISTS safelog;
 
 CREATE DATABASE safelog;
 

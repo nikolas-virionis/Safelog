@@ -12,6 +12,7 @@ import com.mycompany.client.java.entidades.Medicao;
 import com.mycompany.client.java.util.ConfigDB;
 
 import org.json.JSONObject;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class Alert {
     private Integer incidentes;
@@ -57,8 +58,15 @@ public class Alert {
         String sql = String.format(
                 "SELECT count(id_chamado) as chamadosAbertos FROM chamado WHERE status_chamado = 'aberto' AND fk_categoria_medicao = %d",
                 this.fkCategoriaMedicao);
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         Integer chamadosAbertos = Integer
-                .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("chamadosAbertos").toString());
+                .valueOf(jdbcTemplate.queryForList(sql).get(0).get("chamadosAbertos").toString());
         if (chamadosAbertos == 0) {
             abrirChamado(medicao, tipoMedicao);
         }
@@ -96,7 +104,14 @@ public class Alert {
         String sql = String.format(
                 "SELECT id_chamado FROM chamado WHERE status_chamado = 'aberto' AND fk_categoria_medicao = %d",
                 tipoMedicao.getFkCategoriaMedicao());
-        Integer idChamado = Integer.valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_chamado").toString());
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        Integer idChamado = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_chamado").toString());
 
         enviarAlerta(idChamado, medicao, tipoMedicao);
         // throw new RuntimeException("tudo corre bem - Usain bolt");
@@ -119,7 +134,14 @@ public class Alert {
         String sql = String.format(
                 "SELECT id_usuario FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND responsavel = 's' JOIN maquina ON pk_maquina = fk_maquina AND id_maquina = '%s'",
                 Monitoring.getMacAddress());
-        Integer idUsuario = Integer.valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("id_usuario").toString());
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        Integer idUsuario = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_usuario").toString());
         return idUsuario;
     }
 

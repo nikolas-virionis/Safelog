@@ -54,9 +54,14 @@ public class CategoriaMedicao {
         this.fkTipoMedicao = fkTipoMedicao;
     }
 
-    public static List<CategoriaMedicao> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
-        return jdbcTemplate.query("SELECT * FROM categoria_medicao",
-                new BeanPropertyRowMapper<>(CategoriaMedicao.class));
+    public static List selectAll() {
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        return jdbcTemplate.queryForList("SELECT * FROM categoria_medicao");
     }
 }

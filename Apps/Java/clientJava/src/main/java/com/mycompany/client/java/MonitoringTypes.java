@@ -4,6 +4,7 @@ import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class MonitoringTypes {
 
@@ -13,7 +14,14 @@ public class MonitoringTypes {
                 Monitoring.getPkMaquina());
 
         BeanPropertyRowMapper<TiposMedicao> bean = new BeanPropertyRowMapper<>(TiposMedicao.class);
-        return ConfigDB.getJdbc().query(sql, bean);
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        return jdbcTemplate.query(sql, bean);
     }
 
     public static List<Double> getLimits() {

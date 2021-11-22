@@ -22,6 +22,7 @@ public class Maquina {
         this.senha = senha;
         this.fkEmpresa = fkEmpresa;
     }
+
     public Maquina() {
     }
 
@@ -67,9 +68,16 @@ public class Maquina {
     }
 
     public static List<Maquina> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
     }
+
     @Override
     public String toString() {
         return "Maquina [fkEmpresa=" + fkEmpresa + ", idMaquina=" + idMaquina + ", nome=" + nome + ", pkMaquina="

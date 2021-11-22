@@ -4,6 +4,8 @@ import com.github.britooo.looca.api.core.Looca;
 import com.mycompany.client.java.entidades.Maquina;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -45,7 +47,14 @@ public class Monitoring extends Looca {
     public static Integer getPkMaquina() {
         String sql = "SELECT pk_maquina FROM maquina WHERE id_maquina = '%s'";
         sql = String.format(sql, getMacAddress());
-        List<Maquina> maquinas = ConfigDB.getJdbc().query(sql, new BeanPropertyRowMapper<>(Maquina.class));
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        List<Maquina> maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
         return maquinas.size() > 0 ? maquinas.get(0).getPkMaquina() : -1;
     }
 

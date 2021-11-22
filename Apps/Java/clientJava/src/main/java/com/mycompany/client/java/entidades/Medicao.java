@@ -71,7 +71,13 @@ public class Medicao {
     }
 
     public static List<Medicao> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper<>(Medicao.class));
     }
 }

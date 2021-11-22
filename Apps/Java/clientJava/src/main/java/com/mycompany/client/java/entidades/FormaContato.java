@@ -34,7 +34,13 @@ public class FormaContato {
     }
 
     public static List<FormaContato> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(FormaContato.class));
     }
 }

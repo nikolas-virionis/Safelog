@@ -44,7 +44,13 @@ public class TipoMedicao {
     }
 
     public static List<TipoMedicao> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         return jdbcTemplate.query("SELECT * FROM tipo_medicao", new BeanPropertyRowMapper<>(TipoMedicao.class));
     }
 }

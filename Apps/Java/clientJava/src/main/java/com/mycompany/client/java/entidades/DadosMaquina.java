@@ -65,7 +65,13 @@ public class DadosMaquina {
     }
 
     public static List<DadosMaquina> selectAll() {
-        JdbcTemplate jdbcTemplate = ConfigDB.getJdbc();
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
         return jdbcTemplate.query("SELECT * FROM dados_maquina", new BeanPropertyRowMapper<>(DadosMaquina.class));
     }
 

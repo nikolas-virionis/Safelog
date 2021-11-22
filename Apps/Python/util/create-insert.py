@@ -2,6 +2,7 @@
 import mysql.connector as sql
 import pandas as pd
 import pyperclip
+from get_mac_addr import mac_addr
 
 db_connection = sql.connect(host='localhost', database='safelog',
                             user='root', password='DigitalSchool1$')
@@ -54,9 +55,9 @@ tipos = [get_tipo(fks[i] - 42, valores[i], limites[(fks[i] - 43)])
 
 insert_sql = ""
 
-insert_sql += "INSERT INTO maquina VALUES ('0c:9d:92:c6:cc:19', 'DESKTOP1', MD5('ExSenha1'), '203783731'); \n"
+insert_sql += f"INSERT INTO maquina VALUES ('{mac_addr()}', 'DESKTOP1', MD5('ExSenha1'), '203783731'); \n"
 
-insert_sql += "INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '0c:9d:92:c6:cc:19'); \n"
+insert_sql += f"INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', 13, '{mac_addr()}'); \n"
 for i, j in enumerate(limites):
     insert_sql += f"INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUES ({limites[i]}, '{maquinas[i]}', {tipos_med[i]}); \n"
 

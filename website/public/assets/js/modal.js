@@ -5,3 +5,5 @@ export const abrirModal = (modalId) => {
 export const fecharModal = (modalId) =>
     (document.getElementById(modalId).style.display = "none");
 export const cancelarModal = () => window.history.back();
+
+

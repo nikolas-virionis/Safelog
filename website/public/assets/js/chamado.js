@@ -144,3 +144,5 @@ const renderChamadoNaoEncontrado = container => {
         document.location.href = "/chamados";
     }, 2000);
 };
+
+

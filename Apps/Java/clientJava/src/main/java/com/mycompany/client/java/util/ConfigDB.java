@@ -7,27 +7,36 @@ import org.springframework.jdbc.core.JdbcTemplate;
 // Essa classe faz as configurações do Banco de Dados
 public class ConfigDB {
 
-    private static BasicDataSource getBasicDataSource() {
-        // Dotenv dotenv = Dotenv.load();
+    private static BasicDataSource getBasicDataSourceAWS() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        // exemplo para SQL Server: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        // basicDataSource.setUrl("jdbc:mysql://localhost:3306/" +
-        // dotenv.get("DB_NAME"));
-        basicDataSource.setUrl(String.format("jdbc:mysql://localhost:3306/%s", SensitiveData.DB_NAME));
-        // exemplo para SQL Server:
-        // basicDataSource.setUrl(String.format("jdbc:sqlserver://%s/%s",
-        // SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
-        // "jdbc:sqlserver://meubanco.database.windows.net/meubanco"
-        // basicDataSource.setUsername(dotenv.get("DB_USER"));
-        // basicDataSource.setPassword(dotenv.get("DB_PASSWORD"));
+        basicDataSource.setUrl(String.format("jdbc:mysql://ec2-35-175-178-201.compute-1.amazonaws.com:3306/%s",
+                SensitiveData.DB_NAME));
+        basicDataSource.setUsername(SensitiveData.DB_USER);
+        basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
+        return basicDataSource;
+    }
+
+    private static BasicDataSource getBasicDataSourceAzure() {
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        basicDataSource
+                .setUrl(String.format("jdbc:sqlserver://%s/%s", SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;
     }
 
     // retorna jdbc template pronto para realizar query
-    public static JdbcTemplate getJdbc() {
-        return new JdbcTemplate(getBasicDataSource());
+    public static JdbcTemplate getJdbcAWS() {
+        try {
+            return new JdbcTemplate(getBasicDataSourceAWS());
+        } catch (Exception e) {
+            return getJdbcAzure();
+        }
+    }
+
+    public static JdbcTemplate getJdbcAzure() {
+        return new JdbcTemplate(getBasicDataSourceAzure());
     }
 }

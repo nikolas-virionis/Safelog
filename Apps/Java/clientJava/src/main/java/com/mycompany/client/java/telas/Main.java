@@ -13,6 +13,8 @@ import com.mycompany.client.java.entidades.Medicao;
 import com.mycompany.client.java.requisicoes.Alert;
 import com.mycompany.client.java.util.ConfigDB;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class Main extends javax.swing.JFrame {
 
     private String email;
@@ -57,15 +59,29 @@ public class Main extends javax.swing.JFrame {
         String sql = String.format(
                 "SELECT count(id_dados_maquina) as dadosMaquina FROM dados_maquina WHERE fk_maquina = %d",
                 Monitoring.getPkMaquina());
-        Integer dadosMaquina = Integer
-                .valueOf(ConfigDB.getJdbc().queryForList(sql).get(0).get("dadosMaquina").toString());
+        JdbcTemplate jdbcTemplate;
+        try {
+            jdbcTemplate = ConfigDB.getJdbcAWS();
+        } catch (Exception e) {
+            System.out.println("azure");
+            jdbcTemplate = ConfigDB.getJdbcAzure();
+        }
+        Integer dadosMaquina = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("dadosMaquina").toString());
         if (dadosMaquina == 0) {
             Sistema sys = new Monitoring().getSistema();
             String insertDados = String.format(
                     "INSERT INTO dados_maquina(so, arquitetura, fabricante, fk_maquina) VALUES ('%s', '%s', '%s', %d)",
                     sys.getSistemaOperacional() + " " + Monitoring.getSystemInfo(), sys.getArquitetura() + "x",
                     sys.getFabricante(), Monitoring.getPkMaquina());
-            ConfigDB.getJdbc().execute(insertDados);
+            JdbcTemplate jdbcTemplateAWS = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplateAzure = ConfigDB.getJdbcAzure();
+            try {
+                jdbcTemplateAWS.execute(insertDados);
+            } catch (Exception e) {
+                System.out.println("Erro na AWS");
+            } finally {
+                jdbcTemplateAzure.execute(insertDados);
+            }
         }
     }
 
@@ -162,14 +178,12 @@ public class Main extends javax.swing.JFrame {
         this.email = email;
     }
 
-    public void alertas(){
+    public void alertas() {
 
         String selectValor = "SELECT valor FROM medicao";
         String selectTipo = "SELECT tipo FROM medicao";
 
-        
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.

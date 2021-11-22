@@ -2,6 +2,9 @@ package com.mycompany.client.java;
 
 import com.mycompany.client.java.entidades.Medicao;
 import com.mycompany.client.java.util.ConfigDB;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.util.Locale;
 
 public class InsertDado {
@@ -16,7 +19,16 @@ public class InsertDado {
         }
         str = str.substring(0, str.length() - 3);
         // System.out.println(str);
-        ConfigDB.getJdbc().execute(str);
+        JdbcTemplate jdbcTemplateAWS = ConfigDB.getJdbcAWS();
+        JdbcTemplate jdbcTemplateAzure = ConfigDB.getJdbcAzure();
+        try {
+            jdbcTemplateAWS.execute(str);
+        } catch (Exception e) {
+            System.out.println("Erro na AWS");
+        } finally {
+            jdbcTemplateAzure.execute(str);
+        }
+
     }
 
     // formata categoria de medição para insert

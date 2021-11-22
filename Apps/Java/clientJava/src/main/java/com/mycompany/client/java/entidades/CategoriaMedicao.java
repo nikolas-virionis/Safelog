@@ -62,6 +62,7 @@ public class CategoriaMedicao {
             System.out.println("azure");
             jdbcTemplate = ConfigDB.getJdbcAzure();
         }
-        return jdbcTemplate.queryForList("SELECT * FROM categoria_medicao");
+        return jdbcTemplate.query("SELECT * FROM categoria_medicao",
+                new BeanPropertyRowMapper<>(CategoriaMedicao.class));
     }
 }

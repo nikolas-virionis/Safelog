@@ -26,7 +26,11 @@ public class InsertDado {
         } catch (Exception e) {
             System.out.println("Erro na AWS");
         } finally {
-            jdbcTemplateAzure.execute(str);
+            try {
+                jdbcTemplateAzure.execute(str);
+            } catch (Exception e) {
+                System.out.println("Erro na Azure");
+            }
         }
 
     }

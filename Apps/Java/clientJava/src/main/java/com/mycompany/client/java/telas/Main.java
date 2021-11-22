@@ -59,14 +59,16 @@ public class Main extends javax.swing.JFrame {
         String sql = String.format(
                 "SELECT count(id_dados_maquina) as dadosMaquina FROM dados_maquina WHERE fk_maquina = %d",
                 Monitoring.getPkMaquina());
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
+        Integer dadosMaquina;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            dadosMaquina = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("dadosMaquina").toString());
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            dadosMaquina = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("dadosMaquina").toString());
         }
-        Integer dadosMaquina = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("dadosMaquina").toString());
         if (dadosMaquina == 0) {
             Sistema sys = new Monitoring().getSistema();
             String insertDados = String.format(
@@ -80,7 +82,11 @@ public class Main extends javax.swing.JFrame {
             } catch (Exception e) {
                 System.out.println("Erro na AWS");
             } finally {
-                jdbcTemplateAzure.execute(insertDados);
+                try {
+                    jdbcTemplateAzure.execute(insertDados);
+                } catch (Exception e) {
+                    System.out.println("Erro na Azure");
+                }
             }
         }
     }

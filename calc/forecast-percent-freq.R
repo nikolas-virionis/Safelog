@@ -9,7 +9,7 @@ dados <- data.frame(percent=x, freq=y)
 lm(x~y)
 
 # linear regression
-ggplot(dados, aes(x = x, y=y)) + geom_point()+geom_smooth(method =lm, se = FALSE)
+ggplot(dados, aes(x=x, y=y)) + geom_point() + geom_smooth(method=lm, se = FALSE)
 
 # correlation
 cor(x, y)

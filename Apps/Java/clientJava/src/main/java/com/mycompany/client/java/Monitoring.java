@@ -47,14 +47,16 @@ public class Monitoring extends Looca {
     public static Integer getPkMaquina() {
         String sql = "SELECT pk_maquina FROM maquina WHERE id_maquina = '%s'";
         sql = String.format(sql, getMacAddress());
-        JdbcTemplate jdbcTemplate;
+        // JdbcTemplate jdbcTemplate;
+        List<Maquina> maquinas;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
         }
-        List<Maquina> maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
         return maquinas.size() > 0 ? maquinas.get(0).getPkMaquina() : -1;
     }
 

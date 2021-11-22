@@ -71,13 +71,15 @@ public class Medicao {
     }
 
     public static List<Medicao> selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper<>(Medicao.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper<>(Medicao.class));
         }
-        return jdbcTemplate.query("SELECT * FROM medicao", new BeanPropertyRowMapper<>(Medicao.class));
+
     }
 }

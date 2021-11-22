@@ -58,15 +58,16 @@ public class Alert {
         String sql = String.format(
                 "SELECT count(id_chamado) as chamadosAbertos FROM chamado WHERE status_chamado = 'aberto' AND fk_categoria_medicao = %d",
                 this.fkCategoriaMedicao);
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
+        Integer chamadosAbertos;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            chamadosAbertos = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("chamadosAbertos").toString());
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            chamadosAbertos = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("chamadosAbertos").toString());
         }
-        Integer chamadosAbertos = Integer
-                .valueOf(jdbcTemplate.queryForList(sql).get(0).get("chamadosAbertos").toString());
         if (chamadosAbertos == 0) {
             abrirChamado(medicao, tipoMedicao);
         }
@@ -104,14 +105,16 @@ public class Alert {
         String sql = String.format(
                 "SELECT id_chamado FROM chamado WHERE status_chamado = 'aberto' AND fk_categoria_medicao = %d",
                 tipoMedicao.getFkCategoriaMedicao());
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
+        Integer idChamado;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            idChamado = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_chamado").toString());
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            idChamado = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_chamado").toString());
         }
-        Integer idChamado = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_chamado").toString());
 
         enviarAlerta(idChamado, medicao, tipoMedicao);
         // throw new RuntimeException("tudo corre bem - Usain bolt");
@@ -134,14 +137,16 @@ public class Alert {
         String sql = String.format(
                 "SELECT id_usuario FROM usuario JOIN usuario_maquina ON id_usuario = fk_usuario AND responsavel = 's' JOIN maquina ON pk_maquina = fk_maquina AND id_maquina = '%s'",
                 Monitoring.getMacAddress());
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
+        Integer idUsuario;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            idUsuario = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_usuario").toString());
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            idUsuario = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_usuario").toString());
         }
-        Integer idUsuario = Integer.valueOf(jdbcTemplate.queryForList(sql).get(0).get("id_usuario").toString());
         return idUsuario;
     }
 

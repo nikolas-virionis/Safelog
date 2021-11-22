@@ -68,14 +68,16 @@ public class Maquina {
     }
 
     public static List<Maquina> selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
         }
-        return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
+
     }
 
     @Override

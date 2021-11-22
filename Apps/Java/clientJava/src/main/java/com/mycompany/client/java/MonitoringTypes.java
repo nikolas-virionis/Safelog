@@ -13,15 +13,17 @@ public class MonitoringTypes {
                 "SELECT tipo_medicao.tipo, medicao_limite, unidade, id_categoria_medicao as fk_categoria_medicao FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = %d",
                 Monitoring.getPkMaquina());
 
-        BeanPropertyRowMapper<TiposMedicao> bean = new BeanPropertyRowMapper<>(TiposMedicao.class);
-        JdbcTemplate jdbcTemplate;
+        BeanPropertyRowMapper<TiposMedicao> bean = new BeanPropertyRowMapper<>(TiposMedicao.class);// JdbcTemplate
+                                                                                                        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query(sql, bean);
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query(sql, bean);
         }
-        return jdbcTemplate.query(sql, bean);
+
     }
 
     public static List<Double> getLimits() {

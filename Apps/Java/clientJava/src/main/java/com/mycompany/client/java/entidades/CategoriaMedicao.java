@@ -55,14 +55,16 @@ public class CategoriaMedicao {
     }
 
     public static List selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // JdbcTemplate jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM categoria_medicao",
+                    new BeanPropertyRowMapper<>(CategoriaMedicao.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM categoria_medicao",
+                    new BeanPropertyRowMapper<>(CategoriaMedicao.class));
         }
-        return jdbcTemplate.query("SELECT * FROM categoria_medicao",
-                new BeanPropertyRowMapper<>(CategoriaMedicao.class));
     }
 }

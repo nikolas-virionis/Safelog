@@ -107,14 +107,16 @@ public class Usuario {
     }
 
     public static List<Usuario> selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper<>(Usuario.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper<>(Usuario.class));
         }
-        return jdbcTemplate.query("SELECT * FROM usuario", new BeanPropertyRowMapper<>(Usuario.class));
+
     }
 
     @Override

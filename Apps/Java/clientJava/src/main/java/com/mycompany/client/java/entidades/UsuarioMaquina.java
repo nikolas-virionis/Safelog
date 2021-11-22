@@ -55,13 +55,17 @@ public class UsuarioMaquina {
     }
 
     public static List<UsuarioMaquina> selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM usuario_maquina",
+                    new BeanPropertyRowMapper<>(UsuarioMaquina.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM usuario_maquina",
+                    new BeanPropertyRowMapper<>(UsuarioMaquina.class));
         }
-        return jdbcTemplate.query("SELECT * FROM usuario_maquina", new BeanPropertyRowMapper<>(UsuarioMaquina.class));
+
     }
 }

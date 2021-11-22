@@ -54,13 +54,14 @@ public class Contato {
     }
 
     public static List<Contato> selectAll() {
-        JdbcTemplate jdbcTemplate;
+        // jdbcTemplate;
         try {
-            jdbcTemplate = ConfigDB.getJdbcAWS();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
+            return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper<>(Contato.class));
         } catch (Exception e) {
             System.out.println("azure");
-            jdbcTemplate = ConfigDB.getJdbcAzure();
+            JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
+            return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper<>(Contato.class));
         }
-        return jdbcTemplate.query("SELECT * FROM contato", new BeanPropertyRowMapper<>(Contato.class));
     }
 }

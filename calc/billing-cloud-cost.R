@@ -7,7 +7,7 @@ y<- c(59, 68, 81, 50, 57, 90, 65, 88, 54, 70)
 dados <- data.frame(mes=x, preco=y)
 
 # modelo 
-modelo1 <- lm(y~x)
+modelo1 <- lm(data=dados, formula=dados$preco~dados$mes)
 print(modelo1)
 
 # correlação
@@ -15,7 +15,7 @@ correlacao <- cor(y, x)
 
 # previsao
 previsao <- function(mes) {
-    valor = round(mes * 0.69 + 64.4)
+    valor = round(64.4 + mes * 0.6909)
     return(valor)
 }
 

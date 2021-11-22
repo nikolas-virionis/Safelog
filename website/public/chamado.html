@@ -89,10 +89,15 @@
                 </div>
             </div>
 
+            <!-- Responder/editar chamado -->
+            <div class="row justify-content-center" id="responder-btn">
+                <button class="btn-geral display-none" id="btnResponder">Responder a este chamado</button>
+                <button class="btn-geral display-none" id="btnEditar" >Editar chamado</button>
+            </div>
 
             <!-- Solução -->
             <div id="solucaoCard" class="row justify-content-center">
-                <div class="card-solucao">
+                <div class="card-solucao display-none">
                     <div class="row">
                         <div class="col-md-6">
                             <h1 id="solucao-titulo"></h1>
@@ -123,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
 
-                <div class="form-cadastro  display-none" id="formCad">
+                <!-- <div class="form-cadastro  display-none" id="formCad">
                     <form action="">
                         <div class="row">
                             <div class="col-md-6 col-sm-12 form-item">
@@ -158,9 +163,6 @@
                                 <label for="inp-senha-atual">Senha atual:</label>
                                 <input type="password" id="inp-senha-atual" />
                             </div>
-                            <!-- <div>
-                            <input style="visibility:hidden " type="text">
-                        </div> -->
                             <div class="col-md-6 col-sm-12 form-item">
                                 <label for="inp-nova-senha">Nova senha:</label>
                                 <input type="password" id="inp-nova-senha" />
@@ -182,26 +184,26 @@
                     </form>
 
                 </div>
-            </div>
+            </div> -->
 
-                <!-- Responder chamado -->
-                <div class="row justify-content-center" id="responder-btn">
-                    <button class="btn-geral display-none" id="btnResponder">Responder a este chamado</button>
-                    <button class="btn-geral display-" id="btnEditar" onclick="editar()">Editar chamado</button>
-
-
+            <div id="responderChamado" class="row display-none">
+                <div class="container-small">
+                    <br>
+                    <h3>Título: </h3>
+                    <input type="text" class="inp-uma-linha">
+                    <h3>Resposta: </h3>
+                    <textarea class="textarea-uma-linha" rows="5"></textarea>
+                    <button class="btn-geral">Responder</button>
                 </div>
-
-                </span>
             </div>
+                
+
 
          
 
 
              
         </div>
-        </div>
-    </section>
     </section>
     <div id="alerta"></div>
 
@@ -210,8 +212,6 @@
     <script src="./assets/js/chamado.js"></script>
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/edit-chamado.js"></script>
-
     
  
 </body>

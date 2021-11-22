@@ -94,7 +94,8 @@ const cardAlterarChamado = tipo => {
             
             break;
         case "responder":
-
+            document.querySelector("#responderChamado").classList.remove("display-none");
+            document.querySelector("#responder-btn").classList.add("display-none");
             break;
         default:
             console.log("Parâmetro incorreto");
@@ -104,7 +105,7 @@ const cardAlterarChamado = tipo => {
 // renderiza solução
 const renderSolucao = solucao => {
     // criando divs
-    document.querySelector(".card-solucao").style.display = "block";
+    document.querySelector(".card-solucao").classList.remove("display-none");
     const divTitulo = document.querySelector("#solucao-titulo");
     const divEficacia = document.querySelector("#solucao-eficacia");
     const statusSolucao = document.querySelector("#statusSolucao");

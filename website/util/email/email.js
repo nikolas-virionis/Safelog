@@ -28,7 +28,7 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
     });
 };
 
-function outlook(senha, destinatario, tipo, nome, rest) {
+const outlook = async (senha, destinatario, tipo, nome, rest) => {
     remetente = process.env.EMAIL_FALLBACK;
     transporter = await nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname

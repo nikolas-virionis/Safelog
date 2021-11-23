@@ -890,17 +890,14 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                             type: sequelize.QueryTypes.DELETE
                                         })
                                         .catch(err => Promise.resolve())
-                                        .then(async () =>
-                                            Promise.resolve(
-                                                await sequelizeAzure.query(
-                                                    sql,
-                                                    {
-                                                        type: sequelizeAzure
-                                                            .QueryTypes.DELETE
-                                                    }
-                                                )
-                                            )
-                                        )
+                                        .then(async () => {
+                                            await sequelizeAzure.query(sql, {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .DELETE
+                                            });
+
+                                            return Promise.resolve();
+                                        })
                                         .catch(err => {
                                             res.json({
                                                 status: "erro13",
@@ -914,17 +911,13 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                             type: sequelize.QueryTypes.UPDATE
                                         })
                                         .catch(err => Promise.resolve())
-                                        .then(async () =>
-                                            Promise.resolve(
-                                                await sequelizeAzure.query(
-                                                    sql,
-                                                    {
-                                                        type: sequelizeAzure
-                                                            .QueryTypes.UPDATE
-                                                    }
-                                                )
-                                            )
-                                        )
+                                        .then(async () => {
+                                            await sequelizeAzure.query(sql, {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .UPDATE
+                                            });
+                                            return Promise.resolve();
+                                        })
                                         .catch(err => {
                                             res.json({
                                                 status: "erro3",
@@ -958,18 +951,16 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                     .UPDATE
                                             })
                                             .catch(err => Promise.resolve())
-                                            .then(async () =>
-                                                Promise.resolve(
-                                                    await sequelizeAzure.query(
-                                                        updateResp,
-                                                        {
-                                                            type: sequelizeAzure
-                                                                .QueryTypes
-                                                                .UPDATE
-                                                        }
-                                                    )
-                                                )
-                                            )
+                                            .then(async () => {
+                                                await sequelizeAzure.query(
+                                                    updateResp,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.UPDATE
+                                                    }
+                                                );
+                                                return Promise.resolve();
+                                            })
                                             .catch(err => {
                                                 res.json({
                                                     status: "erro4",
@@ -977,25 +968,24 @@ router.post("/transferencia-responsavel", async (req, res) => {
                                                 });
                                             });
                                     } else {
-                                        let insertResp = `INSERT INTO usuario_maquina VALUES (NULL, 's', (SELECT id_usuario FROM usuario WHERE email = '${email}'), ${maquina})`;
+                                        let insertResp = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('s', (SELECT id_usuario FROM usuario WHERE email = '${email}'), ${maquina})`;
                                         await sequelize
                                             .query(insertResp, {
                                                 type: sequelize.QueryTypes
                                                     .INSERT
                                             })
                                             .catch(err => Promise.resolve())
-                                            .then(async () =>
-                                                Promise.resolve(
-                                                    await sequelizeAzure.query(
-                                                        insertResp,
-                                                        {
-                                                            type: sequelizeAzure
-                                                                .QueryTypes
-                                                                .INSERT
-                                                        }
-                                                    )
-                                                )
-                                            )
+                                            .then(async () => {
+                                                await sequelizeAzure.query(
+                                                    insertResp,
+                                                    {
+                                                        type: sequelizeAzure
+                                                            .QueryTypes.INSERT
+                                                    }
+                                                );
+
+                                                return Promise.resolve();
+                                            })
                                             .catch(err => {
                                                 res.json({
                                                     status: "erro5",
@@ -1096,19 +1086,19 @@ router.post("/permissao-acesso", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, ${pk_maquina})`;
+    let sql = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('n', ${id}, ${pk_maquina})`;
     let selectUsuario = `SELECT nome, email FROM usuario WHERE id_usuario = ${id}`;
     let selectDados = `SELECT usuario.nome as responsavel, maquina.nome as nomeMaquina FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario and responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${pk_maquina}`;
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.INSERT})
         .catch(err => Promise.resolve())
-        .then(async () =>
-            Promise.resolve(
-                await sequelizeAzure.query(sql, {
-                    type: sequelizeAzure.QueryTypes.INSERT
-                })
-            )
-        )
+        .then(async () => {
+            await sequelizeAzure.query(sql, {
+                type: sequelizeAzure.QueryTypes.INSERT
+            });
+
+            return Promise.resolve();
+        })
         .then(async () => {
             await sequelize
                 .query(selectUsuario, {type: sequelize.QueryTypes.SELECT})

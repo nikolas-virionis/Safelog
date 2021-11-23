@@ -224,7 +224,7 @@ router.post("/componentes", async (req, res) => {
         for (let componente of componentes) {
             let {acao, nome, limite} = componente;
             if (acao === "insert") {
-                let sql = `INSERT INTO categoria_medicao VALUES (NULL, ${limite}, ${id}, (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
+                let sql = `INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_categoria_medicao) VALUES (${limite}, ${id}, (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
                 await sequelize
                     .query(sql, {type: sequelize.QueryTypes.INSERT})
                     .catch(err => Promise.resolve())
@@ -480,7 +480,7 @@ router.post("/permissao-acesso", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `INSERT INTO usuario_maquina VALUES (null, 'n', ${id}, ${maquina});`;
+    let sql = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('n', ${id}, ${maquina});`;
 
     await sequelize
         .query(sql, {type: sequelize.QueryTypes.INSERT})
@@ -489,6 +489,7 @@ router.post("/permissao-acesso", async (req, res) => {
             await sequelizeAzure.query(sql, {
                 type: sequelizeAzure.QueryTypes.INSERT
             });
+            return Promise.resolve();
         })
         .then(response => {
             res.json({status: "ok", msg: "Permissão concedida com sucesso"});
@@ -603,22 +604,26 @@ router.post("/convite", async (req, res) => {
                                     status: "alerta",
                                     msg: "Usuario já possui acesso à maquina"
                                 });
-                            let insertUsuarioMaquina = `INSERT INTO usuario_maquina VALUES (NULL, 'n', ${id}, ${maquina})`;
+                            let insertUsuarioMaquina = `INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES ('n', ${id}, ${maquina})`;
                             await sequelize
                                 .query(insertUsuarioMaquina, {
                                     type: sequelize.QueryTypes.INSERT
                                 })
                                 .catch(async err => Promise.resolve())
                                 .then(async () => {
-                                    return Promise.resolve(
-                                        await sequelizeAzure.query(
-                                            insertUsuarioMaquina,
-                                            {
-                                                type: sequelizeAzure.QueryTypes
-                                                    .INSERT
-                                            }
-                                        )
+                                    await sequelizeAzure.query(
+                                        insertUsuarioMaquina,
+                                        {
+                                            type: sequelizeAzure.QueryTypes
+                                                .INSERT
+                                        }
                                     );
+
+                                    return Promise.resolve();
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    return Promise.resolve();
                                 })
                                 .then(async () => {
                                     let sql = `SELECT usuario.nome as resp, maquina.nome as nomeMaquina from usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND responsavel = 's' JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${maquina}`;

@@ -1,8 +1,8 @@
 const data = {
     labels: [
-        'Red',
-        'Blue',
-        'Yellow'
+        'Críticas',
+        'Risco',
+        'Normal'
     ],
     datasets: [{
         label: 'My First Dataset',

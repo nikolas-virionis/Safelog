@@ -19,8 +19,8 @@
 <body>
     <section class="home-section">
         <div class="container-site">
-
-            <h2 class="titulo-relatorio">Relatório</h2>
+            <br>
+            <h1>Relatório de incidentes:</h1>
             <form class="selecao-botoes">
                 <div class="combo-relatorio">
                     <div class="col-md-6 com-sm-12 form-item">
@@ -29,7 +29,7 @@
                         </select>
                     </div>
                     <div class="col-md-6 com-sm-12 form-item">
-                        <label>Métrica:</label>
+                        <label for="metricas">Métrica:</label>
                         <select name="" id="metricas" disabled>
                         </select>
                     </div>
@@ -50,12 +50,12 @@
             </form>
 
 
-            <h2>Medições</h2>
+            <h2>Medições:</h2>
             <div class="row justify-content-center">
                 <div class="col-md-4 col-sm-12">
                     <div class="card-dados main centralizar alinhar">
                         <div>
-                            <h2>Quantidade total:</h2>
+                            <h2>Medições realizadas:</h2>
                             <span class="card-medicoes centralizar">346</span>
                         </div>
                     </div>
@@ -79,6 +79,71 @@
                 <div class="col-md-3 col-sm-12">
                     <canvas id="chartDoughnut"></canvas>
                 </div>
+            </div>
+
+            <br><br>
+            <h2>Chamados e soluções:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-sm-12">
+                    <h3>Chamados:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de chamados:</h2>
+                                    <span class="card-chamados centralizar">346</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados aberto alinhar centralizar">
+                                <span class="font-weight-bold">Abertos: </span>
+                                <span class="card-medicoes-sec ">46</span>
+                            </div>
+                            <div class="card-dados fechado alinhar centralizar">
+                                <span class="font-weight-bold">Fechados: </span>
+                                <span class="card-medicoes-sec ">100</span>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h3>Soluções:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de Soluções:</h2>
+                                    <span class="card-chamados centralizar">17</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados total alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia total: </span>
+                                <span class="card-medicoes-sec ">46</span>
+                            </div>
+                            <div class="card-dados parcial alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia parcial: </span>
+                                <span class="card-medicoes-sec ">100</span>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <h2>Trendline</h2>
+            <div class="row justify-content-center">
+                .col-md-6.col-sm-12
+            </div>
+            <div class="tabela-listrada">
+                <table>
+                    <tr>
+                        <th>Máquina</th>
+                        <th>Tendencia</th>
+                    </tr>
+                </table>
             </div>
         </div>
 

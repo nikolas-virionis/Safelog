@@ -795,6 +795,22 @@ display: flex;
   /* margin: 0; */
   height: calc(100% - 10px);
 }
+.card-dados.aberto{
+  height: calc(50% - 10px);
+  box-shadow: 2px 2px 3px #ff0000;
+}
+.card-dados.fechado{
+  height: calc(50% - 10px);
+  box-shadow: 2px 2px 3px;
+}
+.card-dados.total{
+  height: calc(50% - 10px);
+  box-shadow: 2px 2px 3px #00ab0e;
+}
+.card-dados.parcial{
+  height: calc(50% - 10px);
+  box-shadow: 2px 2px 3px #ff8000;
+}
 
 .card-medicoes{
   font-size: 1.5rem;

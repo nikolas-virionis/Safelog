@@ -871,6 +871,7 @@ button.modal {
     display: flex;
     flex-direction: column;
     padding: 5%;
+    position: relative;
 }
 
 .img-edit-perfil{

@@ -7,7 +7,7 @@ const updateDadosUsuario = async (id, nome, email, senha) => {
         .catch(() => Promise.resolve())
         .then(async () => {
             let sqlAzure = `UPDATE usuario SET nome = '${nome}', email = '${email}', senha = HASHBYTES('MD5', '${senha}' WHERE id_usuario = ${id})`;
-            await sequelizeAzure(sqlAzure, {
+            await sequelizeAzure.query(sqlAzure, {
                 type: sequelizeAzure.QueryTypes.UPDATE
             });
         });
@@ -22,7 +22,7 @@ const criarFormasContato = async (id, contatos) => {
             await sequelize
                 .query(sql, {type: sequelize.QueryTypes.INSERT})
                 .catch(err => {
-                    console.log(err)
+                    console.log(err);
                     return Promise.resolve();
                 })
                 .then(async () => {

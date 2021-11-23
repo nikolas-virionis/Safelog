@@ -14,6 +14,17 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
                 pass: senha
             }
         });
+        const mailOptions = {
+            from: remetente, // sender address
+            to: destinatario, // list of receivers
+            subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
+            html: msgEmail(tipo, nome, rest, destinatario)[0] // plain text body
+        };
+        transporter.sendMail(mailOptions, (err, info) =>
+            console.log(
+                err || `ALERTA - email enviado para ${info.accepted[0]}`
+            )
+        );
     } catch (e) {
         remetente = process.env.EMAIL_FALLBACK;
         transporter = await nodemailer.createTransport({
@@ -28,16 +39,18 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
                 pass: senha
             }
         });
+        const mailOptions = {
+            from: remetente, // sender address
+            to: destinatario, // list of receivers
+            subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
+            html: msgEmail(tipo, nome, rest, destinatario)[0] // plain text body
+        };
+        transporter.sendMail(mailOptions, (err, info) =>
+            console.log(
+                err || `ALERTA - email enviado para ${info.accepted[0]}`
+            )
+        );
     }
-    const mailOptions = {
-        from: remetente, // sender address
-        to: destinatario, // list of receivers
-        subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
-        html: msgEmail(tipo, nome, rest, destinatario)[0] // plain text body
-    };
-    transporter.sendMail(mailOptions, (err, info) =>
-        console.log(err || `ALERTA - email enviado para ${info.accepted[0]}`)
-    );
 };
 
 module.exports = {mandarEmail};

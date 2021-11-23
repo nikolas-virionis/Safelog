@@ -610,12 +610,14 @@ router.post("/convite", async (req, res) => {
                                 })
                                 .catch(async err => Promise.resolve())
                                 .then(async () => {
-                                    await sequelizeAzure.query(
-                                        insertUsuarioMaquina,
-                                        {
-                                            type: sequelizeAzure.QueryTypes
-                                                .INSERT
-                                        }
+                                    return Promise.resolve(
+                                        await sequelizeAzure.query(
+                                            insertUsuarioMaquina,
+                                            {
+                                                type: sequelizeAzure.QueryTypes
+                                                    .INSERT
+                                            }
+                                        )
                                     );
                                 })
                                 .then(async () => {

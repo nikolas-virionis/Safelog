@@ -20,11 +20,13 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
             subject: msgEmail(tipo, nome, rest, destinatario)[1], // Subject line
             html: msgEmail(tipo, nome, rest, destinatario)[0] // plain text body
         };
-        transporter.sendMail(mailOptions, (err, info) =>
-            console.log(
-                err || `ALERTA - email enviado para ${info.accepted[0]}`
-            )
-        );
+        transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+                throw err;
+            } else {
+                console.log(`ALERTA - email enviado para ${info.accepted[0]}`);
+            }
+        });
     } catch (e) {
         remetente = process.env.EMAIL_FALLBACK;
         transporter = await nodemailer.createTransport({

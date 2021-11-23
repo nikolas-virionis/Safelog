@@ -306,7 +306,7 @@ router.post("/atualizar", async (req, res) => {
         });
     }
     const updateChamado = `UPDATE chamado SET titulo = '${titulo}', descricao = '${descricao}', prioridade = '${prioridade}' WHERE id_chamado = ${idChamado}`;
-    const updateSolucao = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE fk_chamado = ${idChamado}`;
+    const updateSolucao = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE fk_chamado = ${eficaciaSolucoes ? idChamado : 0}`; 
 
     await sequelize
         .query(updateChamado, {type: sequelize.QueryTypes.UPDATE})

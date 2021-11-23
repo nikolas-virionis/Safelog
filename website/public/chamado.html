@@ -130,78 +130,46 @@
                 </div>
             </div>
 
-                <!-- <div class="form-cadastro  display-none" id="formCad">
-                    <form action="">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-id-maquina">Nome do chamado:</label>
-                                <input type="text" name="" id="inp-id-maquina" />
-                            </div>
-                            <div class="col-md-6 col-sm-12 form-item">
+              
 
-                                <label>Prioridade:</label>
-                                <select name="" id="prioridade">
-                                    <option value="">Escolha a prioridade</option>
-                                    <option value="baixa">Baixa</option>
-                                    <option value="media">Média</option>
-                                    <option value="alta">Alta</option>
-                                    <option value="emergencia">Emergência</option>
-                                </select>
-                            </div>
-
-
-
-                        </div> 
-                        <div class="row">
-                            <span class="center-t">
-                                <label for="">Descrição</label> <br>
-                                <textarea class="textarea" name="" id="" cols="30" rows="10"></textarea>
-                            </span>
-                        </div>
-                        <div class="row" id="row-alt-senha">
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-senha-atual">Senha atual:</label>
-                                <input type="password" id="inp-senha-atual" />
-                            </div>
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-nova-senha">Nova senha:</label>
-                                <input type="password" id="inp-nova-senha" />
-                                <button type="button" id="btn-ver-senha" class="fas fa-eye rounded">Ver
-                                    senha</button>
-                            </div>
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-conf-senha">Confirmar senha:</label>
-                                <input type="password" id="inp-conf-senha" />
-                            </div>
-                        </div>
-                        <div class="form-item">
-                            <div class="row">
-                                <button class="btn-geral" id="btn-edit-maq">Atualizar</button>
-                                <button href="componentes" class="btn-geral btn-secondary"
-                                    id="btn-edit-comp">Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-
-                </div>
-            </div> -->
-
-            <div id="responderChamado" class="row display-none">
+            <!-- Responder chamado -->
+            <div id="responderChamado" class=" display-none">
                 <div class="container-small">
                     <br>
                     <h3>Título: </h3>
-                    <input type="text" class="inp-uma-linha">
+                    <input type="text" class="inp-uma-linha" id="inpTituloResposta">
+
                     <h3>Resposta: </h3>
-                    <textarea class="textarea-uma-linha" rows="5"></textarea>
+                    <textarea class="textarea-uma-linha" rows="5" id="txtReaposta"></textarea>
                     <button class="btn-geral">Responder</button>
                 </div>
             </div>
-                
 
-
-         
-
-
+            <!-- Editar chamado -->
+            <div id="editarChamado" class="row display-none">
+                <div class="container-small">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <h3>Título do chamado: </h3>
+                            <input type="text" class="inp-uma-linha" id="inpTituloEditar">
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <h3>Prioridade: </h3>
+                            <select class="inp-uma-linha" id="prioridadeEdicao">
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="emergencia">Emergência</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3>Descrição: </h3>
+                    <textarea class="textarea-uma-linha" rows="5" id="txtDescricaoEdicao"></textarea>
+                    <button class="btn-geral" id="btnEditarChamado">Editar</button>
+                    <br>
+                </div>
+            </div>
              
         </div>
     </section>

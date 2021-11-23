@@ -42,7 +42,6 @@ const renderChamado = msg => {
     const divDescricao = document.querySelector(".descricao");
     const divDataAbertura = document.querySelector(".data-abertura");
 
-    console.log(msg)
     // adicionando corpo das divs
     divTitulo.innerHTML = msg.titulo;
     divPrioridade.innerHTML = `${msg.prioridade.toUpperCase()}`;
@@ -70,6 +69,7 @@ const renderChamado = msg => {
         }
     }
 
+    console.log(msg)
     nomeMaquina.innerHTML = msg.maquina;
     medicao.innerHTML = getTipo(msg.tipo); //Alterar para o nome do componente
     divDescricao.innerHTML = msg.descricao;
@@ -86,11 +86,18 @@ const renderChamado = msg => {
         nomeResp.innerHTML = "Monitoramento automático";
         emailResp.innerHTML = "";
     }
+
+    document.querySelector("#inpTituloEditar").value = msg.titulo;
+    document.querySelector("#txtDescricaoEdicao").innerHTML = msg.descricao;
+    document.querySelector("#prioridadeEdicao").value = msg.prioridade;
+
 };
 
 const cardAlterarChamado = tipo => {
     switch(tipo){
         case "editar":
+            document.querySelector("#editarChamado").classList.remove("display-none");
+            document.querySelector("#responder-btn").classList.add("display-none");
             
             break;
         case "responder":
@@ -146,4 +153,18 @@ const renderChamadoNaoEncontrado = container => {
     }, 2000);
 };
 
+document.querySelector("#btnEditarChamado").addEventListener("click", ()=>{
+    const tituloEdicao = document.querySelector("#inpTituloEditar").value
+    const prioridadeEdicao = document.querySelector("#prioridadeEdicao").value
+    let descricaoEdicao = document.querySelector("#txtDescricaoEdicao").value
 
+    axios.post("chamado/atualizar", {
+        idChamado: idChamado,
+        titulo: tituloEdicao,
+        descricao: descricaoEdicao,
+        prioridade: prioridadeEdicao,
+        eficaciaSolucoes: 0
+    }).then(() => {
+        window.location.reload();
+    });
+});

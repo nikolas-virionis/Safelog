@@ -1,7 +1,7 @@
 const {msgEmail} = require("./msg");
+let nodemailer = require("nodemailer");
+require("dotenv").config();
 const mandarEmail = async (tipo, nome, destinatario, rest) => {
-    let nodemailer = require("nodemailer");
-    require("dotenv").config();
     let remetente;
     let senha = process.env.PASSWORD;
     let transporter;
@@ -51,6 +51,6 @@ const outlook = async (senha, destinatario, tipo, nome, rest) => {
     transporter.sendMail(mailOptions, (err, info) =>
         console.log(err || `ALERTA - email enviado para ${info.accepted[0]}`)
     );
-}
+};
 
 module.exports = {mandarEmail};

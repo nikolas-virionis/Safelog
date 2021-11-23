@@ -434,7 +434,6 @@ router.post("/verificacao-senha-atual", async (req, res) => {
                         });
                     })
                     .catch(err => res.json({status: "erro", msg: err}));
-                res.json({status: "ok", msg: "Senha correta"});
             } else {
                 res.json({status: "alerta", msg: "Senha incorreta"});
             }

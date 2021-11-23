@@ -27,9 +27,9 @@ var server = http.createServer(app);
 
 server.listen(port, () => {
     if (process.env.NODE_ENV == "dev") {
-        console.log("running on http://safelog.sytes.net/");
+        console.log("running on http://localhost:3000/");
     } else {
-        console.log(`running on http://${process.env.EC2_DNS}:3000`);
+        console.log(`running on http://${process.env.EC2_DNS}`);
     }
 });
 server.on("error", onError);

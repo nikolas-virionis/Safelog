@@ -5,7 +5,9 @@ const mandarEmail = async (tipo, nome, destinatario, rest) => {
     let remetente = process.env.EMAIL;
     let senha = process.env.PASSWORD;
     let transporter = await nodemailer.createTransport({
-        service: "gmail",
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, 
         auth: {
             user: remetente,
             pass: senha,

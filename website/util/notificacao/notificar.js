@@ -24,7 +24,7 @@ const enviarNotificacao = async (usuarios, notificacao) => {
             await sequelizeAzure.query(sqlInsertNotificacao, {
                 type: sequelizeAzure.QueryTypes.INSERT
             });
-            Promise.resolve();
+            return Promise.resolve();
         })
         .then(async () => {
             await sequelize
@@ -56,7 +56,7 @@ const enviarNotificacao = async (usuarios, notificacao) => {
                                         type: sequelizeAzure.QueryTypes.INSERT
                                     }
                                 );
-                                Promise.resolve();
+                                return Promise.resolve();
                             });
                     }
                 });

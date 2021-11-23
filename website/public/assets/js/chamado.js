@@ -153,11 +153,13 @@ const renderChamadoNaoEncontrado = container => {
     }, 2000);
 };
 
+
+//Edição de chamado
 document.querySelector("#btnEditarChamado").addEventListener("click", ()=>{
     const tituloEdicao = document.querySelector("#inpTituloEditar").value
     const prioridadeEdicao = document.querySelector("#prioridadeEdicao").value
-    let descricaoEdicao = document.querySelector("#txtDescricaoEdicao").value
-
+    const descricaoEdicao = document.querySelector("#txtDescricaoEdicao").value
+    
     axios.post("chamado/atualizar", {
         idChamado: idChamado,
         titulo: tituloEdicao,
@@ -165,6 +167,21 @@ document.querySelector("#btnEditarChamado").addEventListener("click", ()=>{
         prioridade: prioridadeEdicao,
         eficaciaSolucoes: 0
     }).then(() => {
+        window.location.reload();
+    });
+});
+
+//Responder chamado
+document.querySelector("#btnResponderChamado").addEventListener("click", ()=>{
+    const inpTituloResposta = document.querySelector("#inpTituloResposta").value
+    const txtReaposta = document.querySelector("#txtReaposta").value
+
+    axios.post("chamado/fechar", {
+        idChamado: idChamado,
+        titulo: inpTituloResposta,
+        desc: txtReaposta,
+        idUsuario: userInfo.id
+    }).then(()=>{
         window.location.reload();
     });
 });

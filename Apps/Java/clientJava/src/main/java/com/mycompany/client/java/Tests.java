@@ -21,7 +21,7 @@ public class Tests {
         // } catch (Exception e) {
         // System.out.println(e.getMessage());
         // }
-        // System.out.println(ConfigDB.getJdbcAWS().queryForList("select * from usuario"));
+        System.out.println(ConfigDB.getJdbcAWS().queryForList("select * from usuario"));
 
     }
 }

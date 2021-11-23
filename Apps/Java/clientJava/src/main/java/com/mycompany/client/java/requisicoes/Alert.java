@@ -95,7 +95,7 @@ public class Alert {
         content.put("idUsuario", novoChamado.getFkUsuario());
         content.put("automatico", novoChamado.getAutomatico());
         content.put("eficaciaSolucoes", "parcial");
-        HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:3000/chamado/criar"))
+        HttpRequest request = HttpRequest.newBuilder(URI.create("http://safelog.sytes.net/chamado/criar"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
@@ -126,7 +126,7 @@ public class Alert {
         content.put("idChamado", idChamado);
         content.put("metrica", tipoMedicao.getTipo());
         content.put("estado", medicao.getTipo());
-        HttpRequest request = HttpRequest.newBuilder(URI.create("http://localhost:3000/medicao/alerta"))
+        HttpRequest request = HttpRequest.newBuilder(URI.create("http://safelog.sytes.net/medicao/alerta"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 

@@ -53,13 +53,13 @@ Se você não tiver o git, pode baixar o .zip do repositório.
 4. Criar usuário de desenvolvimento.
 
     ~~~bash
-    CREATE USER 'safelog_dev' @'localhost' IDENTIFIED BY 'Safe_Log371$';
+    CREATE USER 'safelog_dev' @'%' IDENTIFIED BY 'Safe_Log371$';
     ~~~
 
 5. Garantir privilégios do usuário.
 
     ~~~bash
-    GRANT ALL PRIVILEGES ON `safelog_analytics`.* TO `safelog_dev` @`localhost`;
+    GRANT ALL PRIVILEGES ON `safelog_analytics`.* TO `safelog_dev` @`%`;
     ~~~
 
 6. Atualizar privilégios de usuários.

@@ -306,7 +306,9 @@ router.post("/atualizar", async (req, res) => {
         });
     }
     const updateChamado = `UPDATE chamado SET titulo = '${titulo}', descricao = '${descricao}', prioridade = '${prioridade}' WHERE id_chamado = ${idChamado}`;
-    const updateSolucao = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE fk_chamado = ${eficaciaSolucoes ? idChamado : 0}`; 
+    const updateSolucao = `UPDATE solucao SET eficacia = '${eficaciaSolucoes}' WHERE fk_chamado = ${
+        eficaciaSolucoes ? idChamado : 0
+    }`;
 
     await sequelize
         .query(updateChamado, {type: sequelize.QueryTypes.UPDATE})
@@ -361,7 +363,7 @@ router.post("/lista", async (req, res) => {
         });
     }
     await axios
-        .post("http://localhost:3000/usuario/dados", {id: idUsuario})
+        .post("http://safelog.sytes.net/usuario/dados", {id: idUsuario})
         .then(
             ({
                 data: {
@@ -372,7 +374,7 @@ router.post("/lista", async (req, res) => {
                 if (status === "ok") {
                     axios
                         .post(
-                            `http://localhost:3000/maquina/lista-dependentes/${cargo}`,
+                            `http://safelog.sytes.net/maquina/lista-dependentes/${cargo}`,
                             {id: idUsuario}
                         )
                         .then(async ({data: {status, msg: maquinas}}) => {

@@ -1,6 +1,7 @@
 // ambiente (dev/prod)
-process.env.NODE_ENV = "dev";
-process.env.EC2_DNS = "ec2-18-209-17-92.compute-1.amazonaws.com";
+process.env.NODE_ENV = "production";
+process.env.EC2_DNS = "safelog.sytes.net";
+// usar no-ip com dns publico da instancia => web redirect
 
 // dependências
 let fs = require("fs");
@@ -51,13 +52,5 @@ app.get("/:page", (req, res) => {
         res.status(404).sendFile("public/pag-404.html", {root: __dirname});
     }
 });
-
-// app.use((req, res, next) => {
-//     res.status(404).sendFile("public/index.html", {root: __dirname});
-// });
-
-// app.use((req, res, next) => {
-//     res.status(404).sendFile("public/404.html", { root: __dirname });
-// });
 
 module.exports = app;

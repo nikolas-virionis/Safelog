@@ -3,7 +3,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a),</p>
-    <p><a href="http://localhost:3000/cadastro-pessoa?token=${rest[0]}&email=${email}" target="_blank">
+    <p><a href="http://safelog.sytes.net/cadastro-pessoa?token=${rest[0]}&email=${email}" target="_blank">
     Clique aqui</a> para se cadastrar concluir seu cadastro</p>
     <p>Seu token de verificação é <i>${rest[0]}</i></p>
     `,
@@ -43,7 +43,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
         <p>Prezado(a) ${nome},</p>
-        <p><a href="http://localhost:3000/redefinir-senha?token=${rest[0]}&email=${email}" target="_blank">
+        <p><a href="http://safelog.sytes.net/redefinir-senha?token=${rest[0]}&email=${email}" target="_blank">
         Clique aqui</a> para se redefinir sua senha</p>
         <p>Seu token de verificação é <i>${rest[0]}</i></p>
         `,
@@ -53,7 +53,7 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
                 <p>Prezado(a) ${nome},</p>
-                <p><a href="http://localhost:3000/permissao-acesso?token=${rest[0]}&email=${email}&nome=${rest[1]}&nome_maquina=${rest[2]}&id=${rest[3]}&id_maquina=${rest[4]}" target="_blank">
+                <p><a href="http://safelog.sytes.net/permissao-acesso?token=${rest[0]}&email=${email}&nome=${rest[1]}&nome_maquina=${rest[2]}&id=${rest[3]}&id_maquina=${rest[4]}" target="_blank">
                 Clique aqui</a> para permitir o acesso de ${rest[1]} à máquina ${rest[2]}</p>
                 <p>Seu token de verificação é <i>${rest[0]}</i></p> 
                 `,
@@ -73,7 +73,7 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é o responsável pela máquina ${rest[1]}, e para melhor funcionamento, é necessário um usuário responsável por cada máquina, então</p> 
-            <p><a href="http://localhost:3000/redefinir-responsavel">Clique aqui</a> para redefinir o responsável pela maquina
+            <p><a href="http://safelog.sytes.net/redefinir-responsavel">Clique aqui</a> para redefinir o responsável pela maquina
                 `,
             "Redefinição de responsável por máquina - SafeLog"
         ];
@@ -82,8 +82,8 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está sendo removido(a) do sistema da safelog, porém esse é responsável pela máquina ${rest[1]}, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
-            <p><a href="http://localhost:3000/convidar-responsavel?token=${rest[3]}&email=${email}&maquina=${rest[2]}&del_type=usuario">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
-            <p><a href="http://localhost:3000/delete-maquina?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para concretizar a remoção da máquina</p> 
+            <p><a href="http://safelog.sytes.net/convidar-responsavel?token=${rest[3]}&email=${email}&maquina=${rest[2]}&del_type=usuario">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
+            <p><a href="http://safelog.sytes.net/delete-maquina?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para concretizar a remoção da máquina</p> 
                             `,
             "Reatribuição de responsável por máquina - SafeLog"
         ];
@@ -92,8 +92,8 @@ const msgEmail = (tipo, nome, rest, email) => {
             `
             <p>Prezado(a) ${nome},</p>
             <p>${rest[0]} está removendo seu acesso á máquina ${rest[1]}, porém é responsável por ela, se ninguem for assinalado para tal função a máquina será removida de nosso sistema, então</p> 
-            <p><a href="http://localhost:3000/convidar-responsavel?token=${rest[3]}&email=${email}&maquina=${rest[2]}&del_type=maquina">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
-            <p><a href="http://localhost:3000/delete-maquina?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para concretizar a remoção da máquina</p> 
+            <p><a href="http://safelog.sytes.net/convidar-responsavel?token=${rest[3]}&email=${email}&maquina=${rest[2]}&del_type=maquina">Clique aqui</a> para redefinir o responsável pela maquina ou </p>
+            <p><a href="http://safelog.sytes.net/delete-maquina?token=${rest[3]}&email=${email}&maquina=${rest[2]}">Clique aqui</a> para concretizar a remoção da máquina</p> 
                                 `,
             "Reatribuição de responsável por máquina - SafeLog"
         ];

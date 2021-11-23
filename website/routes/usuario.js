@@ -25,6 +25,7 @@ const {
 const {deleteAcesso} = require("../util/acesso-maquina/deleteAcesso");
 const {msg} = require("../util/notificacao/notificacao");
 const {enviarNotificacao} = require("../util/notificacao/notificar");
+const {dadosUsuario} = require("../util/usuario/dados");
 
 //rotas
 router.post("/convite", async (req, res, next) => {
@@ -1063,19 +1064,7 @@ router.post("/dados", async (req, res) => {
             msg: "Body não fornecido na requisição"
         });
 
-    let sql = `SELECT id_usuario as id, nome, email, cargo, fk_empresa as id_empresa, fk_supervisor as id_supervisor FROM usuario WHERE id_usuario = ${id}`;
-
-    await sequelize
-        .query(sql, {type: sequelize.QueryTypes.SELECT})
-        .catch(async err =>
-            Promise.resolve(
-                await sequelizeAzure.query(sql, {
-                    type: sequelizeAzure.QueryTypes.SELECT
-                })
-            )
-        )
-        .then(([usuario]) => res.json({status: "ok", msg: usuario}))
-        .catch(err => res.json({status: "erro", msg: err}));
+    res.json(await dadosUsuario(id));
 });
 
 router.post("/permissao-acesso", async (req, res) => {

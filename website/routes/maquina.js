@@ -114,8 +114,8 @@ router.post("/lista-dependentes/analista", async (req, res) => {
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    maquinasDependentes(id, search, main, order).then(maquinas => {
-        if (!maquinas.status) {
+    maquinasDependentes("analista", id, search, main, order).then(maquinas => {
+        if (maquinas.status != "ok") {
             res.json({status: "ok", msg: maquinas});
         } else {
             res.json(maquinas);
@@ -124,63 +124,27 @@ router.post("/lista-dependentes/analista", async (req, res) => {
 });
 
 router.post("/lista-dependentes/gestor", async (req, res) => {
-    let {id} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS usuario FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario JOIN maquina ON pk_maquina = fk_maquina WHERE fk_supervisor = ${id} GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
-    await sequelize
-        .query(dependentes, {type: sequelize.QueryTypes.SELECT})
-        .catch(async err =>
-            Promise.resolve(
-                await sequelizeAzure.query(dependentes, {
-                    type: sequelizeAzure.QueryTypes.SELECT
-                })
-            )
-        )
-        .then(async maquinas => {
-            if (maquinas.length) {
-                res.json({status: "ok", msg: maquinas});
-            } else {
-                res.json({
-                    status: "alerta",
-                    msg: "Usuario não possui maquinas dependentes"
-                });
-            }
-        })
-        .catch(err => res.json({status: "erro", msg: err}));
+    maquinasDependentes("gestor", id, search, main, order).then(response => {
+        res.json(response);
+    });
 });
 
 router.post("/lista-dependentes/admin", async (req, res) => {
-    let {id} = req.body;
+    let {id, search, main, order} = req.body;
     if (!req.body)
         return res.json({
             status: "alerta",
             msg: "Body não fornecido na requisição"
         });
-    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, a.nome AS usuario FROM usuario AS g JOIN usuario AS a ON a.fk_supervisor = g.id_usuario AND g.fk_supervisor = ${id} JOIN usuario_maquina ON fk_usuario = a.id_usuario JOIN maquina ON pk_maquina = fk_maquina GROUP BY pk_maquina ORDER BY pk_maquina, responsavel`;
-    await sequelize
-        .query(dependentes, {type: sequelize.QueryTypes.SELECT})
-        .catch(async err =>
-            Promise.resolve(
-                await sequelizeAzure.query(dependentes, {
-                    type: sequelizeAzure.QueryTypes.SELECT
-                })
-            )
-        )
-        .then(async maquinas => {
-            if (maquinas.length) {
-                res.json({status: "ok", msg: maquinas});
-            } else {
-                res.json({
-                    status: "alerta",
-                    msg: "Usuario não possui maquinas dependentes"
-                });
-            }
-        })
-        .catch(err => res.json({status: "erro", msg: err}));
+    maquinasDependentes("admin", id, search, main, order).then(response => {
+        res.json(response);
+    });
 });
 
 router.post("/verificar-usuario", async (req, res) => {

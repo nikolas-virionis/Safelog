@@ -10,8 +10,7 @@ public class ConfigDB {
     private static BasicDataSource getBasicDataSourceAWS() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl(String.format("jdbc:mysql://ec2-35-175-178-201.compute-1.amazonaws.com:3306/%s",
-                SensitiveData.DB_NAME));
+        basicDataSource.setUrl(String.format("jdbc:mysql://safelogdb.sytes.net:3306/%s", SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;
@@ -20,8 +19,9 @@ public class ConfigDB {
     private static BasicDataSource getBasicDataSourceAzure() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        basicDataSource
-                .setUrl(String.format("jdbc:sqlserver://%s:1433;database=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;", SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
+        basicDataSource.setUrl(String.format(
+                "jdbc:sqlserver://%s:1433;database=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;",
+                SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;
@@ -29,14 +29,11 @@ public class ConfigDB {
 
     // retorna jdbc template pronto para realizar query
     public static JdbcTemplate getJdbcAWS() {
-        try {
-            return new JdbcTemplate(getBasicDataSourceAWS());
-        } catch (Exception e) {
-            return getJdbcAzure();
-        }
+        return new JdbcTemplate(getBasicDataSourceAWS());
     }
 
     public static JdbcTemplate getJdbcAzure() {
+        System.out.println("azure");
         return new JdbcTemplate(getBasicDataSourceAzure());
     }
 }

@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 import os
 
-db_connection = sql.connect(host='172.31.25.218', database='safelog', user='safelog_dev', password='Safe_Log371$')
+db_connection = sql.connect(host='safelogdb.sytes.net', database='safelog', user='safelog_dev', password='Safe_Log371$')
 
 directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
 
@@ -18,7 +18,6 @@ def df_to_csv(tb, emp, name):
     print(df)
     df.to_csv(
         f"{directory}/csv/{emp}/amostra{name.capitalize()}.csv", index=False)
-    db_connection.close()
 
 
 if len(sys.argv) == 1:
@@ -56,3 +55,5 @@ elif sys.argv[1] == "empresa":
         tb = id_maquina[i]
         name = nome[i]
         df_to_csv(tb, emp, name)
+
+db_connection.close()

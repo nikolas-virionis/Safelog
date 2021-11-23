@@ -5,20 +5,13 @@
  */
 package com.mycompany.client.java.telas;
 
-import com.github.britooo.looca.api.group.processos.Processo;
-import com.github.britooo.looca.api.group.processos.ProcessosGroup;
 import com.mycompany.client.java.Monitoring;
 
 import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
 
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.stream.Stream;
-import javax.swing.JTextField;
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 /**
  *
@@ -43,7 +36,7 @@ public class formProcessos extends javax.swing.JFrame {
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jOptionPane1 = new javax.swing.JOptionPane();
+        new javax.swing.JOptionPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -205,31 +198,6 @@ public class formProcessos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private String procNameByPID(Integer pid) {
-        List<Processo> procs = new Monitoring().getGrupoDeProcessos().getProcessos();
-        String name = "";
-        for (Processo proc : procs) {
-            if (proc.getPid() == pid) {
-                name = proc.getNome();
-            }
-
-        }
-        ;
-        return name;
-    }
-
-    // private List<Integer> procPidListByName(String name) {
-    // List<Integer> pids = new ArrayList<>();
-    // Stream<ProcessHandle> procs = ProcessHandle.allProcesses();
-    // procs.forEach(p -> {
-    // System.out.println(p.info().commandLine());
-    // });
-    // // tmp.forEach(p -> {
-    // // pids.add((int) p.pid());
-    // // });
-    // return pids;
-    // }
-
     private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnProcessActionPerformed
         // TODO add your handling code here:
 
@@ -330,7 +298,6 @@ public class formProcessos extends javax.swing.JFrame {
     private javax.swing.JButton btnProcess;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

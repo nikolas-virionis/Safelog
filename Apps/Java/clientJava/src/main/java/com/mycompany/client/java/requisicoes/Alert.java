@@ -100,6 +100,7 @@ public class Alert {
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response);
         // tratar response
 
         String sql = String.format(
@@ -131,6 +132,7 @@ public class Alert {
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response);
     }
 
     private int getResponsavel() {

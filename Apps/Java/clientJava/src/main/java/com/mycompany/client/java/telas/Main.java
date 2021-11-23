@@ -184,13 +184,6 @@ public class Main extends javax.swing.JFrame {
         this.email = email;
     }
 
-    public void alertas() {
-
-        String selectValor = "SELECT valor FROM medicao";
-        String selectTipo = "SELECT tipo FROM medicao";
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

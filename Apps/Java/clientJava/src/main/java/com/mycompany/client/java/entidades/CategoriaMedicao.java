@@ -54,7 +54,7 @@ public class CategoriaMedicao {
         this.fkTipoMedicao = fkTipoMedicao;
     }
 
-    public static List selectAll() {
+    public static List<CategoriaMedicao> selectAll() {
         // JdbcTemplate jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();

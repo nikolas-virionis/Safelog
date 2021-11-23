@@ -1,5 +1,5 @@
 // ambiente (dev/prod)
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = "dev";
 process.env.EC2_DNS = "safelog.sytes.net";
 // usar no-ip com dns publico da instancia => web redirect
 

@@ -695,7 +695,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin: 20px auto;
-max-width: 1000px;
+/* max-width: 1000px; */
 padding: 0 10px 0 5px;
 }
 
@@ -766,20 +766,39 @@ display: flex;
  margin-right: 28px;
 }
 .cards{
-display: flex;
-align-items: center;
-justify-content: space-around;
-margin: 40px auto;
-max-width: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* margin: 40px auto; */
+  /* max-width: 1000px; */
 }
 .card-dados{
-background-color: #e0e0e0;
-box-shadow: 2px 2px 3px #0071ce;
-padding: 15px;
-border-radius: 20px;
-width: calc(25% - 15px);
+  margin: 10px;
+  background-color: #e0e0e0;
+  box-shadow: 2px 2px 3px #666;
+  padding: 15px;
+  border-radius: 20px;
+  height: calc(33.333% - 10px);
+  /* width: calc(25% - 15px); */
 }
 
- 
+.card-dados.critico{
+  box-shadow: 2px 2px 3px #ff0000;
+}
+.card-dados.risco{
+  box-shadow: 2px 2px 3px #ff8000;
+}
+.card-dados.normal{
+  box-shadow: 2px 2px 3px var(--cor-principal);
+}
+.card-dados.main{
+  /* margin: 0; */
+  height: calc(100% - 10px);
+}
+
+.card-medicoes{
+  font-size: 1.5rem;
+  font-weight: 100;
+}
 
 

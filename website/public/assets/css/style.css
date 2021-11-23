@@ -908,3 +908,11 @@ button.modal {
     width: 100%;
     height: 10%;
 }
+
+.icon-sd {
+  height: 50px;
+  width: fit-content;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+}

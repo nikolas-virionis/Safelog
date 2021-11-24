@@ -5,7 +5,7 @@ const idChamado = urlParams.get("idChamado");
 axios.post("/chamado/dados", {idChamado}).then(({data: {status, msg}}) => {
     // limpando conteúdo atual do conteiner
     const container = document.querySelectorAll(".container-site")[1];
-
+    console.log(msg)
     if (status === "ok") {
         // renderizando chamado
         // console.log(msg);

@@ -25,7 +25,7 @@ const config = {
     data: data,
 };
 
-const grsficoRosquinha = new Chart(
+const graficoMetricas = new Chart(
     document.getElementById('chartDoughnut'),
     config
 );
@@ -46,6 +46,7 @@ axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
         }
         attMetricas()
         mostrarInfoMedicoes()
+        mostrarInfoChamado()
 });
     
     
@@ -60,10 +61,12 @@ axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
 maquinas.addEventListener("change", () => {
     attMetricas()
     mostrarInfoMedicoes()
+    mostrarInfoChamado()
 })
 
 metricas.addEventListener("change", () => {
     mostrarInfoMedicoes()
+    mostrarInfoChamado()
 });
 
 const attMetricas = () => {
@@ -98,34 +101,62 @@ const mostrarInfoMedicoes = () => {
             // idCategoriaMedicao: metricas.value  
             
         }).then(({data: {status, msg}}) => {
-            document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
-            document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
-            document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
-            document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
+            if(status == "ok"){
+                document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
+                document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
+                document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
+                document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
 
-            let percCrit = msg.medicoesCriticas*100/msg.medicoesTotais
-            let percRisc = msg.medicoesDeRisco*100/msg.medicoesTotais
-            let percNorm = msg.medicoesNormais*100/msg.medicoesTotais
+                let percCrit = (msg.medicoesCriticas*100/msg.medicoesTotais).toFixed(2);
+                let percRisc = (msg.medicoesDeRisco*100/msg.medicoesTotais).toFixed(2);
+                let percNorm = (msg.medicoesNormais*100/msg.medicoesTotais).toFixed(2);
 
-            grsficoRosquinha.data.datasets[0].data = [percCrit, percRisc, percNorm]
-            grsficoRosquinha.update()
+                graficoMetricas.data.datasets[0].data = [percCrit, percRisc, percNorm]
+                graficoMetricas.update()
+            }else{
+                console.log(status)
+            }
         })
     }else{
         axios.post("/medicao/stats", {
             idCategoriaMedicao: metricas.value              
         }).then(({data: {status, msg}}) => {
-            document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
-            document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
-            document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
-            document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
-
-            let percCrit = msg.medicoesCriticas*100/msg.medicoesTotais
-            let percRisc = msg.medicoesDeRisco*100/msg.medicoesTotais
-            let percNorm = msg.medicoesNormais*100/msg.medicoesTotais
-
-            grsficoRosquinha.data.datasets[0].data = [percCrit, percRisc, percNorm]
-            grsficoRosquinha.update()
+            if(status == "ok"){
+                document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
+                document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
+                document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
+                document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
+    
+                let percCrit = (msg.medicoesCriticas*100/msg.medicoesTotais).toFixed(2);
+                let percRisc = (msg.medicoesDeRisco*100/msg.medicoesTotais).toFixed(2);
+                let percNorm = (msg.medicoesNormais*100/msg.medicoesTotais).toFixed(2);
+    
+                graficoMetricas.data.datasets[0].data = [percCrit, percRisc, percNorm]
+                graficoMetricas.update()
+            }else{
+                console.log(status)
+            }
         })
     }
 
+}
+
+
+const mostrarInfoChamado = () => {
+    axios.post("/chamado/stats", {
+        maquina: maquinas.value              
+    }).then(({data: {status, msg}}) => {
+        if(status == "ok"){
+            document.querySelector("#totalChamados").innerHTML = msg.chamadosTotais
+            document.querySelector("#chamadosAbertos").innerHTML = msg.chamadosAbertos
+            document.querySelector("#chamadosFechados").innerHTML = msg.chamadosFechados
+            
+            document.querySelector("#totalSolucoes").innerHTML = msg.solucoesTotais
+            document.querySelector("#eficaciaTotal").innerHTML = msg.solucoesEficazes
+            document.querySelector("#eficaciaParcial").innerHTML = msg.solucoesParciais
+
+        }else{
+            console.log(status)
+        }
+    })
 }

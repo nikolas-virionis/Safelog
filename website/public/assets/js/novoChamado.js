@@ -102,7 +102,7 @@ btn.addEventListener("click", e => {
             .then(({data: {status, msg, continuar}}) => {
                 if (status === "ok") {
                     mostrarAlerta("Chamado criado com sucesso", "success");
-                    setTimeout(() => (window.location.href = "chamados"), 3000);
+                    setTimeout(() => (window.location.href = "chamados"), 1500);
                 } else if (status === "alerta") {
                     mostrarAlerta(msg, "info");
                     if (continuar) {

@@ -2,6 +2,35 @@ const {id, nome, email} = JSON.parse(sessionStorage.getItem("usuario"));
 const cargoPessoa = JSON.parse(sessionStorage.getItem("usuario")).cargo;
 const maquinas = document.querySelector("#maquinas");
 
+const data = {
+    labels: [
+        'Críticas',
+        'Risco',
+        'Normal'
+    ],
+    datasets: [{
+        label: 'My First Dataset',
+        data: [1,0,0],
+        backgroundColor: [
+            '#ff0000',
+            '#ff8000',
+            '#0071ce'
+        ],
+        hoverOffset: 4
+    }]
+};
+
+const config = {
+    type: 'doughnut',
+    data: data,
+};
+
+const grsficoRosquinha = new Chart(
+    document.getElementById('chartDoughnut'),
+    config
+);
+
+
 axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
     id
     }).then(({data: {status, msg}}) => {
@@ -16,7 +45,7 @@ axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
             console.error(msg);
         }
         attMetricas()
-        
+        mostrarInfoMedicoes()
 });
     
     
@@ -29,9 +58,13 @@ axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
     };
     
 maquinas.addEventListener("change", () => {
-
-        attMetricas()
+    attMetricas()
+    mostrarInfoMedicoes()
 })
+
+metricas.addEventListener("change", () => {
+    mostrarInfoMedicoes()
+});
 
 const attMetricas = () => {
     metricas.innerHTML = "";
@@ -57,31 +90,42 @@ const attMetricas = () => {
     }
 }
 
+const mostrarInfoMedicoes = () => {
 
-const data = {
-        labels: [
-            'Críticas',
-            'Risco',
-            'Normal'
-        ],
-        datasets: [{
-            label: 'My First Dataset',
-            data: [46, 100, 200],
-            backgroundColor: [
-                '#ff0000',
-                '#ff8000',
-                '#0071ce'
-            ],
-            hoverOffset: 4
-        }]
-    };
-    
-    const config = {
-        type: 'doughnut',
-        data: data,
-    };
-    
-    const myChart = new Chart(
-        document.getElementById('chartDoughnut'),
-        config
-    );
+    if(metricas.value == 0){
+        axios.post("/medicao/stats", {
+            maquina: maquinas.value,
+            // idCategoriaMedicao: metricas.value  
+            
+        }).then(({data: {status, msg}}) => {
+            document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
+            document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
+            document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
+            document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
+
+            let percCrit = msg.medicoesCriticas*100/msg.medicoesTotais
+            let percRisc = msg.medicoesDeRisco*100/msg.medicoesTotais
+            let percNorm = msg.medicoesNormais*100/msg.medicoesTotais
+
+            grsficoRosquinha.data.datasets[0].data = [percCrit, percRisc, percNorm]
+            grsficoRosquinha.update()
+        })
+    }else{
+        axios.post("/medicao/stats", {
+            idCategoriaMedicao: metricas.value              
+        }).then(({data: {status, msg}}) => {
+            document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
+            document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
+            document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
+            document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
+
+            let percCrit = msg.medicoesCriticas*100/msg.medicoesTotais
+            let percRisc = msg.medicoesDeRisco*100/msg.medicoesTotais
+            let percNorm = msg.medicoesNormais*100/msg.medicoesTotais
+
+            grsficoRosquinha.data.datasets[0].data = [percCrit, percRisc, percNorm]
+            grsficoRosquinha.update()
+        })
+    }
+
+}

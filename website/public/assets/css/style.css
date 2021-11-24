@@ -830,6 +830,7 @@ button.modal {
     -webkit-transition: 0.5s;
     transition: 0.5s;
     filter: brightness(0.5);
+    margin-left: 70px;
 }
 .dashboard-check input#contato-whatsapp + label {
     background-image: url("../img/redes/whatsapp.png");
@@ -843,6 +844,7 @@ button.modal {
 .dashboard-check input:checked + label {
     filter: brightness(1);
     transform: scale(1.25);
+    margin-left: 0!important;
 }
 #contato-slack {
     -webkit-transition: 0.5s;

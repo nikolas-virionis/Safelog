@@ -144,7 +144,7 @@ const mostrarInfoMedicoes = () => {
 
 const mostrarInfoChamado = () => {
     axios.post("/chamado/stats", {
-        maquina: maquinas.value              
+        maquina: maquinas.value
     }).then(({data: {status, msg}}) => {
         if(status == "ok"){
             document.querySelector("#totalChamados").innerHTML = msg.chamadosTotais

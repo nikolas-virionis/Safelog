@@ -172,38 +172,62 @@ if (cargo == "staff") {
     liItem2.appendChild(linkToProfile);
     liItem2.appendChild(ulSubMenuProfile);
 
-    //<li class="li-not-selected">
+
+
+
+
+
+    //<li class="seta">
     let liItem3 = document.createElement("li");
-    liItem3.classList = "li-not-selected";
-    //<a href="relatorio">
-    let linkToRelatorio = document.createElement("a");
-    linkToRelatorio.setAttribute("href", "relatorio");
-    //<i class='bx bx-paperclip'></i>
-    let iconToRelatorio = document.createElement("i");
-    iconToRelatorio.classList = "bx bx-paperclip";
-    //<span class="link_name">Relatório</span>
-    let spanHoverRelatorio = document.createElement("span");
-    spanHoverRelatorio.classList = "link_name";
-    spanHoverRelatorio.innerHTML = "Relatório";
-    //</a>
-    linkToRelatorio.appendChild(iconToRelatorio);
-    linkToRelatorio.appendChild(spanHoverRelatorio);
-    //<ul class="sub-menu blank">
-    let ulSubMenuRelatorio = document.createElement("ul");
-    ulSubMenuRelatorio.classList = "sub-menu blank";
+    liItem3.classList = "seta";
+        //<div class="iocn-link">
+        let divIconLink10 = document.createElement("div");
+        divIconLink10.classList = "iocn-link";
+            //<a href="#">
+            let linkDropRelatorio0 = document.createElement("a");
+            linkDropRelatorio0.setAttribute("href", "relatorio");
+                //<i class="fab fa-java"></i>
+                let iconToRelatorio0 = document.createElement("i");
+                iconToRelatorio0.classList = "bx bx-paperclip";
+                //<span class="link_name">Client Relatorio</span>
+                let spanHoverRelatorio0 = document.createElement("span");
+                spanHoverRelatorio0.classList = "link_name";
+                spanHoverRelatorio0.innerHTML = "Relatório";
+            //</a>
+            linkDropRelatorio0.appendChild(iconToRelatorio0);
+            linkDropRelatorio0.appendChild(spanHoverRelatorio0);
+            //<i class="bx bxs-chevron-down arrow"></i>
+            let iconSetaRelatorio0 = document.createElement("i");
+            iconSetaRelatorio0.classList = "bx bxs-chevron-down arrow";
+        //</div>
+        divIconLink10.appendChild(linkDropRelatorio0);
+        divIconLink10.appendChild(iconSetaRelatorio0);
+    //<ul class="sub-menu">
+    let ulSubMenuRelatorio0 = document.createElement("ul");
+    ulSubMenuRelatorio0.classList = "sub-menu";
     //<li>
-    let liSubMenuRelatorio = document.createElement("li");
-    //<a class="link_name" href="relatorio">Relatório</a>
-    let linkToRelatorioMini = document.createElement("a");
-    linkToRelatorioMini.setAttribute("href", "relatorio");
-    linkToRelatorioMini.innerHTML = "Relatório";
+    let liRelatorio20 = document.createElement("li");
+    //<a href="#">Download</a>
+    let linkNovoRelatorio0 = document.createElement("a");
+    linkNovoRelatorio0.setAttribute("href", "relatorio");
+    linkNovoRelatorio0.innerHTML = "Relatório geral";
     //</li>
-    liSubMenuRelatorio.appendChild(linkToRelatorioMini);
+    liRelatorio20.appendChild(linkNovoRelatorio0);
+    //<li>
+    let liRelatorio30 = document.createElement("li");
+    //<a href="#">Baixar JRE</a>
+    let linkListaRelatorio0 = document.createElement("a");
+    linkListaRelatorio0.setAttribute("href", "relatorio-incidentes");
+    linkListaRelatorio0.innerHTML = "Incidentes";
+    //</li>
+    liRelatorio30.appendChild(linkListaRelatorio0);
     //</ul>
-    ulSubMenuRelatorio.appendChild(liSubMenuRelatorio);
+    // ulSubMenuRelatorio.appendChild(liRelatorio1);
+    ulSubMenuRelatorio0.appendChild(liRelatorio20);
+    ulSubMenuRelatorio0.appendChild(liRelatorio30);
     //</li>
-    liItem3.appendChild(linkToRelatorio);
-    liItem3.appendChild(ulSubMenuRelatorio);
+    liItem3.appendChild(divIconLink10);
+    liItem3.appendChild(ulSubMenuRelatorio0);
 
     //<li class="li-not-selected">
     let liItem4 = document.createElement("li");

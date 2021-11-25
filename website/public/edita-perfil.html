@@ -34,14 +34,8 @@
                 <div class="form-cadastro div-editar">
                     <form style="display: contents;" action="">
                         <img class="profilePic img-perfil" src="" alt="">
-                        
-                        <!-- img upload -->
-                        
-                        <form action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
-                            <input type="file" name="profileImg" id="inputFileProfile" accept="image/*">
-                            <input type="hidden" name="userId" id="idUserId">
-                            <input type="submit" name="send">
-                        </form>
+
+
                         <div class="row">
                             <div class="form-item lbl-editar">
                                 <label>Nome:</label>
@@ -86,7 +80,14 @@
                             <button class="btn-geral cancelar" id="btn-alterar-senha">Alterar Senha</button>
                         </div>
                     </form>
+                    <!-- img upload -->
 
+                    <form class="form-edit" action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
+                        <input class="far fa-images" type="file" name="profileImg" id="inputFileProfile"
+                            accept="image/*">
+                        <input type="hidden" name="userId" id="idUserId">
+                        <input value="Enviar Imagem" class="btn-edit-enviar" type="submit" name="send">
+                    </form>
 
                 </div>
             </div>

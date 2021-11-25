@@ -399,6 +399,23 @@ metricas.addEventListener("change", () => {
     mostrarInfoChamado()
 });
 
+tempo.addEventListener("change", () => {
+    if(tempo.value != "all"){
+        qtdTempo.removeAttribute("disabled")
+    }else{
+        qtdTempo.setAttribute("disabled","disabled")
+    }
+    mostrarInfoMedicoes()
+    mostrarInfoTrendline()
+    mostrarInfoChamado()
+});
+
+qtdTempo.addEventListener("change", () => {
+    mostrarInfoMedicoes()
+    mostrarInfoTrendline()
+    mostrarInfoChamado()
+});
+
 const listaMetricasRelatorio = () => {
     metricas.innerHTML = "";
     axios.post("/maquina/lista-componentes", {
@@ -422,49 +439,36 @@ const listaMetricasRelatorio = () => {
 
 
 const mostrarInfoMedicoes = () => {
+    let objInfoMedicoes = {}
     if(metricas.value == 0){
-        axios.post("/medicao/stats", {
-            maquina: maquinaInfo.pk_maquina,
-            // idCategoriaMedicao: metricas.value  
-            
-        }).then(({data: {status, msg}}) => {
-            if(status == "ok"){
-                document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
-                document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
-                document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
-                document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
-
-                let percCrit = (msg.medicoesCriticas*100/msg.medicoesTotais).toFixed(2);
-                let percRisc = (msg.medicoesDeRisco*100/msg.medicoesTotais).toFixed(2);
-                let percNorm = (msg.medicoesNormais*100/msg.medicoesTotais).toFixed(2);
-
-                graficoMetricas.data.datasets[0].data = [percCrit, percRisc, percNorm]
-                graficoMetricas.update()
-            }else{
-                console.log(status)
-            }
-        })
+        objInfoMedicoes = {maquina: maquinaInfo.pk_maquina}
     }else{
-        axios.post("/medicao/stats", {
-            idCategoriaMedicao: metricas.value              
-        }).then(({data: {status, msg}}) => {
+        objInfoMedicoes = {idCategoriaMedicao: metricas.value}        
+    }
+
+    if(tempo.value != "all"){
+        objInfoMedicoes.type = tempo.value
+        objInfoMedicoes.qtd = qtdTempo.value
+    }
+    console.log(objInfoMedicoes)
+        axios.post("/medicao/stats", objInfoMedicoes).then(({data: {status, msg}}) => {
             if(status == "ok"){
                 document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
                 document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
                 document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
                 document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
-    
+
                 let percCrit = (msg.medicoesCriticas*100/msg.medicoesTotais).toFixed(2);
                 let percRisc = (msg.medicoesDeRisco*100/msg.medicoesTotais).toFixed(2);
                 let percNorm = (msg.medicoesNormais*100/msg.medicoesTotais).toFixed(2);
-    
+
                 graficoMetricas.data.datasets[0].data = [percCrit, percRisc, percNorm]
                 graficoMetricas.update()
             }else{
                 console.log(status)
             }
         })
-    }
+    
 
 }
 
@@ -521,9 +525,12 @@ const mostrarInfoTrendline = () => {
 
 
 const mostrarInfoChamado = () => {
-    axios.post("/chamado/stats", {
-        maquina: maquinaInfo.pk_maquina
-    }).then(({data: {status, msg}}) => {
+    let objInfoChamados = {maquina: maquinaInfo.pk_maquina}
+    if(tempo.value != "all"){
+        objInfoChamados.type = tempo.value
+        objInfoChamados.qtd = qtdTempo.value
+    }
+    axios.post("/chamado/stats", objInfoChamados).then(({data: {status, msg}}) => {
         if(status == "ok"){
             document.querySelector("#totalChamados").innerHTML = msg.chamadosTotais
             document.querySelector("#chamadosAbertos").innerHTML = msg.chamadosAbertos

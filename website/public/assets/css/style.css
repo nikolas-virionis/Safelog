@@ -131,6 +131,19 @@ body::-webkit-scrollbar-thumb:hover {
     margin: auto;
 }
 
+.input-padrao{
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    min-height: 40px;
+    padding: 10px 15px;
+    outline: none;
+    margin: 5px 0;
+    box-shadow: 1px 1px 3px #666;
+    resize: none;
+    background-color: white;
+}
+
 .underline-input {
     width: 80%;
 }

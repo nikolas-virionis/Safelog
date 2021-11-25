@@ -81,6 +81,19 @@
                     <select name="" id="metricas">
                     </select>
                 </div>
+                <div class="col-md-3 com-sm-6 form-item">
+                    <label for="tempo">Tempo:</label>
+                    <select name="" id="tempo">
+                        <option value="all">Tudo</option>
+                        <option value="day">Dia</option>
+                        <option value="week">Semana</option>
+                        <option value="month">Mês</option>
+                    </select>
+                </div>
+                <div class="col-md-3 com-sm-6 form-item">
+                    <label for="tempo">Quantidade:</label>
+                    <input type="number" min="1" value="1" class="input-padrao" id="qtdTempo" disabled>
+                </div>
             </div>
 
 
@@ -202,7 +215,6 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/alerta.js"></script>
     <script src="./assets/js/sidebar.js"></script>
-    <!-- <script src="./assets/js/relatorioDash.js"></script> -->
     <script src="./assets/js/dashboard.js"></script>
     <script src="./assets/js/script.js"></script>
 

@@ -26,7 +26,7 @@ router.post("/trend", async (req, res) => {
         .catch(err => res.json({status: "alerta", err}));
 });
 
-router.post("email-relatorio", async (req, res) => {
+router.post("/email-relatorio", async (req, res) => {
     let {id, maquinas} = req.body;
     if (!req.body) {
         return res.json({
@@ -45,7 +45,11 @@ router.post("email-relatorio", async (req, res) => {
             );
         })
         .then(async ([{nome, email, cargo}]) => {
-            let string = await relatorio(maquinas, cargo);
+            let relatorioStr = await relatorio(maquinas, cargo);
+            res.json(relatorioStr);
+        })
+        .catch(err => {
+            console.error("\n\n", err);
         });
 });
 

@@ -288,9 +288,26 @@ btnEmail.addEventListener("click", async e => {
 });
 
 const getMaquinas = elMaquinas => {
-    maquinasRelatorio = [...elMaquinas].map(elMaquina => ({
+    let maquinasRelatorio = [...elMaquinas].map(elMaquina => ({
         pk_maquina: Number(elMaquina.value),
         nomeMaquina: elMaquina.text
     }));
-    
+    axios
+        .post("/analytics/email-relatorio", {id, maquinas: maquinasRelatorio})
+        .then(({data: {status, msg}}) => {
+            if (status == "ok") {
+                mostrarAlerta(msg, "success");
+            } else if (status == "alerta") {
+                mostrarAlerta(msg, "warning");
+            } else {
+                console.error(msg);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            mostrarAlerta(
+                "Algo deu errado, tente novamente mais tarde",
+                "danger"
+            );
+        });
 };

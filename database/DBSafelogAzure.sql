@@ -4553,3 +4553,25 @@ VALUES
     (2.11, 'normal', '2021-10-05 21:10:54', 47),
     (74.82, 'normal', '2021-10-05 21:10:54', 48),
     (234.52, 'normal', '2021-10-05 21:10:54', 49);
+
+-- inserindo maquinas 
+INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES 
+('02:42:ac:12:00:04', 'ec2', HASHBYTES('MD5', 'ExSenha1'), '203783731'),
+('00:15:5d:30:7f:82', 'desktop2', HASHBYTES('MD5', 'ExSenha1'), '203783731');
+
+INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES 
+('s', 6, 8),
+('s', 6, 9);
+
+INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUES 
+(60.00, 8, 1),
+(110.00, 8, 2),
+(70.00, 8, 3),
+(70.00, 8, 4),
+(1.00, 8, 5),
+(80.00, 8, 6),
+(100.00, 8, 7),
+(70.00, 9, 4),
+(0.20, 9, 5),
+(70.00, 9, 6),
+(5.00, 9, 7);

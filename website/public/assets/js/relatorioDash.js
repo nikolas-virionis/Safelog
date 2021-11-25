@@ -1,4 +1,5 @@
-const {id, nome, email} = JSON.parse(sessionStorage.getItem("usuario"));
+const idUser = JSON.parse(sessionStorage.getItem("usuario")).id;
+const {nome, email} = JSON.parse(sessionStorage.getItem("usuario"));
 const cargoPessoa = JSON.parse(sessionStorage.getItem("usuario")).cargo;
 const maquinas = document.querySelector("#maquinas");
 
@@ -30,41 +31,20 @@ const graficoMetricas = new Chart(
     config
 );
 
-console.log(cargoPessoa)
-axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
-    id
-    }).then(({data: {status, msg}}) => {
-        if (status == "ok") {
-            msg.forEach(({pk_maquina, maquina}) => {
-                option = document.createElement("option");
-                option.value = pk_maquina;
-                option.innerText = maquina;
-                maquinas.appendChild(option);
-            });
-        } else {
-            console.error(msg);
-        }
-        attMetricas()
-        mostrarInfoMedicoes()
-        mostrarInfoChamado()
-        mostrarInfoTrendline()
-});
+
+
     
     
-    const getTipo = tipo => {
-        let metrica = tipo.split("_");
-        metrica = `${metrica[0].toUpperCase()} - ${
-            metrica[1].charAt(0).toUpperCase() + metrica[1].slice(1)
-        }`;
-        return metrica;
-    };
+const getTipo = tipo => {
+    let metrica = tipo.split("_");
+    metrica = `${metrica[0].toUpperCase()} - ${
+        metrica[1].charAt(0).toUpperCase() + metrica[1].slice(1)
+    }`;
+    return metrica;
+};
     
-maquinas.addEventListener("change", () => {
-    attMetricas()
-    mostrarInfoMedicoes()
-    mostrarInfoChamado()
-    mostrarInfoTrendline()
-})
+
+
 
 metricas.addEventListener("change", () => {
     mostrarInfoMedicoes()
@@ -73,10 +53,11 @@ metricas.addEventListener("change", () => {
 });
 
 const attMetricas = () => {
+    console.log(metricas)
     metricas.innerHTML = "";
     if (maquinas.value) {
         axios.post("/maquina/lista-componentes", {
-            id: Number(maquinas.value)
+            id: maquinaInfo.pk_maquina
         }).then(({data: {status, msg}}) => {
                 if (status === "ok") {
                     option = document.createElement("option");
@@ -213,3 +194,8 @@ const mostrarInfoTrendline = () => {
             });
     }
 }
+
+attMetricas()
+mostrarInfoMedicoes()
+mostrarInfoChamado()
+mostrarInfoTrendline()

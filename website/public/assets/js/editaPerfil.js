@@ -212,3 +212,10 @@ inputs.forEach(el => {
             .replace(/(\..*)\./g, "$1");
     });
 });
+
+inputFileProfile.addEventListener("change", () => {
+    const [file] = inputFileProfile.files
+    if (file) {
+        document.querySelector(".profilePic").src = URL.createObjectURL(file)
+    }
+})

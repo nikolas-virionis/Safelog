@@ -365,6 +365,9 @@ const getTipo = tipo => {
 // -------------------- Relatório --------------------
 // -------------------------------------------------------
 
+if(cargo == "gestor"){
+    relatorio.classList.remove("display-none")
+}
 const dataMetricas = {
     labels: [
         'Críticas',

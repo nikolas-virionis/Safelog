@@ -56,6 +56,156 @@
             </div>
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+        <div class="container-site">
+            <br>
+            <h1>Relatório:</h1>
+            <div class="row">
+                    <!-- <div class="col-md-6 com-sm-12 form-item">
+                        <label>Máquina:</label>
+                        <select name="" id="maquinas">
+                        </select>
+                    </div> -->
+                <div class="col-md-3 com-sm-6 form-item">
+                    <label for="metricas">Métrica:</label>
+                    <select name="" id="metricas">
+                    </select>
+                </div>
+                <div class="col-md-3 com-sm-6 form-item">
+                    <label for="tempo">Tempo:</label>
+                    <select name="" id="tempo">
+                        <option value="all">Tudo</option>
+                        <option value="day">Dia</option>
+                        <option value="week">Semana</option>
+                        <option value="month">Mês</option>
+                    </select>
+                </div>
+                <div class="col-md-3 com-sm-6 form-item">
+                    <label for="tempo">Quantidade:</label>
+                    <input type="number" min="1" value="1" class="input-padrao" id="qtdTempo" disabled>
+                </div>
+            </div>
+
+
+            <h2>Medições:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-sm-12">
+                    <div class="card-dados main centralizar alinhar">
+                        <div>
+                            <h2>Medições realizadas:</h2>
+                            <span class="card-medicoes centralizar" id="medicoesTotais"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <div class="card-dados critico alinhar centralizar">
+                        <span class="font-weight-bold">Críticas: </span>
+                        <span class="card-medicoes-sec" id="medicaoCritica"></span>
+                    </div>
+                    <div class="card-dados risco alinhar centralizar">
+                        <span class="font-weight-bold">Risco: </span>
+                        <span class="card-medicoes-sec " id="medicaoRisco"></span>
+    
+                    </div>
+                    <div class="card-dados normal alinhar centralizar">
+                        <span class="font-weight-bold">Normal: </span>
+                        <span class="card-medicoes-sec " id="medicaoNormal"></span>
+    
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <canvas id="chartDoughnut"></canvas>
+                </div>
+            </div>
+
+
+            <br><br>
+            <h2>Trendline:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-sm-12">
+                    <div class="tabela-listrada">
+                        <table>
+                            <thead>
+                                <th>Métrica</th>
+                                <th>Tendência</th>
+                            </thead>
+                            <tbody id="tableTrendline">
+                                </tr>
+                                    <td>Máquina</td>
+                                    <td>Tendência</td>
+                                </tr>
+                            
+                            </tbody>
+                        
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <h2>Chamados e soluções:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-sm-12">
+                    <h3>Chamados:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de chamados:</h2>
+                                    <span class="card-chamados centralizar" id="totalChamados">346</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados aberto alinhar centralizar">
+                                <span class="font-weight-bold">Abertos: </span>
+                                <span class="card-medicoes-sec " id="chamadosAbertos">46</span>
+                            </div>
+                            <div class="card-dados fechado alinhar centralizar">
+                                <span class="font-weight-bold">Fechados: </span>
+                                <span class="card-medicoes-sec " id="chamadosFechados">100</span>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h3>Soluções:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de Soluções:</h2>
+                                    <span class="card-chamados centralizar" id="totalSolucoes"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados total alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia total: </span>
+                                <span class="card-medicoes-sec " id="eficaciaTotal"></span>
+                            </div>
+                            <div class="card-dados parcial alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia parcial: </span>
+                                <span class="card-medicoes-sec " id="eficaciaParcial"></span>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
         
     </section>
     
@@ -64,8 +214,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/js/alerta.js"></script>
-    <script src="./assets/js/dashboard.js"></script>
     <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/dashboard.js"></script>
     <script src="./assets/js/script.js"></script>
+
 </body>
 </html>

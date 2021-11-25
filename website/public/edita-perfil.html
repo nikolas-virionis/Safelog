@@ -29,39 +29,44 @@
 
 
         <div class="container-site">
-            <div class="cadastro-empresa">
-
-                <h1> <img class="img-edit-perfil" src="assets\img\icons\edit.png" alt=""> Edição de perfil:</h1>
-                <div class="form-cadastro">
-                    <form action="">
+            <div class="cadastro-empresa-editar">
+                <h1><img class="img-edit-perfil" src="assets\img\icons\edit.png" alt=""> Edição de perfil:</h1>
+                <div class="form-cadastro div-editar">
+                    <form style="display: contents;" action="">
+                        <img style="margin-bottom: 100px;" class="profilePic img-perfil" src="" alt="">
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-id-maquina">Nome:</label>
-                                <input type="text" name="" required id="inp-nome">
-                            </div>
-                            <div class="col-md-6 col-sm-12 form-item">
-                                <label for="inp-nome-maquina">Email:</label>
-                                <input type="email" name="" required id="inp-email">
+                            <div class="form-item lbl-editar">
+                                <label>Nome:</label>
                             </div>
                         </div>
-
+                        <div class="col-md-6 col-sm-12 form-item">
+                            <input type="text" name="" required id="inp-nome">
+                        </div>
+                        <div class="row">
+                            <div class="form-item lbl-editar">
+                                <label>Email:</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 form-item">
+                            <input type="email" name="" required id="inp-email">
+                        </div>
                         <div class="row">
                             <div class="form-item">
                                 <label>Forma de contato:</label>
                             </div>
                         </div>
                         <div class="dashboard-check">
-                            <div class="form-item checkbox-contato alinhado">
+                            <div class="form-item checkbox-contato-editar alinhado">
                                 <input type="checkbox" id="contato-whatsapp" name="forma-contato" value="WhatsApp">
                                 <label for="contato-whatsapp"></label>
                                 <input type="phone" id="input-whatsapp" name="" onlynum>
                             </div>
-                            <div class="form-item checkbox-contato alinhado">
+                            <div class="form-item checkbox-contato-editar alinhado">
                                 <input type="checkbox" id="contato-telegram" name="forma-contato" value="Telegram">
                                 <label for="contato-telegram"></label>
                                 <input type="phone" id="input-telegram" name="" placeholder="username">
                             </div>
-                            <div class="form-item checkbox-contato alinhado">
+                            <div class="form-item checkbox-contato-editar alinhado">
                                 <input type="checkbox" id="contato-slack" name="forma-contato" value="Slack">
                                 <label for="contato-slack"></label>
                                 <input type="email" id="input-slack" name="">
@@ -72,13 +77,15 @@
                             <button class="btn-geral cancelar" id="btn-alterar-senha">Alterar Senha</button>
                         </div>
                     </form>
-
                     <!-- img upload -->
-                    <form action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="profileImg" id="inputFileProfile" accept="image/*">
+
+                    <form class="form-edit" action="/usuario/edita-foto" method="POST" enctype="multipart/form-data">
+                        <input class="far fa-images" type="file" name="profileImg" id="inputFileProfile"
+                            accept="image/*">
                         <input type="hidden" name="userId" id="idUserId">
-                        <input type="submit" name="send">
+                        <input value="Enviar Imagem" class="btn-edit-enviar" type="submit" name="send">
                     </form>
+
                 </div>
             </div>
         </div>

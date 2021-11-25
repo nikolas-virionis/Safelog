@@ -30,7 +30,7 @@ const graficoMetricas = new Chart(
     config
 );
 
-
+console.log(cargoPessoa)
 axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
     id
     }).then(({data: {status, msg}}) => {

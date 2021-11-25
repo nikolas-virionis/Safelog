@@ -203,6 +203,7 @@ h6 {
   align-items: center;
   justify-content: center;
 }
+
 .form-cadastro-editar form{
   width: 100%;
   display: contents;
@@ -233,6 +234,65 @@ h6 {
   resize: none;
   background-color: white;
 }
+input#inputFileProfile {
+  border-radius: 100%;
+  width: 55px;
+  height: 55px;
+  border: none;
+  background-color: var(--cor-principal);
+  color: #fff;
+  cursor: pointer;
+  margin: 0 10px 0 0;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 11px;
+  position: absolute;
+  bottom: 633px;
+  left: 47px;
+  box-shadow: 3px 3px 6px #666;
+}
+.div-edit-foto {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.form-edit{
+  position: relative;
+  width: 5%!important;
+}
+
+input#inputFileProfile::before{
+  margin-right: 20px;
+  margin-left: 4px;
+}
+input#inputFileProfile:hover{
+  background-color: var(--cor-hover);
+  transform: scale(1.05);
+}
+.btn-edit-enviar{
+  cursor: pointer;
+  border: none;
+  padding: 10px 20px;
+  background-color: #0071ce;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px #666;
+  transition: all 0.4s;
+  position: absolute;
+  bottom: 563px;
+  right: -59px;
+}
+input.btn-edit-enviar:hover {
+  background-color: #025396;
+  box-shadow: 4px 4px 3px #666;
+  transform: scale(1.03);
+}
+
+ 
 
 .form-item input[type="range"] {
   width: 80%;
@@ -354,7 +414,7 @@ span {
   height: 175px;
   border-radius: 100%;
   margin:0;
-  margin-bottom: 20px;
+  margin-bottom: 100px;
 }
 
 .limites {

@@ -24,7 +24,7 @@ def insert_db(value):
     my_azure = ""
     try:
         mydb = mysql.connector.connect(
-            host="172.31.25.218",
+            host="172.18.0.1",
             user=usr,
             password=pswd,
             database="safelog"

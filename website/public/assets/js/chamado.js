@@ -65,16 +65,12 @@ const renderChamado = msg => {
                 .addEventListener("click", () => {
                     cardAlterarChamado("editar");
                 });
-        } else {
-            document
-                .querySelector("#btnResponder")
-                .classList.remove("display-none");
-            document
-                .querySelector("#btnResponder")
-                .addEventListener("click", () => {
-                    cardAlterarChamado("responder");
-                });
         }
+            document.querySelector("#btnResponder").classList.remove("display-none");
+            document.querySelector("#btnResponder").addEventListener("click", () => {
+                cardAlterarChamado("responder");
+            });
+        
     }
 
     console.log(msg);

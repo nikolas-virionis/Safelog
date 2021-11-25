@@ -216,6 +216,7 @@ inputs.forEach(el => {
 inputFileProfile.addEventListener("change", () => {
     const [file] = inputFileProfile.files
     if (file) {
+        btnSendImg.classList.remove("display-none");
         document.querySelector(".profilePic").src = URL.createObjectURL(file)
     }
-})
+});

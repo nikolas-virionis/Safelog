@@ -5,6 +5,7 @@ const {sequelize, sequelizeAzure} = require("../models");
 const {getTrendDeg, getTrendBehavior} = require("../util/analytics/trendLine");
 const {getMedicoesTrend} = require("../util/analytics/dados");
 const {relatorio} = require("../util/analytics/relatorio");
+const {mandarEmail} = require("../util/email/email");
 
 router.post("/trend", async (req, res) => {
     let {idCategoriaMedicao, type, qtd} = req.body;
@@ -46,7 +47,17 @@ router.post("/email-relatorio", async (req, res) => {
         })
         .then(async ([{nome, email, cargo}]) => {
             let relatorioStr = await relatorio(maquinas, cargo);
-            res.json(relatorioStr);
+
+            mandarEmail("relatorio", nome, email, [relatorioStr])
+                .then(() => {
+                    res.json({
+                        status: "ok",
+                        msg: "Relatorio enviado com sucesso"
+                    });
+                })
+                .catch(err => {
+                    console.error("\n\n", err);
+                });
         })
         .catch(err => {
             console.error("\n\n", err);

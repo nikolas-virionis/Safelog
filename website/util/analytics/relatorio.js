@@ -32,11 +32,11 @@ const relatorio = async (maquinas, cargo) => {
 };
 
 const statsChamado = async (maquinas, queryDate, data) => {
-    let relatorioChamado = `\nChamados ${data}: \n`;
+    let relatorioChamado = `<br>Chamados ${data}: <br>`;
     for (let {pk_maquina, nomeMaquina, fksCategoria} of maquinas) {
         console.log(fksCategoria);
         relatorioChamado += formatChamado(
-            `Maquina: ${nomeMaquina}\n\tGeral`,
+            `Maquina: ${nomeMaquina}<br>&nbsp;&nbsp;&nbsp;&nbsp;Geral`,
             await getStatsChamado({
                 maquina: pk_maquina,
                 type: queryDate,
@@ -59,7 +59,7 @@ const statsChamado = async (maquinas, queryDate, data) => {
                     );
                 })
                 .catch(err => {
-                    console.error("\n\n", err);
+                    console.error("<br><br>", err);
                 });
         }
     }
@@ -67,10 +67,10 @@ const statsChamado = async (maquinas, queryDate, data) => {
 };
 
 const statsMedicao = async (maquinas, queryDate, data) => {
-    let relatorioMedicao = `\nMedições ${data}: \n`;
+    let relatorioMedicao = `<br>Medições ${data}: <br>`;
     for (let {pk_maquina, nomeMaquina, fksCategoria} of maquinas) {
         relatorioMedicao += formatMedicao(
-            `Maquina: ${nomeMaquina}\n\tGeral`,
+            `Maquina: ${nomeMaquina}<br>&nbsp;&nbsp;&nbsp;&nbsp;Geral`,
             await getStatsMedicao({
                 maquina: pk_maquina,
                 type: queryDate,
@@ -93,7 +93,7 @@ const statsMedicao = async (maquinas, queryDate, data) => {
                     );
                 })
                 .catch(err => {
-                    console.error("\n\n", err);
+                    console.error("<br><br>", err);
                 });
         }
     }
@@ -101,9 +101,9 @@ const statsMedicao = async (maquinas, queryDate, data) => {
 };
 
 const statsTrend = async (maquinas, queryDate, data) => {
-    let relatorioTrend = `\nTendências ${data}: \n`;
+    let relatorioTrend = `<br>Tendências ${data}: <br>`;
     for (let {pk_maquina, nomeMaquina, fksCategoria} of maquinas) {
-        relatorioTrend += `Maquina: ${nomeMaquina}\n`;
+        relatorioTrend += `Maquina: ${nomeMaquina}<br>`;
 
         for (let fk of fksCategoria) {
             let sql = `SELECT tipo_medicao.tipo FROM tipo_medicao JOIN categoria_medicao ON fk_tipo_medicao = id_tipo_medicao AND id_categoria_medicao = ${fk}`;
@@ -120,7 +120,7 @@ const statsTrend = async (maquinas, queryDate, data) => {
                     );
                 })
                 .catch(err => {
-                    console.error("\n\n", err);
+                    console.error("<br><br>", err);
                 });
         }
     }
@@ -152,13 +152,13 @@ const formatChamado = (
     }
 ) => {
     return (
-        `\n\t${tipo}: \n` +
-        `\t\tChamados Totais: ${chamadosTotais}` +
-        `\t\tSoluções Totais: ${solucoesTotais}\n` +
-        `\t\tChamados Abertos: ${chamadosAbertos}` +
-        `\t\tSoluções Eficazes: ${solucoesEficazes}\n` +
-        `\t\tChamados Fechados: ${chamadosFechados}` +
-        `\t\tSoluções Parciais: ${solucoesParciais}\n`
+        `<br>&nbsp;&nbsp;&nbsp;&nbsp;${tipo}: <br>` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chamados Totais: ${chamadosTotais}` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Soluções Totais: ${solucoesTotais}<br>` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chamados Abertos: ${chamadosAbertos}` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Soluções Eficazes: ${solucoesEficazes}<br>` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chamados Fechados: ${chamadosFechados}` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Soluções Parciais: ${solucoesParciais}<br>`
     );
 };
 
@@ -167,16 +167,16 @@ const formatMedicao = (
     {medicoesTotais, medicoesCriticas, medicoesDeRisco, medicoesNormais}
 ) => {
     return (
-        `\n\t${tipo}: \n` +
-        `\t\tMedições Totais: ${medicoesTotais}` +
-        `\t\tMedições Críticas: ${medicoesCriticas}\n` +
-        `\t\tMedições De Risco: ${medicoesDeRisco}` +
-        `\t\tMedições Normais: ${medicoesNormais}\n`
+        `<br>&nbsp;&nbsp;&nbsp;&nbsp;${tipo}: <br>` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Medições Totais: ${medicoesTotais}` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Medições Críticas: ${medicoesCriticas}<br>` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Medições De Risco: ${medicoesDeRisco}` +
+        `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Medições Normais: ${medicoesNormais}<br>`
     );
 };
 
 const formatTrend = (tipo, {orientacao, comportamento}) =>
-    `\n\t${tipo}: ${orientacao} ${comportamento}\n`;
+    `<br>&nbsp;&nbsp;&nbsp;&nbsp;${tipo}: ${orientacao} ${comportamento}<br>`;
 
 const getTipo = tipo => {
     let metrica = tipo.split("_");

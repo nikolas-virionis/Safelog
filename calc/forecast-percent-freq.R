@@ -14,6 +14,26 @@ ggplot(dados, aes(x=dados$cpu_porcentagem, y=dados$cpu_frequencia)) + geom_point
 # correlation
 cor(x, y)
 
+y <- amostraDesktop1$ram_livre
+
+dados <- data.frame(cpu_porcentagem=x, ram_livre=y)
+
+# view alfa and beta
+model1 <- lm(data=dados, formula=dados$ram_livre~dados$cpu_porcentagem)
+
+# linear regression
+ggplot(dados, aes(x=dados$cpu_porcentagem, y=dados$ram_livre)) + geom_point() + geom_smooth(method=lm, se = FALSE)
+
+# correlation
+cor(x, y)
+
+
+
+
+
+
+
+
 previsao <- function(x) {
     return(-95.432 + 1.614 * x)
 }

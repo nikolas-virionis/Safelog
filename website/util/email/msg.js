@@ -13,9 +13,10 @@ const msgEmail = (tipo, nome, rest, email) => {
         return [
             `
     <p>Prezado(a) ${nome},</p>
-    <p>Relatorio enviado com sucesso</p>
+    <p>Relatório manualmente acionado:\n\n</p>
+    <p>${rest[0]}</p>
     `,
-            "Relatório Periódico - SafeLog"
+            "Relatório - SafeLog"
         ];
     if (tipo.toLowerCase() == "alerta")
         return [

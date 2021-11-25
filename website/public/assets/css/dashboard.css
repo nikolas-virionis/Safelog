@@ -12,6 +12,9 @@ h6 {
 * {
   -webkit-transition: 0.3s;
 }
+#modal-email-relatorio{
+    display: none;
+}
 
 .dashboard-row {
   display: -ms-flexbox;

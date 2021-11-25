@@ -188,14 +188,17 @@ router.post("/componentes", async (req, res) => {
         for (let componente of componentes) {
             let {acao, nome, limite} = componente;
             if (acao === "insert") {
-                let sql = `INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_categoria_medicao) VALUES (${limite}, ${id}, (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
+                let sql = `INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUES (${limite}, ${id}, (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`;
+
                 await sequelize
                     .query(sql, {type: sequelize.QueryTypes.INSERT})
                     .catch(err => Promise.resolve())
                     .then(async () => {
                         await sequelizeAzure.query(sql, {
                             type: sequelizeAzure.QueryTypes.INSERT
-                        });
+                        })
+                        .then(responseAzure => console.log(responseAzure))
+                        .catch(err => console.log(err));
                         return Promise.resolve();
                     })
                     .then(response => {})
@@ -218,7 +221,8 @@ router.post("/componentes", async (req, res) => {
                         return res.json({status: "erro", msg: err});
                     });
             } else {
-                let deleteSql = `DELETE FROM medicao WHERE fk_categoria_medicao = (SELECT id_categoria_medicao FROM categoria_medicao JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${id} JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '${nome}')`;
+                let deleteSql = `DELETE FROM medicao WHERE fk_categoria_medicao IN (SELECT id_categoria_medicao FROM categoria_medicao JOIN maquina ON fk_maquina = pk_maquina AND pk_maquina = ${id} JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND tipo_medicao.tipo = '${nome}')`;
+
                 await sequelize
                     .query(deleteSql, {
                         type: sequelize.QueryTypes.DELETE
@@ -227,10 +231,32 @@ router.post("/componentes", async (req, res) => {
                     .then(async () => {
                         await sequelizeAzure.query(deleteSql, {
                             type: sequelizeAzure.QueryTypes.DELETE
-                        });
+                        })
+                        .then(async (responseAzure) => console.log(responseAzure))
+                        .catch(async (err) => console.log(err));
                         return Promise.resolve();
                     })
                     .then(async () => {
+
+                        // delete solucao 
+                        let sqlDelSolucao = `DELETE FROM solucao WHERE fk_chamado IN (SELECT id_chamado FROM chamado WHERE fk_categoria_medicao IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao IN (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')))`
+
+                        await sequelize.query(sqlDelSolucao, {type: sequelize.QueryTypes.DELETE})
+                        .then(async (responseAws) => console.log(responseAws))
+                        .catch(err => console.log(err));
+
+                        // delete chamado 
+                        let sqlDelChamado = `DELETE FROM chamado WHERE fk_categoria_medicao IN (SELECT id_categoria_medicao FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao IN (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}'))`
+
+                        await sequelize.query(sqlDelChamado, {type: sequelize.QueryTypes.DELETE})
+                        .catch(err => Promise.resolve())
+                        .then(async () => {
+                            sequelizeAzure.query(sqlDelChamado, {type: sequelize.QueryTypes.DELETE})
+                            .then(async (responseAzure) => console.log(responseAzure))
+                            .catch(err => console.log(err))
+                        })
+                        .catch(err => console.log(err));
+
                         let sql = `DELETE FROM categoria_medicao WHERE fk_maquina = ${id} AND fk_tipo_medicao = (SELECT id_tipo_medicao FROM tipo_medicao WHERE tipo = '${nome}')`;
                         await sequelize
                             .query(sql, {type: sequelize.QueryTypes.DELETE})
@@ -238,7 +264,9 @@ router.post("/componentes", async (req, res) => {
                             .then(async () => {
                                 await sequelizeAzure.query(sql, {
                                     type: sequelizeAzure.QueryTypes.DELETE
-                                });
+                                })
+                                .then(async (responseAzure) => console.log(responseAzure))
+                                .catch(async (err) => console.log(err));
                                 return Promise.resolve();
                             })
                             .then(response => {})

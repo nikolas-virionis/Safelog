@@ -30,7 +30,7 @@ const graficoMetricas = new Chart(
     config
 );
 
-
+console.log(cargoPessoa)
 axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
     id
     }).then(({data: {status, msg}}) => {
@@ -47,6 +47,7 @@ axios.post(`/maquina/lista-dependentes/${cargoPessoa}`, {
         attMetricas()
         mostrarInfoMedicoes()
         mostrarInfoChamado()
+        mostrarInfoTrendline()
 });
     
     
@@ -62,11 +63,13 @@ maquinas.addEventListener("change", () => {
     attMetricas()
     mostrarInfoMedicoes()
     mostrarInfoChamado()
+    mostrarInfoTrendline()
 })
 
 metricas.addEventListener("change", () => {
     mostrarInfoMedicoes()
     mostrarInfoChamado()
+    mostrarInfoTrendline()
 });
 
 const attMetricas = () => {
@@ -83,6 +86,7 @@ const attMetricas = () => {
                     msg.forEach(({id_categoria_medicao, tipo}) => {
                         option = document.createElement("option");
                         option.value = id_categoria_medicao;
+                        option.setAttribute("id",`medicao${id_categoria_medicao}`)
                         option.innerText = getTipo(tipo);
                         metricas.appendChild(option);
                     });
@@ -159,4 +163,53 @@ const mostrarInfoChamado = () => {
             console.log(status)
         }
     })
+}
+
+
+const mostrarInfoTrendline = () => {
+    document.querySelector("#tableTrendline").innerHTML = "";
+    if(metricas.value > 0){
+        axios.post("/analytics/trend", {
+            idCategoriaMedicao: metricas.value
+        }).then(({data: {msg, status}}) => {
+            console.log(status)
+            console.log(msg)
+            let tr = document.createElement("tr");
+            let tdMetrica = document.createElement("td");
+            let tdTendencia = document.createElement("td");
+            tr.appendChild(tdMetrica);
+            tr.appendChild(tdTendencia);
+
+            tdMetrica.innerHTML = document.getElementById(`medicao${metricas.value}`).innerHTML;
+            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`
+            document.querySelector("#tableTrendline").appendChild(tr);
+        });
+    }else{
+        axios.post("/maquina/lista-componentes", {
+            id: Number(maquinas.value)
+        }).then(({data: {status, msg}}) => {
+                if (status == "ok") {
+                    
+                    msg.forEach(({id_categoria_medicao}) => {
+                        let tr = document.createElement("tr");
+                        let tdMetrica = document.createElement("td");
+                        let tdTendencia = document.createElement("td");
+                        tr.appendChild(tdMetrica);
+                        tr.appendChild(tdTendencia);
+            
+                        tdMetrica.innerHTML = document.getElementById(`medicao${id_categoria_medicao}`).innerHTML;
+                        
+
+                        axios.post("/analytics/trend", {
+                            idCategoriaMedicao: id_categoria_medicao
+                        }).then(({data: {msg, status}}) => {
+                            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`
+                        });
+
+
+                        document.querySelector("#tableTrendline").appendChild(tr);
+                    });
+                }
+            });
+    }
 }

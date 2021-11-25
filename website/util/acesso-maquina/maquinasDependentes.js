@@ -30,21 +30,7 @@ const maquinasDependentesAnalista = async (id, search, main, order) => {
 };
 
 const maquinasDependentesGestor = async id => {
-    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS usuario FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_supervisor = ${id} JOIN maquina ON pk_maquina = fk_maquina ${
-        search
-            ? ` WHERE id_maquina LIKE '%${search}%' OR maquina.nome LIKE '%${search}%' OR usuario.nome LIKE '%${search}%'`
-            : ``
-    } GROUP BY pk_maquina ${
-        main
-            ? ` ORDER BY ${
-                  main == "id"
-                      ? "id_maquina"
-                      : main == "nome"
-                      ? "maquina.nome"
-                      : "usuario.nome"
-              } ${order}`
-            : " ORDER BY pk_maquina, responsavel"
-    }`;
+    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, usuario.nome AS usuario FROM usuario JOIN usuario_maquina ON fk_usuario = id_usuario AND fk_supervisor = ${id} JOIN maquina ON pk_maquina = fk_maquina ORDER BY pk_maquina, responsavel`;
     return await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .catch(async err =>
@@ -68,21 +54,7 @@ const maquinasDependentesGestor = async id => {
 };
 
 const maquinasDependentesAdmin = async id => {
-    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, a.nome AS usuario FROM usuario AS g JOIN usuario AS a ON a.fk_supervisor = g.id_usuario AND g.fk_supervisor = ${id} JOIN usuario_maquina ON fk_usuario = a.id_usuario JOIN maquina ON pk_maquina = fk_maquina ${
-        search
-            ? ` WHERE id_maquina LIKE '%${search}%' OR maquina.nome LIKE '%${search}%' OR usuario.nome LIKE '%${search}%'`
-            : ``
-    } GROUP BY pk_maquina ${
-        main
-            ? ` ORDER BY ${
-                  main == "id"
-                      ? "id_maquina"
-                      : main == "nome"
-                      ? "maquina.nome"
-                      : "usuario.nome"
-              } ${order}`
-            : " ORDER BY pk_maquina, responsavel"
-    }`;
+    let dependentes = `SELECT pk_maquina, id_maquina, maquina.nome AS maquina, a.nome AS usuario FROM usuario AS g JOIN usuario AS a ON a.fk_supervisor = g.id_usuario AND g.fk_supervisor = ${id} JOIN usuario_maquina ON fk_usuario = a.id_usuario JOIN maquina ON pk_maquina = fk_maquina  ORDER BY pk_maquina, responsavel`;
     return await sequelize
         .query(dependentes, {type: sequelize.QueryTypes.SELECT})
         .catch(async err =>

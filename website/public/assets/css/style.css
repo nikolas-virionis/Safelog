@@ -131,6 +131,19 @@ body::-webkit-scrollbar-thumb:hover {
     margin: auto;
 }
 
+.input-padrao{
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    min-height: 40px;
+    padding: 10px 15px;
+    outline: none;
+    margin: 5px 0;
+    box-shadow: 1px 1px 3px #666;
+    resize: none;
+    background-color: white;
+}
+
 .underline-input {
     width: 80%;
 }
@@ -830,6 +843,7 @@ button.modal {
     -webkit-transition: 0.5s;
     transition: 0.5s;
     filter: brightness(0.5);
+    margin-left: 70px;
 }
 .dashboard-check input#contato-whatsapp + label {
     background-image: url("../img/redes/whatsapp.png");
@@ -843,6 +857,7 @@ button.modal {
 .dashboard-check input:checked + label {
     filter: brightness(1);
     transform: scale(1.25);
+    margin-left: 0!important;
 }
 #contato-slack {
     -webkit-transition: 0.5s;

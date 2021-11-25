@@ -95,7 +95,8 @@ public class Alert {
         content.put("idUsuario", novoChamado.getFkUsuario());
         content.put("automatico", novoChamado.getAutomatico());
         content.put("eficaciaSolucoes", "parcial");
-        HttpRequest request = HttpRequest.newBuilder(URI.create("http://safelog.sytes.net/chamado/criar"))
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create("http://ec2-54-173-117-225.compute-1.amazonaws.com:3000/chamado/criar"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
@@ -127,12 +128,18 @@ public class Alert {
         content.put("idChamado", idChamado);
         content.put("metrica", tipoMedicao.getTipo());
         content.put("estado", medicao.getTipo());
-        HttpRequest request = HttpRequest.newBuilder(URI.create("http://safelog.sytes.net/medicao/alerta"))
+        HttpRequest request = HttpRequest
+                .newBuilder(URI.create("http://ec2-54-173-117-225.compute-1.amazonaws.com:3000/medicao/alerta"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response);
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     private int getResponsavel() {

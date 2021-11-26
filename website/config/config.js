@@ -8,7 +8,7 @@ module.exports = {
         database: process.env.DB_NAME,
         host: "safelogdb.sytes.net", // (localhost da ec2, onde o express estará rodando em producão)
         dialect: "mysql",
-        xuse_env_variable: "DATABASE_URL",
+        xuse_env_variable: "production",
         dialectOptions: {
             options: {
                 encrypt: true
@@ -30,7 +30,7 @@ module.exports = {
         database: process.env.DB_NAME,
         host: "srvsafelog.database.windows.net",
         dialect: "mssql",
-        xuse_env_variable: "srvsafelog.database.windows.net",
+        // xuse_env_variable: "production",
         dialectOptions: {
             options: {
                 encrypt: true
@@ -51,7 +51,7 @@ module.exports = {
         database: process.env.DB_NAME,
         host: "localhost",
         dialect: "mysql",
-        xuse_env_variable: "DATABASE_URL",
+        // xuse_env_variable: "dev",
         dialectOptions: {
             options: {
                 encrypt: true

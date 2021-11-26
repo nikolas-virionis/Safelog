@@ -11,12 +11,20 @@ var db        = {};
 
 console.warn(`\n===> você está no ambiente: ${env}\n`);
 
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
-  var sequelizeAzure = new Sequelize(process.env[config.backup], configAzure);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+// conexão principal (MySQL localhost/AWS)
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
+
+// configurando conexão com MSSQL (Azure) em ambiente de produção
+if (env == 'production') {
   var sequelizeAzure = new Sequelize(configAzure.database, configAzure.username, configAzure.password, configAzure);
+} else {
+  // passando conexão vazia caso ambiente dev
+  var sequelizeAzure = {
+    query: function() {
+      return Promise.resolve();
+    },
+    QueryTypes: sequelize.QueryTypes
+  }
 }
 
 fs

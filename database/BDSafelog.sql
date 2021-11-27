@@ -5106,8 +5106,8 @@ VALUES
 
 -- inserindo maquinas 
 INSERT INTO maquina(id_maquina, nome, senha, fk_empresa) VALUES 
-('02:42:ac:12:00:04', 'ec2', MD5('ExSenha1'), '203783731'),
-('00:15:5d:30:7f:82', 'desktop2', MD5('ExSenha1'), '203783731');
+('00:15:5d:30:7f:82', 'desktop2', MD5('ExSenha1'), '203783731'),
+('02:42:ac:12:00:04', 'ec2', MD5('ExSenha1'), '203783731');
 
 INSERT INTO usuario_maquina(responsavel, fk_usuario, fk_maquina) VALUES 
 ('s', 6, 8),

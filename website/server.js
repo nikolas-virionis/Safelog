@@ -1,7 +1,11 @@
 // ambiente (dev/prod)
-process.env.NODE_ENV = "dev";
+process.env.NODE_ENV = process.argv[2] || "production";
 process.env.EC2_DNS = "safelog.sytes.net";
 // usar no-ip com dns publico da instancia => web redirect
+
+// testing params
+console.log(process.argv);
+console.log(process.argv[2]);
 
 // dependências
 let fs = require("fs");

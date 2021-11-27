@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node ./bin/www production",
+    "dev": "nodemon ./bin/www dev"
   },
   "author": "",
   "license": "ISC",

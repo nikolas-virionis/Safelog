@@ -6,6 +6,7 @@ const {getTrendDeg, getTrendBehavior} = require("../util/analytics/trendLine");
 const {getMedicoesTrend} = require("../util/analytics/dados");
 const {relatorio} = require("../util/analytics/relatorio");
 const {mandarEmail} = require("../util/email/email");
+const {LinearModelOverTime} = require("linear-regression-model");
 
 router.post("/trend", async (req, res) => {
     let {idCategoriaMedicao, type, qtd} = req.body;
@@ -18,7 +19,7 @@ router.post("/trend", async (req, res) => {
 
     await getMedicoesTrend(req.body)
         .then(medicoes => {
-            let deg = getTrendDeg(medicoes);
+            let deg = new LinearModelOverTime(medicoes).getAngleInDegrees();
 
             let {orientacao, comportamento} = getTrendBehavior(deg);
 

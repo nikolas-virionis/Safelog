@@ -2,8 +2,12 @@
 let express = require("express");
 let router = express.Router();
 const {sequelize, sequelizeAzure} = require("../models");
-const {getTrendDeg, getTrendBehavior} = require("../util/analytics/trendLine");
-const {getMedicoesTrend} = require("../util/analytics/dados");
+const {getTrendBehavior} = require("../util/analytics/trendLine");
+const {
+    getMedicoesTrend,
+    corrData,
+    getRelevantCorr
+} = require("../util/analytics/dados");
 const {relatorio} = require("../util/analytics/relatorio");
 const {mandarEmail} = require("../util/email/email");
 const {LinearModelOverTime} = require("linear-regression-model");
@@ -63,6 +67,31 @@ router.post("/email-relatorio", async (req, res) => {
         .catch(err => {
             console.error("\n\n", err);
         });
+});
+
+router.post("/correlacao", async (req, res) => {
+    let {maquina} = req.body;
+    if (!req.body) {
+        return res.json({
+            status: "erro",
+            msg: "Body não fornecido na requisição"
+        });
+    }
+    let sqlMetricas = `SELECT tipo_medicao.tipo, id_categoria_medicao FROM categoria_medicao JOIN tipo_medicao ON id_tipo_medicao = fk_tipo_medicao AND fk_maquina = ${maquina}`;
+    await sequelize
+        .query(sqlMetricas, {type: sequelize.QueryTypes.SELECT})
+        .catch(async err =>
+            Promise.resolve(
+                await sequelizeAzure.query(sqlMetricas, {
+                    type: sequelizeAzure.QueryTypes.SELECT
+                })
+            )
+        )
+        .then(async metricas => {
+            let metricasCorr = await corrData(metricas);
+            res.json(await getRelevantCorr(metricasCorr));
+        })
+        .catch(err => res.json({status: "erro", msg: err}));
 });
 
 module.exports = router;

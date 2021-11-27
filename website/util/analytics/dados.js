@@ -1,4 +1,5 @@
 let {sequelize, sequelizeAzure} = require("../../models");
+const {LinearModel} = require("linear-regression-model");
 
 const getMedicoesTrend = async ({
     idCategoriaMedicao,
@@ -228,4 +229,72 @@ const getStatsMedicao = async ({
         });
 };
 
-module.exports = {getMedicoesTrend, getStatsChamado, getStatsMedicao};
+const corrData = async metricas => {
+    let metricasCorr = [];
+    for (let index in metricas) {
+        for (let i = index; i < metricas.length; i++) {
+            if (
+                ((metricas[index].tipo.slice(0, 3) == "cpu" ||
+                    metricas[i].tipo.slice(0, 3) == "cpu") &&
+                    metricas[index] &&
+                    metricas[i] &&
+                    metricas[index].tipo.slice(-5) !=
+                        metricas[i].tipo.slice(-5)) ||
+                (metricas[index].tipo.slice(0, 3) !=
+                    metricas[i].tipo.slice(0, 3) &&
+                    metricas[index].tipo.slice(-5) !=
+                        metricas[i].tipo.slice(-5) &&
+                    metricas[index] &&
+                    metricas[i])
+            ) {
+                metricasCorr.push({
+                    x: metricas[index],
+                    y: metricas[i]
+                });
+            }
+        }
+    }
+    metricasCorr = await Promise.all(
+        metricasCorr.map(async el => {
+            let corr = new LinearModel(
+                await getMedicoesTrend({
+                    idCategoriaMedicao: el.x.id_categoria_medicao
+                }),
+                await getMedicoesTrend({
+                    idCategoriaMedicao: el.y.id_categoria_medicao
+                })
+            );
+            corr = corr.getCorrelation();
+            return {...el, corr};
+        })
+    );
+    return metricasCorr;
+};
+
+const getRelevantCorr = async corrData => {
+    let corrs = [{corr: 0}];
+    if (corrData.length > 2) {
+        corrs.push(corrs[0]);
+        corrs.push(corrs[0]);
+    }
+
+    outerFor: for (let correlation of corrData) {
+        for (let corrIndex in corrs) {
+            if (Math.abs(correlation.corr) > Math.abs(corrs[corrIndex].corr)) {
+                for (let index = corrs.length - 1; index > corrIndex; index--) {
+                    corrs[index] = {...corrs[index - 1]};
+                }
+                corrs[corrIndex] = {...correlation};
+                continue outerFor;
+            }
+        }
+    }
+    return corrs;
+};
+module.exports = {
+    getMedicoesTrend,
+    getStatsChamado,
+    getStatsMedicao,
+    corrData,
+    getRelevantCorr
+};

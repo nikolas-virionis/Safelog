@@ -4590,3 +4590,14 @@ INSERT INTO categoria_medicao(medicao_limite, fk_maquina, fk_tipo_medicao) VALUE
 (0.20, 9, 5),
 (70.00, 9, 6),
 (5.00, 9, 7);
+
+-- bandrão e marise
+INSERT INTO usuario(nome, email, senha, cargo, fk_empresa, fk_supervisor) VALUES 
+('Fernando Brandão', 'fernando.brandao@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'gestor', '203783731', 1), 
+('Marise Miranda', 'marise.miranda@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'analista', '203783731', 12);
+
+INSERT INTO
+    usuario_maquina(responsavel, fk_usuario, fk_maquina)
+VALUES
+    ('s', 13, 7),
+    ('s', 13, 8);

@@ -1,3 +1,18 @@
+DROP TABLE [solucao];
+DROP TABLE [chamado];
+DROP TABLE [medicao];
+DROP TABLE [categoria_medicao];
+DROP TABLE [tipo_medicao];
+DROP TABLE [dados_maquina];
+DROP TABLE [usuario_maquina];
+DROP TABLE [maquina];
+DROP TABLE [contato];
+DROP TABLE [forma_contato];
+DROP TABLE [usuario_notificacao];
+DROP TABLE [notificacao];
+DROP TABLE [usuario];
+DROP TABLE [empresa];
+DROP TABLE [staff];
 CREATE TABLE staff (
     id_staff INT PRIMARY KEY IDENTITY(1, 1),
     nome VARCHAR(60) NOT NULL,

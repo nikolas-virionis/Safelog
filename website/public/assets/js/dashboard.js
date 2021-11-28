@@ -18,10 +18,7 @@ let colors = [
 ];
 colors = colors.sort(() => Math.random() - 0.5);
 const chartData = {
-    labels: [
-        1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2,
-        3, 4, 3, 6, 3, 6, 4, 2, 1
-    ],
+    labels: [],
     datasets: []
 };
 
@@ -92,7 +89,7 @@ const gerarCardMaquina = maq => {
     labelMaq.addEventListener("click", async e => {
         maquinaInfo = maq
         maq1 = maq.id_maquina;
-        console.log(maquinaInfo);
+        // console.log(maquinaInfo);
         sessionStorage.setItem("maquina", labelMaq.maq);
         if (window.interval) {
             clearInterval(window.interval);
@@ -143,10 +140,7 @@ const gerarCardMaquina = maq => {
             }`;
             chartData.datasets.push({
                 label: metrica,
-                data: [
-                    1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4,
-                    2, 1, 1, 2, 3, 4, 3, 6, 3, 6, 4, 2, 1
-                ],
+                data: [],
                 fill: false,
                 backgroundColor: colors[iterator],
                 borderColor: colors[iterator],
@@ -161,10 +155,12 @@ const gerarCardMaquina = maq => {
     });
 
     inputMaq.addEventListener("change", e => {
-        listaMetricasRelatorio();
-        mostrarInfoMedicoes();
-        mostrarInfoTrendline();
-        mostrarInfoChamado();
+        if(cargo == "gestor"){
+            listaMetricasRelatorio();
+            mostrarInfoMedicoes();
+            mostrarInfoTrendline();
+            mostrarInfoChamado();
+        }
         document.querySelector("#graficosDash").innerHTML = "";
         // apagarGraficos();
     });
@@ -193,6 +189,8 @@ const changeMachine = types => {
 };
 
 const reqData = types => {
+    // console.log("types: ")
+    // console.log(types)
     axios
         .post("/medicao/dados", {
             categorias: types,
@@ -317,6 +315,7 @@ const reqDataSec = (types, chart) => {
                 // for (let dados of msg) {
                 updateChart(chart, msg[0].medicoes);
                 // console.log(msg[0].medicoes[0]);
+                // console.log(msg)
                 if(msg[0].medicoes[0].tipo == "risco"){
                     document.querySelector(`[for="${maq1}"]`).classList = "card-maquina warning";
                 }else if(msg[0].medicoes[0].tipo == "critico"){
@@ -367,184 +366,6 @@ const getTipo = tipo => {
 
 if(cargo == "gestor"){
     relatorio.classList.remove("display-none")
-}
-const dataMetricas = {
-    labels: [
-        'Críticas',
-        'Risco',
-        'Normal'
-    ],
-    datasets: [{
-        label: 'My First Dataset',
-        data: [1,0,0],
-        backgroundColor: [
-            '#ff0000',
-            '#ff8000',
-            '#0071ce'
-        ],
-        hoverOffset: 4
-    }]
-};
-
-const configMetricas = {
-    type: 'doughnut',
-    data: dataMetricas,
-};
-
-const graficoMetricas = new Chart(
-    document.getElementById('chartDoughnut'),
-    configMetricas
-);
-
-metricas.addEventListener("change", () => {
-    mostrarInfoMedicoes()
-    mostrarInfoTrendline()
-    mostrarInfoChamado()
-});
-
-tempo.addEventListener("change", () => {
-    if(tempo.value != "all"){
-        qtdTempo.removeAttribute("disabled")
-    }else{
-        qtdTempo.setAttribute("disabled","disabled")
-    }
-    mostrarInfoMedicoes()
-    mostrarInfoTrendline()
-    mostrarInfoChamado()
-});
-
-qtdTempo.addEventListener("change", () => {
-    mostrarInfoMedicoes()
-    mostrarInfoTrendline()
-    mostrarInfoChamado()
-});
-
-const listaMetricasRelatorio = () => {
-    metricas.innerHTML = "";
-    axios.post("/maquina/lista-componentes", {
-        id: Number(maquinaInfo.pk_maquina)
-    }).then(({data: {status, msg}}) => {
-        if (status === "ok") {
-            option = document.createElement("option");
-            option.innerText = "Todas";
-            option.value = "0";
-            metricas.appendChild(option);
-            msg.forEach(({id_categoria_medicao, tipo}) => {
-                option = document.createElement("option");
-                option.value = id_categoria_medicao;
-                option.setAttribute("id",`medicao${id_categoria_medicao}`)
-                option.innerText = getTipo(tipo);
-                metricas.appendChild(option);
-            });
-        }
-    });
-}
 
 
-const mostrarInfoMedicoes = () => {
-    let objInfoMedicoes = {}
-    if(metricas.value == 0){
-        objInfoMedicoes = {maquina: maquinaInfo.pk_maquina}
-    }else{
-        objInfoMedicoes = {idCategoriaMedicao: metricas.value}        
-    }
-
-    if(tempo.value != "all"){
-        objInfoMedicoes.type = tempo.value
-        objInfoMedicoes.qtd = qtdTempo.value
-    }
-    console.log(objInfoMedicoes)
-        axios.post("/medicao/stats", objInfoMedicoes).then(({data: {status, msg}}) => {
-            if(status == "ok"){
-                document.querySelector("#medicoesTotais").innerHTML = msg.medicoesTotais
-                document.querySelector("#medicaoCritica").innerHTML = msg.medicoesCriticas
-                document.querySelector("#medicaoRisco").innerHTML = msg.medicoesDeRisco
-                document.querySelector("#medicaoNormal").innerHTML = msg.medicoesNormais
-
-                let percCrit = (msg.medicoesCriticas*100/msg.medicoesTotais).toFixed(2);
-                let percRisc = (msg.medicoesDeRisco*100/msg.medicoesTotais).toFixed(2);
-                let percNorm = (msg.medicoesNormais*100/msg.medicoesTotais).toFixed(2);
-
-                graficoMetricas.data.datasets[0].data = [percCrit, percRisc, percNorm]
-                graficoMetricas.update()
-            }else{
-                console.log(status)
-            }
-        })
-    
-
-}
-
-
-
-
-const mostrarInfoTrendline = () => {
-    document.querySelector("#tableTrendline").innerHTML = "";
-    if(metricas.value > 0){
-        axios.post("/analytics/trend", {
-            idCategoriaMedicao: metricas.value
-        }).then(({data: {msg, status}}) => {
-            console.log(status)
-            console.log(msg)
-            let tr = document.createElement("tr");
-            let tdMetrica = document.createElement("td");
-            let tdTendencia = document.createElement("td");
-            tr.appendChild(tdMetrica);
-            tr.appendChild(tdTendencia);
-
-            tdMetrica.innerHTML = document.getElementById(`medicao${metricas.value}`).innerHTML;
-            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`
-            document.querySelector("#tableTrendline").appendChild(tr);
-        });
-    }else{
-        axios.post("/maquina/lista-componentes", {
-            id: Number(maquinaInfo.pk_maquina)
-        }).then(({data: {status, msg}}) => {
-                if (status == "ok") {
-                    
-                    msg.forEach(({id_categoria_medicao}) => {
-                        let tr = document.createElement("tr");
-                        let tdMetrica = document.createElement("td");
-                        let tdTendencia = document.createElement("td");
-                        tr.appendChild(tdMetrica);
-                        tr.appendChild(tdTendencia);
-            
-                        tdMetrica.innerHTML = document.getElementById(`medicao${id_categoria_medicao}`).innerHTML;
-                        
-
-                        axios.post("/analytics/trend", {
-                            idCategoriaMedicao: id_categoria_medicao
-                        }).then(({data: {msg, status}}) => {
-                            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`
-                        });
-
-
-                        document.querySelector("#tableTrendline").appendChild(tr);
-                    });
-                }
-            });
-    }
-}
-
-
-const mostrarInfoChamado = () => {
-    let objInfoChamados = {maquina: maquinaInfo.pk_maquina}
-    if(tempo.value != "all"){
-        objInfoChamados.type = tempo.value
-        objInfoChamados.qtd = qtdTempo.value
-    }
-    axios.post("/chamado/stats", objInfoChamados).then(({data: {status, msg}}) => {
-        if(status == "ok"){
-            document.querySelector("#totalChamados").innerHTML = msg.chamadosTotais
-            document.querySelector("#chamadosAbertos").innerHTML = msg.chamadosAbertos
-            document.querySelector("#chamadosFechados").innerHTML = msg.chamadosFechados
-            
-            document.querySelector("#totalSolucoes").innerHTML = msg.solucoesTotais
-            document.querySelector("#eficaciaTotal").innerHTML = msg.solucoesEficazes
-            document.querySelector("#eficaciaParcial").innerHTML = msg.solucoesParciais
-
-        }else{
-            console.log(status)
-        }
-    })
 }

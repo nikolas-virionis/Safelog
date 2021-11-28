@@ -96,7 +96,7 @@ public class Alert {
         content.put("automatico", novoChamado.getAutomatico());
         content.put("eficaciaSolucoes", "parcial");
         HttpRequest request = HttpRequest
-                .newBuilder(URI.create("http://ec2-54-173-117-225.compute-1.amazonaws.com:3000/chamado/criar"))
+                .newBuilder(URI.create("http://ec2-18-234-217-143.compute-1.amazonaws.com:3000/chamado/criar"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 
@@ -129,7 +129,7 @@ public class Alert {
         content.put("metrica", tipoMedicao.getTipo());
         content.put("estado", medicao.getTipo());
         HttpRequest request = HttpRequest
-                .newBuilder(URI.create("http://ec2-54-173-117-225.compute-1.amazonaws.com:3000/medicao/alerta"))
+                .newBuilder(URI.create("http://ec2-18-234-217-143.compute-1.amazonaws.com:3000/medicao/alerta"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(content.toString())).build();
 

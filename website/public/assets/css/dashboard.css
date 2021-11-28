@@ -933,3 +933,15 @@ display: flex;
   margin: 0 0 0 10px;
 }
 
+.btn-info{
+  display: inline-flex;
+  margin: 0 0 0 10px;
+  text-align: center;
+  cursor: pointer;
+  font-size: .75rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  color: var(--cor-principal);
+  border: 2px solid var(--cor-principal);
+}

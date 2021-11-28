@@ -10,7 +10,7 @@ public class ConfigDB {
     private static BasicDataSource getBasicDataSourceAWS() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl(String.format("jdbc:mysql://safelogdb.sytes.net:3306/%s", SensitiveData.DB_NAME));
+        basicDataSource.setUrl(String.format("jdbc:mysql://localhost:3306/%s", SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;

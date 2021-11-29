@@ -300,6 +300,19 @@ const mostrarInfoTrendline = () => {
                             })
                             .then(({data: {msg, status}}) => {
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
+                                tr.onclick = () => {
+                                    let angular = msg.coefficients.angular
+                                    let linear = msg.coefficients.linear
+                                    
+                                    let data = []
+
+                                    for (let i of [...Array(10).keys()]) {
+                                        data.push(linear + angular * i)
+                                    }
+
+                                    chartTrendline.config._config.data.datasets[0].data = data 
+                                    chartTrendline.update()
+                                }
                             });
 
                         document
@@ -383,3 +396,27 @@ const configCor = {
 const ctxCor = document.getElementById('idChartCorrelacao');
 
 const chartCor = new Chart(ctxCor, configCor)
+
+// chart trendline
+
+const labelTrendline = [...Array(10).keys()];
+
+const dataTrendline = {
+    labels: labelTrendline,
+    datasets: [{
+        label: 'My First Dataset',
+        data: [2, 3, 1, 5, 4],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+};
+
+const configTrendline = {
+    type: 'line',
+    data: dataTrendline,
+};
+
+const ctxTrendline = document.getElementById('idChartTrendline');
+
+const chartTrendline = new Chart(ctxTrendline, configTrendline)

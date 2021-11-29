@@ -20,7 +20,9 @@
     <section class="home-section">
         <div class="container-site">
             <br>
-            <h1>Relatório:</h1>
+            
+
+
             <form class="selecao-botoes">
                 <div class="combo-relatorio">
                     <div class="col-md-6 com-sm-12 form-item">
@@ -49,6 +51,44 @@
                 </button>
             </form>
 
+            <h2 class="alinhar">
+                Correlação:
+                <span class="btn-info alinhar centralizar tooltip">
+                    <i class="fas fa-info"></i>
+                    <span class="tooltiptext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais
+                        próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
+                </span>
+            </h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-sm-12">
+                    <div class="tabela-listrada">
+                        <table>
+                            <thead>
+                                <th class="alinhar">R²
+                                    <span class="btn-info alinhar centralizar tooltip">
+                                        <i class="fas fa-info"></i>
+                                        <span class="tooltiptext">É o coeficiente de determinação,
+                                            o que consegue, basicamente, avaliar a precisão do modelo linear calculado
+                                            em relação aos dados capturados
+                                        </span>
+                                    </span>
+                                </th>
+                                <th colspan="2">Métricas</th>
+                                <th>Coeficiente</th>
+
+                            </thead>
+                            <tbody id="tableCorrelacao">
+                                </tr>
+                                </tr>
+                                </tr>
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <h2>Medições:</h2>
             <div class="row justify-content-center">

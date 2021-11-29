@@ -91,8 +91,9 @@ router.post("/correlacao", async (req, res) => {
         )
         .then(async metricas => {
             let metricasCorr = await corrData(metricas);
-            res.json(await getRelevantCorr(metricasCorr));
-        });
+            res.json({status: "ok", msg: await getRelevantCorr(metricasCorr)});
+        })
+        .catch(err => res.json({status: "error", msg: err}));
 });
 
 module.exports = router;

@@ -56,7 +56,7 @@ const getTipo = tipo => {
 };
 
 maquinas.addEventListener("change", () => {
-    mostrarCorrelacao()
+    mostrarCorrelacao();
     attMetricas();
     mostrarInfoMedicoes();
     mostrarInfoChamado();
@@ -113,16 +113,13 @@ const mostrarCorrelacao = () => {
                     let tdMetrica1 = document.createElement("td");
                     let tdMetrica2 = document.createElement("td");
                     let tdCorrelacao = document.createElement("td");
-                    let tdR2 = document.createElement("td");
-                    tr.appendChild(tdR2);
                     tr.appendChild(tdMetrica1);
                     tr.appendChild(tdMetrica2);
                     tr.appendChild(tdCorrelacao);
 
                     tdMetrica1.innerHTML = getTipo(corr.x.tipo);
                     tdMetrica2.innerHTML = getTipo(corr.y.tipo);
-                    tdCorrelacao.innerHTML = corr.corr.toFixed(4);
-                    tdR2.innerHTML = corr.r2.toFixed(4);
+                    tdCorrelacao.innerHTML = `${corr.corrStr} \n${corr.corrSentido}`;
 
                     document.querySelector("#tableCorrelacao").appendChild(tr);
                 });
@@ -131,7 +128,6 @@ const mostrarCorrelacao = () => {
             }
         });
 };
-
 
 const mostrarInfoMedicoes = () => {
     if (metricas.value == 0) {

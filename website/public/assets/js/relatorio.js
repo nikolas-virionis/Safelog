@@ -122,6 +122,22 @@ const mostrarCorrelacao = () => {
                     tdCorrelacao.innerHTML = `${corr.corrStr} \n${corr.corrSentido}`;
 
                     document.querySelector("#tableCorrelacao").appendChild(tr);
+
+                    // atualizando gráfico de correlação
+                    let linear = corr.coefficients.linear
+                    let angular = corr.coefficients.angular
+
+                    tr.onclick = () => {
+                        let data = []
+                        
+                        for(let i of [...Array(10).keys()]) {   
+                            data.push( linear + angular * i)
+                        }
+                        
+                        chartCor.config._config.data.datasets[0].data = data 
+                        chartCor.update()
+                        
+                    }
                 });
             } else {
                 console.error(msg);
@@ -343,3 +359,27 @@ const getMaquinas = elMaquinas => {
             );
         });
 };
+
+// chart correlação
+
+const labelsCor = [...Array(10).keys()];
+
+const dataCor = {
+    labels: labelsCor,
+    datasets: [{
+        label: 'My First Dataset',
+        data: [],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+};
+
+const configCor = {
+    type: 'line',
+    data: dataCor,
+};
+
+const ctxCor = document.getElementById('idChartCorrelacao');
+
+const chartCor = new Chart(ctxCor, configCor)

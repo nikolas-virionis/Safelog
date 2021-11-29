@@ -265,7 +265,8 @@ const corrData = async metricas => {
                 })
             );
             corr = corr.getCorrelation();
-            return {...el, corr};
+            r2 = corr.getR2();
+            return {...el, corr, r2};
         })
     );
     return metricasCorr;

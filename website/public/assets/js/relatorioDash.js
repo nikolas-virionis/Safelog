@@ -1,12 +1,8 @@
 const dataMetricas = {
-    labels: [
-        'Críticas',
-        'Risco',
-        'Normal'
-    ],
+    labels: ['Críticas','Risco','Normal'],
     datasets: [{
-        label: 'My First Dataset',
-        data: [1,0,0],
+        label: 'Métricas',
+        data: [],
         backgroundColor: [
             '#ff0000',
             '#ff8000',
@@ -67,6 +63,30 @@ const listaMetricasRelatorio = () => {
                 metricas.appendChild(option);
             });
         }
+    });
+}
+
+const mostrarCorrelacao = () => {
+    console.log("entrei")
+    document.querySelector("#tableCorrelacao").innerHTML = "";
+    axios.post("/analytics/correlacao", {
+        maquina: Number(maquinaInfo.pk_maquina)
+    }).then(({data}) => {
+        // console.log(status)
+        data.forEach((corr) => {
+            let tr = document.createElement("tr");
+            let tdMetrica1 = document.createElement("td");
+            let tdMetrica2 = document.createElement("td");
+            let tdCorrelacao = document.createElement("td");
+            tr.appendChild(tdMetrica1);
+            tr.appendChild(tdMetrica2);
+            tr.appendChild(tdCorrelacao);
+    
+            tdMetrica1.innerHTML = getTipo(corr.x.tipo);
+            tdMetrica2.innerHTML = getTipo(corr.y.tipo);
+            tdCorrelacao.innerHTML = corr.corr.toFixed(4);
+            document.querySelector("#tableCorrelacao").appendChild(tr);
+        });
     });
 }
 
@@ -145,7 +165,7 @@ const mostrarInfoTrendline = () => {
                         axios.post("/analytics/trend", {
                             idCategoriaMedicao: id_categoria_medicao
                         }).then(({data: {msg, status}}) => {
-                            console.log(msg)
+                            // console.log(msg)
                             tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`
                         });
 
@@ -179,3 +199,4 @@ const mostrarInfoChamado = () => {
         }
     })
 }
+

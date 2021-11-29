@@ -937,11 +937,37 @@ display: flex;
   display: inline-flex;
   margin: 0 0 0 10px;
   text-align: center;
-  cursor: pointer;
+  /* cursor: pointer; */
   font-size: .75rem;
   width: 20px;
   height: 20px;
   border-radius: 100%;
   color: var(--cor-principal);
   border: 2px solid var(--cor-principal);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  /* border-bottom: 1px dotted black; */
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  min-width: 220px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  text-align: justify;
+  border-radius: 6px;
+  padding: 5px 5px;
+  font-weight: 200;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  animation: animate-div .2s;
+  visibility: visible;
 }

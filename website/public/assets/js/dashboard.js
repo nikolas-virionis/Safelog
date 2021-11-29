@@ -157,6 +157,8 @@ const gerarCardMaquina = maq => {
     inputMaq.addEventListener("change", e => {
         if(cargo == "gestor"){
             listaMetricasRelatorio();
+            console.log("inp maq change")
+            mostrarCorrelacao();
             mostrarInfoMedicoes();
             mostrarInfoTrendline();
             mostrarInfoChamado();

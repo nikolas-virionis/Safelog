@@ -43,20 +43,23 @@
             <h1>Relatório:</h1>
             
             
-            <h2 class="alinhar">Correlação: <span class="btn-info alinhar centralizar"><i class="fas fa-info"></i></span></h2>
+            <h2 class="alinhar">
+                Correlação: 
+                <span class="btn-info alinhar centralizar tooltip">
+                    <i class="fas fa-info"></i>
+                    <span class="tooltiptext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
+                </span>
+            </h2>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-sm-12">
                     <div class="tabela-listrada">
                         <table>
                             <thead>
                                 <th colspan="2">Métricas</th>
-                                <th>Tendência</th>
+                                <th>Coeficiente</th>
                             </thead>
-                            <tbody id="">
+                            <tbody id="tableCorrelacao">
                                 </tr>
-                                    <td>Máquina</td>
-                                    <td>Tendência</td>
-                                    <td>Tendência</td>
                                 </tr>
                             
                             </tbody>

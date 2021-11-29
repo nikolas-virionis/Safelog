@@ -67,7 +67,6 @@ const listaMetricasRelatorio = () => {
 };
 
 const mostrarCorrelacao = () => {
-    console.log("entrei");
     document.querySelector("#tableCorrelacao").innerHTML = "";
     axios
         .post("/analytics/correlacao", {
@@ -81,6 +80,8 @@ const mostrarCorrelacao = () => {
                     let tdMetrica1 = document.createElement("td");
                     let tdMetrica2 = document.createElement("td");
                     let tdCorrelacao = document.createElement("td");
+                    let tdR2 = document.createElement("td");
+                    tr.appendChild(tdR2);
                     tr.appendChild(tdMetrica1);
                     tr.appendChild(tdMetrica2);
                     tr.appendChild(tdCorrelacao);
@@ -88,6 +89,8 @@ const mostrarCorrelacao = () => {
                     tdMetrica1.innerHTML = getTipo(corr.x.tipo);
                     tdMetrica2.innerHTML = getTipo(corr.y.tipo);
                     tdCorrelacao.innerHTML = corr.corr.toFixed(4);
+                    tdR2.innerHTML = corr.r2.toFixed(4);
+
                     document.querySelector("#tableCorrelacao").appendChild(tr);
                 });
             } else {

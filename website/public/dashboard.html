@@ -41,13 +41,14 @@
         <div class="container-site display-none" id="relatorio">
             <br>
             <h1>Relatório:</h1>
-            
-            
+
+
             <h2 class="alinhar">
-                Correlação: 
+                Correlação:
                 <span class="btn-info alinhar centralizar tooltip">
                     <i class="fas fa-info"></i>
-                    <span class="tooltiptext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
+                    <span class="tooltiptext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais
+                        próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
                 </span>
             </h2>
             <div class="row justify-content-center">
@@ -55,16 +56,25 @@
                     <div class="tabela-listrada">
                         <table>
                             <thead>
+                                <th>R²<span class="btn-info alinhar centralizar tooltip">
+                                        <i class="fas fa-info"></i>
+                                        <span class="tooltiptext">É o coeficiente de determinação,
+                                            o que consegue, basicamente, avaliar a precisão do modelo linear calculado
+                                            em relação aos dados capturados
+                                        </span>
+                                    </span></th>
                                 <th colspan="2">Métricas</th>
                                 <th>Coeficiente</th>
+
                             </thead>
                             <tbody id="tableCorrelacao">
                                 </tr>
                                 </tr>
-                            
+                                </tr>
+
                             </tbody>
-                        
-                            
+
+
                         </table>
                     </div>
                 </div>
@@ -72,7 +82,7 @@
 
             <br><br>
             <div class="row">
-                    <!-- <div class="col-md-6 com-sm-12 form-item">
+                <!-- <div class="col-md-6 com-sm-12 form-item">
                         <label>Máquina:</label>
                         <select name="" id="maquinas">
                         </select>
@@ -116,12 +126,12 @@
                     <div class="card-dados risco alinhar centralizar">
                         <span class="font-weight-bold">Risco: </span>
                         <span class="card-medicoes-sec " id="medicaoRisco"></span>
-    
+
                     </div>
                     <div class="card-dados normal alinhar centralizar">
                         <span class="font-weight-bold">Normal: </span>
                         <span class="card-medicoes-sec " id="medicaoNormal"></span>
-    
+
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-12">
@@ -135,7 +145,8 @@
                 Comportamento dos dados:
                 <span class="btn-info alinhar centralizar tooltip">
                     <i class="fas fa-info"></i>
-                    <span class="tooltiptext">A tendências do estado de cada métrica de acordo com as medições anteriores</span>
+                    <span class="tooltiptext">A tendências do estado de cada métrica de acordo com as medições
+                        anteriores</span>
                 </span>
             </h2>
             <div class="row justify-content-center">
@@ -148,13 +159,13 @@
                             </thead>
                             <tbody id="tableTrendline">
                                 </tr>
-                                    <td>Máquina</td>
-                                    <td>Tendência</td>
+                                <td>Máquina</td>
+                                <td>Tendência</td>
                                 </tr>
-                            
+
                             </tbody>
-                        
-                            
+
+
                         </table>
                     </div>
                 </div>
@@ -181,7 +192,7 @@
                             </div>
                             <div class="card-dados fechado alinhar centralizar">
                                 <span class="font-weight-bold">Fechados: </span>
-                                <span class="card-medicoes-sec " id="chamadosFechados"></span>    
+                                <span class="card-medicoes-sec " id="chamadosFechados"></span>
                             </div>
                         </div>
                     </div>
@@ -204,14 +215,14 @@
                             </div>
                             <div class="card-dados parcial alinhar centralizar">
                                 <span class="font-weight-bold">Eficácia parcial: </span>
-                                <span class="card-medicoes-sec " id="eficaciaParcial"></span>    
+                                <span class="card-medicoes-sec " id="eficaciaParcial"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            
+
         </div>
 
         <!-- CPU graph -->
@@ -220,7 +231,7 @@
         <div class="charts">
             <div class="canvas-destaque">
                 <canvas id="idChart1"></canvas>
-            </div> 
+            </div>
             <div class="container-site">
                 <div class="row justify-content-center" id="graficosDash">
                     <!-- <div class="col-md-6 col-sm-12">
@@ -237,9 +248,9 @@
         </div>
 
 
-        
+
     </section>
-    
+
     <div id="alerta"></div>
     <!-- chartjs src -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -251,4 +262,5 @@
     <script src="./assets/js/script.js"></script>
 
 </body>
+
 </html>

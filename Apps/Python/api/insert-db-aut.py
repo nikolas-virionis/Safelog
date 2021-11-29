@@ -5,23 +5,13 @@ from connectdb import insert_db
 from getmac import get_mac_address as mac_addr
 import mysql.connector as sql
 from credentials import usr, pswd
-import pyodbc
 
-print("Adquirindo preferências de usuario")
-db_connection = ""
-try:
-    db_connection = sql.connect(host='172.31.25.218', database='safelog',
+db_connection = sql.connect(host='localhost', database='safelog',
                                 user=usr, password=pswd)
-except Exception:
-    server = 'tcp:srvsafelog.database.windows.net'
-    database = 'safelog'
-    username = usr
-    password = pswd
-    db_connection = pyodbc.connect('DRIVER={SQL Server};SERVER=' +
-                                   server+';DATABASE='+database+';UID='+username+';PWD=' + password)
 preferences = pd.read_sql(
     f"SELECT tipo_medicao.tipo, unidade FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')", con=db_connection)
 db_connection.close()
+print(preferences)
 try:
     while True:
         data_medicao = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())

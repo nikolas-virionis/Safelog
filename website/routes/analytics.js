@@ -6,7 +6,9 @@ const {getTrendBehavior} = require("../util/analytics/trendLine");
 const {
     getMedicoesTrend,
     corrData,
-    getRelevantCorr
+    getRelevantCorr,
+    getCorrSentido,
+    getCorrStr
 } = require("../util/analytics/dados");
 const {relatorio} = require("../util/analytics/relatorio");
 const {mandarEmail} = require("../util/email/email");
@@ -91,6 +93,13 @@ router.post("/correlacao", async (req, res) => {
         .then(async metricas => {
             let metricasCorr = await corrData(metricas);
             let correlacoes = await getRelevantCorr(metricasCorr);
+            correlacoes = correlacoes.map(correlacao => {
+                return {
+                    ...correlacao,
+                    corrStr: getCorrStr(correlacao.corr),
+                    corrSentido: getCorrSentido(correlacao.corr)
+                };
+            });
             res.json({status: "ok", msg: correlacoes});
         })
         .catch(err => res.json({status: "error", msg: err}));

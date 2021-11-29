@@ -291,10 +291,35 @@ const getRelevantCorr = async corrData => {
     }
     return corrs;
 };
+
+const getCorrSentido = corr => {
+    if (corr > 0) {
+        return "";
+    }
+    return "sentidos opostos";
+};
+const getCorrStr = corr => {
+    if (Math.abs(corr) > 0.9) {
+        return "altamente correlacionadas";
+    }
+    if (Math.abs(corr) > 0.7) {
+        return "fortemente correlacionadas";
+    }
+    if (Math.abs(corr) > 0.5) {
+        return "moderadamente correlacionadas";
+    }
+    if (Math.abs(corr) > 0.2) {
+        return "pouco correlacionadas";
+    }
+    return "quase independentes";
+};
+
 module.exports = {
     getMedicoesTrend,
     getStatsChamado,
     getStatsMedicao,
     corrData,
-    getRelevantCorr
+    getRelevantCorr,
+    getCorrSentido,
+    getCorrStr
 };

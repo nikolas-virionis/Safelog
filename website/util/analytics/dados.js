@@ -264,8 +264,12 @@ const corrData = async metricas => {
                     idCategoriaMedicao: el.y.id_categoria_medicao
                 })
             );
-            corr = correl.getCorrelation();
-            return {...el, corr};
+            let corr = correl.getCorrelation();
+            let coefficients = {
+                linear: correl.getLinearCoefficient(),
+                angular: correl.getSlope()
+            };
+            return {...el, corr, coefficients};
         })
     );
     return metricasCorr;

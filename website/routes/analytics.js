@@ -27,10 +27,17 @@ router.post("/trend", async (req, res) => {
         .then(medicoes => {
             let lm = new LinearModelOverTime(medicoes);
             let deg = lm.getAngleInDegrees();
+            let coefficients = {
+                linear: lm.getLinearCoefficient(),
+                angular: lm.getSlope()
+            };
 
             let {orientacao, comportamento} = getTrendBehavior(deg);
 
-            res.json({status: "ok", msg: {orientacao, comportamento}});
+            res.json({
+                status: "ok",
+                msg: {orientacao, comportamento, coefficients}
+            });
         })
         .catch(err => res.json({status: "alerta", err}));
 });

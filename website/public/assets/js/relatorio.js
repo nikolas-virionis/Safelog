@@ -405,7 +405,7 @@ const dataTrendline = {
     labels: labelTrendline,
     datasets: [{
         label: 'My First Dataset',
-        data: [2, 3, 1, 5, 4],
+        data: [],
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1

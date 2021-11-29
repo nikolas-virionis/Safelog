@@ -256,7 +256,7 @@ const corrData = async metricas => {
     }
     metricasCorr = await Promise.all(
         metricasCorr.map(async el => {
-            let corr = new LinearModel(
+            let correl = new LinearModel(
                 await getMedicoesTrend({
                     idCategoriaMedicao: el.x.id_categoria_medicao
                 }),
@@ -264,8 +264,9 @@ const corrData = async metricas => {
                     idCategoriaMedicao: el.y.id_categoria_medicao
                 })
             );
-            corr = corr.getCorrelation();
-            return {...el, corr};
+            corr = correl.getCorrelation();
+            r2 = correl.getR2();
+            return {...el, corr, r2};
         })
     );
     return metricasCorr;

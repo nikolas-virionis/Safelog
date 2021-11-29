@@ -23,11 +23,13 @@ router.post("/trend", async (req, res) => {
 
     await getMedicoesTrend(req.body)
         .then(medicoes => {
-            let deg = new LinearModelOverTime(medicoes).getAngleInDegrees();
+            let lm = new LinearModelOverTime(medicoes);
+            let deg = lm.getAngleInDegrees();
+            let r2 = lm.getR2();
 
             let {orientacao, comportamento} = getTrendBehavior(deg);
 
-            res.json({stauts: "ok", msg: {orientacao, comportamento}});
+            res.json({status: "ok", msg: {orientacao, comportamento, r2}});
         })
         .catch(err => res.json({status: "alerta", err}));
 });
@@ -90,8 +92,7 @@ router.post("/correlacao", async (req, res) => {
         .then(async metricas => {
             let metricasCorr = await corrData(metricas);
             res.json(await getRelevantCorr(metricasCorr));
-        })
-        .catch(err => res.json({status: "erro", msg: err}));
+        });
 });
 
 module.exports = router;

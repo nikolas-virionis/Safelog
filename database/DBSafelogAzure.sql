@@ -4599,5 +4599,5 @@ INSERT INTO usuario(nome, email, senha, cargo, fk_empresa, fk_supervisor) VALUES
 INSERT INTO
     usuario_maquina(responsavel, fk_usuario, fk_maquina)
 VALUES
-    ('s', 13, 7),
-    ('s', 13, 8);
+    ('n', 13, 7),
+    ('n', 13, 8);

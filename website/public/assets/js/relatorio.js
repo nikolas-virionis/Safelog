@@ -69,6 +69,14 @@ metricas.addEventListener("change", () => {
     mostrarInfoTrendline();
 });
 
+const rangeArray = (start, end) => {
+    let array = [];
+    for (let i of range(start, end)) {
+        array.push(i);
+    }
+    return array;
+};
+
 const attMetricas = () => {
     metricas.innerHTML = "";
     if (maquinas.value) {
@@ -136,12 +144,10 @@ const mostrarCorrelacao = () => {
                             data.push(linear + angular * i);
                         }
 
-                        chartCor.config._config.data.datasets[0].data =
-                            data.map(dado => Number(dado.toFixed(2)));
-                        chartCor.config._config.data.labels = rangeArray(
-                            index,
-                            index + 15
+                        chartCor.data.datasets[0].data = data.map(dado =>
+                            Number(dado.toFixed(3))
                         );
+                        chartCor.data.labels = rangeArray(index, index + 15);
                         chartCor.update();
                     };
                 });
@@ -317,13 +323,19 @@ const mostrarInfoTrendline = () => {
                                     for (let i of range(index, index + 15)) {
                                         data.push(linear + angular * i);
                                     }
-
-                                    chartTrendline.config._config.data.datasets[0].data =
+                                    let indexes = rangeArray(index, index + 15);
+                                    chartTrendline.data.datasets[0].data =
                                         data.map(dado =>
-                                            Number(dado.toFixed(2))
+                                            Number(dado.toFixed(3))
                                         );
-                                    chartTrendline.config._config.data.labels =
-                                        rangeArray(index, index + 15);
+                                    chartTrendline.data.labels =
+                                        Math.abs(indexes[0]) >
+                                        Math.abs(indexes[1])
+                                            ? indexes
+                                                  .reverse()
+                                                  .map(num => Math.abs(num))
+                                            : indexes;
+
                                     chartTrendline.update();
                                 };
                             });
@@ -388,10 +400,8 @@ const getMaquinas = elMaquinas => {
 
 // chart correlação
 
-const labelsCor = [...Array(10).keys()];
-
 const dataCor = {
-    labels: labelsCor,
+    labels: [],
     datasets: [
         {
             label: "My First Dataset",
@@ -414,10 +424,8 @@ const chartCor = new Chart(ctxCor, configCor);
 
 // chart trendline
 
-const labelTrendline = [...Array(10).keys()];
-
 const dataTrendline = {
-    labels: labelTrendline,
+    labels: [],
     datasets: [
         {
             label: "My First Dataset",
@@ -435,19 +443,9 @@ const configTrendline = {
 };
 
 const ctxTrendline = document.getElementById("idChartTrendline");
-
 const chartTrendline = new Chart(ctxTrendline, configTrendline);
-
 function* range(start, end) {
     for (let h = start; h <= end; h++) {
         yield h;
     }
 }
-
-const rangeArray = (start, end) => {
-    let array = [];
-    for (let i of range(start, end)) {
-        array.push(i);
-    }
-    return array;
-};

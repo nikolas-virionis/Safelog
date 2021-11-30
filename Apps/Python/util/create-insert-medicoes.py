@@ -2,10 +2,13 @@
 import mysql.connector as sql
 import pandas as pd
 from get_mac_addr import mac_addr
+import pathlib
 try:
     import pyperclip
 except Exception:
     print("Ta no linux aí amigão?!?!?\n")
+
+directory = pathlib.Path(__file__).parent.resolve()
 
 print("\nPara Windows ja esta copiado se tiver a biblioteca pyperclip instalada\nPara Lixux estará em um arquivo txt\n")
 db_connection = sql.connect(host='localhost', database='safelog',
@@ -26,12 +29,13 @@ for i, j in enumerate(valores):
     else:
         index = 0
         insert_sql += f"\nINSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES \n"
+        insert_sql += f" ({j}, '{tipos[i]}', '{datas[i]}', {fks[i]}), \n"
 
 try:
     pyperclip.copy(insert_sql[:-3] + ";")
     print("Copiado para clipboard, soh dar CTRL + V no .sql")
 except Exception:
     print("Ta no linux aí amigão?!?!?")
-    file = open("./Apps/Python/util/insert.txt", "w")
+    file = open(f"{directory}/insert.txt", "w")
     file.write(insert_sql)
     file.close()

@@ -1,11 +1,13 @@
 import mysql.connector as sql
 import pandas as pd
 import sys
+import pathlib
 import os
 
-db_connection = sql.connect(host='safelogdb.sytes.net', database='safelog', user='safelog_dev', password='Safe_Log371$')
+db_connection = sql.connect(host='safelogdb.sytes.net',
+                            database='safelog', user='safelog_dev', password='Safe_Log371$')
 
-directory = ("//".join(os.path.realpath(__file__).split("\\")[:-1]))
+directory = pathlib.Path(__file__).parent.resolve()
 
 
 def df_to_csv(tb, emp, name):

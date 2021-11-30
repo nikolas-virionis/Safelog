@@ -1,6 +1,14 @@
 import mysql.connector as sql
 import pandas as pd
+import pathlib
+try:
+    import pyperclip
+except Exception:
+    print("Ta no linux aí amigão?!?!?\n")
 
+directory = pathlib.Path(__file__).parent.resolve()
+
+print("\nPara Windows ja esta copiado se tiver a biblioteca pyperclip instalada\nPara Lixux estará em um arquivo txt\n")
 db_connection = sql.connect(host='localhost', database='safelog',
                             user='safelog_dev', password='Safe_Log371$')
 chamados = pd.read_sql(
@@ -19,4 +27,12 @@ for index, item in enumerate(solucoes["titulo"]):
     str += f'''('{item}', '{solucoes["descricao"][index]}', '{solucoes["data_solucao"][index]}', '{solucoes["eficacia"][index]}', {solucoes["fk_chamado"][index]}, {solucoes["fk_usuario"][index]}), \n'''
 str = str[:-3] + ";\n"
 
-print(str)
+try:
+    pyperclip.copy(str[:-3] + ";")
+    raise "erro"
+    print("Copiado para clipboard, soh dar CTRL + V no .sql")
+except Exception:
+    print("Ta no linux aí amigão?!?!?")
+    file = open(f"{directory}/insert-chamado.txt", "w")
+    file.write(str)
+    file.close()

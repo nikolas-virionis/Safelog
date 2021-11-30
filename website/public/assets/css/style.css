@@ -931,3 +931,8 @@ button.modal {
   right: 25px;
   top: 25px;
 }
+
+.chartContainer {
+    width: 30%;
+    height: 100px;
+}

@@ -122,6 +122,22 @@ const mostrarCorrelacao = () => {
                     tdCorrelacao.innerHTML = `${corr.corrStr} \n${corr.corrSentido}`;
 
                     document.querySelector("#tableCorrelacao").appendChild(tr);
+
+                    // atualizando gráfico de correlação
+                    let linear = corr.coefficients.linear
+                    let angular = corr.coefficients.angular
+
+                    tr.onclick = () => {
+                        let data = []
+                        
+                        for(let i of [...Array(10).keys()]) {   
+                            data.push( linear + angular * i)
+                        }
+                        
+                        chartCor.config._config.data.datasets[0].data = data 
+                        chartCor.update()
+                        
+                    }
                 });
             } else {
                 console.error(msg);
@@ -284,6 +300,19 @@ const mostrarInfoTrendline = () => {
                             })
                             .then(({data: {msg, status}}) => {
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
+                                tr.onclick = () => {
+                                    let angular = msg.coefficients.angular
+                                    let linear = msg.coefficients.linear
+                                    
+                                    let data = []
+
+                                    for (let i of [...Array(10).keys()]) {
+                                        data.push(linear + angular * i)
+                                    }
+
+                                    chartTrendline.config._config.data.datasets[0].data = data 
+                                    chartTrendline.update()
+                                }
                             });
 
                         document
@@ -343,3 +372,51 @@ const getMaquinas = elMaquinas => {
             );
         });
 };
+
+// chart correlação
+
+const labelsCor = [...Array(10).keys()];
+
+const dataCor = {
+    labels: labelsCor,
+    datasets: [{
+        label: 'My First Dataset',
+        data: [],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+};
+
+const configCor = {
+    type: 'line',
+    data: dataCor,
+};
+
+const ctxCor = document.getElementById('idChartCorrelacao');
+
+const chartCor = new Chart(ctxCor, configCor)
+
+// chart trendline
+
+const labelTrendline = [...Array(10).keys()];
+
+const dataTrendline = {
+    labels: labelTrendline,
+    datasets: [{
+        label: 'My First Dataset',
+        data: [],
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+    }]
+};
+
+const configTrendline = {
+    type: 'line',
+    data: dataTrendline,
+};
+
+const ctxTrendline = document.getElementById('idChartTrendline');
+
+const chartTrendline = new Chart(ctxTrendline, configTrendline)

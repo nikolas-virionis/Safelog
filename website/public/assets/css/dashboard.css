@@ -144,13 +144,14 @@ h6 {
 
 .tabela-listrada {
   padding: 30px 0;
-  overflow-x: auto;
+  /*overflow-x: auto;*/
 }
 
 .tabela-listrada table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
+  box-shadow: 2px 2px 3px #666;
 }
 
 .tabela-listrada th {
@@ -970,4 +971,12 @@ display: flex;
 .tooltip:hover .tooltiptext {
   animation: animate-div .2s;
   visibility: visible;
+}
+
+tbody#tableCorrelacao tr, tbody#tableTrendline tr {
+  cursor: pointer;
+}
+
+tbody#tableCorrelacao tr:hover, tbody#tableTrendline tr:hover {
+  background-color: #8c9aff;
 }

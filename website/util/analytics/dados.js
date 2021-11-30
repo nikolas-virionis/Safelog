@@ -269,7 +269,12 @@ const corrData = async metricas => {
                 linear: correl.getLinearCoefficient(),
                 angular: correl.getSlope()
             };
-            return {...el, corr, coefficients};
+            let median = LinearModel.getMedian(
+                await getMedicoesTrend({
+                    idCategoriaMedicao: el.y.id_categoria_medicao
+                })
+            );
+            return {...el, corr, coefficients, median};
         })
     );
     return metricasCorr;

@@ -124,20 +124,19 @@ const mostrarCorrelacao = () => {
                     document.querySelector("#tableCorrelacao").appendChild(tr);
 
                     // atualizando gráfico de correlação
-                    let linear = corr.coefficients.linear
-                    let angular = corr.coefficients.angular
+                    let linear = corr.coefficients.linear;
+                    let angular = corr.coefficients.angular;
 
                     tr.onclick = () => {
-                        let data = []
-                        
-                        for(let i of [...Array(10).keys()]) {   
-                            data.push( linear + angular * i)
+                        let data = [];
+                        let index = Math.floor((corr.median - linear) / angular);
+                        for (let i of range(index, index + 15)) {
+                            data.push(linear + angular * i);
                         }
-                        
-                        chartCor.config._config.data.datasets[0].data = data 
-                        chartCor.update()
-                        
-                    }
+
+                        chartCor.config._config.data.datasets[0].data = data;
+                        chartCor.update();
+                    };
                 });
             } else {
                 console.error(msg);
@@ -301,18 +300,21 @@ const mostrarInfoTrendline = () => {
                             .then(({data: {msg, status}}) => {
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
-                                    let angular = msg.coefficients.angular
-                                    let linear = msg.coefficients.linear
-                                    
-                                    let data = []
+                                    let angular = msg.coefficients.angular;
+                                    let linear = msg.coefficients.linear;
 
-                                    for (let i of [...Array(10).keys()]) {
-                                        data.push(linear + angular * i)
+                                    let data = [];
+                                    let index = Math.floor(
+                                        (msg.median - linear) / angular
+                                    );
+                                    for (let i of range(index, index + 15)) {
+                                        data.push(linear + angular * i);
                                     }
 
-                                    chartTrendline.config._config.data.datasets[0].data = data 
-                                    chartTrendline.update()
-                                }
+                                    chartTrendline.config._config.data.datasets[0].data =
+                                        data;
+                                    chartTrendline.update();
+                                };
                             });
 
                         document
@@ -379,23 +381,25 @@ const labelsCor = [...Array(10).keys()];
 
 const dataCor = {
     labels: labelsCor,
-    datasets: [{
-        label: 'My First Dataset',
-        data: [],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-    }]
+    datasets: [
+        {
+            label: "My First Dataset",
+            data: [],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1
+        }
+    ]
 };
 
 const configCor = {
-    type: 'line',
-    data: dataCor,
+    type: "line",
+    data: dataCor
 };
 
-const ctxCor = document.getElementById('idChartCorrelacao');
+const ctxCor = document.getElementById("idChartCorrelacao");
 
-const chartCor = new Chart(ctxCor, configCor)
+const chartCor = new Chart(ctxCor, configCor);
 
 // chart trendline
 
@@ -403,20 +407,28 @@ const labelTrendline = [...Array(10).keys()];
 
 const dataTrendline = {
     labels: labelTrendline,
-    datasets: [{
-        label: 'My First Dataset',
-        data: [],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-    }]
+    datasets: [
+        {
+            label: "My First Dataset",
+            data: [],
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            tension: 0.1
+        }
+    ]
 };
 
 const configTrendline = {
-    type: 'line',
-    data: dataTrendline,
+    type: "line",
+    data: dataTrendline
 };
 
-const ctxTrendline = document.getElementById('idChartTrendline');
+const ctxTrendline = document.getElementById("idChartTrendline");
 
-const chartTrendline = new Chart(ctxTrendline, configTrendline)
+const chartTrendline = new Chart(ctxTrendline, configTrendline);
+
+function* range(start, end) {
+    for (let h = start; h <= end; h++) {
+        yield h;
+    }
+}

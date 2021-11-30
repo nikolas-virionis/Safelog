@@ -34,9 +34,10 @@ router.post("/trend", async (req, res) => {
 
             let {orientacao, comportamento} = getTrendBehavior(deg);
 
+            let median = LinearModelOverTime.getMedian(medicoes);
             res.json({
                 status: "ok",
-                msg: {orientacao, comportamento, coefficients}
+                msg: {orientacao, comportamento, coefficients, median}
             });
         })
         .catch(err => res.json({status: "alerta", err}));
@@ -108,8 +109,7 @@ router.post("/correlacao", async (req, res) => {
                 };
             });
             res.json({status: "ok", msg: correlacoes});
-        })
-        .catch(err => res.json({status: "error", msg: err}));
+        });
 });
 
 module.exports = router;

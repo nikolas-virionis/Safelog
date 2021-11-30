@@ -129,12 +129,19 @@ const mostrarCorrelacao = () => {
 
                     tr.onclick = () => {
                         let data = [];
-                        let index = Math.floor((corr.median - linear) / angular);
+                        let index = Math.floor(
+                            (corr.median - linear) / angular
+                        );
                         for (let i of range(index, index + 15)) {
                             data.push(linear + angular * i);
                         }
 
-                        chartCor.config._config.data.datasets[0].data = data;
+                        chartCor.config._config.data.datasets[0].data =
+                            data.map(dado => Number(dado.toFixed(2)));
+                        chartCor.config._config.data.labels = rangeArray(
+                            index,
+                            index + 15
+                        );
                         chartCor.update();
                     };
                 });
@@ -312,7 +319,11 @@ const mostrarInfoTrendline = () => {
                                     }
 
                                     chartTrendline.config._config.data.datasets[0].data =
-                                        data;
+                                        data.map(dado =>
+                                            Number(dado.toFixed(2))
+                                        );
+                                    chartTrendline.config._config.data.labels =
+                                        rangeArray(index, index + 15);
                                     chartTrendline.update();
                                 };
                             });
@@ -432,3 +443,11 @@ function* range(start, end) {
         yield h;
     }
 }
+
+const rangeArray = (start, end) => {
+    let array = [];
+    for (let i of range(start, end)) {
+        array.push(i);
+    }
+    return array;
+};

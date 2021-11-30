@@ -5135,3 +5135,19 @@ INSERT INTO
 VALUES
     ('n', 13, 7),
     ('n', 13, 8);
+
+
+INSERT INTO chamado(titulo, descricao, data_abertura, status_chamado, prioridade, automatico, fk_categoria_medicao, fk_usuario) VALUES
+('cpu em estado critico', 'cpu em estado critico', '2021-11-29 23:38:52', 'fechado', 'emergencia', 'n', 22, 3),        
+('pouca ram disponivel', 'pouca ram disponivel', '2021-11-29 23:39:34', 'aberto', 'emergencia', 'n', 25, 3),
+('ram em estado emergencial ', 'ram em estado emergencial', '2021-11-29 23:40:13', 'aberto', 'emergencia', 'n', 46, 3),
+('pouca memoria em disco', 'pouca memoria em disco', 'servidor lento', '2021-11-29 23:40:51', 'fechado', 'alta', 'n', 28, 3),
+('cpu com alto uso', 'cpu em estado de emergencia', '2021-11-29 23:43:08', 'aberto', 'emergencia', 'n', 52, 3),        
+('pouca ram disponivel', 'pouca ram disponivel', '2021-11-29 23:48:27', 'aberto', 'alta', 'n', 54, 6),
+('pouco armazenamento em disco', 'pouco armazenamento em disco', '2021-11-29 23:57:14', 'fechado', 'media', 'n', 55, 6),
+('alta temperatura', 'temperatura alta da cpu', '2021-11-30 00:05:38', 'aberto', 'emergencia', 'n', 50, 6);
+
+INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES
+('novo HD instalado', 'novo HD instalado, retornou tudo ao funcionamento normal', '2021-11-29 23:41:26', 'total', 4, 3),
+('novo SSD', 'novo SSD instalado', '2021-11-30 00:06:08', 'total', 7, 6),
+('cpu mais potente', 'cpu mais potente instalada', '2021-11-30 00:14:23', 'total', 1, 6);

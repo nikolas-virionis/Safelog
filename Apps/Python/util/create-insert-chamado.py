@@ -28,7 +28,7 @@ for index, item in enumerate(solucoes["titulo"]):
 str = str[:-3] + ";\n"
 
 try:
-    pyperclip.copy(str[:-3] + ";")
+    pyperclip.copy(str)
     print("Copiado para clipboard, soh dar CTRL + V no .sql")
 except Exception:
     print("Ta no linux aí amigão?!?!?")

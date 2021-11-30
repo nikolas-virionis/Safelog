@@ -4522,133 +4522,30 @@ VALUES
     (74.82, 'normal', '2021-10-05 21:10:54', 6),
     (234.52, 'normal', '2021-10-05 21:10:54', 7);
 
+INSERT INTO chamado(titulo, descricao, data_abertura, status_chamado, prioridade, automatico, fk_categoria_medicao, fk_usuario) VALUES 
+('cpu em estado critico', 'cpu em estado critico', '2021-11-29 23:38:52', 'fechado', 'emergencia', 'n', 1, 3), 
+('pouca ram disponivel', 'pouca ram disponivel', '2021-11-29 23:39:34', 'fechado', 'emergencia', 'n', 5, 3), 
+('ram em estado emergencial ', 'ram em estado emergencial', '2021-11-29 23:40:13', 'fechado', 'emergencia', 'n', 4, 3), 
+('pouca memoria em disco', 'servidor lento', '2021-11-29 23:40:51', 'fechado', 'alta', 'n', 6, 3), 
+('cpu com alto uso', 'cpu em estado de emergencia', '2021-11-29 23:43:08', 'aberto', 'emergencia', 'n', 10, 3), 
+('pouca ram disponivel', 'pouca ram disponivel', '2021-11-29 23:48:27', 'aberto', 'alta', 'n', 12, 6), 
+('pouco armazenamento em disco', 'pouco armazenamento em disco', '2021-11-29 23:57:14', 'fechado', 'media', 'n', 13, 6), 
+('alta temperatura', 'temperatura alta da cpu', '2021-11-30 00:05:38', 'fechado', 'emergencia', 'n', 8, 6), 
+('cpu com temperatura elevada', 'temperatura contínuamente alta', '2021-11-30 23:13:21', 'aberto', 'alta', 'n', 1, 6), 
+('ram em estado de emergencia', 'ram em estado de emergencia', '2021-11-30 23:13:58', 'aberto', 'emergencia', 'n', 4, 6), 
+('overclock', 'overclock', '2021-11-30 23:15:50', 'fechado', 'alta', 'n', 2, 6), 
+('cpu emergencia', 'uso de cpu muito alto', '2021-11-30 23:16:38', 'aberto', 'emergencia', 'n', 3, 6), 
+('disco cheio', 'alto uso de disco', '2021-11-30 23:17:32', 'aberto', 'alta', 'n', 6, 6), 
+('pouco espaço em disco', 'maquina mais lenta', '2021-11-30 23:18:16', 'fechado', 'emergencia', 'n', 7, 6), 
+('maquina com alta frequencia', 'maquina com alta frequencia', '2021-11-30 23:18:48', 'aberto', 'media', 'n', 9, 6), 
+('alto uso de cpu', 'alto uso de cpu', '2021-11-30 23:33:16', 'aberto', 'alta', 'n', 8, 6);
 
-INSERT INTO
-    chamado
-    (
-    titulo,
-    descricao,
-    data_abertura,
-    status_chamado,
-    prioridade,
-    automatico,
-    fk_categoria_medicao,
-    fk_usuario
-    )
-VALUES
-    (
-        'cpu em estado critico',
-        'cpu em estado critico',
-        '2021-11-29 23:38:52',
-        'fechado',
-        'emergencia',
-        'n',
-        1,
-        3
-    ),
-    (
-        'pouca ram disponivel',
-        'pouca ram disponivel',
-        '2021-11-29 23:39:34',
-        'aberto',
-        'emergencia',
-        'n',
-        5,
-        3
-    ),
-    (
-        'ram em estado emergencial ',
-        'ram em estado emergencial',
-        '2021-11-29 23:40:13',
-        'aberto',
-        'emergencia',
-        'n',
-        4,
-        3
-    ),
-    (
-        'pouca memoria em disco',
-        'servidor lento',
-        '2021-11-29 23:40:51',
-        'fechado',
-        'alta',
-        'n',
-        6,
-        3
-    ),
-    (
-        'cpu com alto uso',
-        'cpu em estado de emergencia',
-        '2021-11-29 23:43:08',
-        'aberto',
-        'emergencia',
-        'n',
-        10,
-        3
-    ),
-    (
-        'pouca ram disponivel',
-        'pouca ram disponivel',
-        '2021-11-29 23:48:27',
-        'aberto',
-        'alta',
-        'n',
-        12,
-        6
-    ),
-    (
-        'pouco armazenamento em disco',
-        'pouco armazenamento em disco',
-        '2021-11-29 23:57:14',
-        'fechado',
-        'media',
-        'n',
-        13,
-        6
-    ),
-    (
-        'alta temperatura',
-        'temperatura alta da cpu',
-        '2021-11-30 00:05:38',
-        'aberto',
-        'emergencia',
-        'n',
-        8,
-        6
-    );
-
-INSERT INTO
-    solucao
-    (
-    titulo,
-    descricao,
-    data_solucao,
-    eficacia,
-    fk_chamado,
-    fk_usuario
-    )
-VALUES
-    (
-        'novo HD instalado',
-        'novo HD instalado, retornou tudo ao funcionamento normal',
-        '2021-11-29 23:41:26',
-        'total',
-        4,
-        3
-    ),
-    (
-        'novo SSD',
-        'novo SSD instalado',
-        '2021-11-30 00:06:08',
-        'total',
-        7,
-        6
-    ),
-    (
-        'cpu mais potente',
-        'cpu mais potente instalada',
-        '2021-11-30 00:14:23',
-        'total',
-        1,
-        6
-    );
+INSERT INTO solucao(titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario) VALUES 
+('novo HD instalado', 'novo HD instalado, retornou tudo ao funcionamento normal', '2021-11-29 23:41:26', 'parcial', 4, 3), 
+('novo SSD', 'novo SSD instalado', '2021-11-30 00:06:08', 'total', 7, 6), 
+('cpu mais potente', 'cpu mais potente instalada', '2021-11-30 00:14:23', 'nula', 1, 6), 
+('water cooler instalado', 'temperatura em valores normais', '2021-11-30 23:01:00', 'nula', 8, 6), 
+('nova memoria ram instalada', 'uso de ram normalizado', '2021-11-30 23:01:39', 'total', 2, 6), 
+('nova ram instalada', 'nova ram instalada', '2021-11-30 23:11:37', 'nula', 3, 6), 
+('novo SSD instalado', 'novo SSD de 1Tb instalado', '2021-11-30 23:24:25', 'total', 14, 6), 
+('nova cpu instalada', 'nova cpu instalada', '2021-11-30 23:30:09', 'total', 11, 6);

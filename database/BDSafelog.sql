@@ -460,33 +460,33 @@ CREATE TABLE maquina
                         '203783731'
     );
 
-                INSERT INTO
-    usuario
-                    (
-                    nome,
-                    email,
-                    senha,
-                    cargo,
-                    fk_empresa,
-                    fk_supervisor
-                    )
-                VALUES
-                    (
-                        'Fernando Brandão',
-                        'fernando.brandao@bandtec.com.br',
-                        MD5('urubu100'),
-                        'gestor',
-                        '203783731',
-                        1
-    ),
-                    (
-                        'Marise Miranda',
-                        'marise.miranda@bandtec.com.br',
-                        MD5('urubu100'),
-                        'analista',
-                        '203783731',
-                        12
-    );
+    --             INSERT INTO
+    -- usuario
+    --                 (
+    --                 nome,
+    --                 email,
+    --                 senha,
+    --                 cargo,
+    --                 fk_empresa,
+    --                 fk_supervisor
+    --                 )
+    --             VALUES
+    --                 (
+    --                     'Fernando Brandão',
+    --                     'fernando.brandao@bandtec.com.br',
+    --                     MD5('urubu100'),
+    --                     'gestor',
+    --                     '203783731',
+    --                     1
+    -- ),
+    --                 (
+    --                     'Marise Miranda',
+    --                     'marise.miranda@bandtec.com.br',
+    --                     MD5('urubu100'),
+    --                     'analista',
+    --                     '203783731',
+    --                     12
+    -- );
 
                 INSERT INTO
     usuario_maquina
@@ -494,9 +494,9 @@ CREATE TABLE maquina
                 VALUES
                     ('s', 6, 1),
                     ('s', 6, 2),
-                    ('s', 6, 3),
-                    ('n', 13, 1),
-                    ('n', 13, 2);
+                    ('s', 6, 3);
+                    -- ('n', 13, 1),
+                    -- ('n', 13, 2);
 
                 INSERT INTO
     categoria_medicao

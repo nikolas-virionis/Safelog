@@ -382,11 +382,11 @@ VALUES
     (11, 2, '8305786042', 2),
     (11, 3, 'jpso0907@gmail.com', 3);
 
-INSERT INTO usuario
-    (nome, email, senha, cargo, fk_empresa, fk_supervisor)
-VALUES
-    ('Fernando Brandão', 'fernando.brandao@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'gestor', '203783731', 1),
-    ('Marise Miranda', 'marise.miranda@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'analista', '203783731', 12);
+-- INSERT INTO usuario
+--     (nome, email, senha, cargo, fk_empresa, fk_supervisor)
+-- VALUES
+--     ('Fernando Brandão', 'fernando.brandao@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'gestor', '203783731', 1),
+--     ('Marise Miranda', 'marise.miranda@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'analista', '203783731', 12);
 
 INSERT INTO
     maquina
@@ -410,9 +410,9 @@ INSERT INTO
 VALUES
     ('s', 6, 1),
     ('s', 6, 2),
-    ('s', 6, 3),
-    ('n', 13, 1),
-    ('n', 13, 2);
+    ('s', 6, 3);
+    -- ('n', 13, 1),
+    -- ('n', 13, 2);
 
 INSERT INTO
     categoria_medicao

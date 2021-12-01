@@ -980,3 +980,8 @@ tbody#tableCorrelacao tr, tbody#tableTrendline tr {
 tbody#tableCorrelacao tr:hover, tbody#tableTrendline tr:hover {
   background-color: #8c9aff;
 }
+.blocoTabelas{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}

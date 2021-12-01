@@ -20,7 +20,7 @@ def get_tipo(tipo, medicao, limite):
 def insert_db(value):
     print(1)
     mydb = mysql.connector.connect(
-            host="localhost",
+            host="172.18.0.1",
             user=usr,
             password=pswd,
             database="safelog"

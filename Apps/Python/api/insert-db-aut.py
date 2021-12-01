@@ -6,7 +6,7 @@ from getmac import get_mac_address as mac_addr
 import mysql.connector as sql
 from credentials import usr, pswd
 
-db_connection = sql.connect(host='localhost', database='safelog',
+db_connection = sql.connect(host='172.18.0.1', database='safelog',
                                 user=usr, password=pswd)
 preferences = pd.read_sql(
     f"SELECT tipo_medicao.tipo, unidade FROM categoria_medicao INNER JOIN tipo_medicao ON fk_tipo_medicao = id_tipo_medicao WHERE fk_maquina = (SELECT pk_maquina FROM maquina WHERE id_maquina = '{mac_addr()}')", con=db_connection)

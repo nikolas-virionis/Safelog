@@ -10,7 +10,8 @@ public class ConfigDB {
     private static BasicDataSource getBasicDataSourceAWS() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        basicDataSource.setUrl(String.format("jdbc:mysql://ec2-174-129-120-166.compute-1.amazonaws.com:3306/%s", SensitiveData.DB_NAME));
+        basicDataSource
+                .setUrl(String.format("jdbc:mysql://%s:3306/%s", SensitiveData.DB_AWS_URL, SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;

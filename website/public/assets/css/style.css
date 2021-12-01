@@ -934,5 +934,10 @@ button.modal {
 
 .chartContainer {
     width: 30%;
-    height: 100px;
+    /*height: 100px;
+    margin-bottom: 40px;*/
+    background-color: rgb(242 242 242);
+    box-shadow: rgb(102 102 102) 2px 2px 3px;
+    padding: 2px;
+    border-radius: 15px;
 }

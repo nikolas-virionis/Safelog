@@ -407,7 +407,7 @@ const dataCor = {
             label: "My First Dataset",
             data: [],
             fill: false,
-            borderColor: "rgb(75, 192, 192)",
+            borderColor: "#0071ce",
             tension: 0.1
         }
     ]
@@ -431,7 +431,7 @@ const dataTrendline = {
             label: "My First Dataset",
             data: [],
             fill: false,
-            borderColor: "rgb(75, 192, 192)",
+            borderColor: "#0071ce",
             tension: 0.1
         }
     ]

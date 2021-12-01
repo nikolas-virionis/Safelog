@@ -37,5 +37,5 @@ try:
 except Exception:
     print("Ta no linux aí amigão?!?!?")
     file = open(f"{directory}/insert.txt", "w")
-    file.write(insert_sql)
+    file.write(insert_sql[:-3] + ";")
     file.close()

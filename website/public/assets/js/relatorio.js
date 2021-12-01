@@ -404,7 +404,7 @@ const dataCor = {
     labels: [],
     datasets: [
         {
-            label: "My First Dataset",
+            label: "Correlação",
             data: [],
             fill: false,
             borderColor: "#0071ce",
@@ -428,7 +428,7 @@ const dataTrendline = {
     labels: [],
     datasets: [
         {
-            label: "My First Dataset",
+            label: "Trendline",
             data: [],
             fill: false,
             borderColor: "#0071ce",

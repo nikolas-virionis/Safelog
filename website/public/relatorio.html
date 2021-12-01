@@ -95,23 +95,27 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <div class="card-dados critico alinhar centralizar">
+                    <div style="display: none;" class="card-dados critico alinhar centralizar">
                         <span class="font-weight-bold">Críticas: </span>
                         <span class="card-medicoes-sec" id="medicaoCritica"></span>
                     </div>
-                    <div class="card-dados risco alinhar centralizar">
+                    <div style="display: none;" class="card-dados risco alinhar centralizar">
                         <span class="font-weight-bold">Risco: </span>
                         <span class="card-medicoes-sec " id="medicaoRisco"></span>
 
                     </div>
-                    <div class="card-dados normal alinhar centralizar">
+                    <div style="display: none;" class="card-dados normal alinhar centralizar">
                         <span class="font-weight-bold">Normal: </span>
                         <span class="card-medicoes-sec " id="medicaoNormal"></span>
-
                     </div>
+                    <canvas id="chartDoughnut"></canvas>
+
+
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <canvas id="chartDoughnut"></canvas>
+                    <div id="wordCloud">
+
+                    </div>
                 </div>
             </div>
 
@@ -193,7 +197,7 @@
                 </div>
             </div>
 
-            
+
         </div>
 
 

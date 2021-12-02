@@ -25,9 +25,11 @@ index = 0
 insert_sql = "\nINSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES \n"
 for i, j in enumerate(valores):
     if index < 900:
+        index += 1
         insert_sql += f" ({j}, '{tipos[i]}', '{datas[i]}', {fks[i]}), \n"
     else:
         index = 0
+        insert_sql = insert_sql[:-3] + ";"
         insert_sql += f"\nINSERT INTO medicao(valor, tipo, data_medicao, fk_categoria_medicao) VALUES \n"
         insert_sql += f" ({j}, '{tipos[i]}', '{datas[i]}', {fks[i]}), \n"
 

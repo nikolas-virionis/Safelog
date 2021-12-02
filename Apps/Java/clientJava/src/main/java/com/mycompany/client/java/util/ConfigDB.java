@@ -12,7 +12,7 @@ public class ConfigDB {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         basicDataSource
-                .setUrl(String.format("jdbc:mysql://localhost:3306/%s", SensitiveData.DB_NAME));
+                .setUrl(String.format("jdbc:mysql://%s:3306/%s", SensitiveData.DB_AWS_URL, SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;
@@ -23,7 +23,7 @@ public class ConfigDB {
         basicDataSource.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         basicDataSource.setUrl(String.format(
                 "jdbc:sqlserver://%s:1433;database=%s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;",
-                SensitiveData.DB_AZURE_URL,SensitiveData.DB_NAME));
+                SensitiveData.DB_AZURE_URL, SensitiveData.DB_NAME));
         basicDataSource.setUsername(SensitiveData.DB_USER);
         basicDataSource.setPassword(SensitiveData.DB_PASSWORD);
         return basicDataSource;

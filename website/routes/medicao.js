@@ -270,7 +270,7 @@ router.post("/dados", async (req, res, next) => {
 
     let medicoes = [];
     for (let {id_categoria_medicao, tipo} of categorias) {
-        console.log(id_categoria_medicao, tipo);
+        // console.log(id_categoria_medicao, tipo);
         let sql = `SELECT valor, data_medicao, tipo FROM medicao WHERE fk_categoria_medicao = ${id_categoria_medicao} ORDER BY data_medicao DESC LIMIT ${
             cargo == "analista" ? 20 : 100
         }`;

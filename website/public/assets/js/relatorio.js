@@ -138,7 +138,7 @@ const mostrarCorrelacao = () => {
                     tr.onclick = () => {
                         let data = [];
                         let index = Math.floor(
-                            (corr.median - linear) / angular
+                            (corr.median - linear) / (angular || 1)
                         );
                         for (let i of range(index, index + 15)) {
                             data.push(linear + angular * i);
@@ -319,7 +319,7 @@ const mostrarInfoTrendline = () => {
                                     let linear = msg.coefficients.linear;
                                     let data = [];
                                     let index = Math.floor(
-                                        (msg.median - linear) / angular
+                                        (msg.median - linear) / (angular || 1)
                                     );
                                     for (let i of range(index, index + 15)) {
                                         data.push(linear + angular * i);

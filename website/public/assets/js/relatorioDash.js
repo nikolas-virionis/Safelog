@@ -105,7 +105,7 @@ const mostrarCorrelacao = () => {
                     tr.onclick = () => {
                         let data = [];
                         let index = Math.floor(
-                            (corr.median - linear) / angular
+                            (corr.median - linear) / (angular || 1)
                         );
                         for (let i of range(index, index + 15)) {
                             data.push(linear + angular * i);
@@ -176,7 +176,7 @@ const mostrarInfoMedicoes = () => {
 };
 
 const mostrarInfoTrendline = () => {
-    console.log(maquinaInfo.pk_maquinap0)
+    // console.log(maquinaInfo.pk_maquina)
     document.querySelector("#tableTrendline").innerHTML = "";
     if (metricas.value > 0) {
         axios
@@ -210,7 +210,7 @@ const mostrarInfoTrendline = () => {
 
                             let data = [];
                             let index = Math.floor(
-                                (msg.median - linear) / angular
+                                (msg.median - linear) / (angular || 1)
                             );
                             for (let i of range(index, index + 15)) {
                                 data.push(linear + angular * i);
@@ -250,18 +250,20 @@ const mostrarInfoTrendline = () => {
                         tdMetrica.innerHTML = getTipo(tipo);
 
                         axios
-                            .post("/analytics/trend", {
-                                idCategoriaMedicao: id_categoria_medicao
-                            })
-                            .then(({ data: { msg, status } }) => {
-                                tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
+                        .post("/analytics/trend", {
+                            idCategoriaMedicao: id_categoria_medicao
+                        })
+                        .then(({ data: { msg, status } }) => {
+                            msg.median +=1
+                            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
+                                    console.log(id_categoria_medicao)
                                     let angular = msg.coefficients.angular;
                                     let linear = msg.coefficients.linear;
 
                                     let data = [];
                                     let index = Math.floor(
-                                        (msg.median - linear) / angular
+                                        (msg.median - linear) / (angular || 1)
                                     );
                                     for (let i of range(index, index + 15)) {
                                         data.push(linear + angular * i);
@@ -281,6 +283,7 @@ const mostrarInfoTrendline = () => {
 
                                     chartTrendline.update();
                                 };
+                                console.log(msg)
                             });
 
                         document

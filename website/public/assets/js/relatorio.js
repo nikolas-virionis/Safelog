@@ -295,6 +295,7 @@ const mostrarInfoTrendline = () => {
             })
             .then(({data: {status, msg}}) => {
                 if (status == "ok") {
+                    console.log(msg)
                     msg.forEach(({id_categoria_medicao}) => {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
@@ -415,7 +416,17 @@ const dataCor = {
 
 const configCor = {
     type: "line",
-    data: dataCor
+    data: dataCor,
+    opitons: {
+        scales: {
+            yAxes: [{
+                display: true,
+                ticks: {
+                    beginAtZero: true   // minimum value will be 0.
+                }
+            }]
+        }
+    }
 };
 
 const ctxCor = document.getElementById("idChartCorrelacao");
@@ -439,7 +450,18 @@ const dataTrendline = {
 
 const configTrendline = {
     type: "line",
-    data: dataTrendline
+    data: dataTrendline,
+    options: {
+        scales: {
+            yAxes: [{
+                display: true,
+                ticks: {
+                    // OR //
+                    beginAtZero: true   // minimum value will be 0.
+                }
+            }]
+        }
+    }
 };
 
 const ctxTrendline = document.getElementById("idChartTrendline");

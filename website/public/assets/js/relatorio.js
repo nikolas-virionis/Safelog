@@ -312,11 +312,11 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
+                                console.log(msg)
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
                                     let angular = msg.coefficients.angular;
                                     let linear = msg.coefficients.linear;
-
                                     let data = [];
                                     let index = Math.floor(
                                         (msg.median - linear) / angular
@@ -416,17 +416,7 @@ const dataCor = {
 
 const configCor = {
     type: "line",
-    data: dataCor,
-    opitons: {
-        scales: {
-            yAxes: [{
-                display: true,
-                ticks: {
-                    beginAtZero: true   // minimum value will be 0.
-                }
-            }]
-        }
-    }
+    data: dataCor
 };
 
 const ctxCor = document.getElementById("idChartCorrelacao");
@@ -450,18 +440,7 @@ const dataTrendline = {
 
 const configTrendline = {
     type: "line",
-    data: dataTrendline,
-    options: {
-        scales: {
-            yAxes: [{
-                display: true,
-                ticks: {
-                    // OR //
-                    beginAtZero: true   // minimum value will be 0.
-                }
-            }]
-        }
-    }
+    data: dataTrendline
 };
 
 const ctxTrendline = document.getElementById("idChartTrendline");

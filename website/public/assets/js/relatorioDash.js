@@ -20,6 +20,14 @@ const graficoMetricas = new Chart(
     configMetricas
 );
 
+const rangeArray = (start, end) => {
+    let array = [];
+    for (let i of range(start, end)) {
+        array.push(i);
+    }
+    return array;
+};
+
 metricas.addEventListener("change", () => {
     mostrarInfoMedicoes();
     mostrarInfoTrendline();
@@ -89,6 +97,26 @@ const mostrarCorrelacao = () => {
                     tdCorrelacao.innerHTML = `${corr.corrStr} \n${corr.corrSentido}`;
 
                     document.querySelector("#tableCorrelacao").appendChild(tr);
+
+                    // atualizando gráfico de correlação
+                    let linear = corr.coefficients.linear;
+                    let angular = corr.coefficients.angular;
+
+                    tr.onclick = () => {
+                        let data = [];
+                        let index = Math.floor(
+                            (corr.median - linear) / angular
+                        );
+                        for (let i of range(index, index + 15)) {
+                            data.push(linear + angular * i);
+                        }
+
+                        chartCor.data.datasets[0].data = data.map(dado =>
+                            Number(dado.toFixed(3))
+                        );
+                        chartCor.data.labels = rangeArray(index, index + 15);
+                        chartCor.update();
+                    };
                 });
             } else {
                 console.error(msg);
@@ -192,8 +220,33 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
-                                // console.log(msg)
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
+                                tr.onclick = () => {
+                                    let angular = msg.coefficients.angular;
+                                    let linear = msg.coefficients.linear;
+
+                                    let data = [];
+                                    let index = Math.floor(
+                                        (msg.median - linear) / angular
+                                    );
+                                    for (let i of range(index, index + 15)) {
+                                        data.push(linear + angular * i);
+                                    }
+                                    let indexes = rangeArray(index, index + 15);
+                                    chartTrendline.data.datasets[0].data =
+                                        data.map(dado =>
+                                            Number(dado.toFixed(3))
+                                        );
+                                    chartTrendline.data.labels =
+                                        Math.abs(indexes[0]) >
+                                        Math.abs(indexes[1])
+                                            ? indexes
+                                                  .reverse()
+                                                  .map(num => Math.abs(num))
+                                            : indexes;
+
+                                    chartTrendline.update();
+                                };
                             });
 
                         document
@@ -204,6 +257,8 @@ const mostrarInfoTrendline = () => {
             });
     }
 };
+// mostrarInfoTrendline();
+
 
 const mostrarInfoChamado = () => {
     let objInfoChamados = {maquina: maquinaInfo.pk_maquina};
@@ -233,3 +288,57 @@ const mostrarInfoChamado = () => {
             }
         });
 };
+
+// chart correlação
+
+let dataCor = {
+    labels: [],
+    datasets: [
+        {
+            label: "Correlação",
+            data: [],
+            fill: false,
+            borderColor: "#0071ce",
+            tension: 0.1
+        }
+    ]
+};
+
+let configCor = {
+    type: "line",
+    data: dataCor
+};
+
+let ctxCor = document.getElementById("idChartCorrelacao")
+
+let chartCor = new Chart(ctxCor, configCor);
+
+// chart trendline
+
+let dataTrendline = {
+    labels: [],
+    datasets: [
+        {
+            label: "Trendline",
+            data: [],
+            fill: false,
+            borderColor: "#0071ce",
+            tension: 0.1
+        }
+    ]
+};
+
+let configTrendline = {
+    type: "line",
+    data: dataTrendline
+};
+
+let ctxTrendline = document.getElementById("idChartTrendline")
+let chartTrendline = new Chart(ctxTrendline, configTrendline);
+function* range(start, end) {
+    for (let h = start; h <= end; h++) {
+        yield h;
+    }
+}
+
+mostrarInfoTrendline()

@@ -42,7 +42,6 @@
             <br>
             <h1>Relatório:</h1>
 
-
             <h2 class="alinhar">
                 Correlação:
                 <span class="btn-info alinhar centralizar tooltip">
@@ -51,7 +50,7 @@
                         próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
                 </span>
             </h2>
-            <div class="row justify-content-center">
+            <div class="row blocoTabelas">
                 <div class="col-md-6 col-sm-12">
                     <div class="tabela-listrada">
                         <table>
@@ -61,14 +60,14 @@
 
                             </thead>
                             <tbody id="tableCorrelacao">
-                                </tr>
-                                </tr>
 
                             </tbody>
-
-
                         </table>
                     </div>
+                </div>
+
+                <div class="chartContainer">
+                    <canvas id="idChartCorrelacao"></canvas>
                 </div>
             </div>
 
@@ -110,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-3 col-sm-12 display-none">
                     <div class="card-dados critico alinhar centralizar">
                         <span class="font-weight-bold">Críticas: </span>
                         <span class="card-medicoes-sec" id="medicaoCritica"></span>
@@ -126,8 +125,14 @@
 
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <div class="col-md-4 col-sm-12">
                     <canvas id="chartDoughnut"></canvas>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <h3 class="centralizar">Wordcloud de processos</h3>
+                    <div class="wordcloud">
+                        <img src="assets/img/wordcloud2.png">
+                    </div>
                 </div>
             </div>
 
@@ -141,7 +146,7 @@
                         anteriores</span>
                 </span>
             </h2>
-            <div class="row justify-content-center">
+            <div class="row blocoTabelas">
                 <div class="col-md-6 col-sm-12">
                     <div class="tabela-listrada">
                         <table>
@@ -150,16 +155,15 @@
                                 <th>Tendência</th>
                             </thead>
                             <tbody id="tableTrendline">
-                                </tr>
-                                <td>Máquina</td>
-                                <td>Tendência</td>
-                                </tr>
 
                             </tbody>
 
 
                         </table>
                     </div>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="idChartTrendline"></canvas>
                 </div>
             </div>
 

@@ -985,3 +985,6 @@ tbody#tableCorrelacao tr:hover, tbody#tableTrendline tr:hover {
   align-items: center;
   justify-content: space-evenly;
 }
+.wordcloud img{
+  width: 100%;
+}

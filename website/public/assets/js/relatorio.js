@@ -116,7 +116,7 @@ const mostrarCorrelacao = () => {
         .then(({data: {status, msg}}) => {
             // console.log(status)
             if (status === "ok") {
-                msg.forEach(corr => {
+                for (let corr of msg) {
                     let tr = document.createElement("tr");
                     let tdMetrica1 = document.createElement("td");
                     let tdMetrica2 = document.createElement("td");
@@ -150,7 +150,7 @@ const mostrarCorrelacao = () => {
                         chartCor.data.labels = rangeArray(index, index + 15);
                         chartCor.update();
                     };
-                });
+                }
             } else {
                 console.error(msg);
             }
@@ -296,7 +296,7 @@ const mostrarInfoTrendline = () => {
             .then(({data: {status, msg}}) => {
                 if (status == "ok") {
                     console.log(msg);
-                    msg.forEach(({id_categoria_medicao}) => {
+                    for (let {id_categoria_medicao} of msg) {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
                         let tdTendencia = document.createElement("td");
@@ -346,7 +346,7 @@ const mostrarInfoTrendline = () => {
                         document
                             .querySelector("#tableTrendline")
                             .appendChild(tr);
-                    });
+                    }
                 }
             });
     }

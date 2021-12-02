@@ -57,13 +57,13 @@ const listaMetricasRelatorio = () => {
         .post("/maquina/lista-componentes", {
             id: Number(maquinaInfo.pk_maquina)
         })
-        .then(({ data: { status, msg } }) => {
+        .then(({data: {status, msg}}) => {
             if (status === "ok") {
                 option = document.createElement("option");
                 option.innerText = "Todas";
                 option.value = "0";
                 metricas.appendChild(option);
-                msg.forEach(({ id_categoria_medicao, tipo }) => {
+                msg.forEach(({id_categoria_medicao, tipo}) => {
                     option = document.createElement("option");
                     option.value = id_categoria_medicao;
                     option.setAttribute("id", `medicao${id_categoria_medicao}`);
@@ -80,10 +80,10 @@ const mostrarCorrelacao = () => {
         .post("/analytics/correlacao", {
             maquina: Number(maquinaInfo.pk_maquina)
         })
-        .then(({ data: { status, msg } }) => {
+        .then(({data: {status, msg}}) => {
             // console.log(status)
             if (status === "ok") {
-                msg.forEach(corr => {
+                for (let corr of msg) {
                     let tr = document.createElement("tr");
                     let tdMetrica1 = document.createElement("td");
                     let tdMetrica2 = document.createElement("td");
@@ -117,7 +117,7 @@ const mostrarCorrelacao = () => {
                         chartCor.data.labels = rangeArray(index, index + 15);
                         chartCor.update();
                     };
-                });
+                }
             } else {
                 console.error(msg);
             }
@@ -127,9 +127,9 @@ const mostrarCorrelacao = () => {
 const mostrarInfoMedicoes = () => {
     let objInfoMedicoes = {};
     if (metricas.value == 0) {
-        objInfoMedicoes = { maquina: maquinaInfo.pk_maquina };
+        objInfoMedicoes = {maquina: maquinaInfo.pk_maquina};
     } else {
-        objInfoMedicoes = { idCategoriaMedicao: metricas.value };
+        objInfoMedicoes = {idCategoriaMedicao: metricas.value};
     }
 
     if (tempo.value != "all") {
@@ -139,7 +139,7 @@ const mostrarInfoMedicoes = () => {
     // console.log(objInfoMedicoes)
     axios
         .post("/medicao/stats", objInfoMedicoes)
-        .then(({ data: { status, msg } }) => {
+        .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 document.querySelector("#medicoesTotais").innerHTML =
                     msg.medicoesTotais;
@@ -183,7 +183,7 @@ const mostrarInfoTrendline = () => {
             .post("/analytics/trend", {
                 idCategoriaMedicao: metricas.value
             })
-            .then(({ data: { msg, status } }) => {
+            .then(({data: {msg, status}}) => {
                 // console.log(status)
                 // console.log(msg)
                 let tr = document.createElement("tr");
@@ -202,10 +202,12 @@ const mostrarInfoTrendline = () => {
                     .post("/analytics/trend", {
                         idCategoriaMedicao: metricas.value
                     })
-                    .then(({ data: { msg, status } }) => {
+                    .then(({data: {msg, status}}) => {
                         tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                         tr.onclick = () => {
-                            let angular = Number(msg.coefficients.angular.toFixed(4));
+                            let angular = Number(
+                                msg.coefficients.angular.toFixed(4)
+                            );
                             let linear = msg.coefficients.linear;
 
                             let data = [];
@@ -216,16 +218,14 @@ const mostrarInfoTrendline = () => {
                                 data.push(linear + angular * i);
                             }
                             let indexes = rangeArray(index, index + 15);
-                            chartTrendline.data.datasets[0].data =
-                                data.map(dado =>
-                                    Number(dado.toFixed(4))
-                                );
+                            chartTrendline.data.datasets[0].data = data.map(
+                                dado => Number(dado.toFixed(4))
+                            );
                             chartTrendline.data.labels =
-                                Math.abs(indexes[0]) >
-                                    Math.abs(indexes[1])
+                                Math.abs(indexes[0]) > Math.abs(indexes[1])
                                     ? indexes
-                                        .reverse()
-                                        .map(num => Math.abs(num))
+                                          .reverse()
+                                          .map(num => Math.abs(num))
                                     : indexes;
 
                             chartTrendline.update();
@@ -237,10 +237,9 @@ const mostrarInfoTrendline = () => {
             .post("/maquina/lista-componentes", {
                 id: Number(maquinaInfo.pk_maquina)
             })
-            .then(({ data: { status, msg } }) => {
+            .then(({data: {status, msg}}) => {
                 if (status == "ok") {
-                    for (let { id_categoria_medicao, tipo } of msg) {
-
+                    for (let {id_categoria_medicao, tipo} of msg) {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
                         let tdTendencia = document.createElement("td");
@@ -250,15 +249,17 @@ const mostrarInfoTrendline = () => {
                         tdMetrica.innerHTML = getTipo(tipo);
 
                         axios
-                        .post("/analytics/trend", {
-                            idCategoriaMedicao: id_categoria_medicao
-                        })
-                        .then(({ data: { msg, status } }) => {
-                            msg.median +=1
-                            tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
+                            .post("/analytics/trend", {
+                                idCategoriaMedicao: id_categoria_medicao
+                            })
+                            .then(({data: {msg, status}}) => {
+                                msg.median += 1;
+                                tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
-                                    console.log(id_categoria_medicao)
-                                    let angular = Number(msg.coefficients.angular.toFixed(4));
+                                    console.log(id_categoria_medicao);
+                                    let angular = Number(
+                                        msg.coefficients.angular.toFixed(4)
+                                    );
                                     let linear = msg.coefficients.linear;
 
                                     let data = [];
@@ -275,15 +276,15 @@ const mostrarInfoTrendline = () => {
                                         );
                                     chartTrendline.data.labels =
                                         Math.abs(indexes[0]) >
-                                            Math.abs(indexes[1])
+                                        Math.abs(indexes[1])
                                             ? indexes
-                                                .reverse()
-                                                .map(num => Math.abs(num))
+                                                  .reverse()
+                                                  .map(num => Math.abs(num))
                                             : indexes;
 
                                     chartTrendline.update();
                                 };
-                                console.log(msg)
+                                console.log(msg);
                             });
 
                         document
@@ -296,16 +297,15 @@ const mostrarInfoTrendline = () => {
 };
 // mostrarInfoTrendline();
 
-
 const mostrarInfoChamado = () => {
-    let objInfoChamados = { maquina: maquinaInfo.pk_maquina };
+    let objInfoChamados = {maquina: maquinaInfo.pk_maquina};
     if (tempo.value != "all") {
         objInfoChamados.type = tempo.value;
         objInfoChamados.qtd = qtdTempo.value;
     }
     axios
         .post("/chamado/stats", objInfoChamados)
-        .then(({ data: { status, msg } }) => {
+        .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 document.querySelector("#totalChamados").innerHTML =
                     msg.chamadosTotais;
@@ -346,7 +346,7 @@ let configCor = {
     data: dataCor
 };
 
-let ctxCor = document.getElementById("idChartCorrelacao")
+let ctxCor = document.getElementById("idChartCorrelacao");
 
 let chartCor = new Chart(ctxCor, configCor);
 
@@ -370,7 +370,7 @@ let configTrendline = {
     data: dataTrendline
 };
 
-let ctxTrendline = document.getElementById("idChartTrendline")
+let ctxTrendline = document.getElementById("idChartTrendline");
 let chartTrendline = new Chart(ctxTrendline, configTrendline);
 function* range(start, end) {
     for (let h = start; h <= end; h++) {

@@ -100,7 +100,7 @@ const mostrarCorrelacao = () => {
 
                     // atualizando gráfico de correlação
                     let linear = corr.coefficients.linear;
-                    let angular = corr.coefficients.angular;
+                    let angular = Number(corr.coefficients.angular.toFixed(4));
 
                     tr.onclick = () => {
                         let data = [];
@@ -205,7 +205,7 @@ const mostrarInfoTrendline = () => {
                     .then(({ data: { msg, status } }) => {
                         tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                         tr.onclick = () => {
-                            let angular = msg.coefficients.angular;
+                            let angular = Number(msg.coefficients.angular.toFixed(4));
                             let linear = msg.coefficients.linear;
 
                             let data = [];
@@ -258,7 +258,7 @@ const mostrarInfoTrendline = () => {
                             tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
                                     console.log(id_categoria_medicao)
-                                    let angular = msg.coefficients.angular;
+                                    let angular = Number(msg.coefficients.angular.toFixed(4));
                                     let linear = msg.coefficients.linear;
 
                                     let data = [];

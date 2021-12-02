@@ -133,7 +133,7 @@ const mostrarCorrelacao = () => {
 
                     // atualizando gráfico de correlação
                     let linear = corr.coefficients.linear;
-                    let angular = corr.coefficients.angular;
+                    let angular = Number(corr.coefficients.angular.toFixed(4));
 
                     tr.onclick = () => {
                         let data = [];
@@ -295,7 +295,7 @@ const mostrarInfoTrendline = () => {
             })
             .then(({data: {status, msg}}) => {
                 if (status == "ok") {
-                    console.log(msg)
+                    console.log(msg);
                     msg.forEach(({id_categoria_medicao}) => {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
@@ -312,10 +312,12 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
-                                console.log(msg)
+                                console.log(msg);
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
-                                    let angular = msg.coefficients.angular;
+                                    let angular = Number(
+                                        msg.coefficients.angular.toFixed(4)
+                                    );
                                     let linear = msg.coefficients.linear;
                                     let data = [];
                                     let index = Math.floor(
@@ -451,22 +453,37 @@ function* range(start, end) {
     }
 }
 
-
 //Wordcloud
-anychart.onDocumentReady(function() {
-    let processos = ["R", "Python","chorme","zoom","opera.exe","nodejs","mysql",
-    "discord","VsCode","Gerenciador de tarefas","csrss.exe","winlogon.exe"
-    ,"NVIDIA Web Helper.exe","Lenovo.Modern.ImControlle","RuntimeBroker.exe",
-    "Win32","spotify","TabNine.exe"]
-    
+anychart.onDocumentReady(function () {
+    let processos = [
+        "R",
+        "Python",
+        "chorme",
+        "zoom",
+        "opera.exe",
+        "nodejs",
+        "mysql",
+        "discord",
+        "VsCode",
+        "Gerenciador de tarefas",
+        "csrss.exe",
+        "winlogon.exe",
+        "NVIDIA Web Helper.exe",
+        "Lenovo.Modern.ImControlle",
+        "RuntimeBroker.exe",
+        "Win32",
+        "spotify",
+        "TabNine.exe"
+    ];
+
     var data = [];
 
-    for (i in processos){
-        let valor = Math.floor(Math.random() * 200 + 10)
-        let obj = {x: processos[i], value: valor}
-        data.push(obj)
+    for (i in processos) {
+        let valor = Math.floor(Math.random() * 200 + 10);
+        let obj = {x: processos[i], value: valor};
+        data.push(obj);
     }
-    data = data.map(((el, index) => ({x: processos[index], value: el.value})))
+    data = data.map((el, index) => ({x: processos[index], value: el.value}));
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(data);
 
@@ -477,10 +494,10 @@ anychart.onDocumentReady(function() {
     // enable a color range
     // chart.colorRange(true);
     // set the color range length
-    chart.colorRange().length('100%');
+    chart.colorRange().length("100%");
     chart.tooltip(false);
-    chart.background(false)
-    chart.angles([0])
+    chart.background(false);
+    chart.angles([0]);
     // display the word cloud chart
     // chart.dataArea().background().enabled(false);
     chart.container("wordcloud");

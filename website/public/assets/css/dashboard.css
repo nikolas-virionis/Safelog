@@ -947,13 +947,12 @@ display: flex;
   border: 2px solid var(--cor-principal);
 }
 
-.tooltip {
+.tooltipa {
   position: relative;
   display: inline-block;
-  /* border-bottom: 1px dotted black; */
 }
 
-.tooltip .tooltiptext {
+.tooltipa .tooltipatext {
   visibility: hidden;
   min-width: 220px;
   background-color: rgba(0, 0, 0, 0.8);
@@ -963,12 +962,11 @@ display: flex;
   padding: 5px 5px;
   font-weight: 200;
 
-  /* Position the tooltip */
   position: absolute;
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltipa:hover .tooltipatext {
   animation: animate-div .2s;
   visibility: visible;
 }
@@ -987,4 +985,11 @@ tbody#tableCorrelacao tr:hover, tbody#tableTrendline tr:hover {
 }
 .wordcloud img{
   width: 100%;
+}
+
+#wordcloud {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }

@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="assets/css/dashboard.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
 </head>
 
 <body>
@@ -53,9 +56,9 @@
 
             <h2 class="alinhar">
                 Correlação:
-                <span class="btn-info alinhar centralizar tooltip">
+                <span class="btn-info alinhar centralizar tooltipa">
                     <i class="fas fa-info"></i>
-                    <span class="tooltiptext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais
+                    <span class="tooltipatext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais
                         próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
                 </span>
             </h2>
@@ -108,9 +111,11 @@
                 </div>
                 <div class="col-md-4 col-sm-12">
                     <h3 class="centralizar">Wordcloud de processos</h3>
-                    <div class="wordcloud">
+
+                    <div id="wordcloud"></div>
+                    <!-- <div class="wordcloud">
                         <img src="assets/img/wordcloud2.png">
-                    </div>
+                    </div> -->
                 </div>
             </div>
 

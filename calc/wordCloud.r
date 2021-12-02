@@ -3,7 +3,7 @@ library(wordcloud)
 library(RColorBrewer)
 
 # palavras que vão aparecer no wordCloud
-words <- c("R ", "Python","chorme","zoom","opera.exe","nodejs","mysql",
+words <- c("R", "Python","chorme","zoom","opera.exe","nodejs","mysql",
 "discord","VsCode","Gerenciador de tarefas","csrss.exe","winlogon.exe"
  ,"NVIDIA Web Helper.exe","Lenovo.Modern.ImControlle","RuntimeBroker.exe",
  "Win32","spotify","TabNine.exe","Code.exe","Lenovo.Modern.ImControlle",

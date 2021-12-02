@@ -371,3 +371,39 @@ if(cargo == "gestor"){
 
 
 }
+
+
+//Wordcloud
+anychart.onDocumentReady(function() {
+    let processos = ["R", "Python","chorme","zoom","opera.exe","nodejs","mysql",
+    "discord","VsCode","Gerenciador de tarefas","csrss.exe","winlogon.exe"
+    ,"NVIDIA Web Helper.exe","Lenovo.Modern.ImControlle","RuntimeBroker.exe",
+    "Win32","spotify","TabNine.exe"]
+    
+    var data = [];
+
+    for (i in processos){
+        let valor = Math.floor(Math.random() * 200 + 10)
+        let obj = {x: processos[i], value: valor}
+        data.push(obj)
+    }
+    data = data.map(((el, index) => ({x: processos[index], value: el.value})))
+    // create a tag (word) cloud chart
+    var chart = anychart.tagCloud(data);
+
+    // set a chart title
+    // chart.title('15 most spoken languages')
+    // set an array of angles at which the words will be laid out
+    chart.legend(false);
+    // enable a color range
+    // chart.colorRange(true);
+    // set the color range length
+    chart.colorRange().length('100%');
+    chart.tooltip(false);
+    chart.background(false)
+    chart.angles([0])
+    // display the word cloud chart
+    // chart.dataArea().background().enabled(false);
+    chart.container("wordcloud");
+    chart.draw();
+});

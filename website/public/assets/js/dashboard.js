@@ -186,6 +186,8 @@ const getComponentes = maq => {
 const changeMachine = types => {
     reqData(types);
     window.interval = setInterval(() => {
+        mostrarInfoMedicoes()
+        mostrarInfoChamado()
         reqData(types);
     }, 3000);
 };

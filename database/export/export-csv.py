@@ -4,7 +4,7 @@ import sys
 import pathlib
 import os
 
-db_connection = sql.connect(host='safelogdb.sytes.net',
+db_connection = sql.connect(host='localhost',
                             database='safelog', user='safelog_dev', password='Safe_Log371$')
 
 directory = pathlib.Path(__file__).parent.resolve()

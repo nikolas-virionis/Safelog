@@ -313,11 +313,9 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
-<<<<<<< HEAD
                                 // console.log(msg)
 =======
                                 console.log(msg);
->>>>>>> 9cd7a347581d67c9e7627a6621789bacc8cb0d9f
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
                                     let angular = Number(
@@ -348,18 +346,8 @@ const mostrarInfoTrendline = () => {
                                 };
                                 document.querySelector("#tableTrendline").appendChild(tr);
                             });
-
-<<<<<<< HEAD
-                    });
-                    document.querySelector("#tableTrendline").children[0].click();
-=======
-                        document
-                            .querySelector("#tableTrendline")
-                            .appendChild(tr);
+                        }
                     }
->>>>>>> 9cd7a347581d67c9e7627a6621789bacc8cb0d9f
-                }
-            });
     }
 };
 const btnEmail = document.querySelector("#botao-email");

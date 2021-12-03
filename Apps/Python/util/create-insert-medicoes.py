@@ -14,7 +14,7 @@ print("\nPara Windows ja esta copiado se tiver a biblioteca pyperclip instalada\
 db_connection = sql.connect(host='localhost', database='safelog',
                             user='safelog_dev', password='Safe_Log371$')
 medicoes = pd.read_sql(
-    f"SELECT * FROM medicao WHERE fk_categoria_medicao IN (SELECT id_categoria_medicao FROM categoria_medicao JOIN maquina ON pk_maquina = fk_maquina AND id_maquina = '{mac_addr()}') AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 1 DAY) AND NOW() ORDER BY data_medicao", con=db_connection)
+    f"SELECT * FROM medicao WHERE fk_categoria_medicao IN (SELECT id_categoria_medicao FROM categoria_medicao JOIN maquina ON pk_maquina = fk_maquina AND id_maquina = '00:15:5d:30:7f:82') AND data_medicao BETWEEN DATE_SUB(NOW(),INTERVAL 1 DAY) AND NOW() ORDER BY data_medicao", con=db_connection)
 
 valores = medicoes["valor"]
 tipos = medicoes["tipo"]

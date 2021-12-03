@@ -221,6 +221,7 @@ const mostrarInfoTrendline = () => {
                             chartTrendline.data.datasets[0].data = data.map(
                                 dado => Number(dado.toFixed(4))
                             );
+                            chartTrendline.config;
                             chartTrendline.data.labels =
                                 Math.abs(indexes[0]) > Math.abs(indexes[1])
                                     ? indexes
@@ -343,7 +344,18 @@ let dataCor = {
 
 let configCor = {
     type: "line",
-    data: dataCor
+    data: dataCor,
+    options: {
+        scales: {
+            y: {
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    stepSize: 0.5
+                }
+            }
+        }
+    }
 };
 
 let ctxCor = document.getElementById("idChartCorrelacao");
@@ -367,7 +379,19 @@ let dataTrendline = {
 
 let configTrendline = {
     type: "line",
-    data: dataTrendline
+    data: dataTrendline,
+    options: {
+        scales: {
+            y: {
+                display: true,
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    stepSize: 0.5
+                }
+            }
+        }
+    }
 };
 
 let ctxTrendline = document.getElementById("idChartTrendline");

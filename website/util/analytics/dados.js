@@ -302,7 +302,7 @@ const getRelevantCorr = async corrData => {
 };
 
 const getCorrSentido = corr => {
-    if (corr > 0) {
+    if (corr > 0 || getCorrStr(corr) === "quase independentes") {
         return "";
     }
     return "sentidos opostos";

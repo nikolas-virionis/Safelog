@@ -1,5 +1,5 @@
 require("dotenv").config();
-const axios = require("axios").default;
+const axios = require("axios");
 const qs = require("querystring");
 
 const token = process.env.SLACK_TOKEN_BOT;
@@ -25,7 +25,7 @@ const getUserIdByEmail = async email => {
         config
     );
 
-    return res.data.user.id;
+    return res.data?.user?.id;
 };
 
 // send msg to private channel

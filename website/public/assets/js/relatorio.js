@@ -116,7 +116,7 @@ const mostrarCorrelacao = () => {
         .then(({data: {status, msg}}) => {
             // console.log(status)
             if (status === "ok") {
-                msg.forEach(corr => {
+                for (let corr of msg) {
                     let tr = document.createElement("tr");
                     let tdMetrica1 = document.createElement("td");
                     let tdMetrica2 = document.createElement("td");
@@ -133,7 +133,7 @@ const mostrarCorrelacao = () => {
 
                     // atualizando gráfico de correlação
                     let linear = corr.coefficients.linear;
-                    let angular = corr.coefficients.angular;
+                    let angular = Number(corr.coefficients.angular.toFixed(4));
 
                     tr.onclick = () => {
                         let data = [];
@@ -150,7 +150,7 @@ const mostrarCorrelacao = () => {
                         chartCor.data.labels = rangeArray(index, index + 15);
                         chartCor.update();
                     };
-                });
+                }
             } else {
                 console.error(msg);
             }
@@ -296,8 +296,8 @@ const mostrarInfoTrendline = () => {
             })
             .then(({data: {status, msg}}) => {
                 if (status == "ok") {
-                    console.log(msg)
-                    msg.forEach(({id_categoria_medicao}) => {
+                    console.log(msg);
+                    for (let {id_categoria_medicao} of msg) {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
                         let tdTendencia = document.createElement("td");
@@ -313,10 +313,16 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
+<<<<<<< HEAD
                                 // console.log(msg)
+=======
+                                console.log(msg);
+>>>>>>> 9cd7a347581d67c9e7627a6621789bacc8cb0d9f
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
-                                    let angular = msg.coefficients.angular;
+                                    let angular = Number(
+                                        msg.coefficients.angular.toFixed(4)
+                                    );
                                     let linear = msg.coefficients.linear;
                                     let data = [];
                                     let index = Math.floor(
@@ -343,8 +349,15 @@ const mostrarInfoTrendline = () => {
                                 document.querySelector("#tableTrendline").appendChild(tr);
                             });
 
+<<<<<<< HEAD
                     });
                     document.querySelector("#tableTrendline").children[0].click();
+=======
+                        document
+                            .querySelector("#tableTrendline")
+                            .appendChild(tr);
+                    }
+>>>>>>> 9cd7a347581d67c9e7627a6621789bacc8cb0d9f
                 }
             });
     }
@@ -451,22 +464,37 @@ function* range(start, end) {
     }
 }
 
-
 //Wordcloud
-anychart.onDocumentReady(function() {
-    let processos = ["R", "Python","chorme","zoom","opera.exe","nodejs","mysql",
-    "discord","VsCode","Gerenciador de tarefas","csrss.exe","winlogon.exe"
-    ,"NVIDIA Web Helper.exe","Lenovo.Modern.ImControlle","RuntimeBroker.exe",
-    "Win32","spotify","TabNine.exe"]
-    
+anychart.onDocumentReady(function () {
+    let processos = [
+        "R",
+        "Python",
+        "chorme",
+        "zoom",
+        "opera.exe",
+        "nodejs",
+        "mysql",
+        "discord",
+        "VsCode",
+        "Gerenciador de tarefas",
+        "csrss.exe",
+        "winlogon.exe",
+        "NVIDIA Web Helper.exe",
+        "Lenovo.Modern.ImControlle",
+        "RuntimeBroker.exe",
+        "Win32",
+        "spotify",
+        "TabNine.exe"
+    ];
+
     var data = [];
 
-    for (i in processos){
-        let valor = Math.floor(Math.random() * 200 + 10)
-        let obj = {x: processos[i], value: valor}
-        data.push(obj)
+    for (i in processos) {
+        let valor = Math.floor(Math.random() * 200 + 10);
+        let obj = {x: processos[i], value: valor};
+        data.push(obj);
     }
-    data = data.map(((el, index) => ({x: processos[index], value: el.value})))
+    data = data.map((el, index) => ({x: processos[index], value: el.value}));
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(data);
 
@@ -477,10 +505,10 @@ anychart.onDocumentReady(function() {
     // enable a color range
     // chart.colorRange(true);
     // set the color range length
-    chart.colorRange().length('100%');
+    chart.colorRange().length("100%");
     chart.tooltip(false);
-    chart.background(false)
-    chart.angles([0])
+    chart.background(false);
+    chart.angles([0]);
     // display the word cloud chart
     // chart.dataArea().background().enabled(false);
     chart.container("wordcloud");

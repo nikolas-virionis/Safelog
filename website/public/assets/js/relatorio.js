@@ -274,8 +274,8 @@ const mostrarInfoTrendline = () => {
                 idCategoriaMedicao: metricas.value
             })
             .then(({data: {msg, status}}) => {
-                console.log(status);
-                console.log(msg);
+                // console.log(status);
+                // console.log(msg);
                 let tr = document.createElement("tr");
                 let tdMetrica = document.createElement("td");
                 let tdTendencia = document.createElement("td");
@@ -288,6 +288,7 @@ const mostrarInfoTrendline = () => {
                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                 document.querySelector("#tableTrendline").appendChild(tr);
             });
+            
     } else {
         axios
             .post("/maquina/lista-componentes", {
@@ -312,7 +313,7 @@ const mostrarInfoTrendline = () => {
                                 idCategoriaMedicao: id_categoria_medicao
                             })
                             .then(({data: {msg, status}}) => {
-                                console.log(msg)
+                                // console.log(msg)
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
                                     let angular = msg.coefficients.angular;
@@ -339,12 +340,11 @@ const mostrarInfoTrendline = () => {
 
                                     chartTrendline.update();
                                 };
+                                document.querySelector("#tableTrendline").appendChild(tr);
                             });
 
-                        document
-                            .querySelector("#tableTrendline")
-                            .appendChild(tr);
                     });
+                    document.querySelector("#tableTrendline").children[0].click();
                 }
             });
     }

@@ -370,7 +370,10 @@ if (cargo == "staff") {
     let liJava2 = document.createElement("li");
     //<a href="#">Download</a>
     let linkDownloadJava = document.createElement("a");
-    linkDownloadJava.setAttribute("href", "#");
+    linkDownloadJava.setAttribute("target", "_blank");
+    linkDownloadJava.setAttribute("download", "");
+    // linkDownloadJava.setAttribute("href", "../../Apps/Java/clientJava/safelog.jar");
+    linkDownloadJava.setAttribute("href", "assets/download/safelog.jar");
     linkDownloadJava.innerHTML = "Download";
     //</li>
     liJava2.appendChild(linkDownloadJava);
@@ -378,7 +381,8 @@ if (cargo == "staff") {
     let liJava3 = document.createElement("li");
     //<a href="#">Baixar JRE</a>
     let linkJreJava = document.createElement("a");
-    linkJreJava.setAttribute("href", "#");
+    linkJreJava.setAttribute("download", "Assistente Safelog");
+    linkJreJava.setAttribute("href", "assets/download/java_install_assistant.sh");
     linkJreJava.innerHTML = "Baixar JRE";
     //</li>
     liJava3.appendChild(linkJreJava);

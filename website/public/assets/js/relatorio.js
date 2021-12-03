@@ -56,6 +56,11 @@ const getTipo = tipo => {
 };
 
 maquinas.addEventListener("change", () => {
+    window.interval = setInterval(() => {
+        mostrarInfoMedicoes()
+        mostrarInfoChamado()
+    }, 3000);
+    
     mostrarCorrelacao();
     attMetricas();
     mostrarInfoMedicoes();
@@ -133,7 +138,7 @@ const mostrarCorrelacao = () => {
 
                     // atualizando gráfico de correlação
                     let linear = corr.coefficients.linear;
-                    let angular = Number(corr.coefficients.angular.toFixed(4));
+                    let angular = Number(corr.coefficients.angular.toFixed(2));
 
                     tr.onclick = () => {
                         let data = [];
@@ -288,7 +293,6 @@ const mostrarInfoTrendline = () => {
                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                 document.querySelector("#tableTrendline").appendChild(tr);
             });
-            
     } else {
         axios
             .post("/maquina/lista-componentes", {
@@ -314,12 +318,11 @@ const mostrarInfoTrendline = () => {
                             })
                             .then(({data: {msg, status}}) => {
                                 // console.log(msg)
-=======
                                 console.log(msg);
                                 tdTendencia.innerHTML = `${msg.orientacao} ${msg.comportamento}`;
                                 tr.onclick = () => {
                                     let angular = Number(
-                                        msg.coefficients.angular.toFixed(4)
+                                        msg.coefficients.angular.toFixed(2)
                                     );
                                     let linear = msg.coefficients.linear;
                                     let data = [];
@@ -344,44 +347,49 @@ const mostrarInfoTrendline = () => {
 
                                     chartTrendline.update();
                                 };
-                                document.querySelector("#tableTrendline").appendChild(tr);
+                                document
+                                    .querySelector("#tableTrendline")
+                                    .appendChild(tr);
                             });
-                        }
                     }
+                }
+            });
     }
-};
-const btnEmail = document.querySelector("#botao-email");
-btnEmail.addEventListener("click", async e => {
-    e.preventDefault();
-    import("./modal.js").then(({abrirModal}) =>
-        abrirModal("modal-email-relatorio")
-    );
-    let elMaquinas;
-    const btnTodas = document.querySelector("#btn-todas");
-    const btnMaquina = document.querySelector("#btn-maquina");
-    const btnCancelar = document.querySelector(".cancelar");
-    btnCancelar.addEventListener("click", () => {
-        import("./modal.js").then(({fecharModal}) =>
-            fecharModal("modal-email-relatorio")
+    const btnEmail = document.querySelector("#botao-email");
+    btnEmail.addEventListener("click", async e => {
+        e.preventDefault();
+        import("./modal.js").then(({abrirModal}) =>
+            abrirModal("modal-email-relatorio")
         );
+        let elMaquinas;
+        const btnTodas = document.querySelector("#btn-todas");
+        const btnMaquina = document.querySelector("#btn-maquina");
+        const btnCancelar = document.querySelector(".cancelar");
+        btnCancelar.addEventListener("click", () => {
+            import("./modal.js").then(({fecharModal}) =>
+                fecharModal("modal-email-relatorio")
+            );
+        });
+        btnTodas.addEventListener("click", () => {
+            elMaquinas = maquinas.children;
+            getMaquinas(elMaquinas);
+        });
+        btnMaquina.addEventListener("click", () => {
+            elMaquinas = maquinas.selectedOptions;
+            getMaquinas(elMaquinas);
+        });
     });
-    btnTodas.addEventListener("click", () => {
-        elMaquinas = maquinas.children;
-        getMaquinas(elMaquinas);
-    });
-    btnMaquina.addEventListener("click", () => {
-        elMaquinas = maquinas.selectedOptions;
-        getMaquinas(elMaquinas);
-    });
-});
-
+};
 const getMaquinas = elMaquinas => {
     let maquinasRelatorio = [...elMaquinas].map(elMaquina => ({
         pk_maquina: Number(elMaquina.value),
         nomeMaquina: elMaquina.text
     }));
     axios
-        .post("/analytics/email-relatorio", {id, maquinas: maquinasRelatorio})
+        .post("/analytics/email-relatorio", {
+            id,
+            maquinas: maquinasRelatorio
+        })
         .then(({data: {status, msg}}) => {
             if (status == "ok") {
                 mostrarAlerta(msg, "success");
@@ -417,7 +425,18 @@ const dataCor = {
 
 const configCor = {
     type: "line",
-    data: dataCor
+    data: dataCor,
+    options: {
+        scales: {
+            y: {
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    stepSize: 0.5
+                }
+            }
+        }
+    }
 };
 
 const ctxCor = document.getElementById("idChartCorrelacao");
@@ -441,7 +460,19 @@ const dataTrendline = {
 
 const configTrendline = {
     type: "line",
-    data: dataTrendline
+    data: dataTrendline,
+    options: {
+        scales: {
+            y: {
+                display: true,
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    stepSize: 0.5
+                }
+            }
+        }
+    }
 };
 
 const ctxTrendline = document.getElementById("idChartTrendline");
@@ -482,7 +513,10 @@ anychart.onDocumentReady(function () {
         let obj = {x: processos[i], value: valor};
         data.push(obj);
     }
-    data = data.map((el, index) => ({x: processos[index], value: el.value}));
+    data = data.map((el, index) => ({
+        x: processos[index],
+        value: el.value
+    }));
     // create a tag (word) cloud chart
     var chart = anychart.tagCloud(data);
 

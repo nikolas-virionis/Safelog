@@ -25,25 +25,47 @@ const sendMessageByChatId = async (chat_id, text) => {
 // retorna chat_id de um usuário (que já tenha acessado o bot)
 // returna null se usuário não for encontrado
 const getChatIdByUsername = async external_username => {
+
+    return await getChatIdOnTelegramUpdates(external_username) 
+    ?? await getChatIdOnDatabase(external_username) 
+
+};
+
+// busca por chat_id no banco de dados
+const getChatIdOnDatabase = async (external_username) => {
+    return await sequelize.query(`SELECT identificador FROM contato WHERE valor = '${external_username}'`)
+    .then(async ([[{identificador}]]) => {
+        return identificador
+    })
+    .catch(err => {
+        return null
+    })
+}
+
+// busca por chat_id no objeto updates do telegram
+const getChatIdOnTelegramUpdates = async (external_username) => {
     return await axios.post(`${url}getUpdates`).then(async updates => {
         const results = updates.data.result;
 
         for (let result of results) {
             let {username, id} = result.message.from;
-
+            
             if (username === external_username) {
                 return id;
             }
         }
-
-        return null;
     });
-};
+}
 
 // envia msg baseado no username
 // retorna "OK" se msg for enviada com sucesso
 const sendMessageByUsername = async (username, text) => {
     return getChatIdByUsername(username).then(async id => {
+
+        if (!id) {
+            throw new Error('(TELEGRAM) Nome de usuário não encontrado. O usuário deve entrar em contato com o bot em https://t.me/safelog_alert_bot')
+        }
+
         await updateIdentificador(id, username);
         return sendMessageByChatId(id, text).then(res => {
             return res;
@@ -53,7 +75,6 @@ const sendMessageByUsername = async (username, text) => {
 
 // atualiza identificador
 const updateIdentificador = async (idTelegram, username) => {
-    console.log(idTelegram, username);
 
     const sql = `UPDATE contato SET identificador = '${idTelegram}' WHERE valor = '${username}'`;
 
@@ -68,10 +89,7 @@ const updateIdentificador = async (idTelegram, username) => {
 
 // testing
 
-// sendMessageByUsername("mesquitola", "calma lá")
-// .then(res => {
-//   console.log(res);
-// });
+// sendMessageByUsername("mesquitola", "message")
 
 module.exports = {
     sendMessageByChatId,

@@ -26,7 +26,17 @@ const chartConfig1 = {
     type: "line",
     data: chartData,
     options: {
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                display: true,
+                ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 7,
+                    stepSize: 0.5
+                }
+            }
+        }
     }
 };
 
@@ -291,7 +301,17 @@ const secondaryCharts = types => {
             type: "line",
             data: chartData,
             options: {
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        display: true,
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 7,
+                            stepSize: 0.5
+                        }
+                    }
+                }
             }
         };
         let chart = new Chart(canvas, chartConfig);

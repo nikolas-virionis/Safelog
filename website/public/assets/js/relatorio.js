@@ -56,6 +56,11 @@ const getTipo = tipo => {
 };
 
 maquinas.addEventListener("change", () => {
+    window.interval = setInterval(() => {
+        mostrarInfoMedicoes()
+        mostrarInfoChamado()
+    }, 3000);
+    
     mostrarCorrelacao();
     attMetricas();
     mostrarInfoMedicoes();

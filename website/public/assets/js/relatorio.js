@@ -504,19 +504,29 @@ function updateWordCloud() {
         "TabNine.exe"
     ];
 
-    let data = [];
-
-    for (i in processos) {
-        let max = (i + 1) * 100 - i * 45;
-        let min = 50 - i * 2;
-        let valor = Math.floor(Math.random() * (max - min) + min);
-        let obj = {x: processos[i], value: valor};
-        data.push(obj);
+    let data =
+        JSON.parse(
+            sessionStorage.getItem(
+                `wordcloud${maquinas.selectedOptions?.[0]?.innerText?.toLowerCase()}`
+            )
+        ) || [];
+    if (!data[0]) {
+        for (i in processos) {
+            let max = (i + 1) * 100 - i * 45;
+            let min = 50 - i * 2;
+            let valor = Math.floor(Math.random() * (max - min) + min);
+            let obj = {x: processos[i], value: valor};
+            data.push(obj);
+        }
+        data = data.map((el, index) => ({
+            x: processos[index],
+            value: el.value
+        }));
+        sessionStorage.setItem(
+            `wordcloud${maquinas.selectedOptions[0]?.innerText?.toLowerCase()}`,
+            JSON.stringify(data)
+        );
     }
-    data = data.map((el, index) => ({
-        x: processos[index],
-        value: el.value
-    }));
     // create a tag (word) cloud chart
     let chart = anychart.tagCloud(data);
 

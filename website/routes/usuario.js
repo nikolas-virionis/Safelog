@@ -324,7 +324,7 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
         })
         .catch(err => Promise.resolve())
         .then(async () => {
-            await sequelizeAzure(updateToken, {
+            await sequelizeAzure.query(updateToken, {
                 type: sequelizeAzure.QueryTypes.UPDATE
             });
             return Promise.resolve();
@@ -337,7 +337,7 @@ router.post("/email-redefinir-senha", async (req, res, next) => {
                 })
                 .catch(async err => {
                     return Promise.resolve(
-                        await sequelizeAzure(nomeUsuario, {
+                        await sequelizeAzure.query(nomeUsuario, {
                             type: sequelizeAzure.QueryTypes.SELECT
                         })
                     );
@@ -382,7 +382,7 @@ router.post("/redefinir-senha", async (req, res) => {
         .then(async () => {
             let atualizarSenhaAzure = md5ToHashbytesMd5(atualizarSenha);
 
-            await sequelizeAzure(atualizarSenhaAzure, {
+            await sequelizeAzure.query(atualizarSenhaAzure, {
                 type: sequelize.QueryTypes.UPDATE
             });
 
@@ -406,7 +406,7 @@ router.post("/verificacao-senha-atual", async (req, res) => {
         .query(verificaSenha, {type: sequelize.QueryTypes.SELECT})
         .catch(async err => {
             return Promise.resolve(
-                await sequelizeAzure(md5ToHashbytesMd5(verificaSenha), {
+                await sequelizeAzure.query(md5ToHashbytesMd5(verificaSenha), {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
             );
@@ -456,7 +456,7 @@ router.post("/acesso-maquina", async (req, res) => {
         .query(acessoExiste, {type: sequelize.QueryTypes.SELECT})
         .catch(err => {
             Promise.resolve(
-                sequelizeAzure(acessoExiste, {
+                sequelizeAzure.query(acessoExiste, {
                     type: sequelizeAzure.QueryTypes.SELECT
                 })
             );
@@ -473,7 +473,7 @@ router.post("/acesso-maquina", async (req, res) => {
                     .query(dadosUsuario, {type: sequelize.QueryTypes.SELECT})
                     .catch(async err => {
                         return Promise.resolve(
-                            await sequelizeAzure(dadosUsuario, {
+                            await sequelizeAzure.query(dadosUsuario, {
                                 type: sequelizeAzure.QueryTypes.SELECT
                             })
                         );
@@ -486,7 +486,7 @@ router.post("/acesso-maquina", async (req, res) => {
                             .query(dados, {type: sequelize.QueryTypes.SELECT})
                             .catch(async err => {
                                 return Promise.resolve(
-                                    await sequelizeAzure(dados, {
+                                    await sequelizeAzure.query(dados, {
                                         type: sequelizeAzure.QueryTypes.SELECT
                                     })
                                 );
@@ -508,10 +508,13 @@ router.post("/acesso-maquina", async (req, res) => {
                                             type: sequelize.QueryTypes.UPDATE
                                         })
                                         .catch(async err => {
-                                            await sequelizeAzure(updateToken, {
-                                                type: sequelize.QueryTypes
-                                                    .UPDATE
-                                            });
+                                            await sequelizeAzure.query(
+                                                updateToken,
+                                                {
+                                                    type: sequelize.QueryTypes
+                                                        .UPDATE
+                                                }
+                                            );
                                             return Promise.resolve();
                                         })
                                         .then(() => {

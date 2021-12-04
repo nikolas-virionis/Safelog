@@ -416,16 +416,11 @@ function updateWordCloud() {
         "spotify",
         "TabNine.exe"
     ];
-    let maq = [...listaMaq.children].filter(el => el.checked)[0]
-        ?.nextElementSibling?.children?.[1]?.children?.[0]?.innerText;
-    let data =
-        JSON.parse(sessionStorage.getItem(`wordcloud${maq?.toLowerCase()}`)) ||
-        [];
+
+    let data = [];
     if (!data[0]) {
         for (i in processos) {
-            let max = (i + 1) * 100 - i * 45;
-            let min = 50 - i * 2;
-            let valor = Math.floor(Math.random() * (max - min) + min);
+            let valor = Math.floor(Math.random() * 200 + 10);
             let obj = {x: processos[i], value: valor};
             data.push(obj);
         }
@@ -433,10 +428,6 @@ function updateWordCloud() {
             x: processos[index],
             value: el.value
         }));
-        sessionStorage.setItem(
-            `wordcloud${maq?.toLowerCase()}`,
-            JSON.stringify(data)
-        );
     }
 
     // create a tag (word) cloud chart

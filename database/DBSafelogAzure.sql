@@ -369,24 +369,24 @@ VALUES
     (5, 1, '2565025835', 1),
     (5, 2, 'lucasmesquita58@hotmail.com', 3),
     (6, 1, '4786956231', 1),
-    (6, 2, '4786956231', 2),
+    -- (6, 2, '4786956231', 2),
     (7, 1, 'lucasmteixeira793@gmail.com', 3),
     (8, 1, '2430765871', 1),
-    (8, 2, '2430765871', 2),
+    -- (8, 2, '2430765871', 2),
     (8, 3, 'teixeiralucas793@outlook.com', 3),
     (9, 1, '8018369067', 1),
-    (9, 2, '8018369067', 2),
+    -- (9, 2, '8018369067', 2),
     (9, 3, 'amandafcaramico@hotmail.com', 3),
     (10, 1, '3180422529', 1),
     (11, 1, '8305786042', 1),
-    (11, 2, '8305786042', 2),
+    -- (11, 2, '8305786042', 2),
     (11, 3, 'jpso0907@gmail.com', 3);
 
--- INSERT INTO usuario
---     (nome, email, senha, cargo, fk_empresa, fk_supervisor)
--- VALUES
---     ('Fernando Brandão', 'fernando.brandao@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'gestor', '203783731', 1),
---     ('Marise Miranda', 'marise.miranda@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'analista', '203783731', 12);
+INSERT INTO usuario
+    (nome, email, senha, cargo, fk_empresa, fk_supervisor)
+VALUES
+    ('Fernando Brandão', 'fernando.brandao@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'gestor', '203783731', 1),
+    ('Marise Miranda', 'marise.miranda@bandtec.com.br', HASHBYTES('MD5', 'urubu100'), 'analista', '203783731', 12);
 
 INSERT INTO
     maquina
@@ -411,8 +411,6 @@ VALUES
     ('s', 6, 1),
     ('s', 6, 2),
     ('s', 6, 3);
--- ('n', 13, 1),
--- ('n', 13, 2);
 
 INSERT INTO
     categoria_medicao

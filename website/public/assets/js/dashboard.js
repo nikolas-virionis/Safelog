@@ -4,7 +4,6 @@ let maq1,
     myChart,
     nMaq = 0;
 
-
 let canvasChart1 = document.getElementById(`idChart1`);
 
 let colors = [
@@ -97,7 +96,7 @@ const gerarCardMaquina = maq => {
     document.querySelector("#listaMaq").appendChild(labelMaq);
 
     labelMaq.addEventListener("click", async e => {
-        maquinaInfo = maq
+        maquinaInfo = maq;
         maq1 = maq.id_maquina;
         // console.log(maquinaInfo);
         sessionStorage.setItem("maquina", labelMaq.maq);
@@ -138,7 +137,6 @@ const gerarCardMaquina = maq => {
                     tipo
                 });
             }
-            
         });
         // console.log(mainTypes);
         chartData.datasets = [];
@@ -165,13 +163,14 @@ const gerarCardMaquina = maq => {
     });
 
     inputMaq.addEventListener("change", e => {
-        if(cargo == "gestor"){
+        if (cargo == "gestor") {
             listaMetricasRelatorio();
             // console.log("inp maq change")
             mostrarCorrelacao();
             mostrarInfoMedicoes();
             mostrarInfoTrendline();
             mostrarInfoChamado();
+            updateWordCloud();
         }
         document.querySelector("#graficosDash").innerHTML = "";
         // apagarGraficos();
@@ -196,8 +195,8 @@ const getComponentes = maq => {
 const changeMachine = types => {
     reqData(types);
     window.interval = setInterval(() => {
-        mostrarInfoMedicoes()
-        mostrarInfoChamado()
+        mostrarInfoMedicoes();
+        mostrarInfoChamado();
         reqData(types);
     }, 3000);
 };
@@ -340,12 +339,15 @@ const reqDataSec = (types, chart) => {
                 updateChart(chart, msg[0].medicoes);
                 // console.log(msg[0].medicoes[0]);
                 // console.log(msg)
-                if(msg[0].medicoes[0].tipo == "risco"){
-                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina warning";
-                }else if(msg[0].medicoes[0].tipo == "critico"){
-                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina danger";
-                }else{
-                    document.querySelector(`[for="${maq1}"]`).classList = "card-maquina";
+                if (msg[0].medicoes[0].tipo == "risco") {
+                    document.querySelector(`[for="${maq1}"]`).classList =
+                        "card-maquina warning";
+                } else if (msg[0].medicoes[0].tipo == "critico") {
+                    document.querySelector(`[for="${maq1}"]`).classList =
+                        "card-maquina danger";
+                } else {
+                    document.querySelector(`[for="${maq1}"]`).classList =
+                        "card-maquina";
                 }
                 // }
             } else {
@@ -388,30 +390,48 @@ const getTipo = tipo => {
 // -------------------- Relatório --------------------
 // -------------------------------------------------------
 
-if(cargo == "gestor"){
-    relatorio.classList.remove("display-none")
-
-
+if (cargo == "gestor") {
+    relatorio.classList.remove("display-none");
 }
 
+function updateWordCloud() {
+    wordcloud.innerHTML = "";
+    let processos = [
+        "R",
+        "Python",
+        "chorme",
+        "zoom",
+        "opera.exe",
+        "nodejs",
+        "mysql",
+        "discord",
+        "VsCode",
+        "Gerenciador de tarefas",
+        "csrss.exe",
+        "winlogon.exe",
+        "NVIDIA Web Helper.exe",
+        "Lenovo.Modern.ImControlle",
+        "RuntimeBroker.exe",
+        "Win32",
+        "spotify",
+        "TabNine.exe"
+    ];
 
-//Wordcloud
-anychart.onDocumentReady(function() {
-    let processos = ["R", "Python","chorme","zoom","opera.exe","nodejs","mysql",
-    "discord","VsCode","Gerenciador de tarefas","csrss.exe","winlogon.exe"
-    ,"NVIDIA Web Helper.exe","Lenovo.Modern.ImControlle","RuntimeBroker.exe",
-    "Win32","spotify","TabNine.exe"]
-    
-    var data = [];
+    let data = [];
 
-    for (i in processos){
-        let valor = Math.floor(Math.random() * 200 + 10)
-        let obj = {x: processos[i], value: valor}
-        data.push(obj)
+    for (i in processos) {
+        let max = (i + 1) * 100 - i * 45;
+        let min = 50 - i * 2;
+        let valor = Math.floor(Math.random() * (max - min) + min);
+        let obj = {x: processos[i], value: valor};
+        data.push(obj);
     }
-    data = data.map(((el, index) => ({x: processos[index], value: el.value})))
+    data = data.map((el, index) => ({
+        x: processos[index],
+        value: el.value
+    }));
     // create a tag (word) cloud chart
-    var chart = anychart.tagCloud(data);
+    let chart = anychart.tagCloud(data);
 
     // set a chart title
     // chart.title('15 most spoken languages')
@@ -420,12 +440,15 @@ anychart.onDocumentReady(function() {
     // enable a color range
     // chart.colorRange(true);
     // set the color range length
-    chart.colorRange().length('100%');
+    chart.colorRange().length("100%");
     chart.tooltip(false);
-    chart.background(false)
-    chart.angles([0])
+    chart.background(false);
+    chart.angles([0]);
     // display the word cloud chart
     // chart.dataArea().background().enabled(false);
+    if (wordcloud.innerHTML != "") wordcloud.innerHTML = "";
     chart.container("wordcloud");
     chart.draw();
-});
+}
+//Wordcloud
+anychart.onDocumentReady(updateWordCloud);

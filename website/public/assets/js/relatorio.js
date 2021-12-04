@@ -66,6 +66,7 @@ maquinas.addEventListener("change", () => {
     mostrarInfoMedicoes();
     mostrarInfoChamado();
     mostrarInfoTrendline();
+    updateWordCloud();
 });
 
 metricas.addEventListener("change", () => {
@@ -481,6 +482,7 @@ function* range(start, end) {
     }
 }
 function updateWordCloud() {
+    wordcloud.innerHTML = "";
     let processos = [
         "R",
         "Python",
@@ -502,10 +504,12 @@ function updateWordCloud() {
         "TabNine.exe"
     ];
 
-    var data = [];
+    let data = [];
 
     for (i in processos) {
-        let valor = Math.floor(Math.random() * 200 + 10);
+        let max = (i + 1) * 100 - i * 45;
+        let min = 50 - i * 2;
+        let valor = Math.floor(Math.random() * (max - min) + min);
         let obj = {x: processos[i], value: valor};
         data.push(obj);
     }
@@ -514,7 +518,7 @@ function updateWordCloud() {
         value: el.value
     }));
     // create a tag (word) cloud chart
-    var chart = anychart.tagCloud(data);
+    let chart = anychart.tagCloud(data);
 
     // set a chart title
     // chart.title('15 most spoken languages')

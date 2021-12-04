@@ -98,7 +98,10 @@ const attMetricas = () => {
                     msg.forEach(({id_categoria_medicao, tipo}) => {
                         option = document.createElement("option");
                         option.value = id_categoria_medicao;
-                        option.setAttribute("id", `medicao${metricas.value}`);
+                        option.setAttribute(
+                            "id",
+                            `medicao${id_categoria_medicao}`
+                        );
                         option.innerText = getTipo(tipo);
                         metricas.appendChild(option);
                     });
@@ -298,16 +301,14 @@ const mostrarInfoTrendline = () => {
             .then(({data: {status, msg}}) => {
                 if (status == "ok") {
                     console.log(msg);
-                    for (let {id_categoria_medicao} of msg) {
+                    for (let {id_categoria_medicao, tipo} of msg) {
                         let tr = document.createElement("tr");
                         let tdMetrica = document.createElement("td");
                         let tdTendencia = document.createElement("td");
                         tr.appendChild(tdMetrica);
                         tr.appendChild(tdTendencia);
 
-                        tdMetrica.innerHTML = document.getElementById(
-                            `medicao${metricas.value}`
-                        ).innerHTML;
+                        tdMetrica.innerHTML = getTipo(tipo);
 
                         axios
                             .post("/analytics/trend", {

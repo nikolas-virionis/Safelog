@@ -57,10 +57,10 @@ const getTipo = tipo => {
 
 maquinas.addEventListener("change", () => {
     window.interval = setInterval(() => {
-        mostrarInfoMedicoes()
-        mostrarInfoChamado()
+        mostrarInfoMedicoes();
+        mostrarInfoChamado();
     }, 3000);
-    
+
     mostrarCorrelacao();
     attMetricas();
     mostrarInfoMedicoes();
@@ -98,10 +98,7 @@ const attMetricas = () => {
                     msg.forEach(({id_categoria_medicao, tipo}) => {
                         option = document.createElement("option");
                         option.value = id_categoria_medicao;
-                        option.setAttribute(
-                            "id",
-                            `medicao${id_categoria_medicao}`
-                        );
+                        option.setAttribute("id", `medicao${metricas.value}`);
                         option.innerText = getTipo(tipo);
                         metricas.appendChild(option);
                     });
@@ -309,7 +306,7 @@ const mostrarInfoTrendline = () => {
                         tr.appendChild(tdTendencia);
 
                         tdMetrica.innerHTML = document.getElementById(
-                            `medicao${id_categoria_medicao}`
+                            `medicao${metricas.value}`
                         ).innerHTML;
 
                         axios
@@ -482,9 +479,7 @@ function* range(start, end) {
         yield h;
     }
 }
-
-//Wordcloud
-anychart.onDocumentReady(function () {
+function updateWordCloud() {
     let processos = [
         "R",
         "Python",
@@ -535,4 +530,6 @@ anychart.onDocumentReady(function () {
     // chart.dataArea().background().enabled(false);
     chart.container("wordcloud");
     chart.draw();
-});
+}
+//Wordcloud
+anychart.onDocumentReady(updateWordCloud);

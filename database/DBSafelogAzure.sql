@@ -20495,6 +20495,7 @@ VALUES
     (53.7, 'normal', '2021-12-03 16:39:35', 6),
     (430.72, 'normal', '2021-12-03 16:39:35', 7);
 
+
 INSERT INTO chamado
     (titulo, descricao, data_abertura, status_chamado, prioridade, automatico, fk_categoria_medicao, fk_usuario)
 VALUES
@@ -20506,12 +20507,12 @@ VALUES
     ('pouca ram disponivel', 'pouca ram disponivel', '2021-11-29 23:48:27', 'fechado', 'alta', 'n', 12, 6),
     ('pouco armazenamento em disco', 'pouco armazenamento em disco', '2021-11-29 23:57:14', 'fechado', 'media', 'n', 13, 6),
     ('alta temperatura', 'temperatura alta da cpu', '2021-11-30 00:05:38', 'fechado', 'emergencia', 'n', 8, 6),
-    ('cpu com temperatura elevada', 'temperatura contÔö£┬ínuamente alta', '2021-11-30 23:13:21', 'fechado', 'alta', 'n', 1, 6),
+    ('cpu com temperatura elevada', 'temperatura cont├ö├Â┬úÔö¼├¡nuamente alta', '2021-11-30 23:13:21', 'fechado', 'alta', 'n', 1, 6),
     ('ram em estado de emergencia', 'ram em estado de emergencia', '2021-11-30 23:13:58', 'fechado', 'emergencia', 'n', 4, 6),
     ('overclock', 'overclock', '2021-11-30 23:15:50', 'fechado', 'alta', 'n', 2, 6),
     ('cpu emergencia', 'uso de cpu muito alto', '2021-11-30 23:16:38', 'fechado', 'emergencia', 'n', 3, 6),
     ('disco cheio', 'alto uso de disco', '2021-11-30 23:17:32', 'fechado', 'alta', 'n', 6, 6),
-    ('pouco espaÔö£┬║o em disco', 'maquina mais lenta', '2021-11-30 23:18:16', 'fechado', 'emergencia', 'n', 7, 6),
+    ('pouco espa├ö├Â┬úÔö¼Ôòæo em disco', 'maquina mais lenta', '2021-11-30 23:18:16', 'fechado', 'emergencia', 'n', 7, 6),
     ('maquina com alta frequencia', 'maquina com alta frequencia', '2021-11-30 23:18:48', 'fechado', 'media', 'n', 9, 6),
     ('alto uso de cpu', 'alto uso de cpu', '2021-11-30 23:33:16', 'fechado', 'alta', 'n', 8, 6),
     ('alto uso de disco', 'alto uso de disco', '2021-12-01 09:55:56', 'fechado', 'media', 'n', 18, 3),
@@ -20519,19 +20520,21 @@ VALUES
     ('alto uso de cpu', 'alto uso de cpu', '2021-12-01 10:02:07', 'fechado', 'alta', 'n', 10, 3),
     ('alta temperatura da cpu', 'alta temperatura da cpu', '2021-12-01 10:05:22', 'fechado', 'alta', 'n', 1, 3),
     ('alto uso de disco', 'alto uso de disco', '2021-12-01 10:05:52', 'fechado', 'media', 'n', 6, 3),
-    ('pouco espa├ºo restante em disco', 'pouco espa├ºo restante em disco, maquina levemente mais lenta', '2021-12-01 10:08:16', 'fechado', 'media', 'n', 7, 3),
+    ('pouco espaÔö£┬║o restante em disco', 'pouco espaÔö£┬║o restante em disco, maquina levemente mais lenta', '2021-12-01 10:08:16', 'fechado', 'media', 'n', 7, 3),
     ('overclock', 'overclock', '2021-12-01 10:10:09', 'fechado', 'alta', 'n', 2, 3),
     ('pouca memoria ram restante', 'pouca memoria ram restante', '2021-12-01 10:10:49', 'fechado', 'alta', 'n', 5, 3),
     ('alto uso de disco', 'alto uso de disco', '2021-12-01 10:11:41', 'fechado', 'alta', 'n', 13, 3),
-    ('Medição critico do componente ram', 'Uma medição critico de Porcentagem do componente ram foi observada', '2021-12-03 18:47:05', 'fechado', 'emergencia', 's', 4, 6),
-    ('Medição critico do componente ram', 'Uma medição critico de Porcentagem do componente ram foi observada', '2021-12-03 19:07:04', 'aberto', 'emergencia', 's', 4, 6),
-    ('Medição risco do componente ram', 'Uma medição risco de Livre do componente ram foi observada', '2021-12-03 19:08:54', 'aberto', 'alta', 's', 5, 6),
+    ('Medi├º├úo critico do componente ram', 'Uma medi├º├úo critico de Porcentagem do componente ram foi observada', '2021-12-03 18:47:05', 'fechado', 'emergencia', 's', 4, 6),
+    ('Medi├º├úo critico do componente ram', 'Uma medi├º├úo critico de Porcentagem do componente ram foi observada', '2021-12-03 19:07:04', 'fechado', 'emergencia', 's', 4, 6),
+    ('Medi├º├úo risco do componente ram', 'Uma medi├º├úo risco de Livre do componente ram foi observada', '2021-12-03 19:08:54', 'fechado', 'alta', 's', 5, 6),
     ('cpu em estado critico', 'cpu em estado critico', '2021-12-03 19:11:46', 'aberto', 'alta', 'n', 3, 6),
     ('alta temperatura de cpu', 'alta temperatura de cpu', '2021-12-03 19:12:49', 'aberto', 'alta', 'n', 1, 6),
     ('overclock', 'overclock', '2021-12-03 19:13:14', 'aberto', 'alta', 'n', 2, 6),
     ('alto uso de disco', 'alto uso de disco', '2021-12-03 19:13:40', 'aberto', 'media', 'n', 6, 6),
     ('pouca memoria em disco', 'pouca memoria em disco', '2021-12-03 19:14:32', 'aberto', 'media', 'n', 7, 6),
-    ('alta temperatura da cpu', 'alta temperatura da cpu', '2021-12-03 19:36:49', 'aberto', 'alta', 'n', 8, 6);
+    ('alta temperatura da cpu', 'alta temperatura da cpu', '2021-12-03 19:36:49', 'aberto', 'alta', 'n', 8, 6),
+    ('alto uso de ram', 'alto uso de ram', '2021-12-05 10:58:52', 'aberto', 'emergencia', 'n', 4, 6),
+    ('pouca memoria ram livre', 'pouca memoria ram livre', '2021-12-05 10:59:27', 'aberto', 'alta', 'n', 5, 6);
 
 INSERT INTO solucao
     (titulo, descricao, data_solucao, eficacia, fk_chamado, fk_usuario)
@@ -20560,4 +20563,6 @@ VALUES
     ('novo disco instalado', 'novo disco instalado', '2021-12-03 19:09:47', 'total', 25, 6),
     ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:22', 'parcial', 23, 6),
     ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:29', 'total', 19, 6),
-    ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:34', 'nula', 20, 6);
+    ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:34', 'nula', 20, 6),
+    ('novo slot de ram instalado', 'novo slot de ram instalado', '2021-12-05 10:56:53', 'nula', 27, 6),
+    ('novo slot de ram instalado', 'novo slot de ram instalado', '2021-12-05 10:57:28', 'nula', 28, 6);

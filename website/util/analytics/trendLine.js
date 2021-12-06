@@ -1,6 +1,6 @@
 const getTrendBehavior = deg => {
     let orientacao, comportamento;
-    if (deg >= -1 && deg <= 1) {
+    if (Math.abs(deg) < 0.01) {
         orientacao = "constante";
         comportamento = "";
     } else {
@@ -10,7 +10,9 @@ const getTrendBehavior = deg => {
             orientacao = "decrescimento"; // "atenuamento"
         }
 
-        if (Math.abs(deg) < 10) {
+        if (Math.abs(deg) < 1) {
+            comportamento = "mínimo";
+        } else if (Math.abs(deg) < 10) {
             comportamento = "leve";
         } else if (Math.abs(deg) < 25) {
             comportamento = "moderado";

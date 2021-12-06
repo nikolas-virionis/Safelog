@@ -27,6 +27,13 @@ const rangeArray = (start, end) => {
     }
     return array;
 };
+const rangeArrayCor = (start, end) => {
+    let array = [];
+    for (let i of rangeCor(start, end)) {
+        array.push(i);
+    }
+    return array;
+};
 
 metricas.addEventListener("change", () => {
     mostrarInfoMedicoes();
@@ -107,14 +114,14 @@ const mostrarCorrelacao = () => {
                         let index = Math.floor(
                             (corr.median - linear) / (angular || 1)
                         );
-                        for (let i of range(index, index + 15)) {
+                        for (let i of rangeCor(index, index + 15)) {
                             data.push(linear + angular * i);
                         }
 
                         chartCor.data.datasets[0].data = data.map(dado =>
                             Number(dado.toFixed(3))
                         );
-                        chartCor.data.labels = rangeArray(index, index + 15);
+                        chartCor.data.labels = rangeArrayCor(index, index + 15);
                         chartCor.update();
                     };
                 }
@@ -214,10 +221,10 @@ const mostrarInfoTrendline = () => {
                             let index = Math.floor(
                                 (msg.median - linear) / (angular || 1)
                             );
-                            for (let i of range(index, index + 15)) {
+                            for (let i of range(index, index + 300)) {
                                 data.push(linear + angular * i);
                             }
-                            let indexes = rangeArray(index, index + 15);
+                            let indexes = rangeArray(index, index + 300);
                             chartTrendline.data.datasets[0].data = data.map(
                                 dado => Number(dado.toFixed(4))
                             );
@@ -267,10 +274,13 @@ const mostrarInfoTrendline = () => {
                                     let index = Math.floor(
                                         (msg.median - linear) / (angular || 1)
                                     );
-                                    for (let i of range(index, index + 15)) {
+                                    for (let i of range(index, index + 300)) {
                                         data.push(linear + angular * i);
                                     }
-                                    let indexes = rangeArray(index, index + 15);
+                                    let indexes = rangeArray(
+                                        index,
+                                        index + 300
+                                    );
                                     chartTrendline.data.datasets[0].data =
                                         data.map(dado =>
                                             Number(dado.toFixed(4))
@@ -386,7 +396,7 @@ let configTrendline = {
                 display: true,
                 ticks: {
                     autoSkip: true,
-                    maxTicksLimit: 7,
+                    maxTicksLimit: 5,
                     stepSize: 0.5
                 }
             }
@@ -397,6 +407,11 @@ let configTrendline = {
 let ctxTrendline = document.getElementById("idChartTrendline");
 let chartTrendline = new Chart(ctxTrendline, configTrendline);
 function* range(start, end) {
+    for (let h = start; h <= end; h += 20) {
+        yield h;
+    }
+}
+function* rangeCor(start, end) {
     for (let h = start; h <= end; h++) {
         yield h;
     }

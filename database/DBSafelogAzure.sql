@@ -9551,4 +9551,5 @@ VALUES
     ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:29', 'total', 19, 6),
     ('nova cpu instalada', 'nova cpu instalada', '2021-12-03 19:10:34', 'nula', 20, 6),
     ('novo slot de ram instalado', 'novo slot de ram instalado', '2021-12-05 10:56:53', 'nula', 27, 6),
-    ('novo slot de ram instalado', 'novo slot de ram instalado', '2021-12-05 10:57:28', 'nula', 28, 6);
+    ('novo slot de ram instalado', 'novo slot de ram instalado', '2021-12-05 10:57:28', 'nula', 28, 6),
+    ('nova cpu instalada', 'nova cpu instalada', '2021-12-07 00:51:19', 'total', 34, 6);

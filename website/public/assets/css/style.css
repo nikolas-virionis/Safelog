@@ -51,18 +51,17 @@
     justify-content: flex-end;
 }
 
-.display-hidden{
+.display-hidden {
     visibility: hidden;
 }
 
-.display-none{
+.display-none {
     display: none;
 }
 
-
-.inp-uma-linha{
+.inp-uma-linha {
     width: 100%;
-    height: 2rem; 
+    height: 2rem;
     border: none;
     outline: none;
     border-bottom: 2px solid #e0e0e0;
@@ -70,22 +69,21 @@
     padding: 0 10px;
 }
 
-.inp-uma-linha:focus{
+.inp-uma-linha:focus {
     border-bottom: 2px solid var(--cor-principal);
 }
 
-.textarea-uma-linha{
+.textarea-uma-linha {
     border: 2px solid #e0e0e0;
     width: 100%;
     resize: none;
-    outline:none;
+    outline: none;
     padding: 10px;
     border-radius: 10px;
 }
-.textarea-uma-linha:focus{
+.textarea-uma-linha:focus {
     border: 2px solid var(--cor-principal);
 }
-
 
 * {
     margin: 0;
@@ -131,7 +129,7 @@ body::-webkit-scrollbar-thumb:hover {
     margin: auto;
 }
 
-.input-padrao{
+.input-padrao {
     width: 100%;
     border: none;
     border-radius: 20px;
@@ -846,18 +844,18 @@ button.modal {
     margin-left: 70px;
 }
 .dashboard-check input#contato-whatsapp + label {
-    background-image: url("../img/redes/whatsapp.png");
+    background-image: url("../img/social-media/whatsapp.png");
 }
 .dashboard-check input#contato-telegram + label {
-    background-image: url("../img/redes/telegram.png");
+    background-image: url("../img/social-media/telegram.png");
 }
 .dashboard-check input#contato-slack + label {
-    background-image: url("../img/redes/slack.png");
+    background-image: url("../img/social-media/slack.png");
 }
 .dashboard-check input:checked + label {
     filter: brightness(1);
     transform: scale(1.25);
-    margin-left: 0!important;
+    margin-left: 0 !important;
 }
 #contato-slack {
     -webkit-transition: 0.5s;
@@ -889,47 +887,38 @@ button.modal {
     position: relative;
 }
 
-.img-edit-perfil{
-
-    width:1.5%;
-    padding-top:0.7vh;
+.img-edit-perfil {
+    width: 1.5%;
+    padding-top: 0.7vh;
     margin: 0;
-
 }
 
-.img-edit-perfil{
-
-    width:1.5%;
-    padding-top:0.7vh;
+.img-edit-perfil {
+    width: 1.5%;
+    padding-top: 0.7vh;
     margin: 0;
-
 }
-.img-edit-perfil-edit{
-
-    width:1.5%;
-    padding-top:0.7vh;
+.img-edit-perfil-edit {
+    width: 1.5%;
+    padding-top: 0.7vh;
     margin: 0;
-
 }
-.center-t{
-
+.center-t {
     width: 98%;
     margin: auto;
-    
 }
-.textarea{
-
+.textarea {
     border-radius: 20px;
     width: 100%;
     height: 10%;
 }
 
 .icon-sd {
-  height: 50px;
-  width: fit-content;
-  position: absolute;
-  right: 25px;
-  top: 25px;
+    height: 50px;
+    width: fit-content;
+    position: absolute;
+    right: 25px;
+    top: 25px;
 }
 
 .chartContainer {

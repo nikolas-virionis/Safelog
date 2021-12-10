@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo chamado</title>
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="container-site">
+            <div class="container-card">
+                <div class="card">
+                    <img class="icon-sd" src="./assets/img/logo/logo-safedesk-black.png">
+                    <div class="row form-item">
+                        <h2>Abertura de chamados</h2>
+                    </div>
+                    <div class="row form-item">
+                        <label>Título</label>
+                        <input id="titulo" type="Text">
+                    </div>
+                    <div class="row form-item">
+                        <label>Descrição:</label>
+                        <textarea id="descricao" rows="6"></textarea>
+                    </div>
+                    <div class="row justify-content-center form-item">
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Máquina:</label>
+                            <select name="" id="maquinas">
+                            </select>
+                        </div>
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Métrica relacionada:</label>
+                            <select name="" id="metricas" disabled>
+                            </select>
+                        </div>
+                        <div class="col-md-6 com-sm-12 form-item">
+                            <label>Prioridade:</label>
+                            <select name="" id="prioridade" disabled>
+                                <option value="">Escolha a prioridade</option>
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="emergencia">Emergência</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row form-item">
+                        <button class="btn-geral">
+                            Abrir chamado
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div class="modal-screen" id="modal-reabrir-chamado">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Eficácia da solução anterior</h2>
+                <span>
+                    <p>Um chamado, dessa mesma métrica, foi recentemente fechado</p>
+                    <p>Ateste a eficácia da solução proposta para continuar a abertura de seu chamado</p>
+                </span>
+            </div>
+            <div class="modal-body">
+                <div class="form-item">
+                    <label>Eficácia:</label>
+                    <select id="eficacia">
+                        <option value="">Escolha uma</option>
+                        <option value="nula">Eficácia nula</option>
+                        <option value="parcial">Eficácia parcial</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-prosseguir-modal">Abrir chamado</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <div id="alerta"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/alert.js"></script>
+    <script src="./assets/js/newSafedeskCall.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>

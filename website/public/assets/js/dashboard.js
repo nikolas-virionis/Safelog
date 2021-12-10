@@ -40,7 +40,7 @@ const chartConfig1 = {
 };
 
 axios
-    .post(`/maquina/lista-dependentes/${cargo}`, {
+    .post(`/machine/lista-dependentes/${cargo}`, {
         id
     })
     .then(({data: {status, msg: dependentes}}) => {
@@ -180,7 +180,7 @@ const gerarCardMaquina = maq => {
 
 const getComponentes = maq => {
     return axios
-        .post("/maquina/lista-componentes", {
+        .post("/machine/lista-componentes", {
             id: maq
         })
         .then(({data: {status, msg}}) => {
@@ -205,7 +205,7 @@ const reqData = types => {
     // console.log("types: ")
     // console.log(types)
     axios
-        .post("/medicao/dados", {
+        .post("/measurment/dados", {
             categorias: types,
             cargo
         })
@@ -329,7 +329,7 @@ const changeMachineSec = (types, chart, num) => {
 
 const reqDataSec = (types, chart) => {
     axios
-        .post("/medicao/dados", {
+        .post("/measurment/dados", {
             categorias: types,
             cargo: "analista"
         })

@@ -9,8 +9,8 @@ const {
     getRelevantCorr,
     getCorrSentido,
     getCorrStr
-} = require("../util/analytics/dados");
-const {relatorio} = require("../util/analytics/relatorio");
+} = require("../util/analytics/data");
+const {relatorio} = require("../util/analytics/report");
 const {mandarEmail} = require("../util/email/email");
 const {LinearModelOverTime} = require("linear-regression-model");
 
@@ -64,7 +64,7 @@ router.post("/email-relatorio", async (req, res) => {
         .then(async ([{nome, email, cargo}]) => {
             let relatorioStr = await relatorio(maquinas, cargo);
 
-            mandarEmail("relatorio", nome, email, [relatorioStr])
+            mandarEmail("report", nome, email, [relatorioStr])
                 .then(() => {
                     res.json({
                         status: "ok",

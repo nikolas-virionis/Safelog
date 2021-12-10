@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componentes</title>
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="dependents">Dependentes</a>
+                    >
+                    Dados de máquina
+                    >
+                    <span class="pagina-atual-caminho">Gerenciamento de métricas</span>
+                </span>
+            </div>
+            <br>
+            <h1>Selecione os componentes que deseja monitorar</h1>
+            <div class="lista-componentes">
+
+                <div class="componente-principal">
+                    <label class="customcheckbox">
+                        <input type="checkbox" id="checkCpu" />
+                        <div class="checkmark"></div>
+                        CPU
+                    </label>
+                    <!-- <label for="checkCpu">CPU</label>
+                    <input type="checkbox" name="" id="checkCpu"> -->
+                </div>
+
+                <div class="componente-principal">
+                    <label class="customcheckbox">
+                        <input type="checkbox" id="checkMem" />
+                        <div class="checkmark"></div>
+                        Memória
+                    </label>
+                    <!-- <label for="checkMem">Memória</label>
+                    <input type="checkbox" name="" id="checkMem"> -->
+                </div>
+
+                <div class="componente-principal">
+                    <label class="customcheckbox">
+                        <input type="checkbox" id="checkDis" />
+                        <div class="checkmark"></div>
+                        Disco
+                    </label>
+                    <!-- <label for="checkDis">Disco</label>
+                    <input type="checkbox" name="" id="checkDis"> -->
+                </div>
+            </div>
+
+
+
+
+            <div id="medicoes" class="medicoes">
+                <div class="lista-medicoes" id="componentesCpu">
+                    <h2>CPU:</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="cpu_porcentagem" id="medicao1">
+                        <label for="medicao1">Porcentagem de uso:</label>
+                        <span id="rangeValue1">60%</span><br>
+                        <input type="range" step="0.1" value="60" id="limite1" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="cpu_frequencia" id="medicao2">
+                        <label for="medicao2">Frequência: </label>
+                        <span id="rangeValue2">101%</span><br>
+                        <input type="range" step="0.1" value="101" id="limite2" min="10" max="150" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="cpu_temperatura" id="medicao3">
+                        <label for="medicao3">Temperatura ºC</label><br>
+                        <input type="number" value="50" step="0.25" id="limite3" disabled>
+                    </div>
+                </div>
+
+                <div class="lista-medicoes" id="componentesMem">
+                    <h2>Memória:</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="ram_porcentagem" id="medicao4">
+                        <label for="medicao4">Porcentagem de uso: </label>
+                        <span id="rangeValue4">60%</span><br>
+                        <input type="range" step="0.1" value="60" id="limite4" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="ram_livre" id="medicao5">
+                        <label for="medicao5">Disponível (Gb)</label><br>
+                        <input type="number" value="2" step="0.25" id="limite5" disabled>
+                    </div>
+                </div>
+
+                <div class="lista-medicoes" id="componentesDis">
+                    <h2>Disco:</h2>
+                    <div class="medicao">
+                        <input type="checkbox" name="disco_porcentagem" id="medicao6">
+                        <label for="medicao6">Porcentagem de uso: </label>
+                        <span id="rangeValue6">60%</span><br>
+                        <input type="range" step="0.1" value="60" id="limite6" min="10" max="95" disabled>
+                    </div>
+                    <div class="medicao">
+                        <input type="checkbox" name="disco_livre" id="medicao7">
+                        <label for="medicao7">Disponível (Gb)</label><br>
+                        <input type="number" name="disco_livre" value="200" step="0.25" id="limite7" disabled>
+                    </div>
+                </div>
+
+            </div>
+            <button class="btn-geral cancelar" id="btnSubmit">Continuar</button>
+        </div>
+
+
+
+    </section>
+
+    <div id="alerta"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/alert.js"></script>
+    <script src="assets/js/components.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+
+</html>

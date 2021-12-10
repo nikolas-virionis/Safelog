@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convidar Responsável</title>
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="acesso">
+            <div class="section-login">
+                <div class="card-login">
+                    <h1 class="centralizar">Passar cargo de responsável</h1>
+                    <div class="centralizar coluna">
+                        Digite o email do proximo responsável pela máquina <span id="nome-maq"></span>
+                    </div>
+
+                    <div class="centralizar botoes">
+                        <div class="underline-input">
+                            <h3 class="centralizar">Email:</h3>
+                            <input id="email-inp" type="email" name="">
+                        </div>
+                    </div>
+                    <div class="centralizar botoes">
+                        <button class="btn-geral">Concluir</button>
+                        <button class="btn-geral cancelar">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal-screen" id="modal-verify-token">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Passar cargo de responsável</h2>
+                    <h4>Digite seu email e o token que foi enviado a você</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h4>Email:</h4>
+                        <input id="inp-email" type="text" name="">
+                    </div>
+                    <div>
+                        <h4>Token:</h4>
+                        <input id="inp-token" type="text" name="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-geral" id="btn-prosseguir-modal">Prosseguir</button>
+                    <button class="btn-geral cancelar" id="btn-cancelar-modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        <div id="alerta"></div>
+
+        <div class="modal-screen" id="modal-log-certeza-sair">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Tem certeza que deseja sair?</h2>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-geral" id="btn-sair">Confirmar</button>
+                    <button class="btn-geral cancelar" id="btn-cancelar-sair">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="./assets/js/alert.js"></script>
+        <script src="./assets/js/inviteResponsableUser.js"></script>
+        <script src="./assets/js/sidebar.js"></script>
+        <script src="./assets/js/script.js"></script>
+</body>
+
+</html>

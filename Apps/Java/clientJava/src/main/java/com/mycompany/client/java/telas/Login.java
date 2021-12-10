@@ -115,7 +115,7 @@ public final class Login extends javax.swing.JFrame {
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/com/mycompany/client/java/telas/logo-escrita-branco.png"))); // NOI18N
+                getClass().getResource("/com/mycompany/client/java/telas/written-white-logo.png"))); // NOI18N
 
         cop.setForeground(new java.awt.Color(0, 255, 51));
 
@@ -305,7 +305,7 @@ public final class Login extends javax.swing.JFrame {
         });
     }
 
-    // .setIcon(new javax.swing.ImageIcon("./logo-escrita-branco.png"));
+    // .setIcon(new javax.swing.ImageIcon("./written-white-logo.png"));
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ErroSenha;
     private javax.swing.JButton btnCopiarMacAddr;

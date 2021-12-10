@@ -1,22 +1,21 @@
 const link = document.createElement("link");
 link.rel = "shortcut icon";
-link.href = "assets/img/logo/logo-icon-branco.png";
+link.href = "assets/img/logo/logo-icon-white.png";
 document.getElementsByTagName("head")[0].appendChild(link);
-
 
 const pages = [
     "/login",
     "/index",
-    "/cadastro-pessoa",
-    "/redefinir-senha",
-    "/responsavel-gestor",
-    "/convidar-responsavel",
-    "/delete-maquina",
-    "/permissao-acesso",
+    "/person-register",
+    "/change-password",
+    "/manager-in-charge",
+    "/invite-responsable-user",
+    "/delete-machine",
+    "/access-permission",
     "/pag-404",
     "/"
 ];
-const pagesNotNotify = ["/relatorio", "/cadastro-empresa"];
+const pagesNotNotify = ["/relatorio", "/company-register"];
 
 if (
     !pages.includes(window.location.pathname.replace(".html", "")) &&
@@ -32,10 +31,10 @@ let num =
 localStorage.setItem("img", num);
 
 // imagem de perfil do usuário vinda do banco
-let { foto: dbimg } = JSON.parse(sessionStorage.getItem("usuario")) ??
+let {foto: dbimg} = JSON.parse(sessionStorage.getItem("usuario")) ??
     JSON.parse(sessionStorage.getItem("staff")) ?? {
-    foto: `./assets/img/profile-pic/default${num}.png`
-};
+        foto: `./assets/img/profile-pic/default${num}.png`
+    };
 
 let imagem = `./upload/user-profile/${dbimg}`;
 let defaultImg = `./assets/img/profile-pic/default${num}.png`;
@@ -71,31 +70,19 @@ if (btnVerSenha)
         }
     });
 
-
-
-
-
 let notificacoesAbertas = false;
 // let alerta = document.getElementById("alerta");
 // let i = document.createElement("i");
 // let div = document.createElement("div");
 
-
-
-
-
 // ---------------------------------------------------------------------------------------------
 // -------------------------------         Notificações          -------------------------------
 // ---------------------------------------------------------------------------------------------
 
-
 if (
     !pages.includes(window.location.pathname.replace(".html", "")) &&
-    !pagesNotNotify.includes(
-        window.location.pathname.replace(".html", "")
-    )
+    !pagesNotNotify.includes(window.location.pathname.replace(".html", ""))
 ) {
-
     // <div id="notificacoes" class="notificacoes">
     let notificacoes = document.createElement("div");
     notificacoes.classList = "notificacoes";
@@ -118,11 +105,9 @@ if (
     listaNotificacoes.setAttribute("id", "listaNotificacoes");
     listaNotificacoes.classList = "lista-notificacoes escondida";
 
-   
     //         <ul>
     let ulNotificacoes = document.createElement("ul");
     ulNotificacoes.setAttribute("id", "ulNotificacoes");
-
 
     //             <li>
     let liNot = document.createElement("li");
@@ -140,11 +125,15 @@ if (
     notificacoes.appendChild(listaNotificacoes);
     document.querySelector("body").appendChild(notificacoes);
 
-
-
     document.querySelector("#btnNotificacoes").addEventListener("click", () => {
-        document.querySelector("#listaNotificacoes").classList.toggle("escondida");
-        if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
+        document
+            .querySelector("#listaNotificacoes")
+            .classList.toggle("escondida");
+        if (
+            document
+                .querySelector("#listaNotificacoes")
+                .classList.contains("escondida")
+        ) {
             iconBell.classList = "fas fa-bell";
             notificacoesAbertas = false;
         } else {
@@ -155,7 +144,11 @@ if (
 
     document.querySelector(".home-section").addEventListener("click", () => {
         document.querySelector("#listaNotificacoes").classList.add("escondida");
-        if (document.querySelector("#listaNotificacoes").classList.contains("escondida")) {
+        if (
+            document
+                .querySelector("#listaNotificacoes")
+                .classList.contains("escondida")
+        ) {
             iconBell.classList = "fas fa-bell";
             notificacoesAbertas = false;
         } else {
@@ -167,46 +160,54 @@ if (
 }
 
 const verificarLidos = () => {
-    axios.post("/notificacao/lista", {
+    axios
+        .post("/notification/lista", {
             idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
         })
-        .then(({ data: { status, msg } }) => {
-            if(msg.naoLidos > 0) {
-                document.querySelector("#novaNotificacao").classList = "nova-notificacao";
-            }else{
-                document.querySelector("#novaNotificacao").classList = "nova-notificacao display-hidden";
+        .then(({data: {status, msg}}) => {
+            if (msg.naoLidos > 0) {
+                document.querySelector("#novaNotificacao").classList =
+                    "nova-notificacao";
+            } else {
+                document.querySelector("#novaNotificacao").classList =
+                    "nova-notificacao display-hidden";
             }
         });
-}
-
+};
 
 const checarNaoLidos = i => {
     axios
-        .post("/notificacao/lista", {
+        .post("/notification/lista", {
             idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
         })
-        .then(({ data: { status, msg } }) => {
+        .then(({data: {status, msg}}) => {
             // console.log(msg)
             if (status === "ok") {
                 if (msg.naoLidos > 0) {
-                    document.querySelector("#novaNotificacao").classList ="nova-notificacao";
-                }else{
-                    document.querySelector("#novaNotificacao").classList ="nova-notificacao display-hidden";
+                    document.querySelector("#novaNotificacao").classList =
+                        "nova-notificacao";
+                } else {
+                    document.querySelector("#novaNotificacao").classList =
+                        "nova-notificacao display-hidden";
                 }
                 document.querySelector("#ulNotificacoes").innerHTML = "";
                 let headerNot = document.createElement("div");
                 headerNot.classList = "header-notificacao";
-                headerNot.innerHTML = "Notificações"
-                document.querySelector("#ulNotificacoes").appendChild(headerNot);
-                if(msg.notificacoes.length == 0) {
+                headerNot.innerHTML = "Notificações";
+                document
+                    .querySelector("#ulNotificacoes")
+                    .appendChild(headerNot);
+                if (msg.notificacoes.length == 0) {
                     // <h3>Lorem.....</h3>
                     let h3Not = document.createElement("h3");
                     h3Not.innerHTML = "Você ainda não tem notificações";
                     h3Not.classList = "centralizar alinhar";
                     //</ul>
-                    document.querySelector("#ulNotificacoes").appendChild(h3Not);
+                    document
+                        .querySelector("#ulNotificacoes")
+                        .appendChild(h3Not);
                 }
-                msg.notificacoes.forEach((mens) => {
+                msg.notificacoes.forEach(mens => {
                     // console.log(mens)
                     //<li>
                     let liNot = document.createElement("li");
@@ -219,26 +220,36 @@ const checarNaoLidos = i => {
                     //</li>
                     liNot.appendChild(spanNot);
                     //</ul>
-                    document.querySelector("#ulNotificacoes").appendChild(liNot);
+                    document
+                        .querySelector("#ulNotificacoes")
+                        .appendChild(liNot);
                     // document.querySelector("#ulNotificacoes").innerHTML += ulNotificacoes;
 
                     liNot.addEventListener("click", () => {
-                        
-                        axios.post("/notificacao/ler", {
-                            idNotificacao: mens.id_notificacao,
-                            idUsuario: JSON.parse(sessionStorage.getItem("usuario")).id
-                        }).then(({ data: { status, msg } }) => {
-                            document.querySelector("#ulNotificacoes").innerHTML = `
+                        axios
+                            .post("/notification/ler", {
+                                idNotificacao: mens.id_notificacao,
+                                idUsuario: JSON.parse(
+                                    sessionStorage.getItem("usuario")
+                                ).id
+                            })
+                            .then(({data: {status, msg}}) => {
+                                document.querySelector(
+                                    "#ulNotificacoes"
+                                ).innerHTML = `
                                 <div class="header-notificacao alinhar"><span class="voltar-notificacao centralizar" id="btnVoltarNot"><</span>${mens.titulo}</div>
                                 <div class="msg-notificacao">${mens.mensagem}</div>
                             `;
-                            document.querySelector("#btnVoltarNot").addEventListener("click", () => {
-                                document.querySelector("#ulNotificacoes").innerHTML = "";
-                                verificarLidos();
-                                checarNaoLidos();
+                                document
+                                    .querySelector("#btnVoltarNot")
+                                    .addEventListener("click", () => {
+                                        document.querySelector(
+                                            "#ulNotificacoes"
+                                        ).innerHTML = "";
+                                        verificarLidos();
+                                        checarNaoLidos();
+                                    });
                             });
-                        })
-
                     });
                 });
             } else {
@@ -251,16 +262,11 @@ const receberNotificacoes = () => {
     if (
         !notificacoesAbertas &&
         !pages.includes(window.location.pathname.replace(".html", "")) &&
-        !pagesNotNotify.includes(
-            window.location.pathname.replace(".html", "")
-        )
-        
+        !pagesNotNotify.includes(window.location.pathname.replace(".html", ""))
     ) {
-
         checarNaoLidos();
     }
 };
-
 
 receberNotificacoes();
 let timer = setInterval(receberNotificacoes, 2000);

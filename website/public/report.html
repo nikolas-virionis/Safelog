@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="container-site">
+            <br>
+
+
+
+            <form class="selecao-botoes">
+                <div class="combo-relatorio">
+                    <div class="col-md-6 com-sm-12 form-item">
+                        <label>Máquina:</label>
+                        <select name="" id="maquinas">
+                        </select>
+                    </div>
+                    <div class="col-md-6 com-sm-12 form-item">
+                        <label for="metricas">Métrica:</label>
+                        <select name="" id="metricas">
+                        </select>
+                    </div>
+                </div>
+                <button type="button" id="botao-email">
+                    <div class="svg-wrapper-1">
+                        <div class="svg-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path fill="currentColor"
+                                    d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z">
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                    <span>Enviar Por Email</span>
+                </button>
+            </form>
+
+            <h2 class="alinhar">
+                Correlação:
+                <span class="btn-info alinhar centralizar tooltipa">
+                    <i class="fas fa-info"></i>
+                    <span class="tooltipatext">É a relação entre uma métrica e outra, ela varia de -1 a 1 e quanto mais
+                        próximo ao 1 ou ao -1 mais elas estão correlacionadas </span>
+                </span>
+            </h2>
+            <div class="row blocoTabelas">
+                <div class="col-md-6 col-sm-12">
+                    <div class="tabela-listrada">
+                        <table>
+                            <thead>
+                                <th colspan="2">Métricas</th>
+                                <th>Coeficiente</th>
+
+                            </thead>
+                            <tbody id="tableCorrelacao">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="idChartCorrelacao"></canvas>
+                </div>
+            </div>
+
+            <h2>Medições:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-sm-6">
+                    <div class="card-dados main centralizar alinhar">
+                        <div>
+                            <h2>Medições realizadas:</h2>
+                            <span class="card-medicoes centralizar" id="medicoesTotais"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="card-dados critico alinhar centralizar display-none">
+                        <span class="font-weight-bold">Críticas: </span>
+                        <span class="card-medicoes-sec" id="medicaoCritica"></span>
+                    </div>
+                    <div style="display: none;" class="card-dados risco alinhar centralizar">
+                        <span class="font-weight-bold">Risco: </span>
+                        <span class="card-medicoes-sec " id="medicaoRisco"></span>
+
+                    </div>
+                    <div style="display: none;" class="card-dados normal alinhar centralizar">
+                        <span class="font-weight-bold">Normal: </span>
+                        <span class="card-medicoes-sec " id="medicaoNormal"></span>
+                    </div>
+                    <canvas id="chartDoughnut"></canvas>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <h3 class="centralizar">Processos</h3>
+
+                    <div id="wordcloud" class="centralizar"></div>
+                    <!-- <div class="wordcloud">
+                        <img src="assets/img/wordcloud2.png">
+                    </div> -->
+                </div>
+            </div>
+
+            <br><br>
+            <h2>Chamados e soluções:</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-sm-12">
+                    <h3>Chamados:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de chamados:</h2>
+                                    <span class="card-chamados centralizar" id="totalChamados"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados aberto alinhar centralizar">
+                                <span class="font-weight-bold">Abertos: </span>
+                                <span class="card-medicoes-sec " id="chamadosAbertos"></span>
+                            </div>
+                            <div class="card-dados fechado alinhar centralizar">
+                                <span class="font-weight-bold">Fechados: </span>
+                                <span class="card-medicoes-sec " id="chamadosFechados"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <h3>Soluções:</h3>
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <div class="card-dados main centralizar alinhar">
+                                <div>
+                                    <h2>Total de Soluções:</h2>
+                                    <span class="card-chamados centralizar" id="totalSolucoes"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="card-dados total alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia total: </span>
+                                <span class="card-medicoes-sec " id="eficaciaTotal"></span>
+                            </div>
+                            <div class="card-dados parcial alinhar centralizar">
+                                <span class="font-weight-bold">Eficácia parcial: </span>
+                                <span class="card-medicoes-sec " id="eficaciaParcial"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br>
+            <h2>Tendência dos dados:</h2>
+            <div class="row blocoTabelas">
+                <div class="col-md-6 col-sm-12">
+                    <div class="tabela-listrada">
+                        <table>
+                            <thead>
+                                <th>Métrica</th>
+                                <th>Tendência</th>
+                            </thead>
+                            <tbody id="tableTrendline">
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+                <div class="chartContainer">
+                    <canvas id="idChartTrendline"></canvas>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <div class="modal-screen" id="modal-email-relatorio">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Você deseja receber o relatorio de quais maquinas de seu acesso?</h2>
+                <br>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-geral" id="btn-todas">Todas</button>
+                <button class="btn-geral" id="btn-maquina">Apenas a selecionada</button>
+                <button class="btn-geral cancelar" id="btn-cancelar-tornar-responsavel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/alert.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/report.js"></script>
+</body>
+
+</html>

@@ -18,17 +18,17 @@ let logoDetailsDiv = document.createElement("div");
 logoDetailsDiv.classList = "logo-details";
 //<div>
 let divLogoIcon = document.createElement("div");
-//<img src="assets/img/logo/logo-icon-branco.png" alt="">
+//<img src="assets/img/logo/logo-icon-white.png" alt="">
 let imgLogoIcon = document.createElement("img");
-imgLogoIcon.setAttribute("src", "assets/img/logo/logo-icon-branco.png");
+imgLogoIcon.setAttribute("src", "assets/img/logo/logo-icon-white.png");
 //</div>
 divLogoIcon.appendChild(imgLogoIcon);
 //<span class="logo_name">
 let spanLogoName = document.createElement("span");
 spanLogoName.classList = "logo_name";
-//<img src="assets/img/logo/logo-escrita-branco.png" alt="">
+//<img src="assets/img/logo/written-white-logo.png" alt="">
 let imgLogoEscrito = document.createElement("img");
-imgLogoEscrito.setAttribute("src", "assets/img/logo/logo-escrita-branco.png");
+imgLogoEscrito.setAttribute("src", "assets/img/logo/written-white-logo.png");
 //</span>
 spanLogoName.appendChild(imgLogoEscrito);
 //</div>
@@ -73,9 +73,9 @@ liItem1.appendChild(ulSubMenuDash);
 if (cargo == "staff") {
     let liItemStaff1 = document.createElement("li");
     liItemStaff1.classList = "li-not-selected";
-    //<a href="cadastro-empresa">
+    //<a href="company-register">
     let linkToCadEmpresa = document.createElement("a");
-    linkToCadEmpresa.setAttribute("href", "cadastro-empresa");
+    linkToCadEmpresa.setAttribute("href", "company-register");
     //<i class="fas fa-building"></i>
     let iconToCadEmpresa = document.createElement("i");
     iconToCadEmpresa.classList = "fas fa-building";
@@ -91,9 +91,9 @@ if (cargo == "staff") {
     ulSubMenuCadEmpresa.classList = "sub-menu blank";
     //<li>
     let liSubMenuCadEmpresa = document.createElement("li");
-    //<a class="link_name" href="cadastro-empresa">Cadastro empresa</a>
+    //<a class="link_name" href="company-register">Cadastro empresa</a>
     let linkToCadEmpresaMini = document.createElement("a");
-    linkToCadEmpresaMini.setAttribute("href", "cadastro-empresa");
+    linkToCadEmpresaMini.setAttribute("href", "company-register");
     linkToCadEmpresaMini.innerHTML = "Cadastro empresa";
     //</li>
     liSubMenuCadEmpresa.appendChild(linkToCadEmpresaMini);
@@ -106,9 +106,9 @@ if (cargo == "staff") {
     //<li class="li-not-selected">
     let liItem2 = document.createElement("li");
     liItem2.classList = "li-not-selected";
-    //<a href="perfil">
+    //<a href="profile">
     let linkToProfile = document.createElement("a");
-    linkToProfile.setAttribute("href", "perfil");
+    linkToProfile.setAttribute("href", "profile");
     //<i class='bx bxs-user'></i>
     let iconToProfile = document.createElement("i");
     iconToProfile.classList = "bx bxs-user";
@@ -124,9 +124,9 @@ if (cargo == "staff") {
     ulSubMenuProfile.classList = "sub-menu blank";
     //<li>
     let liSubMenuProfile = document.createElement("li");
-    //<a class="link_name" href="perfil">Perfil</a>
+    //<a class="link_name" href="profile">Perfil</a>
     let linkToProfileMini = document.createElement("a");
-    linkToProfileMini.setAttribute("href", "perfil");
+    linkToProfileMini.setAttribute("href", "profile");
     linkToProfileMini.innerHTML = "Perfil";
     //</li>
     liSubMenuProfile.appendChild(linkToProfileMini);
@@ -142,9 +142,9 @@ if (cargo == "staff") {
     //<li class="li-not-selected">
     let liItem2 = document.createElement("li");
     liItem2.classList = "li-not-selected";
-    //<a href="perfil">
+    //<a href="profile">
     let linkToProfile = document.createElement("a");
-    linkToProfile.setAttribute("href", "perfil");
+    linkToProfile.setAttribute("href", "profile");
     //<i class='bx bxs-user'></i>
     let iconToProfile = document.createElement("i");
     iconToProfile.classList = "bx bxs-user";
@@ -160,9 +160,9 @@ if (cargo == "staff") {
     ulSubMenuProfile.classList = "sub-menu blank";
     //<li>
     let liSubMenuProfile = document.createElement("li");
-    //<a class="link_name" href="perfil">Perfil</a>
+    //<a class="link_name" href="profile">Perfil</a>
     let linkToProfileMini = document.createElement("a");
-    linkToProfileMini.setAttribute("href", "perfil");
+    linkToProfileMini.setAttribute("href", "profile");
     linkToProfileMini.innerHTML = "Perfil";
     //</li>
     liSubMenuProfile.appendChild(linkToProfileMini);
@@ -172,36 +172,31 @@ if (cargo == "staff") {
     liItem2.appendChild(linkToProfile);
     liItem2.appendChild(ulSubMenuProfile);
 
-
-
-
-
-
     //<li class="seta">
     let liItem3 = document.createElement("li");
     liItem3.classList = "seta";
-        //<div class="iocn-link">
-        let divIconLink10 = document.createElement("div");
-        divIconLink10.classList = "iocn-link";
-            //<a href="#">
-            let linkDropRelatorio0 = document.createElement("a");
-            linkDropRelatorio0.setAttribute("href", "relatorio");
-                //<i class="fab fa-java"></i>
-                let iconToRelatorio0 = document.createElement("i");
-                iconToRelatorio0.classList = "bx bx-paperclip";
-                //<span class="link_name">Client Relatorio</span>
-                let spanHoverRelatorio0 = document.createElement("span");
-                spanHoverRelatorio0.classList = "link_name";
-                spanHoverRelatorio0.innerHTML = "Relatório";
-            //</a>
-            linkDropRelatorio0.appendChild(iconToRelatorio0);
-            linkDropRelatorio0.appendChild(spanHoverRelatorio0);
-            //<i class="bx bxs-chevron-down arrow"></i>
-            let iconSetaRelatorio0 = document.createElement("i");
-            iconSetaRelatorio0.classList = "bx bxs-chevron-down arrow";
-        //</div>
-        divIconLink10.appendChild(linkDropRelatorio0);
-        divIconLink10.appendChild(iconSetaRelatorio0);
+    //<div class="iocn-link">
+    let divIconLink10 = document.createElement("div");
+    divIconLink10.classList = "iocn-link";
+    //<a href="#">
+    let linkDropRelatorio0 = document.createElement("a");
+    linkDropRelatorio0.setAttribute("href", "report");
+    //<i class="fab fa-java"></i>
+    let iconToRelatorio0 = document.createElement("i");
+    iconToRelatorio0.classList = "bx bx-paperclip";
+    //<span class="link_name">Client Relatorio</span>
+    let spanHoverRelatorio0 = document.createElement("span");
+    spanHoverRelatorio0.classList = "link_name";
+    spanHoverRelatorio0.innerHTML = "Relatório";
+    //</a>
+    linkDropRelatorio0.appendChild(iconToRelatorio0);
+    linkDropRelatorio0.appendChild(spanHoverRelatorio0);
+    //<i class="bx bxs-chevron-down arrow"></i>
+    let iconSetaRelatorio0 = document.createElement("i");
+    iconSetaRelatorio0.classList = "bx bxs-chevron-down arrow";
+    //</div>
+    divIconLink10.appendChild(linkDropRelatorio0);
+    divIconLink10.appendChild(iconSetaRelatorio0);
     //<ul class="sub-menu">
     let ulSubMenuRelatorio0 = document.createElement("ul");
     ulSubMenuRelatorio0.classList = "sub-menu";
@@ -209,7 +204,7 @@ if (cargo == "staff") {
     let liRelatorio20 = document.createElement("li");
     //<a href="#">Download</a>
     let linkNovoRelatorio0 = document.createElement("a");
-    linkNovoRelatorio0.setAttribute("href", "relatorio");
+    linkNovoRelatorio0.setAttribute("href", "report");
     linkNovoRelatorio0.innerHTML = "Relatório geral";
     //</li>
     liRelatorio20.appendChild(linkNovoRelatorio0);
@@ -217,7 +212,7 @@ if (cargo == "staff") {
     let liRelatorio30 = document.createElement("li");
     //<a href="#">Baixar JRE</a>
     let linkListaRelatorio0 = document.createElement("a");
-    linkListaRelatorio0.setAttribute("href", "relatorio-incidentes");
+    linkListaRelatorio0.setAttribute("href", "incident-report");
     linkListaRelatorio0.innerHTML = "Incidentes";
     //</li>
     liRelatorio30.appendChild(linkListaRelatorio0);
@@ -232,9 +227,9 @@ if (cargo == "staff") {
     //<li class="li-not-selected">
     let liItem4 = document.createElement("li");
     liItem4.classList = "li-not-selected";
-    //<a href="dependentes">
+    //<a href="dependents">
     let linkToDependentes = document.createElement("a");
-    linkToDependentes.setAttribute("href", "dependentes");
+    linkToDependentes.setAttribute("href", "dependents");
     let iconToDependentes;
     if (cargo == "analista") {
         // <i class="fas fa-desktop"></i>
@@ -258,9 +253,9 @@ if (cargo == "staff") {
     ulSubMenuDependentes.classList = "sub-menu blank";
     //<li>
     let liSubMenuDependentes = document.createElement("li");
-    //<a class="link_name" href="dependentes">Dependentes</a>
+    //<a class="link_name" href="dependents">Dependentes</a>
     let linkToDependentesMini = document.createElement("a");
-    linkToDependentesMini.setAttribute("href", "dependentes");
+    linkToDependentesMini.setAttribute("href", "dependents");
     linkToDependentesMini.innerHTML = "Dependentes";
     //</li>
     liSubMenuDependentes.appendChild(linkToDependentesMini);
@@ -278,7 +273,7 @@ if (cargo == "staff") {
     divIconLink1.classList = "iocn-link";
     //<a href="#">
     let linkDropChamado = document.createElement("a");
-    linkDropChamado.setAttribute("href", "chamados");
+    linkDropChamado.setAttribute("href", "safedesk-calls");
     //<i class="fab fa-java"></i>
     let iconToChamado = document.createElement("i");
     iconToChamado.classList = "fas fa-exclamation";
@@ -310,7 +305,7 @@ if (cargo == "staff") {
     let liChamado2 = document.createElement("li");
     //<a href="#">Download</a>
     let linkNovoChamado = document.createElement("a");
-    linkNovoChamado.setAttribute("href", "novo-chamado");
+    linkNovoChamado.setAttribute("href", "new-safedesk-call");
     linkNovoChamado.innerHTML = "Abrir Chamado";
     //</li>
     liChamado2.appendChild(linkNovoChamado);
@@ -318,7 +313,7 @@ if (cargo == "staff") {
     let liChamado3 = document.createElement("li");
     //<a href="#">Baixar JRE</a>
     let linkListaChamado = document.createElement("a");
-    linkListaChamado.setAttribute("href", "chamados");
+    linkListaChamado.setAttribute("href", "safedesk-calls");
     linkListaChamado.innerHTML = "Lista de chamados";
     //</li>
     liChamado3.appendChild(linkListaChamado);
@@ -382,7 +377,10 @@ if (cargo == "staff") {
     //<a href="#">Baixar JRE</a>
     let linkJreJava = document.createElement("a");
     linkJreJava.setAttribute("download", "Assistente Safelog");
-    linkJreJava.setAttribute("href", "assets/download/java_install_assistant.sh");
+    linkJreJava.setAttribute(
+        "href",
+        "assets/download/java_install_assistant.sh"
+    );
     linkJreJava.innerHTML = "Baixar JRE";
     //</li>
     liJava3.appendChild(linkJreJava);
@@ -478,7 +476,7 @@ const profilePic = document.querySelector(".profilePic");
 
 [nomeUser, profilePic].forEach(el => {
     el.addEventListener("click", evt => {
-        redirectTo("perfil");
+        redirectTo("profile");
     });
     el.classList.add("clickble");
     el.title = "Perfil";

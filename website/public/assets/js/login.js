@@ -45,7 +45,7 @@ const validarLogin = () => {
             if (status == "ok") {
                 mostrarAlerta(msg, "success");
                 sessionStorage.setItem("staff", JSON.stringify(user));
-                window.location.href = "cadastro-empresa";
+                window.location.href = "company-register";
             } else {
                 axios
                     .post("/auth/usuario", {
@@ -87,7 +87,7 @@ btnModal.addEventListener("click", async e => {
     if (!validateEmail(emailInModal.value))
         return mostrarAlerta("Email inválido", "danger");
     axios
-        .post("/usuario/email-redefinir-senha", {
+        .post("/user/email-redefinir-senha", {
             email: emailInModal.value
         })
         .then(response => {

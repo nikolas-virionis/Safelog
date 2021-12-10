@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr">
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editando a Máquina</title>
+    <link rel="shortcut icon" href="assets/img/logo/logo-icon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="assets/css/grid.css" />
+    <link rel="stylesheet" href="assets/css/sidebar.css" />
+    <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body>
+    <section class="home-section">
+        <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="dependents">Dependentes</a>
+                    >
+                    <span class="pagina-atual-caminho">Editar máquina</span>
+                </span>
+            </div>
+            <div class="company-register">
+                <h1>Edite a máquina:</h1>
+                <div class="form-cadastro">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-id-maquina">Identificação:</label>
+                                <input type="text" name="" required id="inp-id-maquina" />
+                            </div>
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-nome-maquina">Nome da Máquina:</label>
+                                <input type="text" name="" required id="inp-nome-maquina" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="customcheckbox">
+                                <input type="checkbox" id="input-alt-senha" />
+                                <div class="checkmark"></div>
+                                Alterar senha
+                            </label>
+                        </div>
+                        <div class="row" id="row-alt-senha">
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-senha-atual">Senha atual:</label>
+                                <input type="password" id="inp-senha-atual" />
+                            </div>
+                            <!-- <div>
+                                <input style="visibility:hidden " type="text">
+                            </div> -->
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-nova-senha">Nova senha:</label>
+                                <input type="password" id="inp-nova-senha" />
+                                <button type="button" id="btn-ver-senha" class="fas fa-eye rounded">Ver senha</button>
+                            </div>
+                            <div class="col-md-6 col-sm-12 form-item">
+                                <label for="inp-conf-senha">Confirmar senha:</label>
+                                <input type="password" id="inp-conf-senha" />
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <div class="row">
+                                <button class="btn-geral" id="btn-edit-maq">Atualizar</button>
+                                <button href="componentes" class="btn-geral btn-secondary"
+                                    id="btn-edit-comp">Componentes</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="alerta"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/alert.js"></script>
+    <script src="./assets/js/machineEdit.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+</body>
+
+</html>

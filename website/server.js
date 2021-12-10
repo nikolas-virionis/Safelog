@@ -13,14 +13,14 @@ let logger = require("morgan");
 // rotas
 let indexRouter = require("./routes/index");
 let authRouter = require("./routes/auth");
-let usuarioRouter = require("./routes/usuario");
+let userRouter = require("./routes/user");
 let staffRouter = require("./routes/staff");
-let empresaRouter = require("./routes/empresa");
-let maquinaRouter = require("./routes/maquina");
-let medicaoRouter = require("./routes/medicao");
-let chamadoRouter = require("./routes/chamado");
+let companyRouter = require("./routes/company");
+let machineRouter = require("./routes/machine");
+let measurmentRouter = require("./routes/measurment");
+let safedeskCallRouter = require("./routes/safedeskCall");
 let analyticsRouter = require("./routes/analytics");
-let notificacaoRouter = require("./routes/notificacao");
+let notificationRouter = require("./routes/notification");
 
 let app = express();
 
@@ -35,13 +35,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 app.use("/staff", staffRouter);
-app.use("/usuario", usuarioRouter);
-app.use("/empresa", empresaRouter);
-app.use("/maquina", maquinaRouter);
-app.use("/medicao", medicaoRouter);
-app.use("/chamado", chamadoRouter);
+app.use("/user", userRouter);
+app.use("/company", companyRouter);
+app.use("/machine", machineRouter);
+app.use("/measurment", measurmentRouter);
+app.use("/safedesk-call", safedeskCallRouter);
 app.use("/analytics", analyticsRouter);
-app.use("/notificacao", notificacaoRouter);
+app.use("/notification", notificationRouter);
 
 app.get("/:page", (req, res) => {
     let pagePath = path.resolve(__dirname, "public", `${req.params.page}.html`);

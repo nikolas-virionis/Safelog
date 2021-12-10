@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chamado</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+        integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/safedesk-calls.css">
+
+</head>
+
+<body>
+    <section class="home-section">
+
+        <!-- Caminho -->
+        <div class="container-site">
+            <div class="row">
+                <span class="caminho-span mg-top">
+                    <a href="safedesk-calls">Lista de chamados</a>
+                    >
+                    <span class="pagina-atual-caminho">Chamado</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Informações acima -->
+        <div class="container-site">
+            <div class="centralizar">
+                <div class="info-chamado">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="alinhar">
+                                <div id="statusChamado" class="status"></div><span id="prioridade"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="data-chamado">
+                                <div id="dataChamado"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Card Chamado -->
+            <div class="centralizar">
+                <div class="row">
+
+                    <div class="card chamado">
+                        <div class="row header">
+                            <div class="col-md-12">
+                                <h1 id="titulo"></h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="maq-medicao">
+                                    <span id="nomeMaquina"></span>:
+                                    <span id="medicao">CPU-Porcentagem</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="descricao">
+                        </div>
+
+                        <div class="row chamado-footer alinhar">
+                            <div class="col-md-6 col-sm-12">
+                                <span id="nomeResp"></span>
+                            </div>
+                            <div class="col-md-6 col-sm-12 span-email-chamado">
+                                <span id="emailResp"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="editar">
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responder/editar chamado -->
+            <div class="row justify-content-center" id="responder-btn">
+                <button class="btn-geral display-none" id="btnResponder">Responder a este chamado</button>
+                <button class="btn-geral display-none" id="btnEditar">Editar chamado</button>
+            </div>
+
+            <!-- Solução -->
+            <div id="solucaoCard" class="row justify-content-center">
+                <div class="card-solucao display-none">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 id="solucao-titulo"></h1>
+                        </div>
+                        <div class="col-md-6 alinhar-end">
+                            <div class="alinhar">
+                                <div id="statusSolucao" class="status"></div><span id="solucao-eficacia"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="solucao-descricao" class="descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row chamado-footer alinhar">
+                        <div class="col-3">
+                            <span id="solucao-responsavel-nome"></span>
+                        </div>
+                        <div class="col-5">
+                            <span id="solucao-responsavel-email"></span>
+
+                        </div>
+                        <div class="col-4 alinhar-end">
+                            <span id="solucao-data"></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Responder chamado -->
+            <div id="responderChamado" class=" display-none">
+                <div class="container-small">
+                    <br>
+                    <h3>Título: </h3>
+                    <input type="text" class="inp-uma-linha" id="inpTituloResposta">
+
+                    <h3>Resposta: </h3>
+                    <textarea class="textarea-uma-linha" rows="5" id="txtReaposta"></textarea>
+                    <button class="btn-geral" id="btnResponderChamado">Responder</button>
+                </div>
+            </div>
+
+            <!-- Editar chamado -->
+            <div id="editarChamado" class="row display-none">
+                <div class="container-small">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <h3>Título do chamado: </h3>
+                            <input type="text" class="inp-uma-linha" id="inpTituloEditar">
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <h3>Prioridade: </h3>
+                            <select class="inp-uma-linha" id="prioridadeEdicao">
+                                <option value="baixa">Baixa</option>
+                                <option value="media">Média</option>
+                                <option value="alta">Alta</option>
+                                <option value="emergencia">Emergência</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3>Descrição: </h3>
+                    <textarea class="textarea-uma-linha" rows="5" id="txtDescricaoEdicao"></textarea>
+                    <button class="btn-geral" id="btnEditarChamado">Editar</button>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <div id="alerta"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./assets/js/alert.js"></script>
+    <script src="./assets/js/safedeskCall.js"></script>
+    <script src="./assets/js/sidebar.js"></script>
+    <script src="./assets/js/script.js"></script>
+
+
+</body>
+
+</html>

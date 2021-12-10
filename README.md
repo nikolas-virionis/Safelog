@@ -1,30 +1,32 @@
 # 1CCO-2021-2-Grupo-06
+
 Grupo06_1CCO_2021_2 - Repositório criado para a disciplina de Pesquisa e Inovação
 
-![Safelog Logo](./website/public/assets/img/logo/logo-escrita-branco.png)
+![Safelog Logo](./website/public/assets/img/logo/written-white-logo.png)
 
-- [Setup](#setup)
+-   [Setup](#setup)
 
 ## Setup
 
 ### Requisitos:
-- MySQL Server 8.0
-- Node 14
-- Git (Opcional)
+
+-   MySQL Server 8.0
+-   Node 14
+-   Git (Opcional)
 
 ### Clonar repositório
 
 https
 
-~~~bash
+```bash
 git clone https://github.com/BandTec/1CCO-2021-2-Grupo-06.git
-~~~
+```
 
 ssh
 
-~~~bash
+```bash
 git clone git@github.com:BandTec/1CCO-2021-2-Grupo-06.git
-~~~
+```
 
 Se você não tiver o git, pode baixar o .zip do repositório.
 
@@ -34,64 +36,67 @@ Se você não tiver o git, pode baixar o .zip do repositório.
 
 2. Abra o mysql como root
 
-    ~~~bash
+    ```bash
     mysql -u root -p
-    ~~~
+    ```
 
 3. Construir bancos
 
     Principal
-    ~~~bash
+
+    ```bash
     source ./bd/BDSafelog.sql
-    ~~~
+    ```
 
     Analytcs
-    ~~~bash
+
+    ```bash
     source ./bd/BDAnalytics.sql
-    ~~~ 
+    ```
 
 4. Criar usuário de desenvolvimento.
 
-    ~~~bash
+    ```bash
     CREATE USER 'safelog_dev' @'%' IDENTIFIED BY 'Safe_Log371$';
-    ~~~
+    ```
 
 5. Garantir privilégios do usuário.
 
-    ~~~bash
+    ```bash
     GRANT ALL PRIVILEGES ON `safelog_analytics`.* TO `safelog_dev` @`%`;
-    ~~~
+    ```
 
 6. Atualizar privilégios de usuários.
 
-    ~~~bash
+    ```bash
     FLUSH PRIVILEGES;
-    ~~~ 
+    ```
+
 ### Server
 
-1. Com o **Terminal** aberto no diretório do repositório, acesse o diretório *site-estatico*
+1. Com o **Terminal** aberto no diretório do repositório, acesse o diretório _site-estatico_
 
-    ~~~bash
+    ```bash
     cd ./site-estatico/
-    ~~~
+    ```
+
 2. Installe as dependências
 
-    ~~~bash
+    ```bash
     npm i
-    ~~~
-    
-3. Adicione o arquivo .env ao diretório *site-estatico*
-    
+    ```
+
+3. Adicione o arquivo .env ao diretório _site-estatico_
 4. Inicie o servidor
-    
+
     Ambiente de desenvolvimento:
-    
-    ~~~bash
+
+    ```bash
     npm run dev
-    ~~~
-    
+    ```
+
     Ambiente de produção
-    
-    ~~~bash
+
+    ```bash
     npm start
-    ~~~
+    ```

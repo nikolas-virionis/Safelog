@@ -148,8 +148,8 @@ public class Main extends javax.swing.JFrame {
                 } else {
                     throw new RuntimeException("Erro no tipo de medicao na classe TiposMedicao");
                 }
-                medicoes[i] = InsertDado.formatInsert(tipo, medicao, data);
-                // InsertDado.formatInsert(tipo, medicao, data);
+                medicoes[i] = InsertData.formatInsert(tipo, medicao, data);
+                // InsertData.formatInsert(tipo, medicao, data);
                 if (medicoes[i].getTipo() == "normal") {
                     incidentes[i].normal();
                 } else {
@@ -157,7 +157,7 @@ public class Main extends javax.swing.JFrame {
                 }
                 i++;
             }
-            InsertDado.insert(medicoes);
+            InsertData.insert(medicoes);
 
             try {
                 TimeUnit.SECONDS.sleep(1);
@@ -435,7 +435,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setIcon(new javax.swing.ImageIcon(
-                getClass().getResource("/com/mycompany/client/java/telas/logo-escrita-branco.png"))); // NOI18N
+                getClass().getResource("/com/mycompany/client/java/telas/written-white-logo.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

@@ -433,15 +433,6 @@ CREATE TABLE maquina
                     -- (11, 2, '8305786042', 2),
                     (11, 3, 'jpso0907@gmail.com', 3);
 
-
-
-                INSERT INTO usuario
-                    (nome, email, senha, cargo, fk_empresa, fk_supervisor)
-                VALUES
-                    ('Fernando Brandao', 'fernando.brandao@bandtec.com.br', MD5('urubu100'), 'gestor', '203783731', 1),
-                    ('Marise Miranda', 'marise.miranda@bandtec.com.br', MD5('urubu100'), 'analista', '203783731', 12),
-                    ('Nikolas Barcha', 'nikkolas.nickk@gmail.com', MD5('ExSenha1'), 'analista', '203783731', 4);
-
                 INSERT INTO
     maquina
                     (id_maquina, nome, senha, fk_empresa)
@@ -464,10 +455,7 @@ CREATE TABLE maquina
                 VALUES
                     ('s', 6, 1),
                     ('s', 6, 2),
-                    ('s', 6, 3),
-                    ('n', 14, 1),
-                    ('n', 14, 2),
-                    ('n', 14, 3);
+                    ('s', 6, 3);
 
 
                 INSERT INTO

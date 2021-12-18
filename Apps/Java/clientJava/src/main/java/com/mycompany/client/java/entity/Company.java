@@ -1,11 +1,11 @@
-package com.mycompany.client.java.entidades;
+package com.mycompany.client.java.entity;
 
 import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class Empresa {
+public class Company {
     private String idEmpresa;
     private String nome;
     private String pais;
@@ -13,7 +13,7 @@ public class Empresa {
     private String foto;
     private Integer fkStaff;
 
-    public Empresa(String idEmpresa, String nome, String pais, String cidade, String foto, Integer fkStaff) {
+    public Company(String idEmpresa, String nome, String pais, String cidade, String foto, Integer fkStaff) {
         this.idEmpresa = idEmpresa;
         this.nome = nome;
         this.pais = pais;
@@ -30,7 +30,7 @@ public class Empresa {
         this.foto = foto;
     }
 
-    public Empresa() {
+    public Company() {
     }
 
     public String getIdEmpresa() {
@@ -73,15 +73,15 @@ public class Empresa {
         this.fkStaff = fkStaff;
     }
 
-    public static List<Empresa> selectAll() {
+    public static List<Company> selectAll() {
         // jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
-            return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper<>(Empresa.class));
+            return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper<>(Company.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
-            return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper<>(Empresa.class));
+            return jdbcTemplate.query("SELECT * FROM empresa", new BeanPropertyRowMapper<>(Company.class));
         }
     }
 }

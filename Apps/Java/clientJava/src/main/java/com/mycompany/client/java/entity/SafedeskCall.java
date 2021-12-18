@@ -1,11 +1,11 @@
-package com.mycompany.client.java.entidades;
+package com.mycompany.client.java.entity;
 
 import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class Chamado {
+public class SafedeskCall {
 
     private Integer idChamado;
     private String titulo;
@@ -18,7 +18,7 @@ public class Chamado {
     private Integer fkUsuario;
     private Integer fkCategoriaMedicao;
 
-    public Chamado(Integer idChamado, String titulo, String descricao, String dataAbertura, String statusChamado,
+    public SafedeskCall(Integer idChamado, String titulo, String descricao, String dataAbertura, String statusChamado,
             String prioridade, Character automatico, Integer fkUsuario, Integer fkCategoriaMedicao) {
         this.idChamado = idChamado;
         this.titulo = titulo;
@@ -39,7 +39,7 @@ public class Chamado {
         this.eficaciaSolucoes = eficaciaSolucoes;
     }
 
-    public Chamado(String titulo, String descricao, String prioridade, Character automatico, Integer fkUsuario,
+    public SafedeskCall(String titulo, String descricao, String prioridade, Character automatico, Integer fkUsuario,
             Integer fkCategoriaMedicao, String eficaciaSolucoes) {
         this.titulo = titulo;
         this.descricao = descricao;
@@ -50,7 +50,7 @@ public class Chamado {
         this.setEficaciaSolucoes(eficaciaSolucoes);
     }
 
-    public Chamado() {
+    public SafedeskCall() {
     }
 
     public Integer getFkCategoriaMedicao() {
@@ -125,15 +125,15 @@ public class Chamado {
         this.idChamado = idChamado;
     }
 
-    public static List<Chamado> selectAll() {
+    public static List<SafedeskCall> selectAll() {
         // jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
-            return jdbcTemplate.query("SELECT * FROM chamado", new BeanPropertyRowMapper<>(Chamado.class));
+            return jdbcTemplate.query("SELECT * FROM chamado", new BeanPropertyRowMapper<>(SafedeskCall.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
-            return jdbcTemplate.query("SELECT * FROM chamado", new BeanPropertyRowMapper<>(Chamado.class));
+            return jdbcTemplate.query("SELECT * FROM chamado", new BeanPropertyRowMapper<>(SafedeskCall.class));
         }
 
     }

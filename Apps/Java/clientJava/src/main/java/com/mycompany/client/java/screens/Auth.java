@@ -1,4 +1,4 @@
-package com.mycompany.client.java.telas;
+package com.mycompany.client.java.screens;
 
 import com.mycompany.client.java.Monitoring;
 import com.mycompany.client.java.util.ConfigDB;

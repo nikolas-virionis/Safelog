@@ -1,7 +1,7 @@
 package com.mycompany.client.java;
 
 import com.github.britooo.looca.api.core.Looca;
-import com.mycompany.client.java.entidades.Maquina;
+import com.mycompany.client.java.entity.Machine;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,14 +48,14 @@ public class Monitoring extends Looca {
         String sql = "SELECT pk_maquina FROM maquina WHERE id_maquina = '%s'";
         sql = String.format(sql, getMacAddress());
         // JdbcTemplate jdbcTemplate;
-        List<Maquina> maquinas;
+        List<Machine> maquinas;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
-            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
+            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Machine.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
-            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Maquina.class));
+            maquinas = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Machine.class));
         }
         return maquinas.size() > 0 ? maquinas.get(0).getPkMaquina() : -1;
     }

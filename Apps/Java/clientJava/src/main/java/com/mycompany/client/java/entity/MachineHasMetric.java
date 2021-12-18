@@ -1,17 +1,17 @@
-package com.mycompany.client.java.entidades;
+package com.mycompany.client.java.entity;
 
 import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class CategoriaMedicao {
+public class MachineHasMetric {
     private Integer idCategoriaMedicao;
     private Double medicaoLimite;
     private Integer fkMaquina;
     private Integer fkTipoMedicao;
 
-    public CategoriaMedicao(Integer idCategoriaMedicao, Double medicaoLimite, Integer fkMaquina,
+    public MachineHasMetric(Integer idCategoriaMedicao, Double medicaoLimite, Integer fkMaquina,
             Integer fkTipoMedicao) {
         this.idCategoriaMedicao = idCategoriaMedicao;
         this.medicaoLimite = medicaoLimite;
@@ -19,7 +19,7 @@ public class CategoriaMedicao {
         this.fkTipoMedicao = fkTipoMedicao;
     }
 
-    public CategoriaMedicao() {
+    public MachineHasMetric() {
     }
 
     public Integer getIdCategoriaMedicao() {
@@ -54,17 +54,17 @@ public class CategoriaMedicao {
         this.fkTipoMedicao = fkTipoMedicao;
     }
 
-    public static List<CategoriaMedicao> selectAll() {
+    public static List<MachineHasMetric> selectAll() {
         // JdbcTemplate jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
             return jdbcTemplate.query("SELECT * FROM categoria_medicao",
-                    new BeanPropertyRowMapper<>(CategoriaMedicao.class));
+                    new BeanPropertyRowMapper<>(MachineHasMetric.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
             return jdbcTemplate.query("SELECT * FROM categoria_medicao",
-                    new BeanPropertyRowMapper<>(CategoriaMedicao.class));
+                    new BeanPropertyRowMapper<>(MachineHasMetric.class));
         }
     }
 }

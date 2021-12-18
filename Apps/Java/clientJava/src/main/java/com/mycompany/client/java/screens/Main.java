@@ -1,4 +1,4 @@
-package com.mycompany.client.java.telas;
+package com.mycompany.client.java.screens;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -9,8 +9,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import com.github.britooo.looca.api.group.sistema.Sistema;
 import com.mycompany.client.java.*;
-import com.mycompany.client.java.entidades.Medicao;
-import com.mycompany.client.java.requisicoes.Alert;
+import com.mycompany.client.java.entity.Medicao;
+import com.mycompany.client.java.request.Alert;
 import com.mycompany.client.java.util.ConfigDB;
 
 import org.springframework.jdbc.core.JdbcTemplate;

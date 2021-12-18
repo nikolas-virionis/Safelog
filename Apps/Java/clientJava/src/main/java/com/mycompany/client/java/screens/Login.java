@@ -1,4 +1,4 @@
-package com.mycompany.client.java.telas;
+package com.mycompany.client.java.screens;
 
 import java.awt.datatransfer.StringSelection;
 import javax.swing.JFrame;

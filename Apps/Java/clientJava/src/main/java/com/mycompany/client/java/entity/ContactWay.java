@@ -1,20 +1,20 @@
-package com.mycompany.client.java.entidades;
+package com.mycompany.client.java.entity;
 
 import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class FormaContato {
+public class ContactWay {
     private Integer idFormaContato;
     private String nome;
 
-    public FormaContato(Integer idFormaContato, String nome) {
+    public ContactWay(Integer idFormaContato, String nome) {
         this.idFormaContato = idFormaContato;
         this.nome = nome;
     }
 
-    public FormaContato() {
+    public ContactWay() {
     }
 
     public Integer getIdFormaContato() {
@@ -33,15 +33,15 @@ public class FormaContato {
         this.nome = nome;
     }
 
-    public static List<FormaContato> selectAll() {
+    public static List<ContactWay> selectAll() {
         // jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
-            return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(FormaContato.class));
+            return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(ContactWay.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
-            return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(FormaContato.class));
+            return jdbcTemplate.query("SELECT * FROM forma_contato", new BeanPropertyRowMapper<>(ContactWay.class));
         }
 
     }

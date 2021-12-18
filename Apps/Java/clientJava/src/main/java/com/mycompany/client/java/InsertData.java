@@ -1,6 +1,6 @@
 package com.mycompany.client.java;
 
-import com.mycompany.client.java.entidades.Medicao;
+import com.mycompany.client.java.entity.Medicao;
 import com.mycompany.client.java.util.ConfigDB;
 
 import org.springframework.jdbc.core.JdbcTemplate;

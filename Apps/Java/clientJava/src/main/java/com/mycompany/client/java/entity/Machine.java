@@ -1,11 +1,11 @@
-package com.mycompany.client.java.entidades;
+package com.mycompany.client.java.entity;
 
 import java.util.List;
 import com.mycompany.client.java.util.ConfigDB;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class Maquina {
+public class Machine {
 
     // atributos
     private Integer pkMaquina;
@@ -15,7 +15,7 @@ public class Maquina {
     private String fkEmpresa;
 
     // construtores
-    public Maquina(Integer pkMaquina, String idMaquina, String nome, String senha, String fkEmpresa) {
+    public Machine(Integer pkMaquina, String idMaquina, String nome, String senha, String fkEmpresa) {
         this.pkMaquina = pkMaquina;
         this.idMaquina = idMaquina;
         this.nome = nome;
@@ -23,7 +23,7 @@ public class Maquina {
         this.fkEmpresa = fkEmpresa;
     }
 
-    public Maquina() {
+    public Machine() {
     }
 
     // getters / setters
@@ -67,15 +67,15 @@ public class Maquina {
         this.fkEmpresa = fkEmpresa;
     }
 
-    public static List<Maquina> selectAll() {
+    public static List<Machine> selectAll() {
         // jdbcTemplate;
         try {
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAWS();
-            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
+            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Machine.class));
         } catch (Exception e) {
             System.out.println("azure");
             JdbcTemplate jdbcTemplate = ConfigDB.getJdbcAzure();
-            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Maquina.class));
+            return jdbcTemplate.query("SELECT * FROM maquina", new BeanPropertyRowMapper<>(Machine.class));
         }
 
     }

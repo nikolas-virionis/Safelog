@@ -1,4 +1,4 @@
-package com.mycompany.client.java.requisicoes;
+package com.mycompany.client.java.request;
 
 import java.io.IOException;
 import java.net.URI;
@@ -7,8 +7,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import com.mycompany.client.java.Monitoring;
 import com.mycompany.client.java.TiposMedicao;
-import com.mycompany.client.java.entidades.Chamado;
-import com.mycompany.client.java.entidades.Medicao;
+import com.mycompany.client.java.entity.SafedeskCall;
+import com.mycompany.client.java.entity.Medicao;
 import com.mycompany.client.java.util.ConfigDB;
 
 import org.json.JSONObject;
@@ -79,7 +79,7 @@ public class Alert {
 
         String[] metrica = getTipo(tipoMedicao.getTipo()).split(" - ");
 
-        Chamado novoChamado = new Chamado(
+        SafedeskCall novoChamado = new SafedeskCall(
                 String.format("Medição %s do componente %s", medicao.getTipo(), metrica[0].toLowerCase()),
                 String.format("Uma medição %s de %s do componente %s foi observada", medicao.getTipo(),
                         metrica[1] == "Livre" ? "espaço disponível"
